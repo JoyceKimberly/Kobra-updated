@@ -88,3 +88,4 @@ project/*.bin
 /SI/*
 *.si4project/
 
+.DS_Store

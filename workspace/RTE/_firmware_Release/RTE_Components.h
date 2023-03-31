@@ -3,7 +3,7 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'anycubic' 
+ * Project: 'armv5' 
  * Target:  'firmware_Release' 
  */
 
