@@ -6,3 +6,7 @@ It compiles and runs on my Kobra successfully, but I lack the experience to make
 With many thanks to
 https://github.com/jojos38/anycubic-kobra-improved-firmware
 https://github.com/shadow578/Marlin-H32
+
+# Warning
+
+Please do not install this on your machine in order to use it. I cannot promise it is safe, it really needs some proper programmers to go over it first.
