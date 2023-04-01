@@ -21,12 +21,18 @@
  */
 #pragma once
 
+/**
+ * HAL for stm32duino.com based on Libmaple and compatible (STM32F1)
+ */
+
 #include <stdint.h>
 #include "../board/startup.h"
 #include "../../core/boards.h"
 #include "../../inc/MarlinConfig.h"
+#include "HAL.h"
 
 #include "bsp_timer.h"
+#include "hc32f46x_timer0.h"
 
 // ------------------------
 // Defines
@@ -38,7 +44,8 @@
  */
 #define FORCE_INLINE __attribute__((always_inline)) inline
 
-#define hal_timer_t uint32_t
+typedef en_tim0_channel_t timer_channel_t;
+typedef uint16_t hal_timer_t;
 #define HAL_TIMER_TYPE_MAX 0xFFFF
 
 #define HAL_TIMER_RATE uint32_t(F_CPU)  // frequency of timers peripherals
@@ -57,18 +64,17 @@
  *   - Otherwise it uses Timer 8 on boards with STM32_HIGH_DENSITY
  *     or Timer 4 on other boards.
  */
-#define MF_TIMER_STEP       2  // Timer Index for Stepper
-#define MF_TIMER_TEMP       1  // Timer Index for Temperature
+#define MF_TIMER_STEP       Tim0_ChannelB
+#define MF_TIMER_TEMP       Tim0_ChannelA
 #define MF_TIMER_PULSE      MF_TIMER_STEP
 
-#define TEMP_TIMER_PRESCALE     16ul // prescaler for setting Temp timer, 72Khz
 #define TEMP_TIMER_FREQUENCY    1000 // temperature interrupt frequency
+#define TEMP_TIMER_PRESCALE     16ul // prescaler for setting Temp timer, 72Khz
 
 #define STEPPER_TIMER_PRESCALE      16ul                                        // prescaler for setting stepper timer
 #define STEPPER_TIMER_RATE          (HAL_TIMER_RATE / STEPPER_TIMER_PRESCALE)   // frequency of stepper timer
 #define STEPPER_TIMER_TICKS_PER_US  ((STEPPER_TIMER_RATE) / 1000000)            // stepper timer ticks per µs
 
-#define PULSE_TIMER_RATE            STEPPER_TIMER_RATE   // frequency of pulse timer
 #define PULSE_TIMER_PRESCALE        STEPPER_TIMER_PRESCALE
 #define PULSE_TIMER_TICKS_PER_US    STEPPER_TIMER_TICKS_PER_US
 
@@ -132,3 +138,4 @@ static inline void HAL_timer_isr_epilogue(uint8_t timer_num)
 }
 
 #define TIMER_OC_NO_PRELOAD 0 // Need to disable preload also on compare registers.
+
