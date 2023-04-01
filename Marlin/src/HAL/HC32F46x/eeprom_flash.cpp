@@ -35,11 +35,23 @@
 
 #include "../shared/eeprom_api.h"
 
+/**
+ * The STM32 HAL supports chips that deal with "pages" and some with "sectors" and some that
+ * even have multiple "banks" of flash.
+ *
+ * This code is a bit of a mashup of
+ *   framework-arduinoststm32/cores/arduino/stm32/stm32_eeprom.c
+ *   hal/hal_lpc1768/persistent_store_flash.cpp
+ *
+ * This has only be written against those that use a single "sector" design.
+ *
+ * Those that deal with "pages" could be made to work. Looking at the STM32F07 for example, there are
+ * 128 "pages", each 2kB in size. If we continued with our EEPROM being 4Kb, we'd always need to operate
+ * on 2 of these pages. Each write, we'd use 2 different pages from a pool of pages until we are done.
+ */
+
 static bool eeprom_data_written = false;
 
-#ifndef MARLIN_EEPROM_SIZE
-  #define MARLIN_EEPROM_SIZE size_t(E2END + 1)
-#endif
 size_t PersistentStore::capacity() { return MARLIN_EEPROM_SIZE; }
 
 bool PersistentStore::access_start() {
