@@ -31,7 +31,6 @@
 #include "MarlinCore.h"
 
 #include "HAL/shared/Delay.h"
-#include "HAL/shared/esp_wifi.h"
 #include "HAL/shared/cpu_exception/exception_hook.h"
 
 #if ENABLED(WIFISUPPORT)
