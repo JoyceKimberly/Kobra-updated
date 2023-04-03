@@ -516,7 +516,7 @@ void Stepper::AWAIT_TIMED_PULSE(uint8_t DIR){
             cnt = 0;
             return;
         }
-        HAL_watchdog_refresh();
+        hal.watchdog_refresh();
     }while(1);
 }
 void Stepper::AWAIT_HIGH_PULSE(void)  {AWAIT_TIMED_PULSE(HIGH);}

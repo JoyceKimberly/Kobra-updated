@@ -1,7 +1,7 @@
 /******************************************************************************
  * The MIT License
  *
- * Copyright (c) 2010 Perry Hung.
+ * Copyright (c) 2010 Michael Hope.
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -25,21 +25,33 @@
  *****************************************************************************/
 
 /**
- *  @file libmaple/include/libmaple/libmaple.h
- *  @brief General include file for libmaple
+ * @file libmaple/include/libmaple/iwdg.h
+ * @author Michael Hope, Marti Bolivar <mbolivar@leaflabs.com>
+ * @brief Independent watchdog support.
+ *
+ * To use the independent watchdog, first call iwdg_init() with the
+ * appropriate prescaler and IWDG counter reload values for your
+ * application.  Afterwards, you must periodically call iwdg_feed()
+ * before the IWDG counter reaches 0 to reset the counter to its
+ * reload value.  If you do not, the chip will reset.
+ *
+ * Once started, the independent watchdog cannot be turned off.
  */
 
-#ifndef _LIBMAPLE_LIBMAPLE_H_
-#define _LIBMAPLE_LIBMAPLE_H_
+#ifndef _LIBMAPLE_IWDG_H_
+#define _LIBMAPLE_IWDG_H_
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"{
 #endif
 
-#include "libmaple_types.h"
+#include <libmaple/libmaple_types.h>
+
+void iwdg_init(void);
+void iwdg_feed(void);
 
 #ifdef __cplusplus
-}
+} // extern "C"
 #endif
 
 #endif

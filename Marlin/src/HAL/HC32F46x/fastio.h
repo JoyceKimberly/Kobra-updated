@@ -23,9 +23,11 @@
 #pragma once
 
 /**
- * Fast I/O interfaces for STM32
+ * Fast I/O interfaces for HC32F46x
  * These use GPIO register access for fast port manipulation.
  */
+#include "io.h"
+#include "../../../lib/drivers/board/board_gpio.h"
 
 // ------------------------
 // Public Variables
@@ -38,6 +40,7 @@
 // ------------------------
 
 void FastIO_init(); // Must be called before using fast io macros
+#define FASTIO_INIT() FastIO_init()
 
 // ------------------------
 // Defines

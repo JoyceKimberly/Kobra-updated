@@ -33,7 +33,7 @@
 
 #if ENABLED(USE_WATCHDOG)
 
-  #include "../../../lib/arduino/iwdg.h"
+  #include "../../../lib/arduino/libmaple/iwdg.h"
 
   bool wdt_init_flag = false;
   void watchdogSetup() {
@@ -52,12 +52,12 @@
    *
    * @details The watchdog clock is 40Khz. So for a 4s or 8s interval use a /256 preescaler and 625 or 1250 reload value (counts down to 0).
    */
-  void watchdog_init() {
+  void MarlinHAL::watchdog_init() {
     iwdg_init();
     wdt_init_flag = true;
   }
 
-  void HAL_watchdog_refresh() {
+  void MarlinHAL::watchdog_refresh() {
       if(!wdt_init_flag)return;
     iwdg_feed();
   }
@@ -68,13 +68,14 @@
 // ADC
 // ------------------------
 
+uint16_t MarlinHAL::adc_result;
 uint16_t HAL_adc_result;
 
 // ------------------------
 // Public functions
 // ------------------------
 
-void flashFirmware(const int16_t) { NVIC_SystemReset(); }
+void flashFirmware(const int16_t) { hal.reboot(); }
 
 TERN_(POSTMORTEM_DEBUGGING, extern void install_min_serial());
 
@@ -124,8 +125,9 @@ void HAL_init() {
   #endif
 
   TERN_(POSTMORTEM_DEBUGGING, install_min_serial());    // Install the min serial handler
-
 }
+
+void MarlinHAL::reboot() { NVIC_SystemReset(); }
 
 extern "C" {
   extern unsigned int _ebss; // end of bss section
@@ -160,4 +162,13 @@ uint8_t HAL_get_reset_source() {
 }
 
 void HAL_clear_reset_source() { rmu_clear_reset_cause(); }
+
+// Maple Compatibility
+volatile uint32_t systick_uptime_millis = 0;
+systickCallback_t systick_user_callback;
+void systick_attach_callback(systickCallback_t cb) { systick_user_callback = cb; }
+void HAL_SYSTICK_Callback() {
+  systick_uptime_millis++;
+  if (systick_user_callback) systick_user_callback();
+}
 

@@ -934,7 +934,7 @@ void GcodeSuite::process_parsed_command(const bool no_ok/*=false*/) {
       #endif
 
       #if HAS_ZV_SHAPING
-        case 593: M593(); break;                                  // M593: Set Input Shaping parameters
+        case 593: M593(); break;                                  // M593: Input Shaping control
       #endif
 
       #if ENABLED(ADVANCED_PAUSE_FEATURE)

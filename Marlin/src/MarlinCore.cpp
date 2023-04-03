@@ -794,8 +794,6 @@ void idle(bool no_stepper_sleep/*=false*/) {
   // Bed Distance Sensor task
   TERN_(BD_SENSOR, bdl.process());
 
-  HAL_watchdog_refresh();
-
   // Core Marlin activities
   manage_inactivity(no_stepper_sleep);
 
@@ -929,21 +927,14 @@ void kill(FSTR_P const lcd_error/*=nullptr*/, FSTR_P const lcd_component/*=nullp
 }
 
 void minkill(const bool steppers_off/*=false*/) {
-    uint32_t cnt=0;
 
   // Wait a short time (allows messages to get out before shutting down.
-  for (int i = 1000; i--;){
-      watchdog_refresh();
-      DELAY_US(600);
-  }
+  for (int i = 1000; i--;) DELAY_US(600);
 
   cli(); // Stop interrupts
 
   // Wait to ensure all interrupts stopped
-  for (int i = 1000; i--;){
-      watchdog_refresh();
-      DELAY_US(250);
-  }
+  for (int i = 1000; i--;) DELAY_US(250);
 
   // Reiterate heaters off
   thermalManager.disable_all_heaters();
@@ -961,26 +952,19 @@ void minkill(const bool steppers_off/*=false*/) {
 
     // Wait for both KILL and ENC to be released
     while (TERN0(HAS_KILL, kill_state()) || TERN0(SOFT_RESET_ON_KILL, ui.button_pressed()))
-      watchdog_refresh();
+      hal.watchdog_refresh();
 
     // Wait for either KILL or ENC to be pressed again
     while (TERN1(HAS_KILL, !kill_state()) && TERN1(SOFT_RESET_ON_KILL, !ui.button_pressed()))
-      watchdog_refresh();
+      hal.watchdog_refresh();
 
-    void (*resetFunc)() = 0;      // Declare resetFunc() at address 0
-    resetFunc();                  // Jump to address 0
+    // Reboot the board
+    hal.reboot();
 
   #else
-    while(1) // Wait for reset
-   {
-        if(++cnt>500){
-            //NVIC_SystemReset();
-        }
-        else{
-            Ddl_Delay1ms(10);
-        }
-        HAL_watchdog_refresh();
-    } 
+
+    for (;;) hal.watchdog_refresh();  // Wait for RESET button or power-cycle
+
   #endif
 }
 
@@ -1595,7 +1579,7 @@ void setup() {
   #endif
 
   #if ENABLED(USE_WATCHDOG)
-    SETUP_RUN(watchdog_init());       // Reinit watchdog after HAL_get_reset_source call
+    SETUP_RUN(hal.watchdog_init());   // Reinit watchdog after hal.get_reset_source call
   #endif
 
   #if ENABLED(EXTERNAL_CLOSED_LOOP_CONTROLLER)

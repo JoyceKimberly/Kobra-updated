@@ -25,12 +25,12 @@
 #include "board_adc.h"
 #include "../pins/pins.h"
 #include "board_sdio.h"
-#include "../../arduino/usart.h"
+#include "../../arduino/libmaple/usart.h"
 #include "../../arduino/HardwareSerial.h"
 
-#include "../../arduino/libmaple_types.h"
+#include "../../arduino/libmaple/libmaple_types.h"
 #include "../../arduino/wirish_types.h"
-#include "../../arduino/flash.h"
+#include "../../arduino/libmaple/flash.h"
 
 #ifdef __cplusplus
 extern "C"{

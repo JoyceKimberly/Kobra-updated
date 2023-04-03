@@ -37,7 +37,7 @@
 extern "C" {
 #endif
 
-#include "libmaple_types.h"
+#include <libmaple/libmaple_types.h>
 
 #define BB_SRAM_REF      0x20000000
 #define BB_SRAM_BASE     0x22000000

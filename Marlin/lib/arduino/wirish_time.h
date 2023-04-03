@@ -32,7 +32,7 @@
 #ifndef _WIRISH_WIRISH_TIME_H_
 #define _WIRISH_WIRISH_TIME_H_
 
-#include "libmaple_types.h"
+#include <libmaple/libmaple_types.h>
 
 
 #ifdef __cplusplus

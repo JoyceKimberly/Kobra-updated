@@ -580,13 +580,7 @@ void GCodeQueue::get_serial_commands() {
     while (!ring_buffer.full() && !card.eof()) {
       const int16_t n = card.get();
       const bool card_eof = card.eof();
-      if (n < 0 && !card_eof) {
-        watchdog_refresh();
-        SERIAL_ERROR_MSG(STR_SD_ERR_READ);
-        printf("n: %d\n", n);
-        printf("dps: %d\n", card.getIndex());
-        continue;
-      }
+      if (n < 0 && !card_eof) { SERIAL_ERROR_MSG(STR_SD_ERR_READ); continue; }
 
       CommandLine &command = ring_buffer.commands[ring_buffer.index_w];
       const char sd_char = (char)n;

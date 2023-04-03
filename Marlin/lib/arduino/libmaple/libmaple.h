@@ -1,7 +1,7 @@
 /******************************************************************************
  * The MIT License
  *
- * Copyright (c) 2011 LeafLabs, LLC.
+ * Copyright (c) 2010 Perry Hung.
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -25,22 +25,21 @@
  *****************************************************************************/
 
 /**
- * @file   wirish/include/wirish/wirish_types.h
- * @author Marti Bolivar <mbolivar@leaflabs.com>
- * @brief  Wirish library type definitions.
+ *  @file libmaple/include/libmaple/libmaple.h
+ *  @brief General include file for libmaple
  */
 
-#ifndef _WIRISH_WIRISH_TYPES_H_
-#define _WIRISH_WIRISH_TYPES_H_
+#ifndef _LIBMAPLE_LIBMAPLE_H_
+#define _LIBMAPLE_LIBMAPLE_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <libmaple/libmaple_types.h>
 
-/**
- * Variable attribute, instructs the linker to place the marked
- * variable in Flash instead of RAM. */
-#define __FLASH__ __attr_flash
-
-typedef bool boolean;
-typedef uint8_t byte;
+#ifdef __cplusplus
+}
+#endif
 
 #endif

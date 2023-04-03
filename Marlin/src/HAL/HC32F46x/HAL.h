@@ -50,6 +50,7 @@
 
 #define _MSERIAL(X) Serial##X
 #define MSERIAL(X) _MSERIAL(X)
+#define NUM_UARTS 4
 
 #if WITHIN(SERIAL_PORT, 1, 6)
   #define MYSERIAL0 MSERIAL(SERIAL_PORT)
@@ -120,16 +121,20 @@ typedef int16_t pin_t;
 #define GET_PIN_MAP_INDEX(pin) pin
 #define PARSED_PIN_INDEX(code, dval) parser.intval(code, dval)
 
-#ifdef STM32F1xx
-  #define JTAG_DISABLE() AFIO_DBGAFR_CONFIG(AFIO_MAPR_SWJ_CFG_JTAGDISABLE)
-  #define JTAGSWD_DISABLE() AFIO_DBGAFR_CONFIG(AFIO_MAPR_SWJ_CFG_DISABLE)
-  #define JTAGSWD_RESET() AFIO_DBGAFR_CONFIG(AFIO_MAPR_SWJ_CFG_RESET); // Reset: FULL SWD+JTAG
-#endif
+#define JTAG_DISABLE()    // afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY)
+#define JTAGSWD_DISABLE() // afio_cfg_debug_ports(AFIO_DEBUG_NONE)
 
 #define PLATFORM_M997_SUPPORT
 void flashFirmware(const int16_t);
 
-#define HAL_CAN_SET_PWM_FREQ      // This HAL supports PWM Frequency adjustment
+// Maple Compatibility
+typedef void (*systickCallback_t)(void);
+void systick_attach_callback(systickCallback_t cb);
+void HAL_SYSTICK_Callback();
+
+extern volatile uint32_t systick_uptime_millis;
+
+#define HAL_CAN_SET_PWM_FREQ   // This HAL supports PWM Frequency adjustment
 
 // ------------------------
 // Class Utilities
@@ -175,14 +180,8 @@ public:
   static void isr_on()  { (sei()); }
   static void isr_off() { (cli()); }
 
+  static uint16_t adc_result;
 };
-
-  // Watchdog
-  void watchdog_init();
-  void HAL_watchdog_refresh();
-  inline void watchdog_refresh() {
-    TERN_(USE_WATCHDOG, HAL_watchdog_refresh());
-  }
 
   void HAL_init();
   inline void HAL_reboot() {}  // reboot the board or restart the bootloader

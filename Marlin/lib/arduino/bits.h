@@ -30,6 +30,6 @@
 #ifndef _WIRISH_BITS_H_
 #define _WIRISH_BITS_H_
 
-#include "bit_constants.h"
+#include <bit_constants.h>
 
 #endif

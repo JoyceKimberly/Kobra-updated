@@ -1,7 +1,7 @@
 /******************************************************************************
  * The MIT License
  *
- * Copyright (c) 2010 Michael Hope.
+ * Copyright (c) 2010 Perry Hung.
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -25,33 +25,57 @@
  *****************************************************************************/
 
 /**
- * @file libmaple/include/libmaple/iwdg.h
- * @author Michael Hope, Marti Bolivar <mbolivar@leaflabs.com>
- * @brief Independent watchdog support.
+ *  @file libmaple/include/libmaple/libmaple_types.h
  *
- * To use the independent watchdog, first call iwdg_init() with the
- * appropriate prescaler and IWDG counter reload values for your
- * application.  Afterwards, you must periodically call iwdg_feed()
- * before the IWDG counter reaches 0 to reset the counter to its
- * reload value.  If you do not, the chip will reset.
- *
- * Once started, the independent watchdog cannot be turned off.
+ *  @brief libmaple's types, and operations on types.
  */
 
-#ifndef _LIBMAPLE_IWDG_H_
-#define _LIBMAPLE_IWDG_H_
+#ifndef _LIBMAPLE_LIBMAPLE_TYPES_H_
+#define _LIBMAPLE_LIBMAPLE_TYPES_H_
+
+#include <stdint.h>
+#include "wirish_types.h"
+
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif
 
-#include "libmaple_types.h"
+typedef unsigned char uint8;
+typedef unsigned short uint16;
+typedef uint32_t uint32;
+typedef unsigned long long uint64;
 
-void iwdg_init(void);
-void iwdg_feed(void);
+typedef signed char int8;
+typedef short int16;
+typedef int int32;
+typedef long long int64;
+
+typedef void (*voidFuncPtr)(void);
+typedef void (*voidArgumentFuncPtr)(void *);
+
+#define __IO volatile
+#define __attr_flash __attribute__((section (".USER_FLASH")))
+#define __packed __attribute__((__packed__))
+#define __deprecated __attribute__((__deprecated__))
+#define __weak __attribute__((weak))
+#ifndef __always_inline
+#define __always_inline __attribute__((always_inline))
+#endif
+#ifndef __unused
+#define __unused __attribute__((unused))
+#endif
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+#ifndef offsetof
+#define offsetof(type, member) __builtin_offsetof(type, member)
+#endif
 
 #ifdef __cplusplus
-} // extern "C"
+}
 #endif
 
 #endif

@@ -973,7 +973,7 @@ namespace Anycubic {
 
       tft_last_check = millis();
       while(!TFTSer.available()) {
-        TERN_(USE_WATCHDOG, HAL_watchdog_refresh());
+        TERN_(USE_WATCHDOG, hal.watchdog_refresh());
         if(millis() - tft_last_check > 500) {
           data_index = 0;
           data_received = 0;
@@ -1522,21 +1522,21 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
             TERN_(CASE_LIGHT_ENABLE, setCaseLightState(true));
             printFile(filenavigator.filelist.shortFilename());
 
-              char str_buf[20];
-              strncpy_P(str_buf, filenavigator.filelist.longFilename(), 17);
-              str_buf[17] = '\0';
-              SendTxtToTFT(str_buf, TXT_PRINT_NAME);
+            char str_buf[20];
+            strncpy_P(str_buf, filenavigator.filelist.longFilename(), 17);
+            str_buf[17] = '\0';
+            SendTxtToTFT(str_buf, TXT_PRINT_NAME);
 
-              sprintf(str_buf, "%d", (uint16_t)getFeedrate_percent());
-              SendTxtToTFT(str_buf, TXT_PRINT_SPEED);
+            sprintf(str_buf, "%d", (uint16_t)getFeedrate_percent());
+            SendTxtToTFT(str_buf, TXT_PRINT_SPEED);
 
-              sprintf(str_buf, "%d", (uint16_t)getProgress_percent());
-              SendTxtToTFT(str_buf, TXT_PRINT_PROGRESS);
+            sprintf(str_buf, "%d", (uint16_t)getProgress_percent());
+            SendTxtToTFT(str_buf, TXT_PRINT_PROGRESS);
 
-              uint32_t time = 0;
-              sprintf(str_buf, "%s H ", utostr3(time/60));
-              sprintf(str_buf+strlen(str_buf), "%s M", utostr3(time%60));
-              SendTxtToTFT(str_buf, TXT_PRINT_TIME);
+            uint32_t time = 0;
+            sprintf(str_buf, "%s H ", utostr3(time / 60));
+            sprintf(str_buf + strlen(str_buf), "%s M", utostr3(time % 60));
+            SendTxtToTFT(str_buf, TXT_PRINT_TIME);
 
             ChangePageOfTFT(PAGE_STATUS2);
           }
@@ -1593,11 +1593,8 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
       case 0: break;
 
       case 1:    // return
-          {
-            if(isPrintingFromMedia() == false) {  //only is idle status can return 
-              ChangePageOfTFT(PAGE_FILE);
-            }
-          }
+        if (!isPrintingFromMedia()) // only idle status can return
+          ChangePageOfTFT(PAGE_FILE);
         break;
 
       case 2:     // resume print
@@ -1605,15 +1602,15 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
           DEBUG_PRINT_PRINTER_STATE(F("printer_state: "), printer_state);
           DEBUG_PRINT_PAUSED_STATE(F("pause_state :"), pause_state);
         #endif
-            if(pause_state == AC_paused_idle || pause_state == AC_paused_filament_lack ||
-               printer_state == AC_printer_resuming_from_power_outage) {
-              printer_state = AC_printer_idle;
-              pause_state = AC_paused_idle;
-              resumePrint();
-              ChangePageOfTFT(PAGE_STATUS2);    // show pasue print
-              flash_time = millis();
+        if(pause_state == AC_paused_idle || pause_state == AC_paused_filament_lack ||
+           printer_state == AC_printer_resuming_from_power_outage) {
+          printer_state = AC_printer_idle;
+          pause_state = AC_paused_idle;
+          resumePrint();
+          ChangePageOfTFT(PAGE_STATUS2);        // show pause print
+          flash_time = millis();
             } else {
-              setUserConfirmed();
+          setUserConfirmed();
             }
         break;
 
@@ -1623,16 +1620,14 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
         break;
 
       case 4:     // print change param
-            ChangePageOfTFT(PAGE_ADJUST);
-#if ENABLED(CASE_LIGHT_ENABLE)
-            SendValueToTFT(getCaseLightState(), ADDRESS_PRINT_SETTING_LED_STATUS);
-#endif
-            SendValueToTFT((uint16_t)getTargetTemp_celsius(E0), TXT_ADJUST_HOTEND);
-            SendValueToTFT((uint16_t)getTargetTemp_celsius(BED), TXT_ADJUST_BED);
-            feedrate_back = (uint16_t)getFeedrate_percent();
-            SendValueToTFT(feedrate_back, TXT_ADJUST_SPEED);
-            flash_time = millis();
-            break;
+        ChangePageOfTFT(PAGE_ADJUST);
+        TERN_(CASE_LIGHT_ENABLE, SendValueToTFT(getCaseLightState(), ADDRESS_PRINT_SETTING_LED_STATUS));
+        SendValueToTFT((uint16_t)getTargetTemp_celsius(E0), TXT_ADJUST_HOTEND);
+        SendValueToTFT((uint16_t)getTargetTemp_celsius(BED), TXT_ADJUST_BED);
+        feedrate_back = (uint16_t)getFeedrate_percent();
+        SendValueToTFT(feedrate_back, TXT_ADJUST_SPEED);
+        flash_time = millis();
+        break;
     }
 
         if(millis() < (flash_time +1500) ) {
@@ -1641,31 +1636,39 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
         flash_time=millis();
 
         if(feedrate_back != (uint16_t)getFeedrate_percent()) {
-          feedrate_back = (uint16_t)getFeedrate_percent();
-          sprintf(str_buf, "%d", feedrate_back);
-          SendTxtToTFT(str_buf, TXT_PRINT_SPEED);
+        sprintf(str_buf, "%d", feedrate_back);
+
+      #if ACDEBUG(AC_MARLIN)
+        DEBUG_ECHOLNPGM("print speed: ", str_buf);
+        DEBUG_ECHOLNPGM("feedrate_back: ", feedrate_back);
+      #endif
+      SendTxtToTFT(str_buf, TXT_PRINT_SPEED);
+      feedrate_back = (uint16_t)getFeedrate_percent();
     }
 
-        if(progress_last!=getProgress_percent()) {
+    if (progress_last != getProgress_percent()) {
           progress_last=getProgress_percent();
           sprintf(str_buf, "%u", progress_last);
           SendTxtToTFT(str_buf, TXT_PRINT_PROGRESS);
     }
 
     // Get Printing Time
-      uint32_t time = getProgress_seconds_elapsed() / 60;
-      sprintf(str_buf, "%s H ", utostr3(time/60));
-      sprintf(str_buf+strlen(str_buf), "%s M", utostr3(time%60));
-      SendTxtToTFT(str_buf, TXT_PRINT_TIME);
+    uint32_t time = getProgress_seconds_elapsed() / 60;
+    sprintf(str_buf, "%s H ", utostr3(time / 60));
+    sprintf(str_buf + strlen(str_buf), "%s M", utostr3(time % 60));
+    SendTxtToTFT(str_buf, TXT_PRINT_TIME);
+
+    //TERN_(HAS_HOTEND, send_temperature_hotend(TXT_PRINT_HOTEND));
+    //TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_PRINT_BED));
   }
 
     void DgusTFT::page4(void)
     {
 
-        static millis_t flash_time = 0;
-        char str_buf[20];
-        static uint8_t progress_last = 0;
-		static uint16_t feedrate_back = 0;
+    static millis_t flash_time = 0;
+    char str_buf[20];
+    static uint8_t progress_last = 0;
+	static uint16_t feedrate_back = 0;
 
     switch (key_value) {
       case 0: break;
@@ -1709,7 +1712,7 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
         if(feedrate_back != (uint16_t)getFeedrate_percent()) {
           feedrate_back = (uint16_t)getFeedrate_percent();
-          sprintf(str_buf, "%d", feedrate_back);
+        sprintf(str_buf, "%d", feedrate_back);
 
       SendTxtToTFT(str_buf, TXT_PRINT_SPEED);
       }
@@ -1753,15 +1756,13 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
           if(z_off <= -5) {
             return ;
         }
+          steps = mmToWholeSteps(-0.05, Z);
+          babystepAxis_steps(steps, Z);
+          z_off -= 0.05f;
+          setZOffset_mm(z_off);
 
-        steps = mmToWholeSteps(-0.05, Z);
-        babystepAxis_steps(steps, Z);
-
-        z_off -= 0.05f;
-        setZOffset_mm(z_off);
-
-        sprintf(str_buf, "%.2f", getZOffset_mm());
-        SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
+          sprintf(str_buf, "%.2f", getZOffset_mm());
+          SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
 
           z_change = true;
 
@@ -1769,20 +1770,18 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
         } break;
 
         case 3: { // +
-        z_off = getZOffset_mm();
+          z_off = getZOffset_mm();
 
         if(z_off >= 5) {
             return ;
         }
+          steps = mmToWholeSteps(0.05, Z);
+          babystepAxis_steps(steps, Z);
+          z_off += 0.05f;
+          setZOffset_mm(z_off);
 
-        steps = mmToWholeSteps(0.05, Z);
-        babystepAxis_steps(steps, Z);
-
-        z_off += 0.05f;
-        setZOffset_mm(z_off);
-
-        sprintf(str_buf, "%.2f", getZOffset_mm());
-        SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
+          sprintf(str_buf, "%.2f", getZOffset_mm());
+          SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
 
           z_change = true;
 
@@ -1848,21 +1847,21 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
         ChangePageOfTFT(PAGE_MOVE);
         break;
 
-          case 3:   // set temperature
-          ChangePageOfTFT(PAGE_TEMP);
+      case 3:       // set temperature
+        ChangePageOfTFT(PAGE_TEMP);
           SendValueToTFT((uint16_t)getActualTemp_celsius(E0), TXT_HOTEND_NOW);
           SendValueToTFT((uint16_t)getTargetTemp_celsius(E0), TXT_HOTEND_TARGET);
           SendValueToTFT((uint16_t)getActualTemp_celsius(BED), TXT_BED_NOW);
           SendValueToTFT((uint16_t)getTargetTemp_celsius(BED), TXT_BED_TARGET);
-          break;
+        break;
 
-          case 4:
-           ChangePageOfTFT(PAGE_SPEED);
+      case 4:
+        ChangePageOfTFT(PAGE_SPEED);
            SendValueToTFT((uint16_t)getActualFan_percent(FAN0), TXT_FAN_SPEED_NOW);
            SendValueToTFT((uint16_t)getTargetFan_percent(FAN0), TXT_FAN_SPEED_TARGET);
            SendValueToTFT((uint16_t)getFeedrate_percent(), TXT_PRINT_SPEED_NOW);
            SendValueToTFT((uint16_t)getFeedrate_percent(), TXT_PRINT_SPEED_TARGET);
-          break;
+        break;
 
       case 5:       // turn off the xyz motor
         if (!isMoving())
@@ -1983,7 +1982,6 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
     void DgusTFT::page9(void)
     {
-       static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2010,6 +2008,7 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
         break;
     }
 
+    static millis_t flash_time = 0;
         if(millis() < (flash_time +1500) ) {
           return;
         }
@@ -2017,11 +2016,10 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
         SendValueToTFT( (uint16_t)getActualTemp_celsius(E0), TXT_HOTEND_NOW);
         SendValueToTFT( (uint16_t)getActualTemp_celsius(BED), TXT_BED_NOW);
-    }
+  }
 
     void DgusTFT::page10(void)
     {
-        static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2041,6 +2039,7 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
         break;
     }
 
+    static millis_t flash_time = 0;
       if(millis() < (flash_time +1500)) {
         return;
       }
@@ -2253,8 +2252,6 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
         void DgusTFT::page18(void) //preheat
         {
-            static millis_t flash_time = 0;
-            char str_buf[16];
 
       switch (key_value) {
         case 0: break;
@@ -2276,6 +2273,8 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
           break;
       }
 
+            static millis_t flash_time = 0;
+            char str_buf[16];
             if(millis() < (flash_time +1500) ) {
               return;
             }
@@ -2368,7 +2367,6 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
         void DgusTFT::page20(void)   // confirm
         {
-            static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2377,6 +2375,7 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
         break;
     }
 
+            static millis_t flash_time = 0;
             if(millis() < (flash_time +1000) )return;
             flash_time=millis();
         
@@ -2384,7 +2383,6 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
         void DgusTFT::page21(void)
         {
-            static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2396,13 +2394,13 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
       case 2: break;
     }
 
+            static millis_t flash_time = 0;
             if(millis() < (flash_time +1000) )return;
              flash_time=millis();
         }
 
         void DgusTFT::page22(void)   // print finish
         {
-            static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2416,13 +2414,13 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
       case 2: break;
     }
 
+            static millis_t flash_time = 0;
                 if(millis() < (flash_time +1000) )return;
                 flash_time=millis();
             }
 
             void DgusTFT::page23(void)
             {
-                static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2430,12 +2428,13 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
       case 2: ChangePageOfTFT(page_index_last); break;
     }
 
+                static millis_t flash_time = 0;
              if(millis() < (flash_time +1000) )return;
                flash_time=millis();
             }
 
             void DgusTFT::page24(void)
-            {static millis_t flash_time = 0;
+            {
 
     switch (key_value) {
       case 0: break;
@@ -2443,13 +2442,13 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
       case 2: ChangePageOfTFT(page_index_last); break;
     }
 
+    static millis_t flash_time = 0;
                     if(millis() < (flash_time +1000) )return;
                   flash_time=millis();
             }
 
             void DgusTFT::page25(void)   // lack filament
             {
-               static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2468,13 +2467,13 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
         break;
     }
 
+               static millis_t flash_time = 0;
                 if(millis() < (flash_time +1000) )return;
                 flash_time=millis();
             }
 
             void DgusTFT::page26(void)
             {
-            static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2482,6 +2481,7 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
       case 2: break;
     }
 
+            static millis_t flash_time = 0;
               if(millis() < (flash_time +1000) )return;
               flash_time=millis();
             
@@ -2489,7 +2489,6 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
         void DgusTFT::page27(void)
         {
-        static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2517,13 +2516,13 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
         break;
     }
 
+        static millis_t flash_time = 0;
           if(millis() < (flash_time +1000) )return;
           flash_time=millis();
   }
 
         void DgusTFT::page28(void)
         {
-        static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2531,6 +2530,7 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
       case 2: break;
     }
 
+        static millis_t flash_time = 0;
           if(millis() < (flash_time +1000) )return;
           flash_time=millis();
         
@@ -2538,7 +2538,6 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
         void DgusTFT::page29(void)
         {
-        static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2551,6 +2550,7 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
       case 2: break;
     }
 
+        static millis_t flash_time = 0;
           if(millis() < (flash_time +1000) )return;
           flash_time=millis();
         
@@ -2558,7 +2558,6 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
         void DgusTFT::page30(void)   // Auto heat filament
         {
-            static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2569,13 +2568,13 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
         break;
     }
 
+            static millis_t flash_time = 0;
           if(millis() < (flash_time +1000) )return;
           flash_time=millis();
   }
 
         void DgusTFT::page31(void)
         {
-            static millis_t flash_time = 0;
 
     switch (key_value) {
       case 0: break;
@@ -2583,6 +2582,7 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
       case 2: break;
     }
 
+            static millis_t flash_time = 0;
           if(millis() < (flash_time +1000) )return;
           flash_time=millis();
   }
@@ -2599,7 +2599,6 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
         void DgusTFT::page33(void)
         {
-          static millis_t flash_time = 0;
 
       switch (key_value) {
         case 0: break;
@@ -2624,6 +2623,7 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
           break;
       }
 
+          static millis_t flash_time = 0;
           if(millis() < (flash_time +1000)){
             return;
           }
@@ -2649,7 +2649,6 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
     void DgusTFT::page115(void)
     {
-        static millis_t flash_time = 0;
 
     switch (key_value) {
 
@@ -2669,6 +2668,7 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
       case 7: injectCommands(F("M1024 S5")); break; // 0.1
     }
 
+        static millis_t flash_time = 0;
         if(millis() < (flash_time +1000) )return;
         flash_time=millis();
     
@@ -3024,16 +3024,16 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
         if(millis() >= (temperature_time + 1500) ) {
             temperature_time=millis();
-        }
+    }
   }
 
     void DgusTFT::page202(void)  // probe precheck ok
     {
 
-        static millis_t flash_time = 0;
-        static millis_t probe_check_counter = 0;
-        static uint8_t probe_state_last = 0;
-        char str_buf[16];
+    static millis_t flash_time = 0;
+    static millis_t probe_check_counter = 0;
+    static uint8_t probe_state_last = 0;
+    char str_buf[16];
 
     delay(3000);
 
@@ -3054,11 +3054,10 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
             return;
         }
         flash_time=millis();
-    }
+  }
 
     void DgusTFT::pop_up_manager(void)
     {
-     char str_buf[20];
 
     switch (pop_up_index) {
       case 10:      // T0 error
@@ -3091,10 +3090,12 @@ void DgusTFT::InjectCommandandWait(PGM_P cmd) {
 
       case 24: { //
         uint32_t time = getProgress_seconds_elapsed() / 60;
-           sprintf(str_buf, "%s H ", utostr3(time/60));
-           sprintf(str_buf+strlen(str_buf), "%s M", utostr3(time%60));
-           SendTxtToTFT(str_buf, TXT_FINISH_TIME);
-           ChangePageOfTFT(PAGE_PRINT_FINISH);
+        char str_buf[20];
+        sprintf(str_buf, "%s H ", utostr3(time / 60));
+        sprintf(str_buf + strlen(str_buf), "%s M", utostr3(time % 60));
+        SendTxtToTFT(str_buf, TXT_FINISH_TIME);
+        ChangePageOfTFT(PAGE_PRINT_FINISH);
+        //SendtoTFTLN(AC_msg_print_complete);   // no idea why this causes a compile error
         pop_up_index = 100;
       } break;
 

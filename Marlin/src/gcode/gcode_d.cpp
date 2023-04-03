@@ -54,7 +54,7 @@ void GcodeSuite::D(const int16_t dcode) {
       for (;;) { /* loop forever (watchdog reset) */ }
 
     case 0:
-      HAL_reboot();
+      hal.reboot();
       break;
 
     case 1: {
@@ -70,7 +70,7 @@ void GcodeSuite::D(const int16_t dcode) {
         settings.reset();
         settings.save();
       #endif
-      HAL_reboot();
+      hal.reboot();
     } break;
 
     case 2: { // D2 Read / Write SRAM
@@ -211,7 +211,7 @@ void GcodeSuite::D(const int16_t dcode) {
 
         c = 1024 * 4;
         while (c--) {
-          HAL_watchdog_refresh();
+          hal.watchdog_refresh();
           card.write(buf, COUNT(buf));
         }
         SERIAL_ECHOLNPGM(" done");
@@ -228,7 +228,7 @@ void GcodeSuite::D(const int16_t dcode) {
         __attribute__((aligned(sizeof(size_t)))) uint8_t buf[512];
         uint16_t c = 1024 * 4;
         while (c--) {
-          HAL_watchdog_refresh();
+          hal.watchdog_refresh();
           card.read(buf, COUNT(buf));
           bool error = false;
           for (uint16_t i = 0; i < COUNT(buf); i++) {

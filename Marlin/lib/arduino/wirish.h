@@ -40,24 +40,30 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <stdbool.h>
+#include <stdint.h>
 
 #include <string.h>
 
-#include "WString.h"
-#include "avr/dtostrf.h"
-#include "avr/pgmspace.h"
+#include <WString.h>
+#include <avr/dtostrf.h>
+#include <avr/pgmspace.h>
+#include <avr/interrupt.h>
 
-#include "io.h"
-#include "bit_constants.h"
-#include "wirish_math.h"
-#include "wirish_time.h"
-#include "HardwareSerial.h"
-#include "wirish_types.h"
-#include "libmaple.h"
-#include <stdint.h>
-#include "WCharacter.h"
-#include "Tone.h"
+#include <io.h>
+#include <bit_constants.h>
+
+#include <wirish_math.h>
+
+#include <WCharacter.h>
+#include <tone.h>
+
+#include <HardwareSerial.h>
+
+#include <wirish_types.h>
+#include <wirish_time.h>
+
+#include <libmaple/libmaple.h>
 
 typedef unsigned int word;
 // typedef uint16 word;// definition from Arduino website, now appears to be incorrect for 32 bit devices
