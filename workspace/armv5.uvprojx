@@ -445,6 +445,16 @@
               <FileType>8</FileType>
               <FilePath>..\Marlin\lib\arduino\main.cpp</FilePath>
             </File>
+            <File>
+              <FileName>wirish_math.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\wirish_math.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>usart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\lib\arduino\libmaple\usart.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

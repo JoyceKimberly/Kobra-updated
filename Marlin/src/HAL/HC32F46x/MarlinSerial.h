@@ -19,22 +19,39 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
+#pragma once
 
-#include "../../../inc/MarlinConfig.h"
+#include <HardwareSerial.h>
+#include <libmaple/usart.h>
+#include <WString.h>
 
-#if ENABLED(NOZZLE_PARK_FEATURE)
+#include "../../inc/MarlinConfigPre.h"
+#include "../../core/serial_hook.h"
 
-#include "../../gcode.h"
-#include "../../../libs/nozzle.h"
-#include "../../../module/motion.h"
+// Increase priority of serial interrupts, to reduce overflow errors
+#define UART_IRQ_PRIO 1
 
-/**
- * G27: Park the nozzle
- */
-void GcodeSuite::G27() {
-  // Don't allow nozzle parking without homing first
-  if (homing_needed_error()) return;
-  nozzle.park(parser.ushortval('P'));
-}
+struct MarlinSerial : public HardwareSerial {
+  MarlinSerial(struct usart_dev *usart_device, uint8 tx_pin, uint8 rx_pin) : HardwareSerial(usart_device, tx_pin, rx_pin) { }
 
-#endif // NOZZLE_PARK_FEATURE
+#ifdef UART_IRQ_PRIO
+  void setPriority()
+  {
+    NVIC_SetPriority(c_dev()->RX_IRQ, UART_IRQ_PRIO);
+    NVIC_SetPriority(c_dev()->TX_IRQ, UART_IRQ_PRIO);
+  }
+
+  void begin(uint32 baud)
+  {
+    HardwareSerial::begin(baud);
+    setPriority();
+  }
+#endif
+};
+
+typedef Serial1Class<MarlinSerial> MSerialT;
+
+extern MSerialT MSerial1;
+extern MSerialT MSerial2;
+extern MSerialT MSerial3;
+extern MSerialT MSerial4;

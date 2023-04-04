@@ -40,7 +40,7 @@
 #endif
 size_t PersistentStore::capacity() { return MARLIN_EEPROM_SIZE; }
 
-#define _ALIGN(x) __attribute__ ((aligned(x)))
+#define _ALIGN(x) __attribute__ ((aligned(x))) // SDIO uint32_t* compat.
 static char _ALIGN(4) HAL_eeprom_data[MARLIN_EEPROM_SIZE];
 
 bool PersistentStore::access_start() {
@@ -48,7 +48,7 @@ bool PersistentStore::access_start() {
 
   MediaFile file, root = card.getroot();
   if (!file.open(&root, EEPROM_FILENAME, O_RDONLY))
-    return true;
+    return true; // false aborts the save
 
   int bytes_read = file.read(HAL_eeprom_data, MARLIN_EEPROM_SIZE);
   if (bytes_read < 0) return false;

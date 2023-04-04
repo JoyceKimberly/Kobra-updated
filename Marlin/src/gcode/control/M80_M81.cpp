@@ -75,6 +75,7 @@
  */
 void GcodeSuite::M81() {
   planner.finish_and_disable();
+  thermalManager.cooldown();
 
   print_job_timer.stop();
 

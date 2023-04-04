@@ -40,7 +40,22 @@
  * @param seed the number used to initialize the seed; cannot be zero.
  */
 void randomSeed(unsigned int seed);
+
+/**
+ * @brief Generate a pseudo-random number with upper bound.
+ * @param max An upper bound on the returned value, exclusive.
+ * @return A pseudo-random number in the range [0,max).
+ * @see randomSeed()
+ */
 long random(long max);
+
+/**
+ * @brief Generate a pseudo-random number with lower and upper bounds.
+ * @param min Lower bound on the returned value, inclusive.
+ * @param max Upper bound on the returned value, exclusive.
+ * @return A pseudo-random number in the range [min, max).
+ * @see randomSeed()
+ */
 long random(long min, long max);
 
 /**
@@ -101,10 +116,43 @@ long random(long min, long max);
 #define abs(x) (((x) > 0) ? (x) : -(x))
 
 #ifdef math
+/**
+ * Compute the cosine of an angle, in radians.
+ * @param x The radian measure of the angle.
+ * @return The cosine of x.  This value will be between -1 and 1.
+ */
 double cos(double x);
+
+/**
+ * Compute the sine of an angle, in radians.
+ * @param x The radian measure of the angle.
+ * @return The sine of x.  This value will be between -1 and 1.
+ */
 double sin(double x);
+
+/**
+ * Compute the tangent of an angle, in radians.
+ * @param x The radian measure of the angle.
+ * @return The tangent of x.  There are no limits on the return value
+ * of this function.
+ */
 double tan(double x);
+
+/**
+ * Compute the square root of a number.
+ * @param x The number whose square root to find.  This value cannot
+ * be negative.
+ * @return The square root of x.  The return value is never negative.
+ */
 double sqrt(double x);
+
+/**
+ * Compute an exponentiation.
+ * @param x the base. This value cannot be zero if y <= 0.  This value
+ * cannot be negative if y is not an integral value.
+ * @param y the exponent.
+ * @return x raised to the power y.
+ */
 double pow(double x, double y);
 #endif
 extern uint16_t makeWord( uint16_t w ) ;

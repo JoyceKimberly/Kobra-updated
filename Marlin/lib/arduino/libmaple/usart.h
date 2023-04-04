@@ -1,3 +1,36 @@
+/******************************************************************************
+ * The MIT License
+ *
+ * Copyright (c) 2010 Perry Hung.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *****************************************************************************/
+
+/**
+ * @file libmaple/include/libmaple/usart.h
+ * @author Marti Bolivar <mbolivar@leaflabs.com>,
+ *         Perry Hung <perry@leaflabs.com>
+ * @brief USART definitions and prototypes
+ */
+
 #ifndef _LIBMAPLE_USART_H_
 #define _LIBMAPLE_USART_H_
 
@@ -6,16 +39,19 @@ extern "C"{
 #endif
 
 #include "../drivers/board/startup.h"
-#include "libmaple_types.h"
-#include "ring_buffer.h"
+#include <libmaple/libmaple_types.h>
+#include <libmaple/ring_buffer.h>
 
+/*
+ * Devices
+ */
 
 #define USART_RX_BUF_SIZE               128
 #define USART_TX_BUF_SIZE               128
 
-typedef struct usart_dev
-{
-    M4_USART_TypeDef  *regs;             /**< Register map */
+/** USART device type */
+typedef struct usart_dev {
+    M4_USART_TypeDef *regs;             /**< Register map */
     ring_buffer *rb;                 /**< RX ring buffer */
     ring_buffer *wb;                 /**< TX ring buffer */
     uint32 max_baud;                 /**< @brief Deprecated.
@@ -33,6 +69,25 @@ typedef struct usart_dev
     IRQn_Type TX_complete_IRQ;           
     uint32_t IRQ_priority;
 } usart_dev;
+
+void usart_init(usart_dev *dev);
+
+struct gpio_dev;                /* forward declaration */
+/* FIXME [PRE 0.0.13] decide if flags are necessary */
+/**
+ * @brief Configure GPIOs for use as USART TX/RX.
+ * @param udev USART device to use
+ * @param rx_dev RX pin gpio_dev
+ * @param rx     RX pin bit on rx_dev
+ * @param tx_dev TX pin gpio_dev
+ * @param tx     TX pin bit on tx_dev
+ * @param flags  Currently ignored
+ */
+extern void usart_config_gpios_async(usart_dev *udev,
+                                     struct gpio_dev *rx_dev, uint8 rx,
+                                     struct gpio_dev *tx_dev, uint8 tx,
+                                     unsigned flags);
+
 
 struct usart_dev;
 extern usart_dev usart4;
@@ -53,8 +108,8 @@ extern ring_buffer usart3_wb;
 extern ring_buffer usart4_rb;
 extern ring_buffer usart4_wb;
 
-void usart_init(usart_dev *dev);
 void usart_set_baud_rate(usart_dev *dev, uint32 baud);
+
 void usart_enable(usart_dev *dev);
 void usart_disable(usart_dev *dev);
 void usart_foreach(void (*fn)(usart_dev *dev));
@@ -79,7 +134,8 @@ static inline void usart_disable_all(void) {
  * @param byte Byte to transmit.
  */
 static inline void usart_putc(usart_dev* dev, uint8 byte) {
-    usart_tx(dev, &byte, 1);
+    while (!usart_tx(dev, &byte, 1))
+        ;
 }
 
 /**

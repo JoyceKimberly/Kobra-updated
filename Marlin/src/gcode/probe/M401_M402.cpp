@@ -54,7 +54,7 @@ void GcodeSuite::M401() {
     }
   #endif
 
-  probe.deploy();
+  probe.deploy(parser.boolval('R'));
   TERN_(PROBE_TARE, probe.tare());
   report_current_position();
 }
@@ -64,7 +64,7 @@ void GcodeSuite::M401() {
  *  R<bool> Remain in place after stowing (and before deactivating) the probe
  */
 void GcodeSuite::M402() {
-  probe.stow();
+  probe.stow(parser.boolval('R'));
   probe.move_z_after_probing();
   report_current_position();
 }

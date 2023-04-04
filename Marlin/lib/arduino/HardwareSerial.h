@@ -1,28 +1,37 @@
-/*
-  HardwareSerial.h - Hardware serial library for Wiring
-  Copyright (c) 2006 Nicholas Zambetti.  All right reserved.
+/******************************************************************************
+ * The MIT License
+ *
+ * Copyright (c) 2010 Perry Hung.
+ * Copyright (c) 2011, 2012 LeafLabs, LLC.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *****************************************************************************/
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+/**
+ * @file wirish/include/wirish/HardwareSerial.h
+ * @brief Wirish serial port interface.
+ */
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-  Modified 28 September 2010 by Mark Sproul
-  Modified 14 August 2012 by Alarus
-  Modified 3 December 2013 by Matthijs Kooijman
-*/
-
-#ifndef HardwareSerial_h
-#define HardwareSerial_h
+#ifndef _WIRISH_HARDWARESERIAL_H_
+#define _WIRISH_HARDWARESERIAL_H_
 
 #include <inttypes.h>
 
@@ -56,36 +65,99 @@
 #else
   typedef uint8_t rx_buffer_index_t;
 #endif
+ 
+struct usart_dev;
 
-// A bool should be enough for this
-// But it brings an build error due to ambiguous
-// call of overloaded HardwareSerial(int, int)
-// So defining a dedicated type
-typedef enum {
-  HALF_DUPLEX_DISABLED,
-  HALF_DUPLEX_ENABLED
-} HalfDuplexMode_t;
+/* Roger Clark
+ *
+ * Added config defines from AVR 
+ * Note. The values will need to be changed to match STM32 USART config register values, these are just place holders.
+ */
+// Define config for Serial.begin(baud, config);
+// Note. STM32 doesn't support as many different Serial modes as AVR or SAM cores.
+// The word legth bit M must be set when using parity bit.
 
-#ifdef UART_WORDLENGTH_7B
-  #define SERIAL_7N1 0x04
-  #define SERIAL_7N2 0x0C
-  #define SERIAL_6E1 0x22
-  #define SERIAL_6E2 0x2A
-  #define SERIAL_6O1 0x32
-  #define SERIAL_6O2 0x3A
-#endif
-#define SERIAL_8N1 0x06
-#define SERIAL_8N2 0x0E
-#define SERIAL_7E1 0x24
-#define SERIAL_8E1 0x26
-#define SERIAL_7E2 0x2C
-#define SERIAL_8E2 0x2E
-#define SERIAL_7O1 0x34
-#define SERIAL_8O1 0x36
-#define SERIAL_7O2 0x3C
-#define SERIAL_8O2 0x3E
+#define SERIAL_8N1	0B00000000
+#define SERIAL_8N2	0B00100000
+#define SERIAL_9N1	0B00001000
+#define SERIAL_9N2	0B00101000	
 
+#define SERIAL_8E1	0B00001010
+#define SERIAL_8E2	0B00101010
+/* not supported:
+#define SERIAL_9E1	0B00001010
+#define SERIAL_9E2	0B00101010
+*/
+#define SERIAL_8O1	0B00001011
+#define SERIAL_8O2	0B00101011
+/* not supported:
+#define SERIAL_9O1	0B00001011
+#define SERIAL_9O2	0B00101011
+*/
+
+/* Roger Clark 
+ * Moved macros from hardwareSerial.cpp
+ */
+ 
+#define DEFINE_HWSERIAL(name, n)                                   \
+	HardwareSerial name(USART##n,                                  \
+						BOARD_USART##n##_TX_PIN,                   \
+						BOARD_USART##n##_RX_PIN)
+
+#define DEFINE_HWSERIAL_UART(name, n)                             \
+	HardwareSerial name(UART##n,                                  \
+						BOARD_USART##n##_TX_PIN,                   \
+						BOARD_USART##n##_RX_PIN)				
+
+
+/* Roger clark. Changed class inheritance from Print to Stream.
+ * Also added new functions for peek() and availableForWrite()
+ * Note. AvailableForWrite is only a stub function in the cpp
+ */
 class HardwareSerial : public Stream {
+
+public:
+    HardwareSerial(struct usart_dev *usart_device,
+                   uint8_t tx_pin,
+                   uint8_t rx_pin);
+
+    HardwareSerial(M4_USART_TypeDef *base);
+    unsigned char _rx_buffer[SERIAL_RX_BUFFER_SIZE];
+    unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];
+    unsigned char *g_rx_buffer;
+
+    /* Set up/tear down */
+    inline size_t begin(uint32_t baudrate) { return baudrate; }
+    void end();
+    virtual int available(void);
+    virtual int peek(void);
+    virtual int read(void);
+    int availableForWrite(void);
+    virtual void flush(void);
+    virtual size_t write(uint8_t);
+    inline size_t write(unsigned long n) { return write((uint8_t)n); }
+    inline size_t write(long n) { return write((uint8_t)n); }
+    inline size_t write(unsigned int n) { return write((uint8_t)n); }
+    inline size_t write(int n) { return write((uint8_t)n); }
+    using Print::write;
+
+    /* Pin accessors */
+    int txPin(void) { return this->tx_pin; }
+    int rxPin(void) { return this->rx_pin; }
+	
+	operator bool() { return true; }
+
+    /* Escape hatch into libmaple */
+    /* FIXME [0.0.13] documentation */
+    struct usart_dev* c_dev(void) { return this->usart_device; }
+
+    // Interrupt handlers - Not intended to be called externally
+    void _rx_complete_callback(unsigned char c);
+    void set_buffer_head(rx_buffer_index_t index);
+private:
+    struct usart_dev *usart_device;
+    uint8_t tx_pin;
+    uint8_t rx_pin;
   protected:
 	M4_USART_TypeDef *uart_base;
     // Has any byte been written to the UART since begin()
@@ -93,35 +165,13 @@ class HardwareSerial : public Stream {
 
     volatile rx_buffer_index_t _rx_buffer_head;
     volatile rx_buffer_index_t _rx_buffer_tail;
-
+#if 0  
     // Don't put any members after these buffers, since only the first
     // 32 bytes of this struct can be accessed quickly using the ldd
     // instruction.
-//    unsigned char _rx_buffer[SERIAL_RX_BUFFER_SIZE];
-//    unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];
-
-  public:
     unsigned char _rx_buffer[SERIAL_RX_BUFFER_SIZE];
-    unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];
-    unsigned char *g_rx_buffer;
-    HardwareSerial(M4_USART_TypeDef *base);
-    virtual int available(void);
-    virtual int read(void);
-    virtual void flush(void);
-    virtual size_t write(uint8_t);
-    virtual int peek();
-    inline size_t begin(uint32_t baudrate) { return baudrate; }
-    inline size_t write(unsigned long n) { return write((uint8_t)n); }
-    inline size_t write(long n) { return write((uint8_t)n); }
-    inline size_t write(unsigned int n) { return write((uint8_t)n); }
-    inline size_t write(int n) { return write((uint8_t)n); }
-    using Print::write; // pull in write(str) and write(buf, size) from Print
-
-    operator bool() { return true; }
-    // Interrupt handlers - Not intended to be called externally
-    void _rx_complete_callback(unsigned char c);
-    void set_buffer_head(rx_buffer_index_t index);
+    unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];	
+#endif
 };
 
-
-#endif
+#endif	//_WIRISH_HARDWARESERIAL_H_

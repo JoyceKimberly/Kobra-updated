@@ -69,5 +69,4 @@ class ControllerFan {
 
 extern ControllerFan controllerFan;
 
-extern void fan_pwm_set_ratio(uint8_t fan, uint8_t ratio);
 #endif

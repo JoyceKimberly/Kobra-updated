@@ -1,36 +1,52 @@
-/*
-  HardwareSerial.cpp - Hardware serial library for Wiring
-  Copyright (c) 2006 Nicholas Zambetti.  All right reserved.
+/******************************************************************************
+ * The MIT License
+ *
+ * Copyright (c) 2010 Perry Hung.
+ * Copyright (c) 2011, 2012 LeafLabs, LLC.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *****************************************************************************/
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+/**
+ * @file wirish/HardwareSerial.cpp
+ * @brief Wirish serial port implementation.
+ */
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-  Modified 23 November 2006 by David A. Mellis
-  Modified 28 September 2010 by Mark Sproul
-  Modified 14 August 2012 by Alarus
-  Modified 3 December 2013 by Matthijs Kooijman
-*/
+#include "HardwareSerial.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
-#include "HardwareSerial.h"
 
 extern uint8_t g_rxBuffer[128];
 extern uint8_t g_rxBuffer8[128];
-// Constructors ////////////////////////////////////////////////////////////////
+
+HardwareSerial::HardwareSerial(usart_dev *usart_device,
+                               uint8_t tx_pin,
+                               uint8_t rx_pin) {
+    this->usart_device = usart_device;
+    this->tx_pin = tx_pin;
+    this->rx_pin = rx_pin;
+}
 
 HardwareSerial::HardwareSerial(M4_USART_TypeDef *base) :
     _rx_buffer_head(0), _rx_buffer_tail(0)
@@ -38,14 +54,9 @@ HardwareSerial::HardwareSerial(M4_USART_TypeDef *base) :
 	uart_base = base;
 }
 
-//int HardwareSerial::read(void)
-//{
-//	uint8_t c = 0;
-//
-//	LPUART_ReadBlocking(uart_base,&c,1);
-//
-//	return c;
-//}
+/*
+ * I/O
+ */
 
 int HardwareSerial::read(void)
 {
@@ -62,40 +73,6 @@ int HardwareSerial::read(void)
 int HardwareSerial::available(void)
 {
   return ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rx_buffer_head - _rx_buffer_tail)) % SERIAL_RX_BUFFER_SIZE;
-}
-
-void HardwareSerial::flush()
-{
-
-}
-
-size_t HardwareSerial::write(uint8_t c)
-{
-    USART_SendData(uart_base, c);
-    return 1;
-}
-
-// Actual interrupt handlers //////////////////////////////////////////////////////////////
-
-void HardwareSerial::_rx_complete_callback(unsigned char c)
-{
-    rx_buffer_index_t i = (unsigned int)(_rx_buffer_head + 1) % SERIAL_RX_BUFFER_SIZE;
-
-    // if we should be storing the received character into the location
-    // just before the tail (meaning that the head would advance to the
-    // current location of the tail), we're about to overflow the buffer
-    // and so we don't write the character or advance the head.
-    if (i != _rx_buffer_tail) {
-      _rx_buffer[_rx_buffer_head] = c;
-      _rx_buffer_head = i;
-
-    }
-}
-void HardwareSerial::set_buffer_head(rx_buffer_index_t index)
-{
-	if (index != _rx_buffer_tail) {
-	_rx_buffer_head = index;
-	}
 }
 
 int HardwareSerial::peek(void)
@@ -130,4 +107,38 @@ int HardwareSerial::peek(void)
 //	} else {
 //		return rx_buffer_storage_[tail-rx_buffer_size_];
 //	}
+}
+
+size_t HardwareSerial::write(uint8_t c)
+{
+    USART_SendData(uart_base, c);
+    return 1;
+}
+
+/* edogaldo: Waits for the transmission of outgoing serial data to complete (Arduino 1.0 api specs) */
+void HardwareSerial::flush(void) {
+
+}
+
+// Actual interrupt handlers //////////////////////////////////////////////////////////////
+
+void HardwareSerial::_rx_complete_callback(unsigned char c)
+{
+    rx_buffer_index_t i = (unsigned int)(_rx_buffer_head + 1) % SERIAL_RX_BUFFER_SIZE;
+
+    // if we should be storing the received character into the location
+    // just before the tail (meaning that the head would advance to the
+    // current location of the tail), we're about to overflow the buffer
+    // and so we don't write the character or advance the head.
+    if (i != _rx_buffer_tail) {
+      _rx_buffer[_rx_buffer_head] = c;
+      _rx_buffer_head = i;
+
+    }
+}
+void HardwareSerial::set_buffer_head(rx_buffer_index_t index)
+{
+	if (index != _rx_buffer_tail) {
+	_rx_buffer_head = index;
+	}
 }

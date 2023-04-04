@@ -429,7 +429,6 @@ public:
 
   // Execute G-code in-place, preserving current G-code parameters
   static void process_subcommands_now(FSTR_P fgcode);
-  static void process_subcommands_now_P(PGM_P pgcode);
   static void process_subcommands_now(char * gcode);
 
   static void home_all_axes(const bool keep_leveling=false) {
@@ -1037,6 +1036,10 @@ private:
 
   #if ENABLED(CANCEL_OBJECTS)
     static void M486();
+  #endif
+
+  #if ENABLED(FT_MOTION)
+    static void M493();
   #endif
 
   static void M500();
