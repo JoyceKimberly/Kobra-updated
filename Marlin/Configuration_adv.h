@@ -1601,7 +1601,7 @@
     #define X_STALL_SENSITIVITY  90
     #define Y_STALL_SENSITIVITY  100
     //#define Z_STALL_SENSITIVITY  8
-    //#define IMPROVE_HOMING_RELIABILITY
+    //#define IMPROVE_HOMING_RELIABILITY //don't
   #endif
 
   // @section tmc/config
