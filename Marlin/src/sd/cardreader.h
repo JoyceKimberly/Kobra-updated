@@ -89,8 +89,6 @@ public:
     #endif
   #endif
 
-  // // // Methods // // //
-
   CardReader();
 
   static MediaFile getroot() { return root; }
@@ -130,11 +128,10 @@ public:
   static void cdroot();
   static void cd(const char *relpath);
   static int8_t cdup();
-  static uint16_t countFilesInWorkDir();
-  static uint16_t get_num_Files();
+  static int16_t get_num_items();
 
   // Select a file
-  static void selectFileByIndex(const uint16_t nr);
+  static void selectFileByIndex(const int16_t nr);
   static void selectFileByName(const char * const match);  // (working directory only)
 
   // Print job
@@ -177,14 +174,16 @@ public:
 
   #if ENABLED(SDCARD_SORT_ALPHA)
     static void presort();
-    static void getfilename_sorted(const uint16_t nr);
+    static void selectFileByIndexSorted(const int16_t nr);
     #if ENABLED(SDSORT_GCODE)
       FORCE_INLINE static void setSortOn(bool b)        { sort_alpha   = b; presort(); }
       FORCE_INLINE static void setSortFolders(int i)    { sort_folders = i; presort(); }
       //FORCE_INLINE static void setSortReverse(bool b) { sort_reverse = b; }
     #endif
   #else
-    FORCE_INLINE static void getfilename_sorted(const uint16_t nr) { selectFileByIndex(nr); }
+    FORCE_INLINE static void selectFileByIndexSorted(const int16_t nr) {
+      selectFileByIndex(TERN(SDCARD_RATHERRECENTFIRST, get_num_items() - 1 - nr, (nr)));
+    }
   #endif
 
   static void ls(const uint8_t lsflags);
@@ -238,7 +237,7 @@ private:
   // Alphabetical file and folder sorting
   //
   #if ENABLED(SDCARD_SORT_ALPHA)
-    static uint16_t sort_count;   // Count of sorted items in the current directory
+    static int16_t sort_count;    // Count of sorted items in the current directory
     #if ENABLED(SDSORT_GCODE)
       static bool sort_alpha;     // Flag to enable / disable the feature
       static int sort_folders;    // Folder sorting before/none/after
@@ -309,8 +308,8 @@ private:
   // Directory items
   //
   static bool is_visible_entity(const dir_t &p OPTARG(CUSTOM_FIRMWARE_UPLOAD, const bool onlyBin=false));
-  static int countItems(MediaFile dir);
-  static void selectByIndex(MediaFile dir, const uint8_t index);
+  static int16_t countVisibleItems(MediaFile dir);
+  static void selectByIndex(MediaFile dir, const int16_t index);
   static void selectByName(MediaFile dir, const char * const match);
   static void printListing(
     MediaFile parent, const char * const prepend, const uint8_t lsflags
@@ -331,7 +330,7 @@ private:
   #define IS_SD_INSERTED() true
 #endif
 
-#define IS_SD_PRINTING()  card.flag.sdprinting
+#define IS_SD_PRINTING()  (card.flag.sdprinting && !card.flag.abort_sd_printing)
 #define IS_SD_FETCHING()  (!card.flag.sdprintdone && IS_SD_PRINTING())
 #define IS_SD_PAUSED()    card.isPaused()
 #define IS_SD_FILE_OPEN() card.isFileOpen()

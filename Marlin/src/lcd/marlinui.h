@@ -384,9 +384,6 @@ public:
     static void reset_status(const bool no_welcome=false);
     static void set_alert_status(FSTR_P const fstr);
     static void reset_alert_level() { alert_level = 0; }
-    static void set_alert_status_P(PGM_P const message);
-    static void set_status_P(PGM_P const message, const int8_t level=0);
-    static void status_printf_P(const uint8_t level, PGM_P const fmt, ...);
 
     static statusResetFunc_t status_reset_callback;
     static void set_status_reset_fn(const statusResetFunc_t fn=nullptr) { status_reset_callback = fn; }
@@ -395,9 +392,6 @@ public:
     static void reset_status(const bool=false) {}
     static void set_alert_status(FSTR_P const) {}
     static void reset_alert_level() {}
-    static void set_alert_status_P(PGM_P const) {}
-    static void set_status_P(PGM_P message, const int8_t=0);
-    static void status_printf_P(const uint8_t, PGM_P message, ...);
     static void set_status_reset_fn(const statusResetFunc_t=nullptr) {}
   #endif
 
@@ -808,11 +802,6 @@ private:
 };
 
 #define LCD_MESSAGE_F(S)       ui.set_status(F(S))
-#define LCD_MESSAGE(M)         LCD_MESSAGEPGM(M)
+#define LCD_MESSAGE(M)         ui.set_status(GET_TEXT_F(M))
 #define LCD_ALERTMESSAGE_F(S)  ui.set_alert_status(F(S))
 #define LCD_ALERTMESSAGE(M)    ui.set_alert_status(GET_TEXT_F(M))
-
-#define LCD_MESSAGEPGM_P(x)      ui.set_status_P(x)
-#define LCD_ALERTMESSAGEPGM_P(x) ui.set_alert_status_P(x)
-#define LCD_MESSAGEPGM(x)        LCD_MESSAGEPGM_P(GET_TEXT(x))
-#define LCD_ALERTMESSAGEPGM(x)   LCD_ALERTMESSAGEPGM_P(GET_TEXT(x))

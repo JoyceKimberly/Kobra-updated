@@ -86,7 +86,7 @@ void GcodeSuite::M81() {
 
   safe_delay(1000); // Wait 1 second before switching off
 
-  LCD_MESSAGEPGM_P(PSTR(MACHINE_NAME " " STR_OFF "."));
+  LCD_MESSAGE_F(MACHINE_NAME " " STR_OFF ".");
 
   bool delayed_power_off = false;
 
