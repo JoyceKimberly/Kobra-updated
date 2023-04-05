@@ -142,25 +142,6 @@
 #define STR_RESEND                          "Resend: "
 #define STR_UNKNOWN_COMMAND                 "Unknown command: \""
 #define STR_ACTIVE_EXTRUDER                 "Active Extruder: "
-#define STR_X_MIN                           "x_min"
-#define STR_X_MAX                           "x_max"
-#define STR_X2_MIN                          "x2_min"
-#define STR_X2_MAX                          "x2_max"
-#define STR_Y_MIN                           "y_min"
-#define STR_Y_MAX                           "y_max"
-#define STR_Y2_MIN                          "y2_min"
-#define STR_Y2_MAX                          "y2_max"
-#define STR_Z_MIN                           "z_min"
-#define STR_Z_MAX                           "z_max"
-#define STR_Z2_MIN                          "z2_min"
-#define STR_Z2_MAX                          "z2_max"
-#define STR_Z3_MIN                          "z3_min"
-#define STR_Z3_MAX                          "z3_max"
-#define STR_Z4_MIN                          "z4_min"
-#define STR_Z4_MAX                          "z4_max"
-#define STR_Z_PROBE                         "z_probe"
-#define STR_PROBE_EN                        "probe_en"
-#define STR_FILAMENT_RUNOUT_SENSOR          "filament"
 #define STR_ERR_FANSPEED                    "Fan speed E"
 
 #define STR_PROBE_OFFSET                    "Probe Offset"
@@ -180,9 +161,7 @@
 #define STR_OFF                             "OFF"
 #define STR_ENDSTOP_HIT                     "TRIGGERED"
 #define STR_ENDSTOP_OPEN                    "open"
-#define STR_HOTEND_OFFSET                   "Hotend offsets:"
 #define STR_DUPLICATION_MODE                "Duplication mode: "
-#define STR_SOFT_ENDSTOPS                   "Soft endstops: "
 #define STR_SOFT_MIN                        "  Min: "
 #define STR_SOFT_MAX                        "  Max: "
 
@@ -228,16 +207,12 @@
 #define STR_STOP_UNHOMED                    "unhomed"
 #define STR_KILL_PRE                        "!! KILL caused by "
 #define STR_KILL_INACTIVE_TIME              "too much inactive time - current command: "
-#define STR_STOP_BLTOUCH                    "!! STOP called because of BLTouch error - restart with M999"
-#define STR_STOP_UNHOMED                    "!! STOP called because of unhomed error - restart with M999"
-#define STR_KILL_INACTIVE_TIME              "!! KILL caused by too much inactive time - current command: "
 #define STR_KILL_BUTTON                     "KILL button/pin"
 
 // temperature.cpp strings
 #define STR_PID_AUTOTUNE                    "PID Autotune"
 #define STR_PID_AUTOTUNE_START              " start"
 #define STR_PID_BAD_HEATER_ID               " failed! Bad heater id"
-#define STR_PID_BAD_EXTRUDER_NUM            "PID Autotune failed! Bad extruder number"
 #define STR_PID_TEMP_TOO_HIGH               " failed! Temperature too high"
 #define STR_PID_TIMEOUT                     " failed! timeout"
 #define STR_BIAS                            " bias: "
@@ -254,10 +229,6 @@
 #define STR_PID_DEBUG                       " PID_DEBUG "
 #define STR_PID_DEBUG_INPUT                 ": Input "
 #define STR_PID_DEBUG_OUTPUT                " Output "
-#define STR_PID_DEBUG_PTERM                 " pTerm "
-#define STR_PID_DEBUG_ITERM                 " iTerm "
-#define STR_PID_DEBUG_DTERM                 " dTerm "
-#define STR_PID_DEBUG_CTERM                 " cTerm "
 #define STR_INVALID_EXTRUDER_NUM            " - Invalid extruder number !"
 #define STR_MPC_AUTOTUNE_START              "MPC Autotune start for " STR_E
 #define STR_MPC_AUTOTUNE_INTERRUPTED        "MPC Autotune interrupted!"
@@ -294,7 +265,6 @@
 #define STR_DEBUG_DRYRUN                    "DRYRUN"
 #define STR_DEBUG_COMMUNICATION             "COMMUNICATION"
 #define STR_DEBUG_DETAIL                    "DETAIL"
-#define STR_DEBUG_LEVELING                  "LEVELING"
 
 #define STR_PRINTER_LOCKED                  "Printer locked! (Unlock with M511 or LCD)"
 #define STR_WRONG_PASSWORD                  "Incorrect Password"
@@ -302,14 +272,6 @@
 #define STR_PASSWORD_REMOVED                "Password removed"
 #define STR_REMINDER_SAVE_SETTINGS          "Remember to save!"
 #define STR_PASSWORD_SET                    "Password is "
-
-// LCD Menu Messages
-
-#define LANGUAGE_DATA_INCL_(M) STRINGIFY_(fontdata/langdata_##M.h)
-#define LANGUAGE_DATA_INCL(M) LANGUAGE_DATA_INCL_(M)
-
-#define LANGUAGE_INCL_(M) STRINGIFY_(../lcd/language/language_##M.h)
-#define LANGUAGE_INCL(M) LANGUAGE_INCL_(M)
 
 // Settings Report Strings
 #define STR_Z_AUTO_ALIGN                    "Z Auto-Align"
@@ -373,7 +335,6 @@
   #define STR_Y2_MAX                        "y2_max"
 #endif
 
-
 #if HAS_Z_AXIS
   #define STR_Z_MIN                         "z_min"
   #define STR_Z_MAX                         "z_max"
@@ -408,11 +369,6 @@
 #define STR_Z2 "Z2"
 #define STR_Z3 "Z3"
 #define STR_Z4 "Z4"
-
-#define LCD_STR_A STR_A
-#define LCD_STR_B STR_B
-#define LCD_STR_C STR_C
-#define LCD_STR_E STR_E
 
 // Extra Axis and Endstop Names
 #if HAS_I_AXIS
@@ -595,14 +551,6 @@
  */
 #if ENABLED(NUMBER_TOOLS_FROM_0)
   #define LCD_FIRST_TOOL 0
-  #define LCD_STR_N0 "0"
-  #define LCD_STR_N1 "1"
-  #define LCD_STR_N2 "2"
-  #define LCD_STR_N3 "3"
-  #define LCD_STR_N4 "4"
-  #define LCD_STR_N5 "5"
-  #define LCD_STR_N6 "6"
-  #define LCD_STR_N7 "7"
   #define STR_N0 "0"
   #define STR_N1 "1"
   #define STR_N2 "2"
@@ -613,14 +561,6 @@
   #define STR_N7 "7"
 #else
   #define LCD_FIRST_TOOL 1
-  #define LCD_STR_N0 "1"
-  #define LCD_STR_N1 "2"
-  #define LCD_STR_N2 "3"
-  #define LCD_STR_N3 "4"
-  #define LCD_STR_N4 "5"
-  #define LCD_STR_N5 "6"
-  #define LCD_STR_N6 "7"
-  #define LCD_STR_N7 "8"
   #define STR_N0 "1"
   #define STR_N1 "2"
   #define STR_N2 "3"
@@ -631,14 +571,6 @@
   #define STR_N7 "8"
 #endif
 
-#define LCD_STR_E0 "E" LCD_STR_N0
-#define LCD_STR_E1 "E" LCD_STR_N1
-#define LCD_STR_E2 "E" LCD_STR_N2
-#define LCD_STR_E3 "E" LCD_STR_N3
-#define LCD_STR_E4 "E" LCD_STR_N4
-#define LCD_STR_E5 "E" LCD_STR_N5
-#define LCD_STR_E6 "E" LCD_STR_N6
-#define LCD_STR_E7 "E" LCD_STR_N7
 #define STR_E0 STR_E STR_N0
 #define STR_E1 STR_E STR_N1
 #define STR_E2 STR_E STR_N2
