@@ -37,6 +37,7 @@ extern "C" {
 #endif
 
 #include <libmaple/libmaple_types.h>
+#include <libmaple/util.h>
 
 #ifdef __cplusplus
 }

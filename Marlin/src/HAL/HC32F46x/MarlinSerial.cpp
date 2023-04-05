@@ -26,6 +26,54 @@
 #include "MarlinSerial.h"
 #include <libmaple/usart.h>
 
+// Copied from ~/.platformio/packages/framework-arduinoststm32-maple/STM32F1/system/libmaple/usart_private.h
+// Changed to handle Emergency Parser
+static inline __always_inline void my_usart_irq(ring_buffer *rb, ring_buffer *wb, usart_reg_map *regs, MSerialT &serial) {
+ /* Handle RXNEIE and TXEIE interrupts.
+  * RXNE signifies availability of a byte in DR.
+  *
+  * See table 198 (sec 27.4, p809) in STM document RM0008 rev 15.
+  * We enable RXNEIE.
+  */
+  uint32_t srflags = regs->SR, cr1its = regs->CR1;
+
+  if ((cr1its & USART_CR1_RXNEIE) && (srflags & USART_SR_RXNE)) {
+    if (srflags & USART_SR_FE || srflags & USART_SR_PE ) {
+      // framing error or parity error
+      regs->DR; // Read and throw away the data, which also clears FE and PE
+    }
+    else {
+      uint8_t c = (uint8)regs->DR;
+      #ifdef USART_SAFE_INSERT
+        // If the buffer is full and the user defines USART_SAFE_INSERT,
+        // ignore new bytes.
+        rb_safe_insert(rb, c);
+      #else
+        // By default, push bytes around in the ring buffer.
+        rb_push_insert(rb, c);
+      #endif
+      #if ENABLED(EMERGENCY_PARSER)
+        if (serial.emergency_parser_enabled())
+          emergency_parser.update(serial.emergency_state, c);
+      #endif
+    }
+  }
+  else if (srflags & USART_SR_ORE) {
+    // overrun and empty data, just do a dummy read to clear ORE
+    // and prevent a raise condition where a continuous interrupt stream (due to ORE set) occurs
+    // (see chapter "Overrun error" ) in STM32 reference manual
+    regs->DR;
+  }
+
+  // TXE signifies readiness to send a byte to DR.
+  if ((cr1its & USART_CR1_TXEIE) && (srflags & USART_SR_TXE)) {
+    if (!rb_is_empty(wb))
+      regs->DR=rb_remove(wb);
+    else
+      regs->CR1 &= ~((uint32)USART_CR1_TXEIE); // disable TXEIE
+  }
+}
+
 // Not every MarlinSerial port should handle emergency parsing.
 // It would not make sense to parse GCode from TMC responses, for example.
 constexpr bool serial_handles_emergency(int port) {
@@ -42,23 +90,19 @@ constexpr bool serial_handles_emergency(int port) {
   );
 }
 
-//
-// define serial ports
-//
 #define DEFINE_HWSERIAL_MARLIN(name, n)     \
   MSerialT name(serial_handles_emergency(n),\
             USART##n,                       \
             BOARD_USART##n##_TX_PIN,        \
-            BOARD_USART##n##_RX_PIN);
+            BOARD_USART##n##_RX_PIN);       \
+  extern "C" void __irq_usart##n(void) {    \
+    my_usart_irq(USART##n->rb, USART##n->wb, USART##n##_BASE, MSerial##n); \
+  }
 
 DEFINE_HWSERIAL_MARLIN(MSerial1, 1);
 DEFINE_HWSERIAL_MARLIN(MSerial2, 2);
 DEFINE_HWSERIAL_MARLIN(MSerial3, 3);
 DEFINE_HWSERIAL_MARLIN(MSerial4, 4);
-
-//
-// serial port assertions
-//
 
 // Check the type of each serial port by passing it to a template function.
 // HardwareSerial is known to sometimes hang the controller when an error occurs,

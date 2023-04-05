@@ -241,11 +241,6 @@ inline void serial_println(FSTR_P const fstr) { serial_println_P(FTOP(fstr)); }
 #define _SELP_3_F(p,v,V...)       { _SEP_2_F(p,v); DEFER2(_SELP_N_F_REF)()(TWO_ARGS(V),V); }
 #define SERIAL_ECHOLNF(V...)      do{ EVAL(_SELP_N_F(TWO_ARGS(V),V)); }while(0)
 
-#define SERIAL_ECHOPAIR(V...)     SERIAL_ECHOPGM(V)
-#define SERIAL_ECHOLNPAIR(V...)   SERIAL_ECHOLNPGM(V)
-#define SERIAL_ECHOPAIR_P(V...)   SERIAL_ECHOPGM_P(V)
-#define SERIAL_ECHOLNPAIR_P(V...) SERIAL_ECHOLNPGM_P(V)
-
 #ifdef AllowDifferentTypeInList
 
   inline void SERIAL_ECHOLIST_IMPL() {}

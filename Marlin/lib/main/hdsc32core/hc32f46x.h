@@ -1,58 +1,25 @@
 /*******************************************************************************
- * Copyright (C) 2017, Huada Semiconductor Co.,Ltd All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co.,Ltd. ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
-/** \file HC32F46X.h
+/** \file HC32F460PETB.h
  **
  ** Auto generate.
- ** Headerfile for HC32F46X series MCU
+ ** Headerfile for HC32F460PETB series MCU
  **
  ** History:
  **
- **   - 2020-12-16  1.03   First version for Device Driver Library of HC32F46X series MCU.
+ **   - 2021-03-11  1.03   First version for Device Driver Library of HC32F460PETB series MCU.
  **
  ******************************************************************************/
 
-#ifndef __HC32F46X_H__
-#define __HC32F46X_H__
+#ifndef __HC32F460PETB_H__
+#define __HC32F460PETB_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -62,8 +29,8 @@ extern "C" {
  * Configuration of the Cortex-M4 Processor and Core Peripherals
  ******************************************************************************/
 #define __CM4_REV                 0x0001  /*!< Core revision r0p1                                   */
-#define __MPU_PRESENT             1       /*!< HC32F46X provides an MPU                             */
-#define __NVIC_PRIO_BITS          4       /*!< HC32F46X uses 4 Bits for the Priority Levels         */
+#define __MPU_PRESENT             1       /*!< HC32F460PETB provides an MPU                             */
+#define __NVIC_PRIO_BITS          4       /*!< HC32F460PETB uses 4 Bits for the Priority Levels         */
 #define __Vendor_SysTickConfig    0       /*!< Set to 1 if different SysTick Config is used         */
 #define __FPU_PRESENT             1       /*!< FPU present                                          */
 
@@ -30631,5 +30598,5 @@ typedef struct
 }
 #endif
 
-#endif /* __HC32F46X_H__ */
+#endif /* __HC32F460PETB_H__ */
 

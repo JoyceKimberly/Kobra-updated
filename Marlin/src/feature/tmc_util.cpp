@@ -1177,7 +1177,7 @@
 
 #if USE_SENSORLESS
 
-#if 0
+/*
   bool tmc_enable_stallguard(TMC2130Stepper &st) {
     const bool stealthchop_was_enabled = st.en_pwm_mode();
 
@@ -1192,7 +1192,7 @@
     st.en_pwm_mode(restore_stealth);
     st.diag1_stall(false);
   }
-#endif
+//*/
 
   bool tmc_enable_stallguard(TMC2209Stepper &st) {
     const bool stealthchop_was_enabled = !st.en_spreadCycle();

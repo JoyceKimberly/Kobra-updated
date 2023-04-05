@@ -57,6 +57,10 @@ void GcodeSuite::D(const int16_t dcode) {
       hal.reboot();
       break;
 
+    case 10:
+      kill(F("D10"), F("KILL TEST"), parser.seen_test('P'));
+      break;
+
     case 1: {
       // Zero or pattern-fill the EEPROM data
       #if ENABLED(EEPROM_SETTINGS)
@@ -186,12 +190,12 @@ void GcodeSuite::D(const int16_t dcode) {
       SERIAL_ECHOLNPGM("(USE_WATCHDOG " TERN(USE_WATCHDOG, "ENABLED", "DISABLED") ")");
       thermalManager.disable_all_heaters();
       delay(1000); // Allow time to print
-      DISABLE_ISRS();
+      hal.isr_off();
       // Use a low-level delay that does not rely on interrupts to function
       // Do not spin forever, to avoid thermal risks if heaters are enabled and
       // watchdog does not work.
       for (int i = 10000; i--;) DELAY_US(1000UL);
-      ENABLE_ISRS();
+      hal.isr_on();
       SERIAL_ECHOLNPGM("FAILURE: Watchdog did not trigger board reset.");
     } break;
 
