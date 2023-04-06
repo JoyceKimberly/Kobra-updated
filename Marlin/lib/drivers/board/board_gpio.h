@@ -27,8 +27,6 @@ extern const uint8_t boardPWMPins[];
 #define BOARD_NR_GPIO_PINS      83
 #define BOARD_NR_ADC_PINS       16
 
-
-
 #define BOARD_NR_SPI            3
 #define BOARD_SPI1_NSS_PIN      PA4
 #define BOARD_SPI1_SCK_PIN      PA5

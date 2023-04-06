@@ -23,3 +23,4 @@ Please do not install this on your machine in order to use it. I cannot promise 
 - Make MarlinSerial work
 - Find out what the change to AWAIT_TIMED_PULSE means and how to apply it outside of stepper.cpp
 - Completely redo kobra extui and dgus so it makes sense
+- Find a way to get rid of having to use uVision to compile

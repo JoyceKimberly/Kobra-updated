@@ -123,7 +123,7 @@
 //
 #define TEMP_0_PIN                          PC1   // T0
 #define TEMP_BED_PIN                        PC0   // TB
-#define ADC_CHANNEL_COUNT 3u
+#define ADC_CHANNEL_COUNT                   3u
 
 //
 // Heaters

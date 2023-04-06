@@ -129,10 +129,12 @@ public:
     /* Set up/tear down */
     inline size_t begin(uint32_t baudrate) { return baudrate; }
     void end();
+    void msgDone() {};
+    bool connected() {};
+    void flushTX() {};
     virtual int available(void);
     virtual int peek(void);
     virtual int read(void);
-    int availableForWrite(void);
     virtual void flush(void);
     virtual size_t write(uint8_t);
     inline size_t write(unsigned long n) { return write((uint8_t)n); }

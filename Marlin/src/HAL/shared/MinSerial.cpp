@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2021 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
@@ -19,29 +19,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
-#pragma once
+#include "MinSerial.h"
 
-#include "platforms.h"
+#if ENABLED(POSTMORTEM_DEBUGGING)
 
-#ifndef GCC_VERSION
-  #define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
-#endif
+void HAL_min_serial_init_default() {}
+void HAL_min_serial_out_default(char ch) { SERIAL_CHAR(ch); }
+void (*HAL_min_serial_init)() = &HAL_min_serial_init_default;
+void (*HAL_min_serial_out)(char) = &HAL_min_serial_out_default;
 
-#include HAL_PATH(.,HAL.h)
-extern MarlinHAL hal;
+bool MinSerial::force_using_default_output = false;
 
-#define HAL_ADC_RANGE _BV(HAL_ADC_RESOLUTION)
-
-#ifndef I2C_ADDRESS
-  #define I2C_ADDRESS(A) uint8_t(A)
-#endif
-
-// Needed for AVR sprintf_P PROGMEM extension
-#ifndef S_FMT
-  #define S_FMT "%s"
-#endif
-
-// String helper
-#ifndef PGMSTR
-  #define PGMSTR(NAM,STR) const char NAM[] = STR
 #endif

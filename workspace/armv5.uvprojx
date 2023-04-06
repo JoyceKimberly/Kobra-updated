@@ -2355,6 +2355,16 @@
               <FileType>5</FileType>
               <FilePath>..\Marlin\src\HAL\shared\progmem.h</FilePath>
             </File>
+            <File>
+              <FileName>MinSerial.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\src\HAL\shared\MinSerial.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>MinSerial.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\HAL\shared\MinSerial.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

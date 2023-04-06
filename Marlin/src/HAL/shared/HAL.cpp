@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2022 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
@@ -19,29 +19,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
-#pragma once
 
-#include "platforms.h"
+/**
+ * HAL/shared/HAL.cpp
+ */
 
-#ifndef GCC_VERSION
-  #define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
-#endif
+#include "../../inc/MarlinConfig.h"
 
-#include HAL_PATH(.,HAL.h)
-extern MarlinHAL hal;
+MarlinHAL hal;
 
-#define HAL_ADC_RANGE _BV(HAL_ADC_RESOLUTION)
+#if ENABLED(SOFT_RESET_VIA_SERIAL)
 
-#ifndef I2C_ADDRESS
-  #define I2C_ADDRESS(A) uint8_t(A)
-#endif
+  // Global for use by e_parser.h
+  void HAL_reboot() { hal.reboot(); }
 
-// Needed for AVR sprintf_P PROGMEM extension
-#ifndef S_FMT
-  #define S_FMT "%s"
-#endif
-
-// String helper
-#ifndef PGMSTR
-  #define PGMSTR(NAM,STR) const char NAM[] = STR
 #endif
