@@ -1172,9 +1172,9 @@ void setup() {
   #endif
   #define SETUP_RUN(C) do{ SETUP_LOG(STRINGIFY(C)); C; }while(0)
 
-  MYSERIAL0.begin(BAUDRATE);
+  MYSERIAL1.begin(BAUDRATE);
   millis_t serial_connect_timeout = millis() + 1000UL;
-  while (!MYSERIAL0 && PENDING(millis(), serial_connect_timeout)) { /*nada*/ }
+  while (!MYSERIAL1 && PENDING(millis(), serial_connect_timeout)) { /*nada*/ }
 
   #if HAS_MULTI_SERIAL && !HAS_ETHERNET
     #ifndef BAUDRATE_2
