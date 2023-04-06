@@ -55,8 +55,7 @@
 #define NUM_UARTS 4
 
 #if WITHIN(SERIAL_PORT, 1, 6)
-  #define MYSERIAL0 MSERIAL(SERIAL_PORT)
-  #define MYSERIAL1 MYSERIAL0
+  #define MYSERIAL1 MSERIAL(SERIAL_PORT)
 #else
   #error "SERIAL_PORT must be from 1 to 6, or -1 for Native USB."
 #endif
