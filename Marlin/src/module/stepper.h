@@ -678,11 +678,11 @@ class Stepper {
       // Check whether the stepper is processing any input shaping echoes
       static bool input_shaping_busy() {
         const bool was_on = HAL_ADC_READY();
-        DISABLE_ISRS();
+        hal.isr_off();
 
         const bool result = TERN0(INPUT_SHAPING_X, !ShapingQueue::empty_x()) || TERN0(INPUT_SHAPING_Y, !ShapingQueue::empty_y());
 
-        if (was_on) ENABLE_ISRS();
+        if (was_on) hal.isr_on();
 
         return result;
       }
