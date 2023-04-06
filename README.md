@@ -15,3 +15,10 @@ https://github.com/shadow578/Marlin-H32
 # Warning
 
 Please do not install this on your machine in order to use it. I cannot promise it is safe, it really needs some proper programmers to go over it first.
+
+# To do
+
+- Fix menu getting stuck after auto-leveling
+- Finish HAL
+- Make MarlinSerial work
+- Find out what the change to AWAIT_TIMED_PULSE means and how to apply it outside of stepper.cpp
