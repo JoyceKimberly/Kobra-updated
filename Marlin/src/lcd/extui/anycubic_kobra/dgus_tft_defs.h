@@ -27,7 +27,7 @@
 #pragma once
 #include "../../../inc/MarlinConfigPre.h"
 
-#define ACDEBUGLEVEL 64  //  0: off, 255: all levels enabled
+#define ACDEBUGLEVEL 16  //  0: off, 255: all levels enabled
 
 #if ACDEBUGLEVEL
   // Bit-masks for selective debug:
@@ -127,7 +127,7 @@
 #define AC_cmnd_manual_unload_filament PSTR("M83\nG1 E-60 F900\nM82")
 #define AC_cmnd_manual_unload_filament_first_in PSTR("M83\nG1 E10 F300\nM82")
 #define AC_cmnd_enable_leveling        PSTR("M420 S1 V1")
-#define AC_cmnd_power_loss_recovery    PSTR("G28XYR5\nG28Z")           // Lift, home X and Y then home Z when in 'safe' position
+#define AC_cmnd_power_loss_recovery    PSTR("G28 R5 X Y\nG28 Z")       // Lift, home X and Y then home Z when in 'safe' position
 
 namespace Anycubic {
   enum heater_state_t : uint8_t {
