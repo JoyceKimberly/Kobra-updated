@@ -53,25 +53,6 @@
 
 namespace Anycubic {
 
-  const char MESSAGE_charu[]          = {0xB4, 0xE6, 0xB4, 0xA2, 0xBF, 0xA8, 0xD2, 0xD1, 0xB2, 0xE5, 0xC8, 0xEB, 0x00}; // '忙'垄驴篓脪脩虏氓脠毛
-  const char MESSAGE_bachu[]          = {0xB4, 0xE6, 0xB4, 0xA2, 0xBF, 0xA8, 0xD2, 0xD1, 0xB0, 0xCE, 0xB3, 0xF6, 0x00};
-  const char MESSAGE_wuka[]           = {0xCE, 0xDE, 0xB4, 0xE6, 0xB4, 0xA2, 0xBF, 0xA8, 0x00};
-  const char MESSAGE_lianji[]         = {0xC1, 0xAA, 0xBB, 0xFA, 0xD6, 0xD0, 0x00};
-  const char MESSAGE_tuoji[]          = {0xCD, 0xD1, 0xBB, 0xFA, 0xB4, 0xF2, 0xD3, 0xA1, 0xD6, 0xD0, 0x00};
-  const char MESSAGE_zanting[]        = {0xB4, 0xF2, 0xD3, 0xA1, 0xD4, 0xDD, 0xCD, 0xA3, 0xD6, 0xD0, 0x00};
-  const char MESSAGE_tingzhi[]        = {0xCD, 0xA3, 0xD6, 0xB9, 0xB4, 0xF2, 0xD3, 0xA1, 0x00};
-  const char MESSAGE_wancheng[]       = {0xCD, 0xEA, 0xB3, 0xC9, 0xB4, 0xF2, 0xD3, 0xA1, 0x00};
-  const char MESSAGE_hotend_heating[] = {0xB4, 0xF2, 0xD3, 0xA1, 0xCD, 0xB7, 0xD5, 0xFD, 0xD4, 0xDA, 0xBC, 0xD3, 0xC8, 0xC8, 0x00};
-  const char MESSAGE_hotend_over[]    = {0xB4, 0xF2, 0xD3, 0xA1, 0xCD, 0xB7, 0xBC, 0xD3, 0xC8, 0xC8, 0xCD, 0xEA, 0xB3, 0xC9, 0x00};
-  const char MESSAGE_bed_heating[]    = {0xC8, 0xC8, 0xB4, 0xB2, 0xD5, 0xFD, 0xD4, 0xDA, 0xBC, 0xD3, 0xC8, 0xC8, 0x00};
-  const char MESSAGE_bed_over[]       = {0xC8, 0xC8, 0xB4, 0xB2, 0xBC, 0xD3, 0xC8, 0xC8, 0xCD, 0xEA, 0xB3, 0xC9, 0x00};
-  const char MESSAGE_ready[]          = {0xD7, 0xBC, 0xB1, 0xB8, 0xBE, 0xCD, 0xD0, 0xF7, 0x00};
-  const char MESSAGE_cold[]           = {0xB4, 0xF2, 0xD3, 0xA1, 0xCD, 0xB7, 0xCE, 0xC2, 0xB6, 0xC8, 0xB9, 0xFD, 0xB5, 0xCD, 0x00};
-
-  const char *p_mesage[] = { MESSAGE_charu, MESSAGE_bachu, MESSAGE_wuka, MESSAGE_lianji, MESSAGE_tuoji, MESSAGE_zanting,
-                             MESSAGE_tingzhi, MESSAGE_wancheng, MESSAGE_hotend_heating, MESSAGE_hotend_over, MESSAGE_bed_heating,
-                             MESSAGE_bed_over, MESSAGE_ready, MESSAGE_cold };
-
   DgusTFT::p_fun fun_array[] = {
     DgusTFT::page1,  DgusTFT::page2,  DgusTFT::page3,  DgusTFT::page4,  DgusTFT::page5,  DgusTFT::page6,
     DgusTFT::page7,  DgusTFT::page8,  DgusTFT::page9,  DgusTFT::page10, DgusTFT::page11, DgusTFT::page12,
@@ -299,11 +280,11 @@ namespace Anycubic {
     if (strcmp_P(error, PSTR("Heating Failed")) == 0) {
 
       if (strcmp_P(component, PSTR("Bed")) == 0) {
-        ChangePageOfTFT(PAGE_CHS_ABNORMAL_BED_HEATER);
+        ChangePageOfTFT(PAGE_ABNORMAL_BED_HEATER);
         SERIAL_ECHOLNPGM("Check Bed heater");
       }
       else if (strcmp_P(component, PSTR("E1")) == 0) {
-        ChangePageOfTFT(PAGE_CHS_ABNORMAL_HOTEND_HEATER);
+        ChangePageOfTFT(PAGE_ABNORMAL_HOTEND_HEATER);
         SERIAL_ECHOLNPGM("Check E1 heater");
       }
 
@@ -311,11 +292,11 @@ namespace Anycubic {
     else if (strcmp_P(error, PSTR("Err: MINTEMP")) == 0) {
 
       if (strcmp_P(component, PSTR("Bed")) == 0) {
-        ChangePageOfTFT(PAGE_CHS_ABNORMAL_BED_NTC);
+        ChangePageOfTFT(PAGE_ABNORMAL_BED_NTC);
         SERIAL_ECHOLNPGM("Check Bed thermistor");
       }
       else if (strcmp_P(component, PSTR("E1")) == 0) {
-        ChangePageOfTFT(PAGE_CHS_ABNORMAL_HOTEND_NTC);
+        ChangePageOfTFT(PAGE_ABNORMAL_HOTEND_NTC);
         SERIAL_ECHOLNPGM("Check E1 thermistor");
       }
 
@@ -323,11 +304,11 @@ namespace Anycubic {
     else if (strcmp_P(error, PSTR("Err: MAXTEMP")) == 0) {
 
       if (strcmp_P(component, PSTR("Bed")) == 0) {
-        ChangePageOfTFT(PAGE_CHS_ABNORMAL_BED_NTC);
+        ChangePageOfTFT(PAGE_ABNORMAL_BED_NTC);
         SERIAL_ECHOLNPGM("Check Bed thermistor");
       }
       else if (strcmp_P(component, PSTR("E1")) == 0) {
-        ChangePageOfTFT(PAGE_CHS_ABNORMAL_HOTEND_NTC);
+        ChangePageOfTFT(PAGE_ABNORMAL_HOTEND_NTC);
         SERIAL_ECHOLNPGM("Check E1 thermistor");
       }
 
@@ -335,11 +316,11 @@ namespace Anycubic {
     else if (strcmp_P(error, PSTR("THERMAL RUNAWAY")) == 0) {
 
       if (strcmp_P(component, PSTR("Bed")) == 0) {
-        ChangePageOfTFT(PAGE_CHS_ABNORMAL_BED_HEATER);
+        ChangePageOfTFT(PAGE_ABNORMAL_BED_HEATER);
         SERIAL_ECHOLNPGM("Check Bed thermal runaway");
       }
       else if (strcmp_P(component, PSTR("E1")) == 0) {
-        ChangePageOfTFT(PAGE_CHS_ABNORMAL_HOTEND_HEATER);
+        ChangePageOfTFT(PAGE_ABNORMAL_HOTEND_HEATER);
         SERIAL_ECHOLNPGM("Check E1 thermal runaway");
       }
 
@@ -347,15 +328,15 @@ namespace Anycubic {
     else if (strcmp_P(error, PSTR("Homing Failed")) == 0) {
 
       if (strcmp_P(component, PSTR("X")) == 0) {
-        ChangePageOfTFT(PAGE_CHS_ABNORMAL_X_ENDSTOP);
+        ChangePageOfTFT(PAGE_ABNORMAL_X_ENDSTOP);
         SERIAL_ECHOLNPGM("Check X endstop");
       }
       else if (strcmp_P(component, PSTR("Y")) == 0) {
-        ChangePageOfTFT(PAGE_CHS_ABNORMAL_Y_ENDSTOP);
+        ChangePageOfTFT(PAGE_ABNORMAL_Y_ENDSTOP);
         SERIAL_ECHOLNPGM("Check Y endstop");
       }
       else if (strcmp_P(component, PSTR("Z")) == 0) {
-        ChangePageOfTFT(PAGE_CHS_ABNORMAL_Z_ENDSTOP);
+        ChangePageOfTFT(PAGE_ABNORMAL_Z_ENDSTOP);
         SERIAL_ECHOLNPGM("Check Z endstop");
       }
 
@@ -583,14 +564,14 @@ namespace Anycubic {
           if (strcmp_P(msg, MARLIN_msg_probing_failed) == 0) {
             PlayTune(BEEPER_PIN, BeepBeepBeeep, 1);
             injectCommands(F("G1 Z50 F500"));
-            ChangePageOfTFT(PAGE_CHS_ABNORMAL_LEVELING_SENSOR);
+            ChangePageOfTFT(PAGE_ABNORMAL_LEVELING_SENSOR);
             SendtoTFTLN(AC_msg_probing_complete);
             printer_state = AC_printer_idle;
             msg_matched   = true;
           }
 
           if (strcmp_P(msg, MARLIN_msg_probe_preheat_start) == 0)
-            ChangePageOfTFT(PAGE_CHS_PROBE_PREHEATING);
+            ChangePageOfTFT(PAGE_PROBE_PREHEATING);
 
           if (strcmp_P(msg, MARLIN_msg_probe_preheat_stop) == 0)
             ChangePageOfTFT(PAGE_LEVELING);
@@ -688,7 +669,7 @@ namespace Anycubic {
 
   void DgusTFT::HomingStart() {
     if (!isPrintingFromMedia())
-      ChangePageOfTFT(PAGE_CHS_HOMING);
+      ChangePageOfTFT(PAGE_HOMING);
   }
 
   void DgusTFT::HomingComplete() {
@@ -848,20 +829,7 @@ namespace Anycubic {
       DEBUG_ECHOLNPGM("ChangePageOfTFT: ", page_index);
     #endif
 
-    uint32_t data_temp = 0;
-
-    switch (page_index) {
-      case PAGE_OUTAGE_RECOVERY:
-        data_temp = PAGE_ENG_OUTAGE_RECOVERY; break;
-      case PAGE_CHS_PROBE_PREHEATING:
-        data_temp = PAGE_ENG_PROBE_PREHEATING; break;
-      case PAGE_CHS_HOMING ... PAGE_ENG_HOMING:
-        data_temp = page_index + 12; break;
-      case PAGE_CHS_PROBE_PRECHECK ... PAGE_CHS_PROBE_PRECHECK_FAILED:
-        data_temp = page_index + 3; break;
-      default:
-        data_temp = page_index + 120; break;
-    }
+    uint32_t data_temp = page_index;
 
     if (!no_send) {
       uint8_t data[] = { 0x5A, 0xA5, 0x07, 0x82, 0x00, 0x84, 0x5A, 0x01, uint8_t(data_temp >> 8), uint8_t(data_temp & 0xFF) };
@@ -1261,7 +1229,7 @@ namespace Anycubic {
 
   void DgusTFT::goto_system_page() {
     ChangePageOfTFT(
-      (lcd_info.audio_on ? 11 : 50) // PAGE_SYSTEM_ENG_AUDIO_ON/OFF - 120
+      (lcd_info.audio_on ? PAGE_SYSTEM_AUDIO_ON : PAGE_SYSTEM_AUDIO_OFF)
     );
   }
 
@@ -2080,7 +2048,7 @@ namespace Anycubic {
     switch (key_value) {
       case 0: break;
       case 1:        // return
-        ChangePageOfTFT(PAGE_SYSTEM_CHS_AUDIO_ON);
+        ChangePageOfTFT(PAGE_SYSTEM_AUDIO_ON);
         break;
     }
   }
@@ -2179,7 +2147,7 @@ namespace Anycubic {
         if (!isPrinting()) {
 //                      setAxisPosition_mm(10.0, Z, 5);
 #ifdef NOZZLE_AS_PROBE
-                      ChangePageOfTFT(PAGE_CHS_PROBE_PRECHECK);
+                      ChangePageOfTFT(PAGE_PROBE_PRECHECK);
 #else   // FIX_MOUNTED_PROBE
                       ChangePageOfTFT(PAGE_LEVEL_ENSURE);
 #endif
@@ -2728,7 +2696,7 @@ namespace Anycubic {
               ) {
                 setTargetTemp_celsius(LEVELING_NOZZLE_TEMP, E0);
                 setTargetTemp_celsius(LEVELING_BED_TEMP, BED);
-                ChangePageOfTFT(PAGE_CHS_PROBE_PREHEATING);
+                ChangePageOfTFT(PAGE_PROBE_PREHEATING);
               }
               else
                 ChangePageOfTFT(PAGE_LEVELING);
@@ -2934,13 +2902,10 @@ namespace Anycubic {
           DEBUG_ECHOLNPGM("page_index_last_2: ", page_index_last_2);
         #endif
 
-        if ((WITHIN(page_index_now, PAGE_CHS_ABNORMAL_X_ENDSTOP, PAGE_CHS_ABNORMAL_Z_ENDSTOP))
-         || (WITHIN(page_index_now, PAGE_ENG_ABNORMAL_X_ENDSTOP, PAGE_ENG_ABNORMAL_Z_ENDSTOP))
+        if ((WITHIN(page_index_now, PAGE_ABNORMAL_X_ENDSTOP, PAGE_ABNORMAL_Z_ENDSTOP))
         ) {
-          if (lcd_info.language == ENG) {
             if (page_index_last_2 > 120) page_index_last_2 -= 120;
             if (page_index_last > 120) page_index_last -= 120;
-          }
 
           if (PAGE_STATUS1 == page_index_last_2 || PAGE_STATUS2 == page_index_last_2 || PAGE_PRINT_FINISH == page_index_last)
             ChangePageOfTFT(PAGE_MAIN);
@@ -2948,7 +2913,7 @@ namespace Anycubic {
             ChangePageOfTFT(page_index_last_2);
         }
         else {
-          if (lcd_info.language == ENG && page_index_last > 120)
+          if (page_index_last > 120)
             page_index_last -= 120;
           ChangePageOfTFT(page_index_last);
         }
@@ -3048,7 +3013,7 @@ namespace Anycubic {
       if (getProbeState()) {        // triggered too early
         probe_check_counter = 0;
         probe_tare_flag = 0;
-        ChangePageOfTFT(PAGE_CHS_PROBE_PRECHECK_FAILED);
+        ChangePageOfTFT(PAGE_PROBE_PRECHECK_FAILED);
       }
       probe_tare_flag = 1;
     }
@@ -3069,7 +3034,7 @@ namespace Anycubic {
       if (!probe_state_last && getProbeState()) {
         probe_check_counter = 0;
         probe_tare_flag = 0;
-        ChangePageOfTFT(PAGE_CHS_PROBE_PRECHECK_OK);
+        ChangePageOfTFT(PAGE_PROBE_PRECHECK_OK);
       }
 
       probe_state_last = getProbeState();
@@ -3077,7 +3042,7 @@ namespace Anycubic {
       if (probe_check_counter++ >= 200) {         // waiting for 1 min
         probe_check_counter = 0;
         probe_tare_flag = 0;
-        ChangePageOfTFT(PAGE_CHS_PROBE_PRECHECK_FAILED);
+        ChangePageOfTFT(PAGE_PROBE_PRECHECK_FAILED);
       }
     }
 
