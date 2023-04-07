@@ -60,7 +60,9 @@ namespace ExtUI {
   void onPrintTimerStopped() { Dgus.TimerEvent(AC_timer_stopped); }
   void onPrintDone() {}
 
-  //void onFilamentRunout(const extruder_t)            { Dgus.FilamentRunout();             }
+#if ENABLED(FILAMENT_RUNOUT_SENSOR)
+  void onFilamentRunout(const extruder_t)            { Dgus.FilamentRunout();             }
+#endif
 
   void onUserConfirmRequired(const char * const msg) { Dgus.ConfirmationRequest(msg);     }
   void onStatusChanged(const char * const msg)       { Dgus.StatusChange(msg);            }
@@ -95,7 +97,9 @@ namespace ExtUI {
   void onPostprocessSettings() {
     // Called after loading or resetting stored settings
     Dgus.ParamInit();
-    //Dgus.PowerLoss();
+  #if ENABLED(POWER_LOSS_RECOVERY)
+    Dgus.PowerLoss();
+  #endif
   }
 
   void onSettingsStored(const bool success) {
