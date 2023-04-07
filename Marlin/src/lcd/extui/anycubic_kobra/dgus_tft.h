@@ -327,7 +327,7 @@
 
 namespace Anycubic {
 
-  enum language_t : uint8_t { ENG, CHS };
+  enum language_t : uint8_t { ENG };
 
   class DgusTFT;
   extern DgusTFT ui;
@@ -346,7 +346,7 @@ namespace Anycubic {
     #if HAS_HEATED_BED
       static heater_state_t hotbed_state;
     #endif
-  static xy_uint8_t       selectedmeshpoint;
+    static xy_uint8_t   selectedmeshpoint;
     static char         panel_command[MAX_CMND_LEN];
     static uint8_t      command_len;
     static char         selectedfile[MAX_PATH_LEN];
@@ -449,18 +449,15 @@ namespace Anycubic {
       #endif
       static void page34();
       static void page115();
-      static void page117();     // CHS Mute handler
       static void page124();
       static void page125();
       static void page170();     // ENG Mute handler
 
       #if ENABLED(POWER_LOSS_RECOVERY)
-        static void page171();   // CHS power outage resume handler
         static void page173();   // ENG power outage resume handler
       #endif
       #if HAS_LEVELING
         static void page175();   // ENG probe preheating handler
-        static void page176();   // CHS probe preheating handler
       #endif
 
       static void page177_to_198();
@@ -493,8 +490,8 @@ namespace Anycubic {
       static void SendTxtToTFT(const char *pdata, uint32_t address);
       static void SendColorToTFT(uint32_t color, uint32_t address);
       static void SendReadNumOfTxtToTFT(uint8_t number, uint32_t address);
-      static void ChangePageOfTFT(uint32_t page_index);
-      static void FakeChangePageOfTFT(uint32_t page_index);
+      static void ChangePageOfTFT(const uint16_t page_index, const bool no_send=false);
+      static void FakeChangePageOfTFT(const uint16_t page_index);
       static void LcdAudioSet(const bool audio_on);
 
     private:
