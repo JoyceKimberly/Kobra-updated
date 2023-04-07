@@ -26,11 +26,6 @@
 // Print debug messages with M111 S2 (Uses 156 bytes of PROGMEM)
 //#define DEBUG_STOPWATCH
 
-#include "../core/macros.h" // for FORCE_INLINE
-
-#include <stdint.h>
-typedef uint32_t millis_t;
-
 /**
  * @brief Stopwatch class
  * @details This class acts as a timer proving stopwatch functionality including

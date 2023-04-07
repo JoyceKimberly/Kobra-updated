@@ -105,15 +105,36 @@ long random(long min, long max);
 #define SERIAL  0x0
 #define DISPLAY 0x1 
 
-#define min(a,b)                ((a)<(b)?(a):(b))
-#define max(a,b)                ((a)>(b)?(a):(b))
+#if (__GNUC__ > 4) && defined(__cplusplus)
+	#include <algorithm>
+	using namespace std;
+#else // C
+	#include <stdlib.h>
+	#ifndef min
+		#define min(a,b) ((a)<(b)?(a):(b))
+	#endif // min
+
+	#ifndef max
+		#define max(a,b) ((a)>(b)?(a):(b))
+	#endif // max
+#endif // __cplusplus
+
 #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 #define round(x)                ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
 #define radians(deg)            ((deg)*DEG_TO_RAD)
 #define degrees(rad)            ((rad)*RAD_TO_DEG)
 #define sq(x)                   ((x)*(x))
 
+/* undefine stdlib's abs if encountered */
+#ifdef abs
+#undef abs
+#endif
 #define abs(x) (((x) > 0) ? (x) : -(x))
+
+/* Following are duplicate declarations (with Doxygen comments) for
+ * some of the math.h functions; this is for the convenience of the
+ * Sphinx docs.
+ */
 
 #ifdef math
 /**
@@ -155,6 +176,7 @@ double sqrt(double x);
  */
 double pow(double x, double y);
 #endif
+
 extern uint16_t makeWord( uint16_t w ) ;
 extern uint16_t makeWord( uint8_t h, uint8_t l ) ;
 
