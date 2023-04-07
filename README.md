@@ -8,6 +8,8 @@ https://www.reddit.com/r/anycubic/comments/y2waxu/tutorial_how_to_build_anycubic
 
 I've set the F_CPU value in uVision after making the firmware print out the value together with the other stored values and copying it from Pronterface, I have no idea if this value is the same for all Kobra's, so if it doesn't work, just remove the value from uVision, compile and flash, and read out the value when sending M503.
 
+Please note that any tuned values (like PiD) in configuration will be set to my printer's as it's a pain having to redo them when you're flashing new firmware all the time.
+
 With many thanks to
 https://github.com/jojos38/anycubic-kobra-improved-firmware
 https://github.com/shadow578/Marlin-H32
