@@ -49,6 +49,8 @@
 
 #include <string>
 
+#define MESH_EDIT_MENU
+
 namespace Anycubic {
 
   const char MESSAGE_charu[]          = {0xB4, 0xE6, 0xB4, 0xA2, 0xBF, 0xA8, 0xD2, 0xD1, 0xB2, 0xE5, 0xC8, 0xEB, 0x00}; // '忙'垄驴篓脪脩虏氓脠毛
@@ -1147,11 +1149,6 @@ namespace Anycubic {
         break;
     }
   }
-
-void DgusTFT::InjectCommandandWait(PGM_P cmd) {
-  //injectCommands_P(cmnd); queue.enqueue_now_P(cmd);
-  //SERIAL_ECHOLN(PSTR("Inject>"));
-}
 
   void DgusTFT::ProcessPanelRequest() {
     unsigned char * p_u8 ;
