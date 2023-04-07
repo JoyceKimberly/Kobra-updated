@@ -384,10 +384,14 @@ namespace Anycubic {
       static void PrinterKilled(FSTR_P,FSTR_P);
       static void MediaEvent(media_event_t);
       static void TimerEvent(timer_event_t);
-      //static void FilamentRunout();
+      #if ENABLED(FILAMENT_RUNOUT_SENSOR)
+      static void FilamentRunout();
+      #endif
       static void ConfirmationRequest(const char * const);
       static void StatusChange(const char * const);
-      //static void PowerLoss();
+      #if ENABLED(POWER_LOSS_RECOVERY)
+      static void PowerLoss();
+      #endif
       static void PowerLossRecovery();
       static void HomingStart();
       static void HomingComplete();
@@ -479,7 +483,6 @@ namespace Anycubic {
       static void CheckHeaters();
       static void SendFileList(int8_t);
       static void SelectFile();
-      void InjectCommandandWait(PGM_P);
       static void ProcessPanelRequest();
       static void PanelInfo(uint8_t);
       static void PanelAction(uint8_t);
