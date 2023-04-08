@@ -239,7 +239,8 @@ Nozzle nozzle;
     }
   #endif // HAS_Z_AXIS
 
-  void Nozzle::park(const uint8_t z_action, const xyz_pos_t &park/*=NOZZLE_PARK_POINT*/) {
+  void Nozzle::park(const uint8_t z_action) {
+    const xyz_pos_t park = NOZZLE_PARK_POINT;
     #if HAS_Z_AXIS
       constexpr feedRate_t fr_z = NOZZLE_PARK_Z_FEEDRATE;
 
