@@ -673,8 +673,8 @@ namespace Anycubic {
   }
 
   void DgusTFT::HomingComplete() {
-    if (page_index_last > 120)
-      page_index_last -= 120;
+    //if (page_index_last > 120)
+      //page_index_last -= 120;
 
     #if ACDEBUG(AC_MARLIN)
       DEBUG_ECHOLNPGM("HomingComplete, line: ", __LINE__);
@@ -1661,7 +1661,7 @@ namespace Anycubic {
           ChangePageOfTFT(PAGE_STATUS1);  // show print
         break;
 
-      #if ENABLED(MESH_EDIT_MENU)
+      //#if ENABLED(MESH_EDIT_MENU)
 
         case 2: { // -
           float z_off = getZOffset_mm();
@@ -1707,7 +1707,7 @@ namespace Anycubic {
           //setSoftEndstopState(true);
         } break;
 
-      #endif // MESH_EDIT_MENU
+      //#endif // MESH_EDIT_MENU
 
       #if ENABLED(CASE_LIGHT_ENABLE)
         case 4: {   // light control
