@@ -493,7 +493,7 @@ xyze_int8_t Stepper::count_direction={0};
 
 hal_timer_t start_pulse_count = 0;
 #define USING_TIMED_PULSE() start_pulse_count = 0
-#define START_TIMED_PULSE(DIR) (start_pulse_count = HAL_timer_get_count(MF_TIMER_PULSE))
+#define START_TIMED_PULSE() (start_pulse_count = HAL_timer_get_count(MF_TIMER_PULSE))
 #if 0
 #define AWAIT_TIMED_PULSE(DIR) while (PULSE_##DIR##_TICK_COUNT > HAL_timer_get_count(MF_TIMER_PULSE) - start_pulse_count) { /* nada */ }
 #define AWAIT_HIGH_PULSE() AWAIT_TIMED_PULSE(HIGH)
@@ -522,8 +522,6 @@ void Stepper::AWAIT_TIMED_PULSE(uint8_t DIR){
 void Stepper::AWAIT_HIGH_PULSE(void)  {AWAIT_TIMED_PULSE(HIGH);}
 void Stepper::AWAIT_LOW_PULSE(void)   {AWAIT_TIMED_PULSE(LOW);}
 #endif
-#define START_HIGH_PULSE()  START_TIMED_PULSE(HIGH)
-#define START_LOW_PULSE()   START_TIMED_PULSE(LOW)
 
 #if MINIMUM_STEPPER_PRE_DIR_DELAY > 0
   #define DIR_WAIT_BEFORE() DELAY_NS(MINIMUM_STEPPER_PRE_DIR_DELAY)
@@ -2091,7 +2089,7 @@ void Stepper::pulse_phase_isr() {
 
     // TODO: need to deal with MINIMUM_STEPPER_PULSE over i2s
     #if ISR_MULTI_STEPS
-      START_HIGH_PULSE();
+      START_TIMED_PULSE();
       AWAIT_HIGH_PULSE();
     #endif
 
@@ -2131,7 +2129,7 @@ void Stepper::pulse_phase_isr() {
     #endif
 
     #if ISR_MULTI_STEPS
-      if (events_to_do) START_LOW_PULSE();
+      if (events_to_do) START_TIMED_PULSE();
     #endif
 
   } while (--events_to_do);
@@ -2842,7 +2840,8 @@ hal_timer_t Stepper::block_phase_isr() {
     if (e_step_needed) {
       // Enforce a minimum duration for STEP pulse ON
       #if ISR_PULSE_CONTROL
-        START_HIGH_PULSE();
+        USING_TIMED_PULSE();
+        START_TIMED_PULSE();
         AWAIT_HIGH_PULSE();
       #endif
 
@@ -3303,7 +3302,7 @@ void Stepper::_set_position(const abce_long_t &spos) {
     #if CORE_IS_XY
       // corexy positioning
       // these equations follow the form of the dA and dB equations on https://www.corexy.com/theory.html
-      count_position.set(spos.a + spos.b, CORESIGN(spos.a - spos.b), spos.c);
+      count_position.set(spos.a + spos.b, CORESIGN(spos.a - spos.b) OPTARG(HAS_Z_AXIS, spos.c));
     #elif CORE_IS_XZ
       // corexz planning
       count_position.set(spos.a + spos.c, spos.b, CORESIGN(spos.a - spos.c));
