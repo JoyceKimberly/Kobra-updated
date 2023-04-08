@@ -677,7 +677,7 @@ class Stepper {
     #if HAS_ZV_SHAPING
       // Check whether the stepper is processing any input shaping echoes
       static bool input_shaping_busy() {
-        const bool was_on = HAL_ADC_READY();
+        const bool was_on = hal.isr_state();
         hal.isr_off();
 
         const bool result = TERN0(INPUT_SHAPING_X, !ShapingQueue::empty_x()) || TERN0(INPUT_SHAPING_Y, !ShapingQueue::empty_y());
