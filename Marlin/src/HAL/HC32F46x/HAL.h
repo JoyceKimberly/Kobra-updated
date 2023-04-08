@@ -148,15 +148,17 @@ void _delay_ms(const int delay);
 
 extern "C" char* _sbrk(int incr);
 
-//#pragma GCC diagnostic push
-//#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic push
+#if GCC_VERSION <= 50000
+  #pragma GCC diagnostic ignored "-Wunused-function"
+#endif
 
 static inline int freeMemory() {
   volatile char top;
   return top;
 }
 
-//#pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
 
 // ------------------------
 // MarlinHAL Class
@@ -177,11 +179,14 @@ public:
   static void reboot();        // Restart the firmware from 0x0
 
   // Interrupts
-  //static bool isr_state() { return !__get_primask(); }
+  static bool isr_state() { return true; }
   static void isr_on()  { (sei()); }
   static void isr_off() { (cli()); }
 
   static uint16_t adc_result;
+
+  // Free SRAM
+  static int freeMemory() { return ::freeMemory(); }
 };
 
   void HAL_init();
