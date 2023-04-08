@@ -27,7 +27,7 @@
 #pragma once
 #include "../../../inc/MarlinConfigPre.h"
 
-#define ACDEBUGLEVEL 16  //  0: off, 255: all levels enabled
+#define ACDEBUGLEVEL 0  //  0: off, 255: all levels enabled
 
 #if ACDEBUGLEVEL
   // Bit-masks for selective debug:
