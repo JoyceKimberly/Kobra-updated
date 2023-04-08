@@ -49,8 +49,6 @@
 
 #include <string>
 
-#define MESH_EDIT_MENU
-
 namespace Anycubic {
 
   DgusTFT::p_fun fun_array[] = {
@@ -395,18 +393,17 @@ namespace Anycubic {
     #endif
 
     switch (event) {
-      case AC_timer_started: {
+      case AC_timer_started:
         live_Zoffset = 0.0; // reset print offset
         setSoftEndstopState(false);  // disable endstops to print
         printer_state = AC_printer_printing;
-//        SendtoTFTLN(AC_msg_print_from_sd_card);
-      } break;
+        //SendtoTFTLN(AC_msg_print_from_sd_card);
+      break;
 
-      case AC_timer_paused: {
-//        printer_state = AC_printer_paused;
-//        pause_state   = AC_paused_idle;
-//        SendtoTFTLN(AC_msg_paused);
-      }
+      case AC_timer_paused:
+        //printer_state = AC_printer_paused;
+        //pause_state = AC_paused_idle;
+        //SendtoTFTLN(AC_msg_paused);
         break;
 
       case AC_timer_stopped:
@@ -673,9 +670,6 @@ namespace Anycubic {
   }
 
   void DgusTFT::HomingComplete() {
-    //if (page_index_last > 120)
-      //page_index_last -= 120;
-
     #if ACDEBUG(AC_MARLIN)
       DEBUG_ECHOLNPGM("HomingComplete, line: ", __LINE__);
       DEBUG_ECHOLNPGM("page_index_last: ", page_index_last);
@@ -1262,7 +1256,7 @@ namespace Anycubic {
     }
   #endif
 
-  void DgusTFT::page1(void) {
+  void DgusTFT::page1() {
     #if ACDEBUG(AC_ALL)
       if (page_index_saved != page_index_now || key_value_saved != key_value) {
         DEBUG_ECHOLNPGM("page1  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -1315,7 +1309,7 @@ namespace Anycubic {
     #endif
   }
 
-  void DgusTFT::page2(void) {
+  void DgusTFT::page2() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page2  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -1477,7 +1471,7 @@ namespace Anycubic {
     }
   }
 
-  void DgusTFT::page3(void) {
+  void DgusTFT::page3() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page3  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -1566,7 +1560,7 @@ namespace Anycubic {
     //TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_PRINT_BED));
   }
 
-  void DgusTFT::page4(void) {
+  void DgusTFT::page4() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page4  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -1641,7 +1635,7 @@ namespace Anycubic {
     //TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_PRINT_BED));
   }
 
-  void DgusTFT::page5(void) {          // print settings
+  void DgusTFT::page5() {          // print settings
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page5  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -1673,12 +1667,21 @@ namespace Anycubic {
 
           char str_buf[10];
           str_buf[0] = 0;
-          sprintf(str_buf, "%.2f", getZOffset_mm());
+          strcat(str_buf, ftostr52sprj(getZOffset_mm()) + 2);
           SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
           //SendTxtToTFT(ftostr52sprj(getZOffset_mm()), TXT_LEVEL_OFFSET);
 
             int16_t steps = mmToWholeSteps(-0.05, Z);
             babystepAxis_steps(steps, Z);
+
+          GRID_LOOP(x, y) {
+            const xy_uint8_t pos = { x, y };
+            const float currval = getMeshPoint(pos);
+            #if ACDEBUG(AC_MARLIN)
+              DEBUG_ECHOLNPGM("x: ", x, " y: ", y, " z: ", currval);
+            #endif
+            setMeshPoint(pos, constrain(currval - 0.05f, AC_LOWEST_MESHPOINT_VAL, 5));
+          }
 
           z_change = true;
 
@@ -1696,11 +1699,18 @@ namespace Anycubic {
 
           char str_buf[10];
           str_buf[0] = '\0';
-          sprintf(str_buf, "%.2f", getZOffset_mm());
+          strcat(str_buf, ftostr52sprj(getZOffset_mm()) + 2);
           SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
 
             int16_t steps = mmToWholeSteps(0.05, Z);
             babystepAxis_steps(steps, Z);
+
+          GRID_LOOP(x, y) {
+            const xy_uint8_t pos = { x, y };
+            const float currval = getMeshPoint(pos);
+            //SERIAL_ECHOLNPGM("x: ", x, " y: ", y, " z: ", currval);
+            setMeshPoint(pos, constrain(currval + 0.05f, AC_LOWEST_MESHPOINT_VAL, 5));
+          }
 
           z_change = true;
 
@@ -1743,7 +1753,7 @@ namespace Anycubic {
     }
   }
 
-  void DgusTFT::page6(void) {
+  void DgusTFT::page6() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page6  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -1757,7 +1767,7 @@ namespace Anycubic {
     }
   }
 
-  void DgusTFT::page7(void) { // tools
+  void DgusTFT::page7() { // tools
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page7  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -1809,7 +1819,7 @@ namespace Anycubic {
     }
   }
 
-  void DgusTFT::page8(void) {
+  void DgusTFT::page8() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page8  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -1915,7 +1925,7 @@ namespace Anycubic {
     }
   }
 
-  void DgusTFT::page9(void) {
+  void DgusTFT::page9() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page9  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -1958,7 +1968,7 @@ namespace Anycubic {
         SendValueToTFT( (uint16_t)getActualTemp_celsius(BED), TXT_BED_NOW);
   }
 
-  void DgusTFT::page10(void) {
+  void DgusTFT::page10() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page10  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -1994,7 +2004,7 @@ namespace Anycubic {
        SendValueToTFT((uint16_t)getFeedrate_percent(), TXT_PRINT_SPEED_NOW);
   }
 
-  void DgusTFT::page11(void) {
+  void DgusTFT::page11() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page11  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -2037,7 +2047,7 @@ namespace Anycubic {
     }
   }
 
-  void DgusTFT::page12(void) {
+  void DgusTFT::page12() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page12  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -2053,7 +2063,7 @@ namespace Anycubic {
     }
   }
 
-  void DgusTFT::page13(void) {
+  void DgusTFT::page13() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page13  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -2072,7 +2082,7 @@ namespace Anycubic {
     }
   }
 
-  void DgusTFT::page14(void) {
+  void DgusTFT::page14() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page14  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -2089,7 +2099,7 @@ namespace Anycubic {
     }
   }
 
-  void DgusTFT::page15(void) {
+  void DgusTFT::page15() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page15  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -2156,8 +2166,8 @@ namespace Anycubic {
 
       case 3: {
         char str_buf[10];
-        str_buf[0] = '\0';
-        strcat(str_buf, ftostr52sprj(getZOffset_mm()) + 2);
+        str_buf[0] = 0;
+        strcat(str_buf, ftostr52sprj(getZOffset_mm()));
         SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
         //SendTxtToTFT(ftostr52sprj(getZOffset_mm()), TXT_LEVEL_OFFSET);
         ChangePageOfTFT(PAGE_LEVEL_ADVANCE);
@@ -2169,7 +2179,7 @@ namespace Anycubic {
     }
   }
 
-  void DgusTFT::page17(void) {
+  void DgusTFT::page17() {
     #if ACDEBUG(AC_ALL)
       if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
         DEBUG_ECHOLNPGM("page17  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
@@ -2234,7 +2244,7 @@ namespace Anycubic {
 
   #if HAS_HOTEND || HAS_HEATED_BED
 
-    void DgusTFT::page18(void) {     // preheat
+    void DgusTFT::page18() {     // preheat
       #if ACDEBUG(AC_ALL)
         if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
           DEBUG_ECHOLNPGM("page18  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
