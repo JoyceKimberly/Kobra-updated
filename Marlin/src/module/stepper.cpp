@@ -3230,7 +3230,7 @@ void Stepper::init() {
       factor2 = floor(factor2);
     }
 
-    const bool was_on = HAL_ADC_READY();
+    const bool was_on = hal.isr_state();
     hal.isr_off();
     TERN_(INPUT_SHAPING_X, if (axis == X_AXIS) { shaping_x.factor2 = factor2; shaping_x.factor1 = 128 - factor2; shaping_x.zeta = zeta; })
     TERN_(INPUT_SHAPING_Y, if (axis == Y_AXIS) { shaping_y.factor2 = factor2; shaping_y.factor1 = 128 - factor2; shaping_y.zeta = zeta; })
@@ -3247,7 +3247,7 @@ void Stepper::init() {
     // enabling or disabling shaping whilst moving can result in lost steps
     planner.synchronize();
 
-    const bool was_on = HAL_ADC_READY();
+    const bool was_on = hal.isr_state();
     hal.isr_off();
 
     const shaping_time_t delay = freq ? float(uint32_t(STEPPER_TIMER_RATE) / 2) / freq : shaping_time_t(-1);
