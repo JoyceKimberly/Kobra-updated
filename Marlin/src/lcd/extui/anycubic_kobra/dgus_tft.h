@@ -29,33 +29,33 @@
 #include "../../../inc/MarlinConfigPre.h"
 #include "../ui_api.h"
 
-#define DEVICE_NAME             "Anycubic Kobra"
-#define FIRMWARE_VER            "Marlin bugfix-2.1.x"
-#define BUILD_VOLUME            "220*220*250 (mm)"
-#define TECH_SUPPORT            "https://www.anycubic.com"
+#define DEVICE_NAME         "Anycubic Kobra"
+#define FIRMWARE_VER        "Marlin bugfix-2.1.x"
+#define BUILD_VOLUME        "220*220*250 (mm)"
+#define TECH_SUPPORT        "https://www.anycubic.com"
 
-#define DATA_BUF_SIZE 64
+#define DATA_BUF_SIZE       64
 
 /****************** PAGE INDEX***********************/
-#define PAGE_OFFSET        120
-#define PAGE_MAIN          (1+PAGE_OFFSET)
-#define PAGE_FILE          (2+PAGE_OFFSET)
-#define PAGE_STATUS1       (3+PAGE_OFFSET)  // show resume
-#define PAGE_STATUS2       (4+PAGE_OFFSET)  // show pause
-#define PAGE_ADJUST        (5+PAGE_OFFSET)
-#define PAGE_KEYBPARD      (6+PAGE_OFFSET)
-#define PAGE_TOOL          (7+PAGE_OFFSET)
-#define PAGE_MOVE          (8+PAGE_OFFSET)
-#define PAGE_TEMP          (9+PAGE_OFFSET)
-#define PAGE_SPEED         (10+PAGE_OFFSET)
-#define PAGE_WIFI          (12+PAGE_OFFSET)
-#define PAGE_ABOUT         (13+PAGE_OFFSET)
-#define PAGE_RECORD        (14+PAGE_OFFSET)
-#define PAGE_PREPARE       (15+PAGE_OFFSET)
-#define PAGE_PreLEVEL      (16+PAGE_OFFSET)
-#define PAGE_LEVEL_ADVANCE (17+PAGE_OFFSET)
-#define PAGE_PREHEAT       (18+PAGE_OFFSET)
-#define PAGE_FILAMENT      (19+PAGE_OFFSET)
+#define PAGE_OFFSET         120
+#define PAGE_MAIN           (1+PAGE_OFFSET)
+#define PAGE_FILE           (2+PAGE_OFFSET)
+#define PAGE_STATUS1        (3+PAGE_OFFSET)  // show resume
+#define PAGE_STATUS2        (4+PAGE_OFFSET)  // show pause
+#define PAGE_ADJUST         (5+PAGE_OFFSET)
+#define PAGE_KEYBOARD       (6+PAGE_OFFSET)
+#define PAGE_TOOL           (7+PAGE_OFFSET)
+#define PAGE_MOVE           (8+PAGE_OFFSET)
+#define PAGE_TEMP           (9+PAGE_OFFSET)
+#define PAGE_SPEED          (10+PAGE_OFFSET)
+#define PAGE_WIFI           (12+PAGE_OFFSET)
+#define PAGE_ABOUT          (13+PAGE_OFFSET)
+#define PAGE_RECORD         (14+PAGE_OFFSET)
+#define PAGE_PREPARE        (15+PAGE_OFFSET)
+#define PAGE_PreLEVEL       (16+PAGE_OFFSET)
+#define PAGE_LEVEL_ADVANCE  (17+PAGE_OFFSET)
+#define PAGE_PREHEAT        (18+PAGE_OFFSET)
+#define PAGE_FILAMENT       (19+PAGE_OFFSET)
 
 #define PAGE_DONE           (20+PAGE_OFFSET)
 #define PAGE_ABNORMAL       (21+PAGE_OFFSET)
@@ -138,8 +138,8 @@
 
 #define TXT_BED_NOW             (0x2000+17*0x30)
 #define TXT_BED_TARGET          (0x2000+18*0x30)
-#define TXT_HOTEND_NOW           (0x2000+19*0x30)
-#define TXT_HOTEND_TARGET        (0x2000+20*0x30)
+#define TXT_HOTEND_NOW          (0x2000+19*0x30)
+#define TXT_HOTEND_TARGET       (0x2000+20*0x30)
 
 // SPEED SET TXT
 #define TXT_FAN_SPEED_NOW       (0x2000+21*0x30)
@@ -159,7 +159,7 @@
 #define TXT_RECORT_5             (0x2000+31*0x30)
 
 // ADVANCE LEVEL TXT
-#define TXT_LEVEL_OFFSET             (0x2000+32*0x30)
+#define TXT_LEVEL_OFFSET         (0x2000+32*0x30)
 
 // FILAMENT TXT
 #define TXT_FILAMENT_TEMP        (0x2000+33*0x30)
@@ -227,7 +227,7 @@
 #define KEY_TOOL_TO_SPEED  4
 #define KEY_TOOL_LIGHT     5
 
-#define KEY_MOVE_TO_TOLL   1// move page
+#define KEY_MOVE_TO_TOLL   1 // move page
 #define KEY_MOVE_X         2
 #define KEY_01             3
 #define KEY_MOVE_NX        4
@@ -388,53 +388,53 @@ namespace Anycubic {
       #endif
 
       typedef void (*p_fun)();
-      static void page1();
-      static void page2();
-      static void page3();
-      static void page4();
-      static void page5();
-      static void page6();
-      static void page7();   // tool
-      static void page8();
-      static void page9();
-      static void page10();  // fan and print speed
-      static void page11();  // system
-      static void page12();
-      static void page13();
-      static void page14();
-      static void page15();
-      static void page16();
-      static void page17();
-      static void page18();
-      static void page19();
-      static void page20();
-      static void page21();
-      static void page22();
-      static void page23();
+      static void page1();     // PAGE_MAIN
+      static void page2();     // PAGE_FILE
+      static void page3();     // PAGE_STATUS1
+      static void page4();     // PAGE_STATUS2
+      static void page5();     // PAGE_ADJUST
+      static void page6();     // PAGE_KEYBOARD
+      static void page7();     // PAGE_TOOL
+      static void page8();     // PAGE_MOVE
+      static void page9();     // PAGE_TEMP
+      static void page10();    // PAGE_SPEED
+      static void page11();    // PAGE_SYSTEM_AUDIO_ON
+      static void page12();    // PAGE_WIFI
+      static void page13();    // PAGE_ABOUT
+      static void page14();    // PAGE_RECORD
+      static void page15();    // PAGE_PREPARE
+      static void page16();    // PAGE_PreLEVEL
+      static void page17();    // PAGE_LEVEL_ADVANCE
+      static void page18();    // PAGE_PREHEAT
+      static void page19();    // PAGE_FILAMENT
+      static void page20();    // PAGE_DONE
+      static void page21();    // PAGE_ABNORMAL
+      static void page22();    // PAGE_PRINT_FINISH
+      static void page23();    // PAGE_WAIT_STOP
       static void page24();
-      static void page25();
-      static void page26();
-      static void page27();
+      static void page25();    // PAGE_FILAMENT_LACK
+      static void page26();    // PAGE_FORBIT
+      static void page27();    // PAGE_STOP_CONF
       static void page28();
-      static void page29();
-      static void page30();
+      static void page29();    // PAGE_NO_SD
+      static void page30();    // PAGE_FILAMENT_HEAT
       static void page31();
-      static void page32();
+      static void page32();    // PAGE_WAIT_PAUSE
 
       #if HAS_LEVELING
-        static void page33();
+        static void page33();  // PAGE_LEVEL_ENSURE
       #endif
-      static void page34();
-      static void page115();
+      static void page34();    // PAGE_LEVELING
+      static void page115();   // PAGE_AUTO_OFFSET
       static void page124();
       static void page125();
-      static void page170();     // ENG Mute handler
+      static void page170();   // PAGE_SYSTEM_AUDIO_OFF
 
       #if ENABLED(POWER_LOSS_RECOVERY)
-        static void page173();   // ENG power outage resume handler
+        static void page173(); // PAGE_OUTAGE_RECOVERY
       #endif
       #if HAS_LEVELING
-        static void page175();   // ENG probe preheating handler
+        static void page175(); // PAGE_PROBE_PREHEATING
       #endif
 
       static void page177_to_198();
@@ -462,13 +462,13 @@ namespace Anycubic {
       static void PanelAction(uint8_t);
       static void PanelProcess(uint8_t);
 
-      static void SendValueToTFT(uint32_t value, uint32_t address);
-      static void RequestValueFromTFT(uint32_t address);
-      static void SendTxtToTFT(const char *pdata, uint32_t address);
+      static void SendValueToTFT(const uint16_t value, const uint16_t address);
+      static void RequestValueFromTFT(const uint16_t address);
+      static void SendTxtToTFT(const char *pdata, const uint16_t address);
       static void SendColorToTFT(uint32_t color, uint32_t address);
-      static void SendReadNumOfTxtToTFT(uint8_t number, uint32_t address);
+      static void SendReadNumOfTxtToTFT(const uint8_t number, const uint16_t address);
       static void ChangePageOfTFT(const uint16_t page_index, const bool no_send=false);
-      static void FakeChangePageOfTFT(const uint16_t page_index);
+      static void FakeChangePageOfTFT(uint32_t page_index);
       static void LcdAudioSet(const bool audio_on);
 
     private:
