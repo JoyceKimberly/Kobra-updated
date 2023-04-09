@@ -29,7 +29,7 @@
 // Prefix header to acquire configurations
 //
 #include <stdint.h>
-#include "../../lib/drivers/board/startup.h"
+#include "../../lib/drivers/board/startup.h" // changed
 
 #ifndef __MARLIN_DEPS__
   #include "../HAL/platforms.h"

@@ -109,7 +109,7 @@ void LevelingBilinear::reset() {
 void LevelingBilinear::set_grid(const xy_pos_t& _grid_spacing, const xy_pos_t& _grid_start) {
   grid_spacing = _grid_spacing;
   grid_start = _grid_start;
-  grid_factor = grid_spacing;
+  grid_factor = grid_spacing; // changed
 }
 
 /**
@@ -288,7 +288,7 @@ float LevelingBilinear::get_z_correction(const xy_pos_t &raw) {
   static xy_int8_t thisg, nextg;
 
   // XY relative to the probed area
-  xy_pos_t rel = raw - grid_start;
+  xy_pos_t rel = raw - grid_start; // changed
 
   #if ENABLED(EXTRAPOLATE_BEYOND_GRID)
     #define FAR_EDGE_OR_BOX 2   // Keep using the last grid box

@@ -781,7 +781,7 @@ inline void manage_inactivity(const bool no_stepper_sleep=false) {
  *  - Update the Průša MMU2
  *  - Handle Joystick jogging
  */
-void idle(bool no_stepper_sleep/*=false*/) {
+void idle(const bool no_stepper_sleep/*=false*/) {
   #ifdef MAX7219_DEBUG_PROFILE
     CodeProfiler idle_profiler;
   #endif
@@ -807,7 +807,7 @@ void idle(bool no_stepper_sleep/*=false*/) {
   if (marlin_state == MF_INITIALIZING) goto IDLE_DONE;
 
   // TODO: Still causing errors
-  //(void)check_tool_sensor_stats(active_extruder, true);
+  //(void)check_tool_sensor_stats(active_extruder, true); // changed
 
   // Handle filament runout sensors
   #if HAS_FILAMENT_SENSOR
@@ -816,7 +816,7 @@ void idle(bool no_stepper_sleep/*=false*/) {
   #endif
 
   // Run HAL idle tasks
-  TERN_(HAL_IDLETASK, HAL_idletask());
+  TERN_(HAL_IDLETASK, HAL_idletask()); // changed
 
   // Check network connection
   TERN_(HAS_ETHERNET, ethernet.check());
@@ -836,7 +836,7 @@ void idle(bool no_stepper_sleep/*=false*/) {
   TERN_(SDSUPPORT, card.manage_media());
 
   // Handle USB Flash Drive insert / remove
-  TERN_(USB_FLASH_DRIVE_SUPPORT, Sd2Card::idle());
+  TERN_(USB_FLASH_DRIVE_SUPPORT, Sd2Card::idle()); // changed
 
   // Announce Host Keepalive state (if any)
   TERN_(HOST_KEEPALIVE_FEATURE, gcode.host_keepalive());
@@ -1157,8 +1157,8 @@ void setup() {
   tmc_standby_setup();  // TMC Low Power Standby pins must be set early or they're not usable
 
   // Check startup - does nothing if bootloader sets MCUSR to 0
-  const byte mcu = HAL_get_reset_source();
-  HAL_clear_reset_source();
+  const byte mcu = HAL_get_reset_source(); // changed
+  HAL_clear_reset_source(); // changed
 
   #if ENABLED(MARLIN_DEV_MODE)
     auto log_current_ms = [&](PGM_P const msg) {
@@ -1236,7 +1236,7 @@ void setup() {
 
   TERN_(DYNAMIC_VECTORTABLE, hook_cpu_exceptions()); // If supported, install Marlin exception handlers at runtime
 
-  SETUP_RUN(HAL_init());
+  SETUP_RUN(HAL_init()); // changed
 
   // Init and disable SPI thermocouples; this is still needed
   #if TEMP_SENSOR_IS_MAX_TC(0) || (TEMP_SENSOR_IS_MAX_TC(REDUNDANT) && REDUNDANT_TEMP_MATCH(SOURCE, E0))
@@ -1278,10 +1278,10 @@ void setup() {
     SETUP_RUN(disableStepperDrivers());
   #endif
 
-  #ifdef BOARD_INIT
-    SETUP_LOG("BOARD_INIT");
-    BOARD_INIT();
-  #endif
+  #ifdef BOARD_INIT // changed
+    SETUP_LOG("BOARD_INIT"); // changed
+    BOARD_INIT(); // changed
+  #endif // changed
 
   #if ENABLED(WIFISUPPORT)
     SETUP_RUN(esp_wifi_init());
@@ -1303,7 +1303,7 @@ void setup() {
     );
   #endif
   SERIAL_ECHO_MSG(" Compiled: " __DATE__);
-  SERIAL_ECHO_MSG(STR_FREE_MEMORY, freeMemory(), STR_PLANNER_BUFFER_BYTES, sizeof(block_t) * (BLOCK_BUFFER_SIZE));
+  SERIAL_ECHO_MSG(STR_FREE_MEMORY, freeMemory(), STR_PLANNER_BUFFER_BYTES, sizeof(block_t) * (BLOCK_BUFFER_SIZE)); // changed
 
   // Some HAL need precise delay adjustment
   calibrate_delay_loop();

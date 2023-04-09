@@ -216,10 +216,10 @@ struct MultiSerial : public SerialBase< MultiSerial< REPEAT(NUM_SERIAL, _S_NAME)
   static constexpr uint8_t Usage = _BV(step) - 1; // A bit mask containing 'step' bits
 
   #define _OUT_PORT(N) (Usage << (offset + (step * N))),
-  static constexpr uint8_t output = { REPEAT(NUM_SERIAL, _OUT_PORT) };
+  static constexpr uint8_t output = { REPEAT(NUM_SERIAL, _OUT_PORT) }; // changed
   #undef _OUT_PORT
 
-  #define _OUT_MASK(N) | output
+  #define _OUT_MASK(N) | output // changed
   static constexpr uint8_t ALL = 0 REPEAT(NUM_SERIAL, _OUT_MASK);
   #undef _OUT_MASK
 

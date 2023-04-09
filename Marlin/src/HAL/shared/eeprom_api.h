@@ -26,19 +26,16 @@
 #include <stdint.h>
 
 #include "../../libs/crc16.h"
-#include "../../../lib/arduino/libmaple/flash.h"
+#include "../../../lib/arduino/libmaple/flash.h" // changed
 
-
-enum 
-{
-  FLASHIF_OK = 0,
-  FLASHIF_ERASEKO,
-  FLASHIF_WRITINGCTRL_ERROR,
-  FLASHIF_WRITING_ERROR,
-  FLASHIF_PROTECTION_ERRROR
-};
-
-
+enum  // changed
+{ // changed
+  FLASHIF_OK = 0, // changed
+  FLASHIF_ERASEKO, // changed
+  FLASHIF_WRITINGCTRL_ERROR, // changed
+  FLASHIF_WRITING_ERROR, // changed
+  FLASHIF_PROTECTION_ERRROR // changed
+}; // changed
 
 class PersistentStore {
 public:
@@ -80,9 +77,8 @@ public:
     return read_data(data_pos, value, size, &crc);
   }
 
-  static uint32_t FLASH_If_Erase(uint32_t addr_start, uint32_t addr_end);
-
-  static uint32_t FLASH_If_Write(uint32_t destination, const void *p_source, uint32_t length);
+  static uint32_t FLASH_If_Erase(uint32_t addr_start, uint32_t addr_end); // changed
+  static uint32_t FLASH_If_Write(uint32_t destination, const void *p_source, uint32_t length); // changed
 };
 
 extern PersistentStore persistentStore;

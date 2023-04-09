@@ -166,7 +166,7 @@ void SERIAL_PRINTLN(T x, PrintBase y) { SERIAL_IMPL.println(x, y); }
 
 // Flush the serial port
 inline void SERIAL_FLUSH()    { SERIAL_IMPL.flush(); }
-inline void SERIAL_FLUSHTX()  { SERIAL_IMPL.flush(); }
+inline void SERIAL_FLUSHTX()  { SERIAL_IMPL.flush(); } // changed
 
 // Serial echo and error prefixes
 #define SERIAL_ECHO_START()           serial_echo_start()
@@ -340,12 +340,12 @@ void serial_spaces(uint8_t count);
 void serial_offset(const_float_t v, const uint8_t sp=0); // For v==0 draw space (sp==1) or plus (sp==2)
 
 void print_bin(const uint16_t val);
-void print_xyz(const_float_t x, const_float_t y, const_float_t z, PGM_P const prefix=nullptr, PGM_P const suffix=nullptr);
+void print_xyz(const_float_t x, const_float_t y, const_float_t z, PGM_P const prefix=nullptr, PGM_P const suffix=nullptr); // changed
 void print_pos(NUM_AXIS_ARGS(const_float_t), FSTR_P const prefix=nullptr, FSTR_P const suffix=nullptr);
 
-inline void print_xyz(const xyz_pos_t &xyz, PGM_P const prefix=nullptr, PGM_P const suffix=nullptr) {
-  print_xyz(xyz.x, xyz.y, xyz.z, prefix, suffix);
-}
+inline void print_xyz(const xyz_pos_t &xyz, PGM_P const prefix=nullptr, PGM_P const suffix=nullptr) { // changed
+  print_xyz(xyz.x, xyz.y, xyz.z, prefix, suffix); // changed
+} // changed
 inline void print_pos(const xyze_pos_t &xyze, FSTR_P const prefix=nullptr, FSTR_P const suffix=nullptr) {
   print_pos(NUM_AXIS_ELEM(xyze), prefix, suffix);
 }

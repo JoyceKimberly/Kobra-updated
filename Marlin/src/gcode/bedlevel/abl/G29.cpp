@@ -70,14 +70,14 @@
 #if ABL_USES_GRID
   #if ENABLED(PROBE_Y_FIRST)
     #define PR_OUTER_VAR  abl.meshCount.x
-    #define PR_OUTER_SIZE abl_grid_points.x
+    #define PR_OUTER_SIZE abl_grid_points.x // changed
     #define PR_INNER_VAR  abl.meshCount.y
-    #define PR_INNER_SIZE abl_grid_points.y
+    #define PR_INNER_SIZE abl_grid_points.y // changed
   #else
     #define PR_OUTER_VAR  abl.meshCount.y
-    #define PR_OUTER_SIZE abl_grid_points.y
+    #define PR_OUTER_SIZE abl_grid_points.y // changed
     #define PR_INNER_VAR  abl.meshCount.x
-    #define PR_INNER_SIZE abl_grid_points.x
+    #define PR_INNER_SIZE abl_grid_points.x // changed
   #endif
 #endif
 
@@ -96,11 +96,11 @@ static void pre_g29_return(const bool retry, const bool did) {
   return TERN_(G29_RETRY_AND_RECOVER, retry); \
 }while(0)
 
-    #if ENABLED(AUTO_BED_LEVELING_LINEAR)
-      xy_uint8_t           abl_grid_points;
-    #else // Bilinear
-      constexpr xy_uint8_t abl_grid_points = { GRID_MAX_POINTS_X, GRID_MAX_POINTS_Y };
-    #endif
+    #if ENABLED(AUTO_BED_LEVELING_LINEAR) // changed
+      xy_uint8_t           abl_grid_points; // changed
+    #else // Bilinear // changed
+      constexpr xy_uint8_t abl_grid_points = { GRID_MAX_POINTS_X, GRID_MAX_POINTS_Y }; // changed
+    #endif // changed
 
 // For manual probing values persist over multiple G29
 class G29_State {
@@ -134,6 +134,7 @@ public:
 
     #if ENABLED(AUTO_BED_LEVELING_LINEAR)
       bool                topography_map;
+    // changed
     #endif
 
     #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
@@ -151,7 +152,7 @@ public:
 };
 
 #if ABL_USES_GRID && EITHER(AUTO_BED_LEVELING_3POINT, AUTO_BED_LEVELING_BILINEAR)
-  //constexpr xy_uint8_t G29_State::grid_points;
+  //constexpr xy_uint8_t G29_State::grid_points; // changed
   constexpr int G29_State::abl_points;
 #endif
 
@@ -369,22 +370,22 @@ G29_TYPE GcodeSuite::G29() {
 
       // X and Y specify points in each direction, overriding the default
       // These values may be saved with the completed mesh
-      abl_grid_points.set(
+      abl_grid_points.set( // changed
         parser.byteval('X', GRID_MAX_POINTS_X),
         parser.byteval('Y', GRID_MAX_POINTS_Y)
       );
-      if (parser.seenval('P')) abl_grid_points.x = abl_grid_points.y = parser.value_int();
+      if (parser.seenval('P')) abl_grid_points.x = abl_grid_points.y = parser.value_int(); // changed
 
-      if (!WITHIN(abl_grid_points.x, 2, GRID_MAX_POINTS_X)) {
+      if (!WITHIN(abl_grid_points.x, 2, GRID_MAX_POINTS_X)) { // changed
         SERIAL_ECHOLNPGM("?Probe points (X) implausible (2-" STRINGIFY(GRID_MAX_POINTS_X) ").");
         G29_RETURN(false, false);
       }
-      if (!WITHIN(abl_grid_points.y, 2, GRID_MAX_POINTS_Y)) {
+      if (!WITHIN(abl_grid_points.y, 2, GRID_MAX_POINTS_Y)) { // changed
         SERIAL_ECHOLNPGM("?Probe points (Y) implausible (2-" STRINGIFY(GRID_MAX_POINTS_Y) ").");
         G29_RETURN(false, false);
       }
 
-      abl.abl_points = abl_grid_points.x * abl_grid_points.y;
+      abl.abl_points = abl_grid_points.x * abl_grid_points.y; // changed
       abl.mean = 0;
 
     #elif ENABLED(AUTO_BED_LEVELING_BILINEAR)
@@ -420,8 +421,8 @@ G29_TYPE GcodeSuite::G29() {
       }
 
       // Probe at the points of a lattice grid
-      abl.gridSpacing.set((abl.probe_position_rb.x - abl.probe_position_lf.x) / (abl_grid_points.x - 1),
-                          (abl.probe_position_rb.y - abl.probe_position_lf.y) / (abl_grid_points.y - 1));
+      abl.gridSpacing.set((abl.probe_position_rb.x - abl.probe_position_lf.x) / (abl_grid_points.x - 1), // changed
+                          (abl.probe_position_rb.y - abl.probe_position_lf.y) / (abl_grid_points.y - 1)); // changed
 
     #endif // ABL_USES_GRID
 
@@ -701,8 +702,8 @@ G29_TYPE GcodeSuite::G29() {
         // Inner loop is X with PROBE_Y_FIRST disabled
         for (PR_INNER_VAR = inStart; PR_INNER_VAR != inStop; pt_index++, PR_INNER_VAR += inInc) {
 
-          abl.probePos.x = abl.probe_position_lf.x + abl.gridSpacing.x * abl.meshCount.x;
-          abl.probePos.y = abl.probe_position_lf.y + abl.gridSpacing.y * abl.meshCount.y;
+          abl.probePos.x = abl.probe_position_lf.x + abl.gridSpacing.x * abl.meshCount.x; // changed
+          abl.probePos.y = abl.probe_position_lf.y + abl.gridSpacing.y * abl.meshCount.y; // changed
 
           TERN_(AUTO_BED_LEVELING_LINEAR, abl.indexIntoAB[abl.meshCount.x][abl.meshCount.y] = ++abl.abl_probe_index); // 0...
 
@@ -857,8 +858,8 @@ G29_TYPE GcodeSuite::G29() {
 
         auto print_topo_map = [&](FSTR_P const title, const bool get_min) {
           SERIAL_ECHOF(title);
-          for (int8_t yy = abl_grid_points.y - 1; yy >= 0; yy--) {
-            LOOP_L_N(xx, abl_grid_points.x) {
+          for (int8_t yy = abl_grid_points.y - 1; yy >= 0; yy--) { // changed
+            LOOP_L_N(xx, abl_grid_points.x) { // changed
               const int ind = abl.indexIntoAB[xx][yy];
               xyz_float_t tmp = { abl.eqnAMatrix[ind + 0 * abl.abl_points],
                                   abl.eqnAMatrix[ind + 1 * abl.abl_points], 0 };

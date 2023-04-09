@@ -85,8 +85,8 @@ public:
   #if HAS_BED_PROBE
 
     static xyz_pos_t offset;
-    static xyz_pos_t default_probe_xyz_offset;
-    static xy_pos_t default_probe_xy_offset;
+    static xyz_pos_t default_probe_xyz_offset; // changed
+    static xy_pos_t default_probe_xy_offset; // changed
 
     #if EITHER(PREHEAT_BEFORE_PROBING, PREHEAT_BEFORE_LEVELING)
       static void preheat_for_probing(const celsius_t hotend_temp, const celsius_t bed_temp);
@@ -272,7 +272,7 @@ public:
     static float max_y() { return _max_y() TERN_(NOZZLE_AS_PROBE, TERN_(HAS_HOME_OFFSET, - home_offset.y)); }
 
     // constexpr helpers used in build-time static_asserts, relying on default probe offsets.
-    class build_time {/*
+    class build_time {/* // changed
       static constexpr xyz_pos_t default_probe_xyz_offset = xyz_pos_t(
         #if HAS_BED_PROBE
           NOZZLE_TO_PROBE_OFFSET
@@ -281,7 +281,7 @@ public:
         #endif
       );
       static constexpr xy_pos_t default_probe_xy_offset = xy_pos_t({ default_probe_xyz_offset.x,  default_probe_xyz_offset.y });
-//*/
+//*/ // changed
     public:
       static constexpr bool can_reach(float x, float y) {
         #if IS_KINEMATIC

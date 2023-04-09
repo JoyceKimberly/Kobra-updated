@@ -143,13 +143,13 @@
 #ifdef __cplusplus
 
   // C++11 solution that is standards compliant.
-  template <class V, class N> static inline void NOLESS(V& v, const N n) {
+  template <class V, class N> static inline void NOLESS(V& v, const N n) { // changed
     if (n > v) v = n;
   }
-  template <class V, class N> static inline void NOMORE(V& v, const N n) {
+  template <class V, class N> static inline void NOMORE(V& v, const N n) { // changed
     if (n < v) v = n;
   }
-  template <class V, class N1, class N2> static inline void LIMIT(V& v, const N1 n1, const N2 n2) {
+  template <class V, class N1, class N2> static inline void LIMIT(V& v, const N1 n1, const N2 n2) { // changed
     if (n1 > v) v = n1;
     else if (n2 < v) v = n2;
   }

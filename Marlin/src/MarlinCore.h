@@ -23,7 +23,7 @@
 
 #include "inc/MarlinConfig.h"
 
-#include "../../lib/drivers/board/startup.h"
+#include "../../lib/drivers/board/startup.h" // changed
 
 #include <math.h>
 #include <stdio.h>
@@ -32,7 +32,7 @@
 void stop();
 
 // Pass true to keep steppers from timing out
-void idle(bool no_stepper_sleep=false);
+void idle(const bool no_stepper_sleep=false);
 inline void idle_no_sleep() { idle(true); }
 
 #if ENABLED(G38_PROBE_TARGET)
@@ -87,6 +87,7 @@ bool pin_is_protected(const pin_t pin);
 
 extern const char M112_KILL_STR[];
 
+// changed --
 #ifdef __cplusplus
 extern "C"{
 #endif

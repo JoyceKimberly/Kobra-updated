@@ -31,7 +31,7 @@
  *  DELAY_US(count): Delay execution in microseconds
  */
 
-#include "../../core/millis_t.h"
+#include "../../core/millis_t.h" // changed
 #include "../../core/macros.h"
 
 void calibrate_delay_loop();
@@ -48,7 +48,7 @@ void calibrate_delay_loop();
   // A simple recursive template class that output exactly one 'nop' of code per recursion
   template <int N> struct NopWriter {
     FORCE_INLINE static void build() {
-      __asm("nop");
+      __asm("nop"); // changed
       NopWriter<N-1>::build();
     }
   };

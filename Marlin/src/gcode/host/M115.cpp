@@ -215,14 +215,14 @@ void GcodeSuite::M115() {
     cap_line(F("COOLER_TEMPERATURE"), ENABLED(HAS_COOLER));
 
     // MEATPACK Compression
-    //cap_line(F("MEATPACK"), SERIAL_IMPL.has_feature(port, SerialFeature::MeatPack));
+    //cap_line(F("MEATPACK"), SERIAL_IMPL.has_feature(port, SerialFeature::MeatPack)); // changed
 
     // CONFIG_EXPORT
     cap_line(F("CONFIG_EXPORT"), ENABLED(CONFIGURATION_EMBEDDING));
 
     // Machine Geometry
     #if ENABLED(M115_GEOMETRY_REPORT)
-      constexpr xyz_pos_t bmin={0},
+      constexpr xyz_pos_t bmin={0}, // changed
                           bmax = ARRAY_N(NUM_AXES, X_BED_SIZE, Y_BED_SIZE, Z_MAX_POS, I_MAX_POS, J_MAX_POS, K_MAX_POS, U_MAX_POS, V_MAX_POS, W_MAX_POS),
                           dmin = ARRAY_N(NUM_AXES, X_MIN_POS,  Y_MIN_POS,  Z_MIN_POS, I_MIN_POS, J_MIN_POS, K_MIN_POS, U_MIN_POS, V_MIN_POS, W_MIN_POS),
                           dmax = ARRAY_N(NUM_AXES, X_MAX_POS,  Y_MAX_POS,  Z_MAX_POS, I_MAX_POS, J_MAX_POS, K_MAX_POS, U_MAX_POS, V_MAX_POS, W_MAX_POS);

@@ -96,11 +96,11 @@ void print_bin(uint16_t val) {
   }
 }
 
-void print_xyz(const_float_t x, const_float_t y, const_float_t z, PGM_P const prefix/*=nullptr*/, PGM_P const suffix/*=nullptr*/) {
-  if (prefix) serial_print_P(prefix);
-  SERIAL_ECHOPGM_P(SP_X_STR, x, SP_Y_STR, y, SP_Z_STR, z);
-  if (suffix) serial_print_P(suffix); else SERIAL_EOL();
-}
+void print_xyz(const_float_t x, const_float_t y, const_float_t z, PGM_P const prefix/*=nullptr*/, PGM_P const suffix/*=nullptr*/) { // changed
+  if (prefix) serial_print_P(prefix); // changed
+  SERIAL_ECHOPGM_P(SP_X_STR, x, SP_Y_STR, y, SP_Z_STR, z); // changed
+  if (suffix) serial_print_P(suffix); else SERIAL_EOL(); // changed
+} // changed
 
 void print_pos(NUM_AXIS_ARGS(const_float_t), FSTR_P const prefix/*=nullptr*/, FSTR_P const suffix/*=nullptr*/) {
   if (prefix) serial_print(prefix);

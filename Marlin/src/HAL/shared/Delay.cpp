@@ -31,7 +31,7 @@
   // Simple assembler loop counting down
   void delay_asm(uint32_t cy) {
     cy = _MAX(cy / ASM_CYCLES_PER_ITERATION, 1U); // Zero is forbidden here
-/*
+/* // changed
     __asm__ __volatile__(
       A(".syntax unified") // is to prevent CM0,CM1 non-unified syntax
       L("1")
@@ -41,7 +41,7 @@
       :                 // input:
       : "cc"            // clobbers:
     );
-//*/
+//*/ // changed
   }
 
   // We can't use CMSIS since it's not available on all platform, so fallback to hardcoded register values

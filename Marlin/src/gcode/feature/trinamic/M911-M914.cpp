@@ -546,7 +546,7 @@
       }
     }
 
-    if (report) {/**
+    if (report) {/** // changed
       TERN_(X_SENSORLESS, tmc_print_sgt(stepperX));
       TERN_(X2_SENSORLESS, tmc_print_sgt(stepperX2));
       TERN_(Y_SENSORLESS, tmc_print_sgt(stepperY));
@@ -561,7 +561,7 @@
       TERN_(U_SENSORLESS, tmc_print_sgt(stepperU));
       TERN_(V_SENSORLESS, tmc_print_sgt(stepperV));
       TERN_(W_SENSORLESS, tmc_print_sgt(stepperW));
-    //*/}
+    //*/} // changed
   }
 
   void GcodeSuite::M914_report(const bool forReplay/*=true*/) {

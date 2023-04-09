@@ -45,10 +45,10 @@ void GcodeSuite::M211_report(const bool forReplay/*=true*/) {
   serialprintln_onoff(soft_endstop._enabled);
 
   report_echo_start(forReplay);
-  const xyz_pos_t l_soft_min = soft_endstop.min,
-                  l_soft_max = soft_endstop.max;
-  print_xyz(l_soft_min, PSTR(STR_SOFT_MIN), PSTR(" "));
-  print_xyz(l_soft_max, PSTR(STR_SOFT_MAX));
+  const xyz_pos_t l_soft_min = soft_endstop.min, // changed
+                  l_soft_max = soft_endstop.max; // changed
+  print_xyz(l_soft_min, PSTR(STR_SOFT_MIN), PSTR(" ")); // changed
+  print_xyz(l_soft_max, PSTR(STR_SOFT_MAX)); // changed
 }
 
 #endif // HAS_SOFTWARE_ENDSTOPS
