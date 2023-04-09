@@ -20,7 +20,9 @@ Please do not install this on your machine in order to use it. I cannot promise 
 
 # To do
 
+- Add a note to all changed lines like: // changed
 - Fix menu getting stuck after auto-leveling
+- Fix HAS_STATUS_MESSAGE
 - Finish HAL
 - Make MarlinSerial work
 - Completely redo kobra extui and dgus so it makes sense
