@@ -557,7 +557,7 @@
   #define FTM_TS              0.001f                    // (s) Time step for trajectory generation. (1 / FTM_FS)
   #define FTM_STEPPER_FS  20000                         // (Hz) Frequency for stepper I/O update.
   #define FTM_MIN_TICKS ((STEPPER_TIMER_RATE) / (FTM_STEPPER_FS)) // Minimum stepper ticks between steps.
-  #define FTM_MIN_SHAPE_FREQ 10                         // Minimum shaping frequency.
+  #define FTM_MIN_SHAPE_FREQ  0                         // Minimum shaping frequency.
   #define FTM_ZMAX          100                         // Maximum delays for shaping functions (even numbers only!).
                                                         // Calculate as:
                                                         //    1/2 * (FTM_FS / FTM_MIN_SHAPE_FREQ) for ZV.
@@ -1853,7 +1853,7 @@
  * Host Prompt Support enables Marlin to use the host for user prompts so
  * filament runout and other processes can be managed from the host side.
  */
-//#define HOST_ACTION_COMMANDS
+#define HOST_ACTION_COMMANDS
 #if ENABLED(HOST_ACTION_COMMANDS)
   //#define HOST_PAUSE_M76                // Tell the host to pause in response to M76
   //#define HOST_PROMPT_SUPPORT           // Initiate host prompts to get user feedback
