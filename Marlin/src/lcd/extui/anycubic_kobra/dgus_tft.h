@@ -183,7 +183,7 @@
 
 #define TXT_ABOUT_DEVICE_NAME    0x2750
 #define TXT_ABOUT_FW_VERSION     0x2690
-#define TXT_ABOUT_PRINT_VOLUMN   0x2770
+#define TXT_ABOUT_PRINT_VOLUME   0x2770
 #define TXT_ABOUT_TECH_SUPPORT   0x2790
 
 /*********************** KEY VALUE **************************/
@@ -299,8 +299,9 @@
 #define KEY_RECORD_PaDn    3
 #define KEY_RECORD_FLASH   4
 
-#define COLOR_RED  0xF800
-#define COLOR_BLUE 0x0210
+#define COLOR_RED   0xF800
+#define COLOR_BLUE  0x0210
+#define COLOR_WHITE 0xFFFF
 
 namespace Anycubic {
 
@@ -450,8 +451,8 @@ namespace Anycubic {
 
       static void pop_up_manager();
 
-      static void SendtoTFT(FSTR_P const=nullptr);
-      static void SendtoTFTLN(FSTR_P const=nullptr);
+      static void SendtoTFT(PGM_P);
+      static void SendtoTFTLN(PGM_P);
       static bool ReadTFTCommand();
       static int8_t Findcmndpos(const char *, const char);
       static void CheckHeaters();
@@ -462,12 +463,12 @@ namespace Anycubic {
       static void PanelAction(uint8_t);
       static void PanelProcess(uint8_t);
 
-      static void SendValueToTFT(const uint16_t value, const uint16_t address);
-      static void RequestValueFromTFT(const uint16_t address);
-      static void SendTxtToTFT(const char *pdata, const uint16_t address);
+      static void SendValueToTFT(uint32_t value, uint32_t address);
+      static void RequestValueFromTFT(uint32_t address);
+      static void SendTxtToTFT(const char *pdata, uint32_t address);
       static void SendColorToTFT(uint32_t color, uint32_t address);
-      static void SendReadNumOfTxtToTFT(const uint8_t number, const uint16_t address);
-      static void ChangePageOfTFT(const uint16_t page_index, const bool no_send=false);
+      static void SendReadNumOfTxtToTFT(uint8_t number, uint32_t address);
+      static void ChangePageOfTFT(uint32_t page_index);
       static void FakeChangePageOfTFT(uint32_t page_index);
       static void LcdAudioSet(const bool audio_on);
 
