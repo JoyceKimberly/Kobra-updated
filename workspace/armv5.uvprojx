@@ -1125,6 +1125,36 @@
               <FileType>5</FileType>
               <FilePath>..\Marlin\src\lcd\extui\anycubic_kobra\Tunes.h</FilePath>
             </File>
+            <File>
+              <FileName>buttons.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\lcd\buttons.h</FilePath>
+            </File>
+            <File>
+              <FileName>fontutils.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\src\lcd\fontutils.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>fontutils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\lcd\fontutils.h</FilePath>
+            </File>
+            <File>
+              <FileName>lcdprint.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\src\lcd\lcdprint.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>lcdprint.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\lcd\lcdprint.h</FilePath>
+            </File>
+            <File>
+              <FileName>scaled_tft.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\lcd\scaled_tft.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
