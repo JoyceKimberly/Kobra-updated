@@ -208,9 +208,9 @@ uint32_t Stepper::acceleration_time, Stepper::deceleration_time;
 
 IF_DISABLED(ADAPTIVE_STEP_SMOOTHING, constexpr) uint8_t Stepper::oversampling_factor;
 
-xyze_long_t Stepper::delta_error={0};
+xyze_long_t Stepper::delta_error={0}; // changed
 
-xyze_ulong_t Stepper::advance_dividend={0};
+xyze_ulong_t Stepper::advance_dividend={0}; // changed
 uint32_t Stepper::advance_divisor = 0,
          Stepper::step_events_completed = 0, // The number of step events executed in the current block
          Stepper::accelerate_until,          // The count at which to stop accelerating
@@ -280,8 +280,8 @@ hal_timer_t Stepper::ticks_nominal = 0;
 #endif
 
 xyz_long_t Stepper::endstops_trigsteps;
-xyze_long_t Stepper::count_position={0};
-xyze_int8_t Stepper::count_direction={0};
+xyze_long_t Stepper::count_position={0}; // changed
+xyze_int8_t Stepper::count_direction={0}; // changed
 
 #define MINDIR(A) (count_direction[_AXIS(A)] < 0)
 #define MAXDIR(A) (count_direction[_AXIS(A)] > 0)
@@ -491,8 +491,8 @@ xyze_int8_t Stepper::count_direction={0};
 #define PULSE_HIGH_TICK_COUNT hal_timer_t(NS_TO_PULSE_TIMER_TICKS(_MIN_PULSE_HIGH_NS - _MIN(_MIN_PULSE_HIGH_NS, TIMER_SETUP_NS)))
 #define PULSE_LOW_TICK_COUNT hal_timer_t(NS_TO_PULSE_TIMER_TICKS(_MIN_PULSE_LOW_NS - _MIN(_MIN_PULSE_LOW_NS, TIMER_SETUP_NS)))
 
-hal_timer_t start_pulse_count = 0;
-#define USING_TIMED_PULSE() start_pulse_count = 0
+hal_timer_t start_pulse_count = 0; // changed
+#define USING_TIMED_PULSE() start_pulse_count = 0 // changed
 #define START_TIMED_PULSE() (start_pulse_count = HAL_timer_get_count(MF_TIMER_PULSE))
 #define AWAIT_TIMED_PULSE(DIR) while (PULSE_##DIR##_TICK_COUNT > HAL_timer_get_count(MF_TIMER_PULSE) - start_pulse_count) { /* nada */ }
 #define AWAIT_HIGH_PULSE() AWAIT_TIMED_PULSE(HIGH)
@@ -1385,7 +1385,7 @@ void Stepper::set_directions() {
     }
 
     FORCE_INLINE int32_t Stepper::_eval_bezier_curve(const uint32_t curr_step) {
-      #if 0//defined(__arm__) || defined(__thumb__)) && __ARM_ARCH >= 6 && !defined(STM32G0B1xx) // TODO: Test define STM32G0xx versus STM32G0B1xx
+      #if 0//defined(__arm__) || defined(__thumb__)) && __ARM_ARCH >= 6 && !defined(STM32G0B1xx) // TODO: Test define STM32G0xx versus STM32G0B1xx // changed
 
         // For ARM Cortex M3/M4 CPUs, we have the optimized assembler version, that takes 43 cycles to execute
         uint32_t flo = 0;
@@ -1775,7 +1775,7 @@ void Stepper::pulse_phase_isr() {
   const bool is_page = current_block->is_page();
 
   do {
-    AxisFlags step_needed={0};
+    AxisFlags step_needed={0}; // changed
 
     #define _APPLY_STEP(AXIS, INV, ALWAYS) AXIS ##_APPLY_STEP(INV, ALWAYS)
     #define _STEP_STATE(AXIS) STEP_STATE_## AXIS
@@ -2113,7 +2113,7 @@ void Stepper::pulse_phase_isr() {
 #if HAS_ZV_SHAPING
 
   void Stepper::shaping_isr() {
-    AxisFlags step_needed={0};
+    AxisFlags step_needed={0}; // changed
 
     // Clear the echoes that are ready to process. If the buffers are too full and risk overflow, also apply echoes early.
     TERN_(INPUT_SHAPING_X, step_needed.x = !ShapingQueue::peek_x() || ShapingQueue::free_count_x() < steps_per_isr);
@@ -2675,7 +2675,7 @@ hal_timer_t Stepper::block_phase_isr() {
       delta_error = TERN_(LIN_ADVANCE, la_delta_error =) -int32_t(step_event_count);
 
       // Calculate Bresenham dividends and divisors
-      advance_dividend = (current_block->steps << 1);
+      advance_dividend = (current_block->steps << 1); // changed
       advance_divisor = step_event_count << 1;
 
       #if ENABLED(INPUT_SHAPING_X)

@@ -38,9 +38,6 @@
 
 using namespace ExtUI;
 
-#define DEBUG_OUT ACDEBUG(AC_FILE)
-#include "../../../core/debug_out.h"
-
 namespace Anycubic {
 
   FileList  FileNavigator::filelist;                          // Instance of the Marlin file API

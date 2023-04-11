@@ -1061,16 +1061,6 @@
           <GroupName>src_lcd</GroupName>
           <Files>
             <File>
-              <FileName>ui_api.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\ui_api.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>ui_api.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\ui_api.h</FilePath>
-            </File>
-            <File>
               <FileName>marlinui.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\lcd\marlinui.cpp</FilePath>
@@ -1079,6 +1069,16 @@
               <FileName>marlinui.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Marlin\src\lcd\marlinui.h</FilePath>
+            </File>
+            <File>
+              <FileName>ui_api.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\src\lcd\extui\ui_api.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>ui_api.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\lcd\extui\ui_api.h</FilePath>
             </File>
             <File>
               <FileName>thermistornames.h</FileName>
@@ -1379,16 +1379,6 @@
               <FileName>backlash.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Marlin\src\feature\backlash.h</FilePath>
-            </File>
-            <File>
-              <FileName>host_actions.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\host_actions.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>host_actions.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\host_actions.h</FilePath>
             </File>
           </Files>
         </Group>

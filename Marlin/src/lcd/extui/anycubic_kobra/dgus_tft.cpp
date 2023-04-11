@@ -138,7 +138,7 @@ namespace Anycubic {
 
     // Enable leveling and Disable end stops during print
     // as Z home places nozzle above the bed so we need to allow it past the end stops
-    injectCommands_P(AC_cmnd_enable_leveling);
+    injectCommands(AC_cmnd_enable_leveling);
 
     // Startup tunes are defined in Tunes.h
     //PlayTune(BEEPER_PIN, Anycubic_PowerOn, 1);
@@ -479,7 +479,7 @@ namespace Anycubic {
           #if ACDEBUG(AC_MARLIN)
             DEBUG_ECHOLNPGM("send M108 ", __LINE__);
           #endif
-          injectCommands_P(PSTR("M108"));
+          injectCommands(F("M108"));
 
           if (pause_state != AC_paused_filament_lack)
             pause_state = AC_paused_idle;
@@ -492,7 +492,7 @@ namespace Anycubic {
           #if ACDEBUG(AC_MARLIN)
             DEBUG_ECHOLNPGM("send M108 ", __LINE__);
           #endif
-          injectCommands_P(PSTR("M108"));
+          injectCommands(F("M108"));
 
           if (pause_state != AC_paused_filament_lack)
             pause_state = AC_paused_idle;
@@ -644,9 +644,6 @@ namespace Anycubic {
   }
 
   void DgusTFT::HomingComplete() {
-    if (lcd_info.language == ENG && page_index_last > 120)
-      page_index_last -= 120;
-
     #if ACDEBUG(AC_MARLIN)
       DEBUG_ECHOLNPGM("HomingComplete, line: ", __LINE__);
       DEBUG_ECHOLNPGM("page_index_last: ", page_index_last);
@@ -826,7 +823,6 @@ namespace Anycubic {
       if (page_index_saved != page_index_now)
         DEBUG_ECHOLNPGM("FakeChangePageOfTFT: ", page_index);
     #endif
-
     uint8_t data_buf[20] = {0};
     uint8_t data_index = 0;
     uint32_t data_temp = 0;
@@ -1193,6 +1189,9 @@ namespace Anycubic {
       const millis_t ms = millis();
       if (PENDING(ms, flash_time)) return;
       flash_time = ms + 1500;
+
+      TERN_(HAS_HOTEND, send_temperature_hotend(TXT_PREHEAT_HOTEND));
+      TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_PREHEAT_BED));
     #endif
   }
 
@@ -1269,7 +1268,7 @@ namespace Anycubic {
             #if ENABLED(POWER_LOSS_RECOVERY)
               if (printer_state == AC_printer_resuming_from_power_outage) {
                 // Need to home here to restore the Z position
-                //injectCommands_P(AC_cmnd_power_loss_recovery);
+                //injectCommands(AC_cmnd_power_loss_recovery);
                 //SERIAL_ECHOLNPGM("start resuming from power outage: ", AC_cmnd_power_loss_recovery);
                 ChangePageOfTFT(PAGE_STATUS2);    // show pause
                 injectCommands(F("M1000"));       // home and start recovery
@@ -1288,7 +1287,7 @@ namespace Anycubic {
 
             // Allows printer to restart the job if we don't want to recover
             if (printer_state == AC_printer_resuming_from_power_outage) {
-              injectCommands_P(PSTR("M1000 C"));   // Cancel recovery
+              injectCommands(F("M1000 C"));   // Cancel recovery
               printer_state = AC_printer_idle;
             }
 
@@ -1404,7 +1403,7 @@ namespace Anycubic {
       case 4:     // print change param
         ChangePageOfTFT(PAGE_ADJUST);
         TERN_(CASE_LIGHT_ENABLE, SendValueToTFT(getCaseLightState(), ADDRESS_PRINT_SETTING_LED_STATUS));
-        SendValueToTFT((uint16_t)getTargetTemp_celsius(E0), TXT_ADJUST_HOTEND);
+        TERN_(HAS_HOTEND, SendValueToTFT(uint16_t(getTargetTemp_celsius(E0)), TXT_ADJUST_HOTEND));
         SendValueToTFT((uint16_t)getTargetTemp_celsius(BED), TXT_ADJUST_BED);
         feedrate_back = (uint16_t)getFeedrate_percent();
         SendValueToTFT(feedrate_back, TXT_ADJUST_SPEED);
@@ -1437,6 +1436,9 @@ namespace Anycubic {
     sprintf(str_buf, "%s H ", utostr3(time / 60));
     sprintf(str_buf + strlen(str_buf), "%s M", utostr3(time % 60));
     SendTxtToTFT(str_buf, TXT_PRINT_TIME);
+
+    TERN_(HAS_HOTEND, send_temperature_hotend(TXT_PRINT_HOTEND));
+    TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_PRINT_BED));
   }
 
   void DgusTFT::page4() { // PAGE_STATUS2 (show pause)
@@ -1508,6 +1510,9 @@ namespace Anycubic {
     sprintf(str_buf, "%s H ", utostr3(time / 60));
     sprintf(str_buf + strlen(str_buf), "%s M", utostr3(time % 60));
     SendTxtToTFT(str_buf, TXT_PRINT_TIME);
+
+    TERN_(HAS_HOTEND, send_temperature_hotend(TXT_PRINT_HOTEND));
+    TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_PRINT_BED));
   }
 
   void DgusTFT::page5() { // PAGE_ADJUST (print settings)
@@ -1660,8 +1665,10 @@ namespace Anycubic {
           SendValueToTFT(uint16_t(getActualTemp_celsius(E0)), TXT_HOTEND_NOW);
           SendValueToTFT(uint16_t(getTargetTemp_celsius(E0)), TXT_HOTEND_TARGET);
         #endif
-          SendValueToTFT((uint16_t)getActualTemp_celsius(BED), TXT_BED_NOW);
-          SendValueToTFT((uint16_t)getTargetTemp_celsius(BED), TXT_BED_TARGET);
+        #if HAS_HEATED_BED
+          SendValueToTFT(uint16_t(getActualTemp_celsius(BED)), TXT_BED_NOW);
+          SendValueToTFT(uint16_t(getTargetTemp_celsius(BED)), TXT_BED_TARGET);
+        #endif
         break;
 
       case 4:
@@ -1670,8 +1677,8 @@ namespace Anycubic {
           SendValueToTFT(uint16_t(getActualFan_percent(FAN0)), TXT_FAN_SPEED_NOW);
           SendValueToTFT(uint16_t(getTargetFan_percent(FAN0)), TXT_FAN_SPEED_TARGET);
         #endif
-        SendValueToTFT((uint16_t)getFeedrate_percent(), TXT_PRINT_SPEED_NOW);
-        SendValueToTFT((uint16_t)getFeedrate_percent(), TXT_PRINT_SPEED_TARGET);
+        SendValueToTFT(uint16_t(getFeedrate_percent()), TXT_PRINT_SPEED_NOW);
+        SendValueToTFT(uint16_t(getFeedrate_percent()), TXT_PRINT_SPEED_TARGET);
         break;
 
       case 5:       // turn off the xyz motor
@@ -1835,7 +1842,7 @@ namespace Anycubic {
     flash_time = ms + 1500;
 
     SendValueToTFT(uint16_t(getActualTemp_celsius(E0)), TXT_HOTEND_NOW);
-    SendValueToTFT( (uint16_t)getActualTemp_celsius(BED), TXT_BED_NOW);
+    SendValueToTFT(uint16_t(getActualTemp_celsius(BED)), TXT_BED_NOW);
   }
 
   void DgusTFT::page10() { // PAGE_SPEED
@@ -1871,7 +1878,7 @@ namespace Anycubic {
     flash_time = ms + 1500;
 
     SendValueToTFT(uint16_t(getActualFan_percent(FAN0)), TXT_FAN_SPEED_NOW);
-    SendValueToTFT((uint16_t)getFeedrate_percent(), TXT_PRINT_SPEED_NOW);
+    SendValueToTFT(uint16_t(getFeedrate_percent()), TXT_PRINT_SPEED_NOW);
   }
 
   void DgusTFT::page11() { // PAGE_SYSTEM_AUDIO_ON
@@ -1904,7 +1911,7 @@ namespace Anycubic {
       case 5: {      // about
         char str_ver[32];
         //sprintf(str_ver, "%04d-%02d-%02d %02d:%02d:%02d\n", BUILD_YEAR, BUILD_MONTH, BUILD_DAY, BUILD_HOUR, BUILD_MIN, BUILD_SEC);
-        SendTxtToTFT(DEVICE_NAME, TXT_ABOUT_DEVICE_NAME);
+        SendTxtToTFT(DEVICE_NAME,  TXT_ABOUT_DEVICE_NAME);
         SendTxtToTFT(FIRMWARE_VER, TXT_ABOUT_FW_VERSION);
         SendTxtToTFT(BUILD_VOLUME, TXT_ABOUT_PRINT_VOLUME);
         SendTxtToTFT(TECH_SUPPORT, TXT_ABOUT_TECH_SUPPORT);
@@ -1977,7 +1984,6 @@ namespace Anycubic {
         key_value_saved = key_value;
       }
     #endif
-    char str_buf[16];
 
     switch (key_value) {
       case 0: break;
@@ -1993,18 +1999,14 @@ namespace Anycubic {
       #if HAS_HOTEND || HAS_HEATED_BED
         case 3: {
           ChangePageOfTFT(PAGE_PREHEAT);
-          sprintf(str_buf,"%u/%u",(uint16_t)getActualTemp_celsius(E0), (uint16_t)getTargetTemp_celsius(E0));
-          SendTxtToTFT(str_buf, TXT_PREHEAT_HOTEND);
-          sprintf(str_buf,"%u/%u",(uint16_t)getActualTemp_celsius(BED), (uint16_t)getTargetTemp_celsius(BED));
-          SendTxtToTFT(str_buf, TXT_PREHEAT_BED);
+          TERN_(HAS_HOTEND, send_temperature_hotend(TXT_PREHEAT_HOTEND));
+          TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_PREHEAT_BED));
         } break;
       #endif
 
       #if HAS_EXTRUDERS
         case 4: {
-          str_buf[0] = 0;
-          sprintf(str_buf,"%u/%u", (uint16_t)getActualTemp_celsius(E0), (uint16_t)getTargetTemp_celsius(E0));
-          SendTxtToTFT(str_buf, TXT_FILAMENT_TEMP);
+          send_temperature_hotend(TXT_FILAMENT_TEMP);
           ChangePageOfTFT(PAGE_FILAMENT);
         } break;
       #endif
@@ -2158,11 +2160,8 @@ namespace Anycubic {
       if (PENDING(ms, flash_time)) return;
       flash_time = ms + 1500;
 
-      char str_buf[16];
-      sprintf(str_buf,"%u/%u",(uint16_t)getActualTemp_celsius(E0), (uint16_t)getTargetTemp_celsius(E0));
-      SendTxtToTFT(str_buf, TXT_PREHEAT_HOTEND);
-      sprintf(str_buf,"%u/%u",(uint16_t)getActualTemp_celsius(BED), (uint16_t)getTargetTemp_celsius(BED));
-      SendTxtToTFT(str_buf, TXT_PREHEAT_BED);
+      TERN_(HAS_HOTEND, send_temperature_hotend(TXT_PREHEAT_HOTEND));
+      TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_PREHEAT_BED));
     }
 
   #endif // HAS_HOTEND || HAS_HEATED_BED
@@ -2225,11 +2224,11 @@ namespace Anycubic {
       if (!isPrinting()) {
         if (filament_status == 1) {
           if (canMove(E0) && !commandsInQueue())
-            injectCommands_P(AC_cmnd_manual_load_filament);
+            injectCommands(AC_cmnd_manual_load_filament);
         }
         else if (filament_status == 2) {
           if (canMove(E0) && !commandsInQueue())
-            injectCommands_P(AC_cmnd_manual_unload_filament);
+            injectCommands(AC_cmnd_manual_unload_filament);
         }
       }
     }
@@ -2426,7 +2425,7 @@ namespace Anycubic {
         }
         else {
           if (printer_state == AC_printer_resuming_from_power_outage)
-            injectCommands_P(PSTR("M1000 C"));         // Cancel recovery
+            injectCommands(F("M1000 C"));         // Cancel recovery
           printer_state = AC_printer_idle;
           setFeedrate_percent(100);           // resume print speed to 100
         }
@@ -2570,31 +2569,11 @@ namespace Anycubic {
           #if PROBING_NOZZLE_TEMP || LEVELING_NOZZLE_TEMP
             setTargetTemp_celsius(LEVELING_NOZZLE_TEMP, E0);
           #endif
-
           #if PROBING_BED_TEMP || LEVELING_BED_TEMP
             setTargetTemp_celsius(LEVELING_BED_TEMP, BED);
           #endif
-
           injectCommands_P(PSTR("M851 Z0\nG28\nG29"));
           printer_state = AC_printer_probing;
-
-          // this will cause leveling->preheating->leveling
-          #if 0
-            #if ENABLED(PREHEAT_BEFORE_LEVELING)
-              if (getTargetTemp_celsius(E0) < LEVELING_NOZZLE_TEMP
-                 || getTargetTemp_celsius(BED) < LEVELING_BED_TEMP
-              ) {
-                setTargetTemp_celsius(LEVELING_NOZZLE_TEMP, E0);
-                setTargetTemp_celsius(LEVELING_BED_TEMP, BED);
-                ChangePageOfTFT(PAGE_PROBE_PREHEATING);
-              }
-              else
-                ChangePageOfTFT(PAGE_LEVELING);
-
-            #else
-              ChangePageOfTFT(PAGE_LEVELING);
-            #endif
-          #endif
 
           ChangePageOfTFT(PAGE_LEVELING);
           break;
@@ -2624,6 +2603,9 @@ namespace Anycubic {
         const millis_t ms = millis();
         if (PENDING(ms, flash_time)) return;
         flash_time = ms + 1500;
+
+        TERN_(HAS_HOTEND, send_temperature_hotend(TXT_MAIN_HOTEND));
+        TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_MAIN_BED));
       #endif
 
       if (pop_up_index == 25) {
@@ -2696,7 +2678,7 @@ namespace Anycubic {
 
       case 5:       // about
         char str_ver[32];
-        SendTxtToTFT(DEVICE_NAME, TXT_ABOUT_DEVICE_NAME);
+        SendTxtToTFT(DEVICE_NAME,  TXT_ABOUT_DEVICE_NAME);
         SendTxtToTFT(FIRMWARE_VER, TXT_ABOUT_FW_VERSION);
         SendTxtToTFT(BUILD_VOLUME, TXT_ABOUT_PRINT_VOLUME);
         SendTxtToTFT(TECH_SUPPORT, TXT_ABOUT_TECH_SUPPORT);
@@ -2771,6 +2753,9 @@ namespace Anycubic {
         const millis_t ms = millis();
         if (PENDING(ms, flash_time)) return;
         flash_time = ms + 1500;
+
+        TERN_(HAS_HOTEND, send_temperature_hotend(TXT_MAIN_HOTEND));
+        TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_MAIN_BED));
       #endif
     }
 
@@ -2813,37 +2798,6 @@ namespace Anycubic {
       default: break;
     }
   }
-
-  #if 0
-    void DgusTFT::page178_to_181_190_to_193() {  // temperature abnormal
-      #if ACDEBUG(AC_ALL)
-      if ((page_index_saved != page_index_now) || (key_value_saved != key_value)) {
-        DEBUG_ECHOLNPGM("page178_to_181_190_to_193  page_index_last_2: ", page_index_last_2,  "  page_index_last: ", page_index_last, "  page_index_now: ", page_index_now, "  key: ", key_value);
-        page_index_saved = page_index_now;
-        key_value_saved = key_value;
-      }
-      #endif
-      switch (key_value) {
-        case 1:     // return
-          SERIAL_ECHOLNPGM("page_index_now: ", page_index_now);
-          SERIAL_ECHOLNPGM("page_index_last: ", page_index_last);
-          SERIAL_ECHOLNPGM("page_index_last_2: ", page_index_last_2);
-
-          if (isPrinting() || isPrintingPaused() || isPrintingFromMedia()) {
-            printer_state = AC_printer_stopping;
-            stopPrint();
-            ChangePageOfTFT(PAGE_MAIN);
-          }
-          else
-            ChangePageOfTFT(page_index_last);
-
-          onSurviveInKilled();
-          break;
-
-        default: break;
-      }
-    }
-  #endif
 
   void DgusTFT::page199_to_200() {
     #if ACDEBUG(AC_ALL)
@@ -2977,6 +2931,9 @@ namespace Anycubic {
       const millis_t ms = millis();
       if (PENDING(ms, flash_time)) return;
       flash_time = ms + 1500;
+
+      TERN_(HAS_HOTEND, send_temperature_hotend(TXT_MAIN_HOTEND));
+      TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_MAIN_BED));
     #endif
   }
 

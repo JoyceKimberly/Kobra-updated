@@ -83,22 +83,6 @@
 #define  AC_msg_start_probing          F("J26")
 #define  AC_msg_version                F("J27")
 #define  AC_msg_bed_temp_abnormal      F("J28")
-#define AC_msg_mesh_changes_abandoned  PSTR("Mesh changes abandoned, previous mesh restored.")
-#define AC_msg_mesh_changes_saved      PSTR("Mesh changes saved.")
-#define AC_msg_old_panel_detected      PSTR("Standard TFT panel detected!")
-#define AC_msg_new_panel_detected      PSTR("New TFT panel detected!")
-#define AC_msg_auto_panel_detection    PSTR("Auto detect panel type (assuming new panel)")
-#define AC_msg_old_panel_set           PSTR("Set for standard TFT panel.")
-#define AC_msg_new_panel_set           PSTR("Set for new TFT panel.")
-
-#define AC_msg_powerloss_recovery      PSTR("Resuming from power outage! select the same SD file then press resume")
-// Error messages must not contain spaces
-#define AC_msg_error_bed_temp          PSTR("Abnormal_bed_temp")
-#define AC_msg_error_hotend_temp       PSTR("Abnormal_hotend_temp")
-#define AC_msg_error_sd_card           PSTR("SD_card_error")
-#define AC_msg_filament_out            PSTR("Filament_runout")
-#define AC_msg_power_loss              PSTR("Power_failure")
-#define AC_msg_eeprom_version          PSTR("EEPROM_ver_wrong")
 
 #define MARLIN_msg_probing_point       PSTR("Probing Point ")
 #define MARLIN_msg_start_probing       PSTR("Probing Point 1/25")
@@ -111,7 +95,7 @@
 
 #define MARLIN_msg_probe_preheat_start PSTR("Probe preheat start")
 #define MARLIN_msg_probe_preheat_stop  PSTR("Probe preheat stop")
-#define MARLIN_msg_EEPROM_version      PSTR("EEPROM Version Error")
+
 
 #define MARLIN_msg_nozzle_parked       PSTR("Nozzle Parked")
 #define MARLIN_msg_heater_timeout      PSTR("Heater Timeout")
@@ -120,14 +104,14 @@
 #define MARLIN_msg_filament_purging    PSTR("Filament Purging...")
 #define MARLIN_msg_media_removed       PSTR("Media Removed")
 #define MARLIN_msg_special_pause       PSTR("PB")
-#define AC_cmnd_auto_unload_filament   PSTR("M701")                    // Use Marlin unload routine
-#define AC_cmnd_auto_load_filament     PSTR("M702 M0 PB")              // Use Marlin load routing then pause for user to clean nozzle
 
-#define AC_cmnd_manual_load_filament   PSTR("M83\nG1 E50 F300\nM82")   // replace the manual panel commands with something a little faster
-#define AC_cmnd_manual_unload_filament PSTR("M83\nG1 E-60 F900\nM82")
-#define AC_cmnd_manual_unload_filament_first_in PSTR("M83\nG1 E10 F300\nM82")
-#define AC_cmnd_enable_leveling        PSTR("M420 S1 V1")
-#define AC_cmnd_power_loss_recovery    PSTR("G28 R5 X Y\nG28 Z")       // Lift, home X and Y then home Z when in 'safe' position
+#define AC_cmnd_auto_unload_filament   F("M701")                    // Use Marlin unload routine
+#define AC_cmnd_auto_load_filament     F("M702 M0 PB")              // Use Marlin load routing then pause for user to clean nozzle
+
+#define AC_cmnd_manual_load_filament   F("M83\nG1 E50 F700\nM82")   // replace the manual panel commands with something a little faster
+#define AC_cmnd_manual_unload_filament F("M83\nG1 E-50 F1200\nM82")
+#define AC_cmnd_enable_leveling        F("M420SV")
+#define AC_cmnd_power_loss_recovery    F("G28XYR5\nG28Z")           // Lift, home X and Y then home Z when in 'safe' position
 
 namespace Anycubic {
   enum heater_state_t : uint8_t {
