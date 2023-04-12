@@ -117,7 +117,6 @@
 // Reduce baud rate to improve software serial reliability
 #define TMC_BAUD_RATE                     115200
 
-
 //
 // Temperature Sensors
 //
