@@ -991,8 +991,6 @@ namespace Anycubic {
             control_value = (uint16_t(data_buf[4]) << 8) | uint16_t(data_buf[5]);
             temp = constrain(uint16_t(control_value), 0, HEATER_0_MAXTEMP);
             setTargetTemp_celsius(temp, E0);
-            //sprintf(str_buf,"%u/%u", (uint16_t)thermalManager.degHotend(0), uint16_t(control_value));
-            //SendTxtToTFT(str_buf, TXT_PRINT_HOTEND);
           }
         #endif
 
@@ -1004,8 +1002,6 @@ namespace Anycubic {
            *p_u8 = data_buf[4];
             temp = constrain((uint16_t)control_value, 0, BED_MAXTEMP);
             setTargetTemp_celsius(temp, BED);
-            //sprintf(str_buf,"%u/%u", uint16_t(thermalManager.degBed()), uint16_t(control_value));
-            //SendTxtToTFT(str_buf, TXT_PRINT_BED);
           }
         #endif
 
@@ -1436,9 +1432,6 @@ namespace Anycubic {
     sprintf(str_buf, "%s H ", utostr3(time / 60));
     sprintf(str_buf + strlen(str_buf), "%s M", utostr3(time % 60));
     SendTxtToTFT(str_buf, TXT_PRINT_TIME);
-
-    TERN_(HAS_HOTEND, send_temperature_hotend(TXT_PRINT_HOTEND));
-    TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_PRINT_BED));
   }
 
   void DgusTFT::page4() { // PAGE_STATUS2 (show pause)
@@ -1510,9 +1503,6 @@ namespace Anycubic {
     sprintf(str_buf, "%s H ", utostr3(time / 60));
     sprintf(str_buf + strlen(str_buf), "%s M", utostr3(time % 60));
     SendTxtToTFT(str_buf, TXT_PRINT_TIME);
-
-    TERN_(HAS_HOTEND, send_temperature_hotend(TXT_PRINT_HOTEND));
-    TERN_(HAS_HEATED_BED, send_temperature_bed(TXT_PRINT_BED));
   }
 
   void DgusTFT::page5() { // PAGE_ADJUST (print settings)
