@@ -525,8 +525,8 @@ namespace Anycubic {
             if (probe_cnt == GRID_MAX_POINTS_X * GRID_MAX_POINTS_Y) {
               probe_cnt = 0;
               injectCommands_P(PSTR("M500"));
-              FakeChangePageOfTFT(PAGE_PreLEVEL); // Prevent UI refreshing too quickly when probing is done
-              printer_state = AC_printer_idle;
+              FakeChangePageOfTFT(PAGE_LEVEL_ADVANCE); // Prevent UI refreshing too quickly when probing is done
+              //printer_state = AC_printer_idle;
               msg_matched   = true;
             }
           }
