@@ -37,11 +37,7 @@
 #define DATA_BUF_SIZE       64
 
 /****************** PAGE INDEX***********************/
-#if ENABLED(LCD_KOBRA_EXTENDED)
-  #define PAGE_OFFSET       0
-#else
-  #define PAGE_OFFSET       120
-#endif
+#define PAGE_OFFSET         120
 #define PAGE_MAIN           (1+PAGE_OFFSET)
 #define PAGE_FILE           (2+PAGE_OFFSET)
 #define PAGE_STATUS1        (3+PAGE_OFFSET)  // show resume
@@ -75,32 +71,32 @@
 #define PAGE_LEVEL_ENSURE   (33+PAGE_OFFSET)
 #define PAGE_LEVELING       (34+PAGE_OFFSET)
 
-#define PAGE_AUTO_OFFSET               (115)
+#define PAGE_AUTO_OFFSET    (115+PAGE_OFFSET)
 
-#define PAGE_SYSTEM_AUDIO_ON           (131)
-#define PAGE_SYSTEM_AUDIO_OFF          (170)
+#define PAGE_SYSTEM_AUDIO_ON    (131)
+#define PAGE_SYSTEM_AUDIO_OFF   (170)
 
-#define PAGE_OUTAGE_RECOVERY           (173)
+#define PAGE_OUTAGE_RECOVERY    (173)
 
-#define PAGE_PROBE_PREHEATING          (175)
+#define PAGE_PROBE_PREHEATING   (175)
 
-#define PAGE_HOMING                    (189)
-#define PAGE_ABNORMAL_BED_HEATER       (190)
-#define PAGE_ABNORMAL_BED_NTC          (191)
-#define PAGE_ABNORMAL_HOTEND_HEATER    (192)
-#define PAGE_ABNORMAL_HOTEND_NTC       (193)
-#define PAGE_ABNORMAL_ENDSTOP          (194)
-#define PAGE_ABNORMAL_X_ENDSTOP        (194)
-#define PAGE_ABNORMAL_Y_ENDSTOP        (195)
-#define PAGE_ABNORMAL_Z_ENDSTOP        (196)
-#define PAGE_ABNORMAL_ZL_ENDSTOP       (197)
-#define PAGE_ABNORMAL_ZR_ENDSTOP       (198)
-#define PAGE_ABNORMAL_LEVELING_SENSOR  (199)
-#define PAGE_LEVELING_FAILED           (200)
+#define PAGE_HOMING                   (189)
+#define PAGE_ABNORMAL_BED_HEATER      (190)
+#define PAGE_ABNORMAL_BED_NTC         (191)
+#define PAGE_ABNORMAL_HOTEND_HEATER   (192)
+#define PAGE_ABNORMAL_HOTEND_NTC      (193)
+#define PAGE_ABNORMAL_ENDSTOP         (194)
+#define PAGE_ABNORMAL_X_ENDSTOP       (194)
+#define PAGE_ABNORMAL_Y_ENDSTOP       (195)
+#define PAGE_ABNORMAL_Z_ENDSTOP       (196)
+#define PAGE_ABNORMAL_ZL_ENDSTOP      (197)
+#define PAGE_ABNORMAL_ZR_ENDSTOP      (198)
+#define PAGE_ABNORMAL_LEVELING_SENSOR (199)
+#define PAGE_LEVELING_FAILED          (200)
 
-#define PAGE_PROBE_PRECHECK            (204)
-#define PAGE_PROBE_PRECHECK_OK         (205)
-#define PAGE_PROBE_PRECHECK_FAILED     (206)
+#define PAGE_PROBE_PRECHECK           (204)
+#define PAGE_PROBE_PRECHECK_OK        (205)
+#define PAGE_PROBE_PRECHECK_FAILED    (206)
 
 /****************** Lcd control **************************/
 #define REG_LCD_READY        0x0014
@@ -129,8 +125,8 @@
 #define TXT_PRINT_SPEED     0x2000+9*0x30
 #define TXT_PRINT_TIME      0x2000+10*0x30
 #define TXT_PRINT_PROGRESS  0x2000+11*0x30
-//#define TXT_PRINT_HOTEND    0x2000+12*0x30
-//#define TXT_PRINT_BED       0x2000+13*0x30
+#define TXT_PRINT_HOTEND    0x2000+12*0x30
+#define TXT_PRINT_BED       0x2000+13*0x30
 
 // PRINT ADJUST TXT
 
@@ -154,13 +150,13 @@
 // ABOUT TXT
 #define TXT_ABOUT               (0x2000+25*0x30)
 
-// RECORD TXT
-#define TXT_RECORD_0             (0x2000+26*0x30)
-#define TXT_RECORD_1             (0x2000+27*0x30)
-#define TXT_RECORD_2             (0x2000+28*0x30)
-#define TXT_RECORD_3             (0x2000+29*0x30)
-#define TXT_RECORD_4             (0x2000+30*0x30)
-#define TXT_RECORD_5             (0x2000+31*0x30)
+// RECORT TXT
+#define TXT_RECORT_0             (0x2000+26*0x30)
+#define TXT_RECORT_1             (0x2000+27*0x30)
+#define TXT_RECORT_2             (0x2000+28*0x30)
+#define TXT_RECORT_3             (0x2000+29*0x30)
+#define TXT_RECORT_4             (0x2000+30*0x30)
+#define TXT_RECORT_5             (0x2000+31*0x30)
 
 // ADVANCE LEVEL TXT
 #define TXT_LEVEL_OFFSET         (0x2000+32*0x30)
@@ -303,12 +299,9 @@
 #define KEY_RECORD_PaDn    3
 #define KEY_RECORD_FLASH   4
 
-#if ENABLED(LCD_KOBRA_EXTENDED)
-  #define COLOR1 0xFFFF
-#else
-  #define COLOR1 0x0210
-#endif
-#define COLOR2   0xF800
+#define COLOR_RED   0xF800
+#define COLOR_BLUE  0x0210
+#define COLOR_WHITE 0xFFFF
 
 namespace Anycubic {
 
@@ -458,8 +451,8 @@ namespace Anycubic {
 
       static void pop_up_manager();
 
-      static void SendtoTFT(FSTR_P const=nullptr);
-      static void SendtoTFTLN(FSTR_P const=nullptr);
+      static void SendtoTFT(PGM_P);
+      static void SendtoTFTLN(PGM_P);
       static bool ReadTFTCommand();
       static int8_t Findcmndpos(const char *, const char);
       static void CheckHeaters();
@@ -470,13 +463,13 @@ namespace Anycubic {
       static void PanelAction(uint8_t);
       static void PanelProcess(uint8_t);
 
-      static void SendValueToTFT(const uint16_t value, const uint16_t address);
-      static void RequestValueFromTFT(const uint16_t address);
-      static void SendTxtToTFT(const char *pdata, const uint16_t address);
+      static void SendValueToTFT(uint32_t value, uint32_t address);
+      static void RequestValueFromTFT(uint32_t address);
+      static void SendTxtToTFT(const char *pdata, uint32_t address);
       static void SendColorToTFT(uint32_t color, uint32_t address);
-      static void SendReadNumOfTxtToTFT(const uint8_t number, const uint16_t address);
-      static void ChangePageOfTFT(const uint16_t page_index, const bool no_send=false);
-      static void FakeChangePageOfTFT(const uint16_t page_index);
+      static void SendReadNumOfTxtToTFT(uint8_t number, uint32_t address);
+      static void ChangePageOfTFT(uint32_t page_index);
+      static void FakeChangePageOfTFT(uint32_t page_index);
       static void LcdAudioSet(const bool audio_on);
 
     private:

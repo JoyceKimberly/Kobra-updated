@@ -76,14 +76,9 @@
 #endif // !defined(NUM_SERVOS)
 
 // Convenience override for a BLTouch alone
-#if ENABLED(BLTOUCH)
-  #ifdef BLTOUCH_HS_MODE
-    #define HAS_BLTOUCH_HS_MODE 1
-  #endif
-  #if NUM_SERVOS == 1
-    #undef SERVO_DELAY
-    #define SERVO_DELAY { 50 }
-  #endif
+#if ENABLED(BLTOUCH) && NUM_SERVOS == 1
+  #undef SERVO_DELAY
+  #define SERVO_DELAY { 50 }
 #endif
 
 #if !HAS_BED_PROBE
