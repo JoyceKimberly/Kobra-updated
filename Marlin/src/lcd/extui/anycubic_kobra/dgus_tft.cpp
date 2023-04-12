@@ -52,15 +52,13 @@
 namespace Anycubic {
 
   DgusTFT::p_fun fun_array[] = {
-    DgusTFT::page1,  DgusTFT::page2,  DgusTFT::page3,  DgusTFT::page4,  DgusTFT::page5,  DgusTFT::page6,
-    DgusTFT::page7,  DgusTFT::page8,  DgusTFT::page9,  DgusTFT::page10, DgusTFT::page11, DgusTFT::page12,
-    DgusTFT::page13, DgusTFT::page14, DgusTFT::page15, DgusTFT::page16, DgusTFT::page17, DgusTFT::page18,
-    DgusTFT::page19, DgusTFT::page20, DgusTFT::page21, DgusTFT::page22, DgusTFT::page23, DgusTFT::page24,
-    DgusTFT::page25, DgusTFT::page26, DgusTFT::page27, DgusTFT::page28, DgusTFT::page29, DgusTFT::page30,
-    DgusTFT::page31, DgusTFT::page32
-    #if HAS_LEVELING
-      , DgusTFT::page33 , DgusTFT::page34
-    #endif
+    DgusTFT::page1,  DgusTFT::page2,  DgusTFT::page3,  DgusTFT::page4,  DgusTFT::page5,
+    DgusTFT::page6,  DgusTFT::page7,  DgusTFT::page8,  DgusTFT::page9,  DgusTFT::page10,
+    DgusTFT::page11, DgusTFT::page12, DgusTFT::page13, DgusTFT::page14, DgusTFT::page15,
+    DgusTFT::page16, DgusTFT::page17, DgusTFT::page18, DgusTFT::page19, DgusTFT::page20,
+    DgusTFT::page21, DgusTFT::page22, DgusTFT::page23, DgusTFT::page24, DgusTFT::page25,
+    DgusTFT::page26, DgusTFT::page27, DgusTFT::page28, DgusTFT::page29, DgusTFT::page30,
+    DgusTFT::page31, DgusTFT::page32, DgusTFT::page33, DgusTFT::page34
   };
 
   printer_state_t  DgusTFT::printer_state;
@@ -352,7 +350,7 @@ namespace Anycubic {
 
         lcd_txtbox_page = 0;
         if (lcd_txtbox_index) {
-          set_descript_color(COLOR_WHITE);
+          set_descript_color(COLOR1);
           lcd_txtbox_index = 0;
         }
 
@@ -365,7 +363,7 @@ namespace Anycubic {
 
         lcd_txtbox_page = 0;
         if (lcd_txtbox_index) {
-          set_descript_color(COLOR_WHITE);
+          set_descript_color(COLOR1);
           lcd_txtbox_index = 0;
         }
 
@@ -654,157 +652,86 @@ namespace Anycubic {
     }
   }
 
-  void DgusTFT::SendtoTFT(PGM_P str) {  // A helper to print PROGMEM string to the panel
+  void DgusTFT::SendtoTFT(FSTR_P const fstr/*=nullptr*/) {  // A helper to print PROGMEM string to the panel
     #if ACDEBUG(AC_SOME)
-      serial_print_P(str);
+      DEBUG_ECHOF(fstr);
     #endif
-    while (const char c = pgm_read_byte(str++)) TFTSer.print(c);
+    PGM_P str = FTOP(fstr);
+    while (const char c = pgm_read_byte(str++)) TFTSer.write(c);
   }
 
-  void DgusTFT::SendValueToTFT(uint32_t value, uint32_t address) {
-
-    uint8_t data_buf[32] = {0};
-    uint8_t data_index = 0;
-
-    uint8_t *p_u8 =  (uint8_t *)(&address)+1 ;
-
-    data_buf[data_index++] = 0x5A;
-    data_buf[data_index++] = 0xA5;
-    data_buf[data_index++] = 0x05;
-    data_buf[data_index++] = 0x82;
-    data_buf[data_index++] = *p_u8;
-    p_u8--;
-    data_buf[data_index++] = *p_u8;
-    p_u8 =  (uint8_t *)(&value)+1;
-    data_buf[data_index++] = *p_u8;
-    p_u8--;
-    data_buf[data_index++] = *p_u8;
-
-    for(uint8_t i=0; i<data_index; i++) {
-      TFTSer.write(data_buf[i]);
+  void DgusTFT::SendtoTFTLN(FSTR_P const fstr/*=nullptr*/) {
+    if (fstr) {
+      #if ACDEBUG(AC_SOME)
+        DEBUG_ECHOPGM("> ");
+      #endif
+      SendtoTFT(fstr);
+      #if ACDEBUG(AC_SOME)
+        SERIAL_EOL();
+      #endif
     }
+    TFTSer.println();
   }
 
-  void DgusTFT::RequestValueFromTFT(uint32_t address) {
-
-    uint8_t data_buf[20] = {0};
-    uint8_t data_index = 0;
-
-    uint8_t *p_u8 =  (uint8_t *)(&address)+1 ;
-
-    data_buf[data_index++] = 0x5A;
-    data_buf[data_index++] = 0xA5;
-    data_buf[data_index++] = 0x04;
-    data_buf[data_index++] = 0x83;
-    data_buf[data_index++] = *p_u8;
-    p_u8--;
-    data_buf[data_index++] = *p_u8;
-    data_buf[data_index++] = 0x01;
-
-    for(uint8_t i=0; i<data_index; i++) {
-      TFTSer.write(data_buf[i]);
-    }
+  void DgusTFT::SendValueToTFT(const uint16_t value, const uint16_t address) {
+    uint8_t data[] = { 0x5A, 0xA5, 0x05, 0x82, uint8_t(address >> 8), uint8_t(address & 0xFF), uint8_t(value >> 8), uint8_t(value & 0xFF) };
+    LOOP_L_N(i, COUNT(data)) TFTSer.write(data[i]);
   }
 
-  void DgusTFT::SendTxtToTFT(const char *pdata, uint32_t address) {
+  void DgusTFT::RequestValueFromTFT(const uint16_t address) {
+    uint8_t data[] = { 0x5A, 0xA5, 0x04, 0x83, uint8_t(address >> 8), uint8_t(address & 0xFF), 0x01 };
+    LOOP_L_N(i, COUNT(data)) TFTSer.write(data[i]);
+  }
 
-    char data_buf[128] = {0};
-    uint8_t data_index = 0;
-    uint8_t data_len = 0;
-
-    uint8_t *p_u8 =  (uint8_t *)(&address)+1 ;
-    data_len = strlen(pdata);
-
-    data_buf[data_index++] = 0x5A;
-    data_buf[data_index++] = 0xA5;
-    data_buf[data_index++] = data_len + 5;
-    data_buf[data_index++] = 0x82;
-    data_buf[data_index++] = *p_u8;
-    p_u8--;
-    data_buf[data_index++] = *p_u8;
-
-    strncpy(&data_buf[data_index], pdata, data_len);
-    data_index += data_len;
-
-    data_buf[data_index++] = 0xFF;
-    data_buf[data_index++] = 0xFF;
-
-    for(uint8_t i=0; i<data_index; i++) {
-      TFTSer.write(data_buf[i]);
-    }
+  void DgusTFT::SendTxtToTFT(const char *pdata, const uint16_t address) {
+    uint8_t data_len = strlen(pdata);
+    uint8_t data[] = { 0x5A, 0xA5, uint8_t(data_len + 5), 0x82, uint8_t(address >> 8), uint8_t(address & 0xFF) };
+    LOOP_L_N(i, COUNT(data)) TFTSer.write(data[i]);
+    LOOP_L_N(i, data_len) TFTSer.write(pdata[i]);
+    TFTSer.write(0xFF); TFTSer.write(0xFF);
   }
 
   void DgusTFT::SendColorToTFT(uint32_t color, uint32_t address) {
 
-    uint8_t data_buf[32] = {0};
+    uint8_t data[32] = {0};
     uint8_t data_index = 0;
 
     uint8_t *p_u8 =  (uint8_t *)(&address)+1 ;
     address += 3;
 
-    data_buf[data_index++] = 0x5A;
-    data_buf[data_index++] = 0xA5;
-    data_buf[data_index++] = 0x05;
-    data_buf[data_index++] = 0x82;
-    data_buf[data_index++] = *p_u8;
+    data[data_index++] = 0x5A;
+    data[data_index++] = 0xA5;
+    data[data_index++] = 0x05;
+    data[data_index++] = 0x82;
+    data[data_index++] = *p_u8;
     p_u8--;
-    data_buf[data_index++] = *p_u8;
+    data[data_index++] = *p_u8;
     p_u8 =  (uint8_t *)(&color)+1;
-    data_buf[data_index++] = *p_u8;
+    data[data_index++] = *p_u8;
     p_u8--;
-    data_buf[data_index++] = *p_u8;
+    data[data_index++] = *p_u8;
 
     for(uint8_t i=0; i<data_index; i++) {
-      TFTSer.write(data_buf[i]);
+      TFTSer.write(data[i]);
     }
   }
 
-  void DgusTFT::SendReadNumOfTxtToTFT(uint8_t number, uint32_t address) {
-    uint8_t data_buf[32] = {0};
-    uint8_t data_index = 0;
-
-    uint8_t *p_u8 =  (uint8_t *)(&address)+1 ;
-
-    data_buf[data_index++] = 0x5A;
-    data_buf[data_index++] = 0xA5;
-    data_buf[data_index++] = 0x04;      //frame length
-    data_buf[data_index++] = 0x83;
-    data_buf[data_index++] = *p_u8;
-    p_u8--;
-    data_buf[data_index++] = *p_u8;
-    data_buf[data_index++] = number;    //how much bytes to read
-
-    for(uint8_t i=0; i<data_index; i++) {
-      TFTSer.write(data_buf[i]);
-    }
+  void DgusTFT::SendReadNumOfTxtToTFT(const uint8_t number, const uint16_t address) {
+    uint8_t data[] = { 0x5A, 0xA5, 0x04, 0x83, uint8_t(address >> 8), uint8_t(address & 0xFF), number };
+    LOOP_L_N(i, COUNT(data)) TFTSer.write(data[i]);
   }
 
-  void DgusTFT::ChangePageOfTFT(uint32_t page_index) {
-
+  void DgusTFT::ChangePageOfTFT(const uint16_t page_index, const bool no_send/*=false*/) {
     #if ACDEBUG(AC_MARLIN)
       DEBUG_ECHOLNPGM("ChangePageOfTFT: ", page_index);
     #endif
 
-    uint8_t data_buf[20] = {0};
-    uint8_t data_index = 0;
     uint32_t data_temp = 0;
     data_temp = page_index;
-    uint8_t *p_u8 = (uint8_t *)(&data_temp)+1 ;
 
-    data_buf[data_index++] = 0x5A;
-    data_buf[data_index++] = 0xA5;
-    data_buf[data_index++] = 0x07;
-    data_buf[data_index++] = 0x82;
-    data_buf[data_index++] = 0x00;
-    data_buf[data_index++] = 0x84;
-    data_buf[data_index++] = 0x5A;
-    data_buf[data_index++] = 0x01;
-    data_buf[data_index++] = *p_u8;
-    p_u8--;
-    data_buf[data_index++] = *p_u8;
-
-    for(uint8_t i=0; i<data_index; i++) {
-      TFTSer.write(data_buf[i]);
+    if (!no_send) {
+      uint8_t data[] = { 0x5A, 0xA5, 0x07, 0x82, 0x00, 0x84, 0x5A, 0x01, uint8_t(data_temp >> 8), uint8_t(data_temp & 0xFF) };
+      LOOP_L_N(i, COUNT(data)) TFTSer.write(data[i]);
     }
 
     page_index_last_2 = page_index_last;
@@ -818,18 +745,12 @@ namespace Anycubic {
     #endif
   }
 
-  void DgusTFT::FakeChangePageOfTFT(uint32_t page_index) {
+  void DgusTFT::FakeChangePageOfTFT(const uint16_t page_index) {
     #if ACDEBUG(AC_MARLIN)
       if (page_index_saved != page_index_now)
         DEBUG_ECHOLNPGM("FakeChangePageOfTFT: ", page_index);
     #endif
-    uint8_t data_buf[20] = {0};
-    uint8_t data_index = 0;
-    uint32_t data_temp = 0;
-    data_temp = page_index;
-    page_index_last_2 = page_index_last;
-    page_index_last = page_index_now;
-    page_index_now = data_temp;
+    ChangePageOfTFT(page_index, true);
   }
 
   void DgusTFT::LcdAudioSet(const bool audio_on) {
@@ -891,9 +812,9 @@ namespace Anycubic {
     return false;
   }
 
-  int8_t DgusTFT::Findcmndpos(const char * buff, char q) {
-    int8_t pos = 0;
-    do { if (buff[pos] == q) return pos; } while(++pos < MAX_CMND_LEN);
+  int8_t DgusTFT::Findcmndpos(const char * buff, const char q) {
+    for (int8_t pos = 0; pos < MAX_CMND_LEN; ++pos)
+      if (buff[pos] == q) return pos;
     return -1;
   }
 
@@ -963,27 +884,19 @@ namespace Anycubic {
   }
 
   void DgusTFT::ProcessPanelRequest() {
-    unsigned char * p_u8 ;
-    unsigned char i,j;
-    unsigned int control_index = 0;
-    unsigned int control_value;
-    unsigned int temp;
+    uint16_t control_index = 0;
+    uint32_t control_value;
+    uint16_t temp;
     char str_buf[20];
 
     if (data_received) {
       data_received = false;
 
       if (0x83 == data_buf[0]) {
-        p_u8 =  (unsigned char *)(&control_index) ;//get control address
-       *p_u8 = data_buf[2];
-        p_u8++;
-       *p_u8 = data_buf[1] ;
+        control_index = uint16_t(data_buf[1] << 8) | uint16_t(data_buf[2]);
         if ((control_index & 0xF000) == KEY_ADDRESS) { // is KEY
           key_index = control_index;
-          p_u8 =  (unsigned char *)(&key_value) ;//get key value
-         *p_u8 = data_buf[5];
-          p_u8++;
-         *p_u8 = data_buf[4];
+          key_value = (uint16_t(data_buf[4]) << 8) | uint16_t(data_buf[5]);
         }
 
         #if HAS_HOTEND
@@ -996,11 +909,8 @@ namespace Anycubic {
 
         #if HAS_HEATED_BED
           else if (control_index == TXT_BED_TARGET || control_index == TXT_ADJUST_BED) {// bed target temp
-            p_u8 =  (unsigned char *)(&control_value) ;//get value
-           *p_u8 = data_buf[5];
-            p_u8++;
-           *p_u8 = data_buf[4];
-            temp = constrain((uint16_t)control_value, 0, BED_MAXTEMP);
+            control_value = (uint16_t(data_buf[4]) << 8) | uint16_t(data_buf[5]);
+            temp = constrain(uint16_t(control_value), 0, BED_MAXTEMP);
             setTargetTemp_celsius(temp, BED);
           }
         #endif
@@ -1016,49 +926,33 @@ namespace Anycubic {
         #endif
 
         else if (control_index == TXT_PRINT_SPEED_TARGET || control_index == TXT_ADJUST_SPEED) { // print speed
-          p_u8 =  (unsigned char *)(&control_value) ;//get  value
-         *p_u8 = data_buf[5];
-          p_u8++;
-         *p_u8 = data_buf[4];
-          float feedrate = constrain((uint16_t)control_value, 40, 999);
+          control_value = (uint16_t(data_buf[4]) << 8) | uint16_t(data_buf[5]);
+          const uint16_t feedrate = constrain(uint16_t(control_value), 40, 999);
           //feedrate_percentage=constrain(control_value,40,999);
-          sprintf(str_buf, "%u", (uint16_t)feedrate);
+          sprintf(str_buf, "%u", feedrate);
           SendTxtToTFT(str_buf, TXT_PRINT_SPEED);
-          SendValueToTFT((uint16_t)feedrate, TXT_PRINT_SPEED_NOW);
-          SendValueToTFT((uint16_t)feedrate, TXT_PRINT_SPEED_TARGET);
+          SendValueToTFT(feedrate, TXT_PRINT_SPEED_NOW);
+          SendValueToTFT(feedrate, TXT_PRINT_SPEED_TARGET);
           setFeedrate_percent(feedrate);
   	    }
 
   	    else if(control_index == TXT_PREHEAT_HOTEND_INPUT)
   	    {
-            p_u8 =  (unsigned char *)(&control_value) ;//get  value
-           *p_u8 = data_buf[5];
-            p_u8++;
-           *p_u8 = data_buf[4];
-
-            temp=constrain((uint16_t)control_value, 0, HEATER_0_MAXTEMP);
+            control_value = (uint16_t(data_buf[4]) << 8) | uint16_t(data_buf[5]);
+            temp = constrain(uint16_t(control_value), 0, HEATER_0_MAXTEMP);
             setTargetTemp_celsius(temp, E0);
   	    }
 
   	    else if(control_index == TXT_PREHEAT_BED_INPUT)
   	    {
-            p_u8 =  (unsigned char *)(&control_value) ;//get  value
-           *p_u8 = data_buf[5];
-            p_u8++;
-           *p_u8 = data_buf[4];
-
-            temp=constrain((uint16_t)control_value, 0, BED_MAXTEMP);
+            control_value = (uint16_t(data_buf[4]) << 8) | uint16_t(data_buf[5]);
+            temp = constrain(uint16_t(control_value), 0, BED_MAXTEMP);
             setTargetTemp_celsius(temp, BED);
         }
 
         else if (control_index == REG_LCD_READY) {
-           p_u8 =  (unsigned char *)(&control_value) ;//get  value
-           *p_u8 = data_buf[5];
-           p_u8++;
-           *p_u8 = data_buf[4];
-           p_u8++;
-           *p_u8 = data_buf[3];
-           if((control_value&0x00FFFFFF) == 0x010072) { // startup last gif
+          control_value = (uint32_t(data_buf[3]) << 16) | (uint32_t(data_buf[4]) << 8) | uint32_t(data_buf[5]);
+          if ((control_value&0x00FFFFFF) == 0x010072) { // startup last gif
             LcdAudioSet(lcd_info.audio_on);
 
             SendValueToTFT(2, ADDRESS_MOVE_DISTANCE);
@@ -1157,7 +1051,7 @@ namespace Anycubic {
       case 1: { // main page, print
         lcd_txtbox_page = 0;
         if (lcd_txtbox_index) {
-          set_descript_color(COLOR_WHITE);
+          set_descript_color(COLOR1);
           lcd_txtbox_index = 0;
         }
         ChangePageOfTFT(PAGE_FILE);
@@ -1206,14 +1100,14 @@ namespace Anycubic {
 
       case 1: // return
         ChangePageOfTFT(PAGE_MAIN);
-        set_descript_color(COLOR_WHITE);
+        set_descript_color(COLOR1);
         break;
 
       case 2: // page up
         if (lcd_txtbox_page > 0) {
           lcd_txtbox_page--;
 
-          set_descript_color(COLOR_WHITE);
+          set_descript_color(COLOR1);
           lcd_txtbox_index = 0;
 
           SendFileList(lcd_txtbox_page * 5);
@@ -1224,7 +1118,7 @@ namespace Anycubic {
         if ((lcd_txtbox_page + 1) * 5 < filenavigator.getFileNum()) {
           lcd_txtbox_page++;
 
-          set_descript_color(COLOR_WHITE);
+          set_descript_color(COLOR1);
           lcd_txtbox_index = 0;
 
           SendFileList(lcd_txtbox_page * 5);
@@ -1238,7 +1132,7 @@ namespace Anycubic {
 
         lcd_txtbox_page = 0;
         if (lcd_txtbox_index) {
-          set_descript_color(COLOR_WHITE);
+          set_descript_color(COLOR1);
           lcd_txtbox_index = 0;
         }
         SendFileList(lcd_txtbox_index);
@@ -1252,7 +1146,7 @@ namespace Anycubic {
 
           if (filenavigator.filelist.seek(lcd_txtbox_page * 5 + (lcd_txtbox_index - 1))) {
 
-            set_descript_color(COLOR_WHITE);
+            set_descript_color(COLOR1);
 
             TERN_(CASE_LIGHT_ENABLE, setCaseLightState(true));
 
@@ -1279,7 +1173,7 @@ namespace Anycubic {
 
           if (filenavigator.filelist.seek(lcd_txtbox_page * 5 + lcd_txtbox_index - 1)) {
 
-            set_descript_color(COLOR_WHITE);
+            set_descript_color(COLOR1);
 
             // Allows printer to restart the job if we don't want to recover
             if (printer_state == AC_printer_resuming_from_power_outage) {
@@ -1295,10 +1189,10 @@ namespace Anycubic {
             str_buf[17] = '\0';
             SendTxtToTFT(str_buf, TXT_PRINT_NAME);
 
-            sprintf(str_buf, "%d", (uint16_t)getFeedrate_percent());
+            sprintf(str_buf, "%5.2f", getFeedrate_percent());
             SendTxtToTFT(str_buf, TXT_PRINT_SPEED);
 
-            sprintf(str_buf, "%d", (uint16_t)getProgress_percent());
+            sprintf(str_buf, "%u", uint16_t(getProgress_percent()));
             SendTxtToTFT(str_buf, TXT_PRINT_PROGRESS);
 
             uint32_t time = 0;
@@ -1319,29 +1213,17 @@ namespace Anycubic {
       case 11: { // txtbox 5 click
         static uint8_t lcd_txtbox_index_last = 0;
 
-        if((lcd_txtbox_page*5 + key_value - 6) <= filenavigator.getFileNum()) {
-          lcd_txtbox_index = key_value - 6;
-        } else {
-          break;
-        }
-
-#if ACDEBUG(AC_MARLIN)
-        printf("getFileNum: %d\n", filenavigator.getFileNum());
-        printf("file_index: %d\n", file_index);
-        printf("lcd_txtbox_page: %d\n", lcd_txtbox_page);
-        printf("lcd_txtbox_index: %d\n", lcd_txtbox_index);
-        printf("lcd_txtbox_index_last: %d\n", lcd_txtbox_index_last);
-#endif
+        lcd_txtbox_index = key_value - 6;
 
         // lcd_txtbox_page 0~...
         // lcd_txtbox_index 1~5
         file_index = lcd_txtbox_page * 5 + (lcd_txtbox_index - 1);
         if (file_index < filenavigator.getFileNum()) {
 
-          set_descript_color(COLOR_RED);
+          set_descript_color(COLOR2);
 
           if (lcd_txtbox_index_last && lcd_txtbox_index_last != lcd_txtbox_index)    // 1~5
-            set_descript_color(COLOR_WHITE, lcd_txtbox_index_last);
+            set_descript_color(COLOR1, lcd_txtbox_index_last);
           lcd_txtbox_index_last = lcd_txtbox_index;
         }
       } break;
@@ -1477,7 +1359,9 @@ namespace Anycubic {
         feedrate_back = (uint16_t)getFeedrate_percent();
         SendValueToTFT(feedrate_back, TXT_ADJUST_SPEED);
         TERN_(HAS_FAN, SendValueToTFT(uint16_t(getActualFan_percent(FAN0)), TXT_FAN_SPEED_TARGET));
-        SendTxtToTFT(ftostr52sprj(getZOffset_mm()), TXT_LEVEL_OFFSET);
+        str_buf[0] = 0;
+        strcat(str_buf, ftostr52sprj(getZOffset_mm()) + 3);
+        SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
         break;
     }
 
@@ -1527,7 +1411,6 @@ namespace Anycubic {
 
         case 2: { // -
           float z_off = getZOffset_mm();
-          SERIAL_ECHOLNPGM("z_off: ", z_off);
           if (z_off <= -5) return;
           z_off -= 0.05f;
           setZOffset_mm(z_off);
@@ -1556,8 +1439,6 @@ namespace Anycubic {
 
         case 3: { // +
           float z_off = getZOffset_mm();
-          SERIAL_ECHOLNPGM("z_off: ", z_off);
-
           if (z_off >= 5) return;
           z_off += 0.05f;
           setZOffset_mm(z_off);
@@ -2030,10 +1911,9 @@ namespace Anycubic {
 
       case 3: {
         char str_buf[10];
-        str_buf[0] = 0;
-        strcat(str_buf, ftostr52sprj(getZOffset_mm()));
+        str_buf[0] = '\0';
+        strcat(str_buf, ftostr52sprj(getZOffset_mm()) + 2);
         SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
-        //SendTxtToTFT(ftostr52sprj(getZOffset_mm()), TXT_LEVEL_OFFSET);
         ChangePageOfTFT(PAGE_LEVEL_ADVANCE);
       } break;
 
@@ -2762,9 +2642,9 @@ namespace Anycubic {
     switch (key_value) {
       case 1:       // return
         #if ACDEBUG(AC_MARLIN)
-          DEBUG_ECHOLNPGM("page_index_now: ", page_index_now);
-          DEBUG_ECHOLNPGM("page_index_last: ", page_index_last);
-          DEBUG_ECHOLNPGM("page_index_last_2: ", page_index_last_2);
+          //DEBUG_ECHOLNPGM("page_index_now: ", page_index_now);
+          //DEBUG_ECHOLNPGM("page_index_last: ", page_index_last);
+          //DEBUG_ECHOLNPGM("page_index_last_2: ", page_index_last_2);
         #endif
 
         if ((WITHIN(page_index_now, PAGE_ABNORMAL_X_ENDSTOP, PAGE_ABNORMAL_Z_ENDSTOP))
