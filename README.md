@@ -20,7 +20,7 @@ Please do not install this on your machine in order to use it. I cannot promise 
 
 # To do
 
-- Fix menu getting stuck after auto-leveling
+- Fix menu getting stuck after auto-leveling. For now just click the middle of the screen to go back.
 - Fix HAS_STATUS_MESSAGE throwing errors
 - Finish HAL
 - Make MarlinSerial work
