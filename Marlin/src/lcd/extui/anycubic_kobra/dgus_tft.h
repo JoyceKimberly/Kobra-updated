@@ -125,8 +125,8 @@
 #define TXT_PRINT_SPEED     0x2000+9*0x30
 #define TXT_PRINT_TIME      0x2000+10*0x30
 #define TXT_PRINT_PROGRESS  0x2000+11*0x30
-#define TXT_PRINT_HOTEND    0x2000+12*0x30
-#define TXT_PRINT_BED       0x2000+13*0x30
+//#define TXT_PRINT_HOTEND    0x2000+12*0x30
+//#define TXT_PRINT_BED       0x2000+13*0x30
 
 // PRINT ADJUST TXT
 
@@ -150,13 +150,13 @@
 // ABOUT TXT
 #define TXT_ABOUT               (0x2000+25*0x30)
 
-// RECORT TXT
-#define TXT_RECORT_0             (0x2000+26*0x30)
-#define TXT_RECORT_1             (0x2000+27*0x30)
-#define TXT_RECORT_2             (0x2000+28*0x30)
-#define TXT_RECORT_3             (0x2000+29*0x30)
-#define TXT_RECORT_4             (0x2000+30*0x30)
-#define TXT_RECORT_5             (0x2000+31*0x30)
+// RECORD TXT
+#define TXT_RECORD_0             (0x2000+26*0x30)
+#define TXT_RECORD_1             (0x2000+27*0x30)
+#define TXT_RECORD_2             (0x2000+28*0x30)
+#define TXT_RECORD_3             (0x2000+29*0x30)
+#define TXT_RECORD_4             (0x2000+30*0x30)
+#define TXT_RECORD_5             (0x2000+31*0x30)
 
 // ADVANCE LEVEL TXT
 #define TXT_LEVEL_OFFSET         (0x2000+32*0x30)
