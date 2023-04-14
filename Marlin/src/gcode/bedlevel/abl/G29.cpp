@@ -32,16 +32,8 @@
 #include "../../../feature/bedlevel/bedlevel.h"
 #include "../../../module/motion.h"
 #include "../../../module/planner.h"
-#include "../../../module/stepper.h"
 #include "../../../module/probe.h"
-#include "../../../module/temperature.h"
-
 #include "../../queue.h"
-
-#if ENABLED(PROBE_TEMP_COMPENSATION)
-  #include "../../../feature/probe_temp_comp.h"
-  #include "../../../module/temperature.h"
-#endif
 
 #if ENABLED(AUTO_BED_LEVELING_LINEAR)
   #include "../../../libs/least_squares_fit.h"

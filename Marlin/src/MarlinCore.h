@@ -92,7 +92,6 @@ extern const char M112_KILL_STR[];
 extern "C"{
 #endif
 
-
 void setup();
 void loop(); 
 
