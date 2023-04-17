@@ -138,9 +138,6 @@ namespace Anycubic {
     // as Z home places nozzle above the bed so we need to allow it past the end stops
     injectCommands(AC_cmnd_enable_leveling);
 
-    // Startup tunes are defined in Tunes.h
-    //PlayTune(BEEPER_PIN, Anycubic_PowerOn, 1);
-    //PlayTune(BEEPER_PIN, GB_PowerOn, 1);
     #if ACDEBUGLEVEL
       DEBUG_ECHOLNPGM("Startup   AC Debug Level ", ACDEBUGLEVEL);
     #endif
@@ -812,6 +809,46 @@ namespace Anycubic {
     return false;
   }
 
+  #if 0
+    {
+      //SERIAL_ECHOLNPGM("ReadTFTCommand: ", millis());
+      //return -1;
+
+      bool command_ready = false;
+      uint8_t data       = 0;
+
+      while (TFTSer.available() > 0 && command_len < MAX_CMND_LEN) {
+        data = TFTSer.read();
+        if (0 == command_len) {
+          // if
+        }
+
+        panel_command[command_len] =
+          if (panel_command[command_len] == '\n') {
+          command_ready = true;
+          break;
+        }
+        command_len++;
+      }
+
+      if (command_ready) {
+        panel_command[command_len] = 0x00;
+        #if ACDEBUG(AC_ALL)
+          DEBUG_ECHOLNPGM("< panel_command ", panel_command);
+        #endif
+        #if ACDEBUG(AC_SOME)
+          // Ignore status request commands
+          uint8_t req = atoi(&panel_command[1]);
+          if (req > 7 && req != 20) {
+            DEBUG_ECHOLNPGM("> ", panel_command);
+            DEBUG_PRINT_PRINTER_STATE(F("printer_state: "), printer_state);
+          }
+        #endif
+      }
+      return command_ready;
+    }
+  #endif
+
   int8_t DgusTFT::Findcmndpos(const char * buff, const char q) {
     for (int8_t pos = 0; pos < MAX_CMND_LEN; ++pos)
       if (buff[pos] == q) return pos;
@@ -850,6 +887,24 @@ namespace Anycubic {
             DEBUG_ECHOLNPGM("Bed temp abnormal! : ", temp);
           #endif
           faultBedDuration = 0;
+        }
+      }
+    #endif
+
+    #if 0
+      // Update panel with hotend heater status
+      if (hotend_state != AC_heater_temp_reached) {
+        if (WITHIN(getActualTemp_celsius(E0) - getTargetTemp_celsius(E0), -1, 1)) {
+          SendtoTFTLN(AC_msg_nozzle_heating_done);
+          hotend_state = AC_heater_temp_reached;
+        }
+      }
+
+      // Update panel with bed heater status
+      if (hotbed_state != AC_heater_temp_reached) {
+        if (WITHIN(getActualTemp_celsius(BED) - getTargetTemp_celsius(BED), -0.5, 0.5)) {
+          SendtoTFTLN(AC_msg_bed_heating_done);
+          hotbed_state = AC_heater_temp_reached;
         }
       }
     #endif
@@ -941,7 +996,7 @@ namespace Anycubic {
             control_value = (uint16_t(data_buf[4]) << 8) | uint16_t(data_buf[5]);
             temp = constrain(uint16_t(control_value), 0, HEATER_0_MAXTEMP);
             setTargetTemp_celsius(temp, E0);
-  	    }
+        }
 
   	    else if(control_index == TXT_PREHEAT_BED_INPUT)
   	    {
@@ -983,15 +1038,49 @@ namespace Anycubic {
 
           }
           else if ((control_value&0x00FFFFFF) == 0x010000) {  // startup first gif
-            PlayTune(BEEPER_PIN, Anycubic_PowerOn, 1);  // takes 3500 ms
+            // Startup tunes are defined in Tunes.h
+            PlayTune(BEEPER_PIN, Anycubic_PowerOn, 1);              // takes 3500 ms
           }
         }
+
+        /*
+        else if ((control_index & 0xF000) == 0x2000) {  // is TXT ADDRESS
+          tft_txt_index = control_index;
+          j = 0;
+          for (i = 4; ;i++) {
+            tft_txt_buf[j] = data_buf[i];
+            if (tft_txt_buf[j] == 0xFF) {
+              tft_txt_buf[j] = 0;
+              break;
+            }
+            j++;
+          }
+        }
+        */
       }
       else if (0x82 == data_buf[0]) {
         // send_cmd_to_pc(cmd ,start );
       }
     }
   }
+
+  #if 0
+    {
+      // Break these up into logical blocks // as its easier to navigate than one huge switch case!
+      int8_t req = atoi(&panel_command[1]);
+
+      // Information requests A0 - A8 and A33
+      if (req <= 8 || req == 33) PanelInfo(req);
+
+      // Simple Actions A9 - A28
+      else if (req <= 28) PanelAction(req);
+
+      // Process Initiation
+      else if (req <= 34) PanelProcess(req);
+
+      else SendtoTFTLN();
+    }
+  #endif
 
   void DgusTFT::set_language(language_t language) {
     lcd_info.language = ui_language = lcd_info_back.language = ENG;
@@ -1073,6 +1162,13 @@ namespace Anycubic {
         goto_system_page();
         break;
     }
+
+    #if 0
+      if (message_index < 30) {
+        SendTxtToTFT(p_mesage[message_index], TXT_MAIN_MESSAGE);
+        message_index = 30;
+      }
+    #endif
 
     #if HAS_HOTEND || HAS_HEATED_BED
       static millis_t flash_time = 0;
@@ -1172,6 +1268,11 @@ namespace Anycubic {
         if (lcd_txtbox_index > 0 && lcd_txtbox_index  < 6) {    // 1~5
 
           if (filenavigator.filelist.seek(lcd_txtbox_page * 5 + lcd_txtbox_index - 1)) {
+            #if 0
+              SERIAL_ECHOLNPGM("start print: ", lcd_txtbox_page * 5 + (lcd_txtbox_index - 1));
+              SERIAL_ECHOLNPGM("start print: ", filenavigator.filelist.shortFilename());
+              SERIAL_ECHOLNPGM("start print: ", filenavigator.filelist.longFilename());
+            #endif
 
             set_descript_color(COLOR1);
 
@@ -1662,11 +1763,11 @@ namespace Anycubic {
       case 14:
         movespeed = 3000; //SERIAL_ECHOLN(movespeed);
         break;
-      
+
       case 15:
         movespeed = 2000; //SERIAL_ECHOLN(movespeed);
         break;
-      
+
       case 16:
         movespeed = 1000; //SERIAL_ECHOLN(movespeed);
         break;

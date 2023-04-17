@@ -533,7 +533,7 @@
 #endif
 
 #if HAS_DISPLAY || HAS_DWIN_E3V2
-  //#define HAS_STATUS_MESSAGE 1 // throws errors
+  #define HAS_STATUS_MESSAGE 1
 #endif
 
 #if IS_ULTIPANEL && DISABLED(NO_LCD_MENUS)

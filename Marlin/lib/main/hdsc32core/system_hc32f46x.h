@@ -48,8 +48,8 @@
  **   - 2018-10-15  1.0  First version.
  **
  ******************************************************************************/
-#ifndef __SYSTEM_HC32F46X_H__
-#define __SYSTEM_HC32F46X_H__
+#ifndef __SYSTEM_HC32F46x_H__
+#define __SYSTEM_HC32F46x_H__
 
 /*******************************************************************************
  * Include files
@@ -131,7 +131,7 @@ extern void SystemCoreClockUpdate(void);  // Update SystemCoreClock variable
 }
 #endif
 
-#endif /* __SYSTEM_HC32F46X_H__ */
+#endif /* __SYSTEM_HC32F46x_H__ */
 
 /*******************************************************************************
  * EOF (not truncated)

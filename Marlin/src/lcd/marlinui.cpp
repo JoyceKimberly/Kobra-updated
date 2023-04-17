@@ -671,7 +671,7 @@ void MarlinUI::init() {
     #if HAS_MARLINUI_MENU
       if (use_click()) {
         #if BOTH(FILAMENT_LCD_DISPLAY, SDSUPPORT)
-          next_filament_display = millis() + 5000UL;  // Show status message for 5s
+          pause_filament_display();
         #endif
         goto_screen(menu_main);
         reinit_lcd(); // Revive a noisy shared SPI LCD
@@ -1435,9 +1435,9 @@ void MarlinUI::init() {
   #if ENABLED(EXTENSIBLE_UI)
     #include "extui/ui_api.h"
   #endif
-
+/*
   bool MarlinUI::has_status() { return (status_message[0] != '\0'); }
-
+//*/
   void MarlinUI::set_status(const char * const cstr, const bool persist) {
     if (alert_level) return;
 
@@ -1468,7 +1468,7 @@ void MarlinUI::init() {
   /**
    * Reset the status message
    */
-
+/*
   void MarlinUI::reset_status(const bool no_welcome) {
     #if SERVICE_INTERVAL_1 > 0
       static PGMSTR(service1, "> " SERVICE_NAME_1 "!");
@@ -1509,7 +1509,7 @@ void MarlinUI::init() {
 
     set_status(msg, -1);
   }
-
+//*/
   /**
    * Set Status with a fixed string and alert level.
    * @param fstr  A constant F-string to set as the status.
@@ -1545,13 +1545,13 @@ void MarlinUI::init() {
 
     finish_status(level > 0);
   }
-
+/*
   void MarlinUI::set_alert_status(FSTR_P const fstr) {
     set_status(fstr, 1);
     TERN_(HAS_TOUCH_SLEEP, wakeup_screen());
     TERN_(HAS_MARLINUI_MENU, return_to_status());
   }
-
+//*/
   #include <stdarg.h>
 
   void MarlinUI::status_printf(int8_t level, FSTR_P const fmt, ...) {
@@ -1592,7 +1592,7 @@ void MarlinUI::init() {
       #endif
 
       #if BOTH(FILAMENT_LCD_DISPLAY, SDSUPPORT)
-        next_filament_display = ms + 5000UL; // Show status message for 5s
+        pause_filament_display(ms); // Show status message for 5s
       #endif
 
     #endif

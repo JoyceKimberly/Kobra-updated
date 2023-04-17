@@ -49,6 +49,8 @@
   #include "e3v2/proui/dwin.h"
 #endif
 
+#include "../MarlinCore.h" // for printingIsPaused
+
 #define START_OF_UTF8_CHAR(C) (((C) & 0xC0u) != 0x80U)
 
 typedef bool (*statusResetFunc_t)();
@@ -380,13 +382,61 @@ public:
       static char* status_and_len(uint8_t &len);
     #endif
 
-    static bool has_status();
-    static void reset_status(const bool no_welcome=false);
-    static void set_alert_status(FSTR_P const fstr);
-    static void reset_alert_level() { alert_level = 0; }
+    static bool has_status() {
+      static char status_message[MAX_MESSAGE_LENGTH + 1];
+      return (
+        status_message[0] != '\0'
+      ); 
+    }
+    static void reset_status(const bool no_welcome=false) {
+    #if SERVICE_INTERVAL_1 > 0
+      static PGMSTR(service1, "> " SERVICE_NAME_1 "!");
+    #endif
+    #if SERVICE_INTERVAL_2 > 0
+      static PGMSTR(service2, "> " SERVICE_NAME_2 "!");
+    #endif
+    #if SERVICE_INTERVAL_3 > 0
+      static PGMSTR(service3, "> " SERVICE_NAME_3 "!");
+    #endif
+
+    FSTR_P msg;
+    if (printingIsPaused())
+      msg = GET_TEXT_F(MSG_PRINT_PAUSED);
+    #if ENABLED(SDSUPPORT)
+      else if (IS_SD_PRINTING())
+        return set_status(card.longest_filename(), true);
+    #endif
+    else if (print_job_timer.isRunning())
+      msg = GET_TEXT_F(MSG_PRINTING);
+
+    #if SERVICE_INTERVAL_1 > 0
+      else if (print_job_timer.needsService(1)) msg = FPSTR(service1);
+    #endif
+    #if SERVICE_INTERVAL_2 > 0
+      else if (print_job_timer.needsService(2)) msg = FPSTR(service2);
+    #endif
+    #if SERVICE_INTERVAL_3 > 0
+      else if (print_job_timer.needsService(3)) msg = FPSTR(service3);
+    #endif
+
+    else if (!no_welcome) msg = GET_TEXT_F(WELCOME_MSG);
+
+    else if (ENABLED(DWIN_LCD_PROUI))
+        msg = F("");
+    else
+      return;
+
+    set_status(msg, -1);
+  }
+    static void set_alert_status(FSTR_P const fstr) {
+    set_status(fstr, 1);
+    TERN_(HAS_TOUCH_SLEEP, wakeup_screen());
+    TERN_(HAS_MARLINUI_MENU, return_to_status());
+  }
+    static void reset_alert_level() { static uint8_t alert_level = 0; }
 
     static statusResetFunc_t status_reset_callback;
-    static void set_status_reset_fn(const statusResetFunc_t fn=nullptr) { status_reset_callback = fn; }
+    static void set_status_reset_fn(const statusResetFunc_t fn=nullptr) { static statusResetFunc_t status_reset_callback = fn; }
   #else
     static constexpr bool has_status() { return false; }
     static void reset_status(const bool=false) {}
@@ -469,6 +519,7 @@ public:
 
       #if BOTH(FILAMENT_LCD_DISPLAY, SDSUPPORT)
         static millis_t next_filament_display;
+        static void pause_filament_display(const millis_t ms=millis()) { next_filament_display = ms + 5000UL; }
       #endif
 
       #if HAS_TOUCH_SLEEP
@@ -492,6 +543,11 @@ public:
       #endif
 
       static void status_screen();
+
+    #else
+
+      static void quick_feedback(const bool=true) {}
+      static void completion_feedback(const bool=true) {}
 
     #endif
 
@@ -803,5 +859,7 @@ private:
 
 #define LCD_MESSAGE_F(S)       ui.set_status(F(S))
 #define LCD_MESSAGE(M)         ui.set_status(GET_TEXT_F(M))
+#define LCD_MESSAGE_MIN(M)     ui.set_status(GET_TEXT_F(M), -1)
+#define LCD_MESSAGE_MAX(M)     ui.set_status(GET_TEXT_F(M), 99)
 #define LCD_ALERTMESSAGE_F(S)  ui.set_alert_status(F(S))
 #define LCD_ALERTMESSAGE(M)    ui.set_alert_status(GET_TEXT_F(M))

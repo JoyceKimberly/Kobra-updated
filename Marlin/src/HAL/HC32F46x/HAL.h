@@ -22,26 +22,20 @@
  */
 #pragma once
 
-/**
- * HAL for stm32duino.com based on Libmaple and compatible (HC32F46x based on STM32F1)
- */
-
 #define CPU_32_BIT
 
 #include "../../core/macros.h"
 #include "../shared/Marduino.h"
 #include "../shared/math_32bit.h"
 #include "../shared/HAL_SPI.h"
-
 #include "fastio.h"
 #include "timers.h"
-
-#include <stdint.h>
+//#include "MarlinSerial.h"
 
 #include "../../inc/MarlinConfigPre.h"
 #include "../inc/MarlinConfig.h"
 
-//#include "MarlinSerial.h"
+#include <stdint.h>
 
 //
 // Default graphical display delays
@@ -79,32 +73,26 @@
   #define analogInputToDigitalPin(p) (p)
 #endif
 
-// On AVR this is in math.h?
-#define square(x) ((x)*(x))
-
-#ifndef strncpy_P
-  #define strncpy_P(dest, src, num) strncpy((dest), (src), (num))
-#endif
-
-// Fix bug in pgm_read_ptr
-#undef pgm_read_ptr
-#define pgm_read_ptr(addr) (*(addr))
+//
+// Interrupts
+//
+#define CRITICAL_SECTION_START()  const bool irqon = !__get_PRIMASK(); __disable_irq()
+#define CRITICAL_SECTION_END()    if (irqon) __enable_irq()
+#define cli() __disable_irq()
+#define sei() __enable_irq()
 
 // ------------------------
 // Types
 // ------------------------
 
 typedef double isr_float_t;   // FPU ops are used for single-precision, so use double for ISRs.
-typedef int16_t pin_t;
 
-// ------------------------
-// Interrupts
-// ------------------------
+#if defined(STM32G0B1xx) || defined(STM32H7xx)
+  typedef int32_t pin_t;
+#else
+  typedef int16_t pin_t;
+#endif
 
-#define CRITICAL_SECTION_START()  NOOP//uint32_t primask = __get_PRIMASK(); __disable_irq()
-#define CRITICAL_SECTION_END()    NOOP//if (!primask) __enable_irq()
-#define cli() __disable_irq()
-#define sei() __enable_irq()
 
 // ------------------------
 // ADC
@@ -147,8 +135,6 @@ extern volatile uint32_t systick_uptime_millis;
 // Memory related
 #define __bss_end __bss_end__
 
-void _delay_ms(const int delay);
-
 extern "C" char* _sbrk(int incr);
 
 #pragma GCC diagnostic push
@@ -162,6 +148,17 @@ static inline int freeMemory() {
 }
 
 #pragma GCC diagnostic pop
+
+extern uint16_t g_adc_value[3];
+extern uint8_t g_adc_idx;
+
+extern uint16_t HAL_adc_result;
+
+uint16_t HAL_adc_get_result();
+
+void HAL_adc_init();
+
+void HAL_adc_start_conversion(const uint8_t adc_pin);
 
 // ------------------------
 // MarlinHAL Class
@@ -182,82 +179,64 @@ public:
   static void reboot();        // Restart the firmware from 0x0
 
   // Interrupts
-  static bool isr_state() { return true; }
-  static void isr_on()  { (sei()); }
-  static void isr_off() { (cli()); }
+  static bool isr_state() { return !__get_PRIMASK(); }
+  static void isr_on()  { sei(); }
+  static void isr_off() { cli(); }
 
-  static uint16_t adc_result;
+  static void delay_ms(const int ms) { delay(ms); }
+
+  // Tasks, called from idle()
+  static void idletask();
+
+  // Reset
+  static uint8_t get_reset_source();
+  static void clear_reset_source();
 
   // Free SRAM
   static int freeMemory() { return ::freeMemory(); }
-};
-
-  void HAL_init();
-  inline void HAL_reboot() {}  // reboot the board or restart the bootloader
-
-  // Interrupts
-  #define ISRS_ENABLED() NOOP//(!__get_PRIMASK())
-  #define ENABLE_ISRS()  __enable_irq()
-  #define DISABLE_ISRS() __disable_irq()
-
-  // Reset
-  uint8_t HAL_get_reset_source();
-  void HAL_clear_reset_source();
 
   //
   // ADC Methods
   //
 
-  // result of last ADC conversion
-  extern uint16_t HAL_adc_result;
-
-  extern uint16_t g_adc_value[3];
-  extern uint8_t g_adc_idx;
-
-  uint16_t HAL_adc_get_result();
+  static uint16_t adc_result;
 
   // Called by Temperature::init once at startup
-  void HAL_adc_init();
+  static void adc_init();
 
   // Called by Temperature::init for each sensor at startup
-  void HAL_adc_start_conversion(const uint8_t adc_pin);
+  static void adc_enable(const pin_t pin) { pinMode(pin, INPUT); }
 
   // Begin ADC sampling on the given pin. Called from Temperature::isr!
-  #define HAL_START_ADC(pin)  HAL_adc_start(pin)
-  inline static void HAL_adc_start(uint32_t pin)
-  {
-      if       (pin == TEMP_BED_PIN) {
-          g_adc_idx = 0;
-      } else if(pin == TEMP_0_PIN) {
-          g_adc_idx = 1;
-      } else if(pin == POWER_MONITOR_VOLTAGE_PIN) {
-          g_adc_idx = 2;
-      } else {
-          g_adc_idx = 0x0;
-      }
-  }
+  static void adc_start(const pin_t pin) { 
+    if       (pin == TEMP_BED_PIN) {
+        g_adc_idx = 0;
+    } else if(pin == TEMP_0_PIN) {
+        g_adc_idx = 1;
+    } else if(pin == POWER_MONITOR_VOLTAGE_PIN) {
+        g_adc_idx = 2;
+    } else {
+        g_adc_idx = 0x0;
+    }
+}
 
   // Is the ADC ready for reading?
-  #define HAL_ADC_READY() true
+  static bool adc_ready() { return true; }
 
   // The current value of the ADC register
-  #define HAL_READ_ADC()      HAL_adc_read()
-  inline static uint32_t HAL_adc_read()
-  {
-    return g_adc_value[g_adc_idx];
-  }
+  static uint16_t adc_value() { return g_adc_value[g_adc_idx]; }
 
   /**
    * Set the PWM duty cycle for the pin to the given value.
    * Optionally invert the duty cycle [default = false]
    * Optionally change the maximum size of the provided value to enable finer PWM duty control [default = 255]
-   * The timer must be pre-configured with set_pwm_frequency() if the default frequency is not desired.
    */
-  void set_pwm_duty(const pin_t pin, const uint16_t v, const uint16_t v_size=255, const bool invert=false);
+  static void set_pwm_duty(const pin_t pin, const uint16_t v, const uint16_t v_size=255, const bool invert=false);
 
   /**
    * Set the frequency of the timer for the given pin.
    * All Timer PWM pins run at the same frequency.
    */
-  void set_pwm_frequency(const pin_t pin, int f_desired);
+  static void set_pwm_frequency(const pin_t pin, const uint16_t f_desired);
 
+};

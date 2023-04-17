@@ -21,70 +21,28 @@
  *
  */
 
-
 #include "../../inc/MarlinConfig.h"
 #include "../shared/Delay.h"
 #include "HAL.h"
 #include "bsp_rmu.h"
 
 // ------------------------
-// Watchdog Timer
+// Public Variables
 // ------------------------
 
-#if ENABLED(USE_WATCHDOG)
-
-  #include "../../../lib/arduino/libmaple/iwdg.h"
-
-  bool wdt_init_flag = false;
-  void watchdogSetup() {
-    // do whatever. don't remove this function.
-  }
-
-  /**
-   *  The watchdog clock is 40Khz. So for a 4s or 8s interval use a /256 preescaler and 625 or 1250 reload value (counts down to 0).
-   */
-  #define STM32F1_WD_RELOAD 625
-
-  /**
-   * @brief  Initialize the independent hardware watchdog.
-   *
-   * @return No return
-   *
-   * @details The watchdog clock is 40Khz. So for a 4s or 8s interval use a /256 preescaler and 625 or 1250 reload value (counts down to 0).
-   */
-  void MarlinHAL::watchdog_init() {
-    iwdg_init();
-    wdt_init_flag = true;
-  }
-
-  void MarlinHAL::watchdog_refresh() {
-      if(!wdt_init_flag)return;
-    iwdg_feed();
-  }
-
-#endif // USE_WATCHDOG
-
-// ------------------------
-// ADC
-// ------------------------
-
-uint16_t MarlinHAL::adc_result;
 uint16_t HAL_adc_result;
+uint16_t MarlinHAL::adc_result;
 
 // ------------------------
 // Public functions
 // ------------------------
 
-void flashFirmware(const int16_t) { hal.reboot(); }
-
-TERN_(POSTMORTEM_DEBUGGING, extern void install_min_serial());
-
-// ------------------------
-// MarlinHAL class
-// ------------------------
+#if ENABLED(POSTMORTEM_DEBUGGING)
+  extern void install_min_serial();
+#endif
 
 // HAL initialization task
-void HAL_init() {
+void MarlinHAL::init() {
   // Ensure F_CPU is a constant expression.
   // If the compiler breaks here, it means that delay code that should compute at compile time will not work.
   // So better safe than sorry here.
@@ -92,7 +50,6 @@ void HAL_init() {
   UNUSED(cpuFreq);
 
   NVIC_SetPriorityGrouping(0x3);
-  FastIO_init();
 
   #if ENABLED(SDSUPPORT) && DISABLED(SDIO_SUPPORT) && (defined(SDSS) && SDSS != -1)
     OUT_WRITE(SDSS, HIGH); // Try to set SDSS inactive before any other SPI users start up
@@ -125,12 +82,7 @@ void HAL_init() {
   #endif
 
   TERN_(POSTMORTEM_DEBUGGING, install_min_serial());    // Install the min serial handler
-}
 
-void MarlinHAL::reboot() { NVIC_SystemReset(); }
-
-extern "C" {
-  extern unsigned int _ebss; // end of bss section
 }
 
 void _delay_ms(const int delay_ms) { delay(delay_ms); }
@@ -138,7 +90,7 @@ void _delay_ms(const int delay_ms) { delay(delay_ms); }
 uint32_t AD_DMA[3];
 
 // Init the AD in continuous capture mode
-void HAL_adc_init() {}
+void MarlinHAL::adc_init() {}
 //TODO: Make sure this doesn't cause any delay
 void HAL_adc_start_conversion(const uint8_t adc_pin) {
         if(adc_pin>BOARD_NR_GPIO_PINS)return;
@@ -153,15 +105,65 @@ void HAL_adc_start_conversion(const uint8_t adc_pin) {
             default:break;
         }
 }
-uint16_t HAL_adc_get_result() {return 1000;} // { return HAL_adc_result; }
+uint16_t HAL_adc_get_result() { return 1000; } // { return HAL_adc_result; }
 
-uint8_t HAL_get_reset_source() {
+void MarlinHAL::reboot() { NVIC_SystemReset(); }
+
+uint8_t MarlinHAL::get_reset_source() {
     uint8_t res;
     res = rmu_get_reset_cause();
     return res;
 }
 
-void HAL_clear_reset_source() { rmu_clear_reset_cause(); }
+void MarlinHAL::clear_reset_source() { rmu_clear_reset_cause(); }
+
+// ------------------------
+// Watchdog Timer
+// ------------------------
+
+#if ENABLED(USE_WATCHDOG)
+
+  #include <libmaple/iwdg.h>
+
+  void watchdogSetup() {
+    // do whatever. don't remove this function.
+  }
+
+  /**
+   *  The watchdog clock is 40Khz. So for a 4s or 8s interval use a /256 preescaler and 625 or 1250 reload value (counts down to 0).
+   */
+  #define STM32F1_WD_RELOAD TERN(WATCHDOG_DURATION_8S, 1250, 625) // 4 or 8 second timeout
+
+  /**
+   * @brief  Initialize the independent hardware watchdog.
+   *
+   * @return No return
+   *
+   * @details The watchdog clock is 40Khz. So for a 4s or 8s interval use a /256 preescaler and 625 or 1250 reload value (counts down to 0).
+   */
+  void MarlinHAL::watchdog_init() {
+    #if DISABLED(DISABLE_WATCHDOG_INIT)
+      iwdg_init();
+    #endif
+  }
+
+  // Reset watchdog. MUST be called every 4 or 8 seconds after the
+  // first watchdog_init or the STM32F1 will reset.
+  void MarlinHAL::watchdog_refresh() {
+    #if DISABLED(PINS_DEBUGGING) && PIN_EXISTS(LED)
+      TOGGLE(LED_PIN);  // heartbeat indicator
+    #endif
+    iwdg_feed();
+  }
+
+#endif
+
+extern "C" {
+  extern unsigned int _ebss; // end of bss section
+}
+
+// Reset the system to initiate a firmware flash
+void flashFirmware(const int16_t) { hal.reboot(); }
 
 // Maple Compatibility
 volatile uint32_t systick_uptime_millis = 0;
