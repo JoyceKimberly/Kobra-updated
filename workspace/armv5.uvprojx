@@ -17,7 +17,7 @@
         <TargetCommonOption>
           <Device>HC32F460PETB</Device>
           <Vendor>HDSC</Vendor>
-          <PackID>HDSC.HC32F460.1.0.9</PackID>
+          <PackID>HDSC.HC32F460.1.0.7</PackID>
           <PackURL>https://raw.githubusercontent.com/hdscmcu/pack/master/</PackURL>
           <Cpu>IRAM(0x1FFF8000,0x8000) IRAM2(0x20000000,0x10000) IROM(0x00000000,0x80000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -341,7 +341,7 @@
               <MiscControls>--gnu --diag_suppress=186,66 --cpp11 --multifile -DBOARD_F_CPU=84000000 -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS</MiscControls>
               <Define>HC32F46x,TARGET_HC32F46x,STM32F4xx,USE_DEVICE_DRIVER_LIB,__TARGET_FPU_VFP,__FPU_PRESENT=1,ARM_MATH_CM4,__CC_ARM,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING,__MPU_PRESENT=1,STM32_HIGH_DENSITY,ARDUINO_ARCH_STM32F1,ARDUINO_ARCH_STM32,REDIRECT_PRINTF_TO_SERIAL,ARDUINO=100</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Marlin;..\Marlin\lib\component\adc;..\Marlin\lib\component\i2c;..\Marlin\lib\component\sdio;..\Marlin\lib\component\sdio\sd_card\inc;..\Marlin\lib\component\spi;..\Marlin\lib\component\uart;..\Marlin\lib\component\Utility;..\Marlin\lib\drivers\board;..\Marlin\lib\drivers\library;..\Marlin\lib\drivers\library\inc;..\Marlin\lib\arduino;..\Marlin\lib\framework\usb;..\Marlin\lib\framework\variants;..\Marlin\lib\main;..\Marlin\lib\main\hdsc32core;..\Marlin\lib\framework\SoftwareSerial;..\Marlin\lib\framework\TMCStepper;..\Marlin\lib\framework\TMCStepper\source;..\Marlin\lib\board;..\Marlin\lib\FatFs;..\Marlin\src;..\Marlin\src\pins;..\Marlin\src\core;..\Marlin\src\lcd;..\Marlin\src\feature;..\Marlin\src\feature\bedlevel;..\Marlin\src\feature\bedlevel\abl;..\Marlin\src\feature\bedlevel\mbl;..\Marlin\src\feature\bedlevel\ubl;..\Marlin\src\gcode;..\Marlin\src\HAL;..\Marlin\src\HAL\shared;..\Marlin\src\HAL\shared\backtrace;..\Marlin\src\HAL\HC32F46x;..\Marlin\src\HAL\HC32F46x\tft;..\Marlin\src\HAL\HC32F46x\inc;..\Marlin\src\inc;..\Marlin\src\lcd\language;..\Marlin\src\libs;..\Marlin\src\pins;..\Marlin\src\pins\hc32f46x;..\Marlin\src\lcd\extui;..\Marlin\src\lcd\extui\anycubic_kobra;..\Marlin\src\module;..\Marlin\src\module\stepper;..\Marlin\src\module\stepper\source;..\Marlin\src\module\thermistor;..\Marlin\src\sd;..\Marlin\lib\arduino\avr;..\Marlin\lib\arduino\stm32;..\Marlin\lib\arduino\stm32\LL;..\Marlin\lib\arduino\stm32\STM32F4xx_HAL_Driver\inc;..\Marlin\lib\arduino\stm32\STM32F4xx_HAL_Driver\src;..\Marlin\lib\arduino\libmaple;..\Marlin\lib\main\include;..\Marlin\src\lcd\extui\anycubic;..\Marlin\lib\main\include</IncludePath>
+              <IncludePath>..\Marlin;..\Marlin\lib\component\adc;..\Marlin\lib\component\i2c;..\Marlin\lib\component\sdio;..\Marlin\lib\component\sdio\sd_card\inc;..\Marlin\lib\component\spi;..\Marlin\lib\component\uart;..\Marlin\lib\component\Utility;..\Marlin\lib\drivers\board;..\Marlin\lib\drivers\library;..\Marlin\lib\drivers\library\inc;..\Marlin\lib\arduino;..\Marlin\lib\framework\usb;..\Marlin\lib\framework\variants;..\Marlin\lib\main;..\Marlin\lib\main\hdsc32core;..\Marlin\lib\framework\SoftwareSerial;..\Marlin\lib\framework\TMCStepper;..\Marlin\lib\framework\TMCStepper\source;..\Marlin\lib\board;..\Marlin\lib\FatFs;..\Marlin\src;..\Marlin\src\pins;..\Marlin\src\core;..\Marlin\src\lcd;..\Marlin\src\feature;..\Marlin\src\feature\bedlevel;..\Marlin\src\feature\bedlevel\abl;..\Marlin\src\feature\bedlevel\mbl;..\Marlin\src\feature\bedlevel\ubl;..\Marlin\src\gcode;..\Marlin\src\HAL;..\Marlin\src\HAL\shared;..\Marlin\src\HAL\shared\backtrace;..\Marlin\src\HAL\HC32F46x;..\Marlin\src\HAL\HC32F46x\tft;..\Marlin\src\HAL\HC32F46x\inc;..\Marlin\src\inc;..\Marlin\src\lcd\language;..\Marlin\src\libs;..\Marlin\src\pins;..\Marlin\src\pins\hc32f46x;..\Marlin\src\lcd\extui;..\Marlin\src\lcd\extui\anycubic_kobra;..\Marlin\src\module;..\Marlin\src\module\stepper;..\Marlin\src\module\stepper\source;..\Marlin\src\module\thermistor;..\Marlin\src\sd;..\Marlin\lib\arduino\avr;..\Marlin\lib\arduino\stm32;..\Marlin\lib\arduino\stm32\LL;..\Marlin\lib\arduino\stm32\STM32F4xx_HAL_Driver\inc;..\Marlin\lib\arduino\stm32\STM32F4xx_HAL_Driver\src;..\Marlin\lib\arduino\libmaple;..\Marlin\lib\main\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2844,12 +2844,12 @@
       <filter>
         <targetInfos/>
       </filter>
-      <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0">
+      <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0">
         <targetInfos>
           <targetInfo name="firmware_Release" versionMatchMode="fixed"/>
         </targetInfos>
       </package>
-      <package name="HC32F460" schemaVersion="1.3" url="https://raw.githubusercontent.com/hdscmcu/pack/master/" vendor="HDSC" version="1.0.9">
+      <package name="HC32F460" schemaVersion="1.3" url="https://raw.githubusercontent.com/hdscmcu/pack/master/" vendor="HDSC" version="1.0.7">
         <targetInfos>
           <targetInfo name="firmware_Release" versionMatchMode="fixed"/>
         </targetInfos>
@@ -2857,14 +2857,14 @@
     </packages>
     <apis/>
     <components>
-      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.6.0" condition="ARMv6_7_8-M Device">
-        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
+      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.4.0" condition="ARMv6_7_8-M Device">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
         <targetInfos>
           <targetInfo name="firmware_Release"/>
         </targetInfos>
       </component>
-      <component Cclass="CMSIS" Cgroup="DSP" Cvariant="Source" Cvendor="ARM" Cversion="1.10.0" condition="CMSIS DSP">
-        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
+      <component Cclass="CMSIS" Cgroup="DSP" Cvariant="Library" Cvendor="ARM" Cversion="1.8.0" condition="CMSIS DSP">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.7.0"/>
         <targetInfos>
           <targetInfo name="firmware_Release"/>
         </targetInfos>

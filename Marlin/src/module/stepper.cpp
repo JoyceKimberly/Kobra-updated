@@ -1579,7 +1579,7 @@ void Stepper::isr() {
           advance_isr();
           nextAdvanceISR = la_interval;
         }
-        else if (nextAdvanceISR == LA_ADV_NEVER)          // Start LA steps if necessary
+        else if (nextAdvanceISR > la_interval)            // Start/accelerate LA steps if necessary
           nextAdvanceISR = la_interval;
       #endif
 
@@ -2170,7 +2170,8 @@ hal_timer_t Stepper::calc_timer_interval(uint32_t step_rate) {
   #ifdef CPU_32_BIT
 
     // A fast processor can just do integer division
-    return step_rate ? uint32_t(STEPPER_TIMER_RATE) / step_rate : HAL_TIMER_TYPE_MAX;
+    constexpr uint32_t min_step_rate = uint32_t(STEPPER_TIMER_RATE) / HAL_TIMER_TYPE_MAX;
+    return step_rate > min_step_rate ? uint32_t(STEPPER_TIMER_RATE) / step_rate : HAL_TIMER_TYPE_MAX;
 
   #else
 
@@ -3198,9 +3199,9 @@ void Stepper::init() {
     else if (zeta >= 1.0f) factor2 = 0.0f;
     else {
       factor2 = 64.44056192 + -99.02008832 * zeta;
-      const_float_t zeta2 = zeta * zeta;
+      const float zeta2 = sq(zeta);
       factor2 += -7.58095488 * zeta2;
-      const_float_t zeta3 = zeta2 * zeta;
+      const float zeta3 = zeta2 * zeta;
       factor2 += 43.073216 * zeta3;
       factor2 = floor(factor2);
     }
@@ -3866,7 +3867,7 @@ void Stepper::report_positions() {
 
       #elif HAS_MOTOR_CURRENT_PWM
 
-        #define _WRITE_CURRENT_PWM(P) analogWrite(pin_t(MOTOR_CURRENT_PWM_## P ##_PIN), 255L * current / (MOTOR_CURRENT_PWM_RANGE))
+        #define _WRITE_CURRENT_PWM(P) hal.set_pwm_duty(pin_t(MOTOR_CURRENT_PWM_## P ##_PIN), 255L * current / (MOTOR_CURRENT_PWM_RANGE))
         switch (driver) {
           case 0:
             #if PIN_EXISTS(MOTOR_CURRENT_PWM_X)

@@ -2,9 +2,9 @@
 
 //#define TMCDEBUG
 
-//#pragma GCC diagnostic push
-//#pragma GCC diagnostic ignored "-Wunused-function"
-//#pragma GCC diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wunused-variable"
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	//#include <Arduino.h>
@@ -22,7 +22,7 @@
 #include "source/SERIAL_SWITCH.h"
 #include "source/SW_SPI.h"
 
-//#pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
 
 #include "source/TMC2130_bitfields.h"
 #include "source/TMC2160_bitfields.h"
@@ -42,7 +42,7 @@
 #define INIT2224_REGISTER(REG) TMC2224_n::REG##_t REG##_register = TMC2224_n::REG##_t
 #define SET_ALIAS(TYPE, DRIVER, NEW, ARG, OLD) TYPE (DRIVER::*NEW)(ARG) = &DRIVER::OLD
 
-#define TMCSTEPPER_VERSION 0x000701 // v0.7.1
+#define TMCSTEPPER_VERSION 0x000703 // v0.7.3
 
 class TMCStepper {
 	public:
@@ -218,34 +218,34 @@ class TMC2130Stepper : public TMCStepper {
 		uint32_t CHOPCONF();
 		void CHOPCONF(						uint32_t value);
 		void toff(								uint8_t B);
-		virtual void hstrt(								uint8_t B);
-		virtual void hend(								uint8_t B);
+		void hstrt(								uint8_t B);
+		void hend(								uint8_t B);
 		//void fd(									uint8_t B);
 		void disfdcc(							bool 		B);
 		void rndtf(								bool 		B);
 		void chm(									bool 		B);
-		virtual void tbl(									uint8_t B);
-		virtual void vsense(							bool 		B);
+		void tbl(									uint8_t B);
+		void vsense(							bool 		B);
 		void vhighfs(							bool 		B);
 		void vhighchm(						bool 		B);
 		void sync(								uint8_t B);
-		virtual void mres(								uint8_t B);
+		void mres(								uint8_t B);
 		void intpol(							bool 		B);
 		void dedge(								bool 		B);
 		void diss2g(							bool 		B);
 		uint8_t toff();
-		virtual uint8_t hstrt();
-		virtual uint8_t hend();
+		uint8_t hstrt();
+		uint8_t hend();
 		//uint8_t fd();
 		bool 	disfdcc();
 		bool 	rndtf();
 		bool 	chm();
-		virtual uint8_t tbl();
-		virtual bool 	vsense();
+		uint8_t tbl();
+		bool 	vsense();
 		bool 	vhighfs();
 		bool 	vhighchm();
 		uint8_t sync();
-		virtual uint8_t mres();
+		uint8_t mres();
 		bool 	intpol();
 		bool 	dedge();
 		bool 	diss2g();
@@ -277,7 +277,7 @@ class TMC2130Stepper : public TMCStepper {
 		uint8_t dc_sg();
 
 		// R: DRV_STATUS
-		virtual uint32_t DRV_STATUS();
+		uint32_t DRV_STATUS();
 		uint16_t sg_result();
 		bool fsactive();
 		uint8_t cs_actual();
@@ -329,8 +329,8 @@ class TMC2130Stepper : public TMCStepper {
 		void endTransaction();
 		uint8_t transfer(const uint8_t data);
 		void transferEmptyBytes(const uint8_t n);
-		virtual void write(uint8_t addressByte, uint32_t config);
-		virtual uint32_t read(uint8_t addressByte);
+		void write(uint8_t addressByte, uint32_t config);
+		uint32_t read(uint8_t addressByte);
 
 		INIT_REGISTER(GCONF){{.sr=0}};		// 32b
 		INIT_REGISTER(TCOOLTHRS){.sr=0};	// 32b
@@ -581,11 +581,11 @@ class TMC5130Stepper : public TMC2160Stepper {
 		uint32_t VSTART();
 		void VSTART(uint32_t input);
 		// W: A1
-		uint16_t A1();
-		void A1(uint16_t input);
+		uint16_t a1();
+		void a1(uint16_t input);
 		// W: V1
-		uint32_t V1();
-		void V1(uint32_t input);
+		uint32_t v1();
+		void v1(uint32_t input);
 		// W: AMAX
 		uint16_t AMAX();
 		void AMAX(uint16_t input);
@@ -596,8 +596,8 @@ class TMC5130Stepper : public TMC2160Stepper {
 		uint16_t DMAX();
 		void DMAX(uint16_t input);
 		// W: D1
-		uint16_t D1();
-		void D1(uint16_t input);
+		uint16_t d1();
+		void d1(uint16_t input);
 		// W: VSTOP
 		uint32_t VSTOP();
 		void VSTOP(uint32_t input);
@@ -825,7 +825,7 @@ class TMC2208Stepper : public TMCStepper {
 		void push();
 		void begin();
 		#if SW_CAPABLE_PLATFORM
-			void beginSerial(uint32_t baudrate); // __attribute__((weak));
+			void beginSerial(uint32_t baudrate) __attribute__((weak));
 		#else
 			void beginSerial(uint32_t) = delete; // Your platform does not currently support Software Serial
 		#endif
@@ -895,29 +895,29 @@ class TMC2208Stepper : public TMCStepper {
 		// RW: CHOPCONF
 		void CHOPCONF(uint32_t input);
 		void toff(uint8_t B);
-		virtual void hstrt(uint8_t B);
-		virtual void hend(uint8_t B);
-		virtual void tbl(uint8_t B);
-		virtual void vsense(bool B);
-		virtual void mres(uint8_t B);
+		void hstrt(uint8_t B);
+		void hend(uint8_t B);
+		void tbl(uint8_t B);
+		void vsense(bool B);
+		void mres(uint8_t B);
 		void intpol(bool B);
 		void dedge(bool B);
 		void diss2g(bool B);
 		void diss2vs(bool B);
 		uint32_t CHOPCONF();
 		uint8_t toff();
-		virtual uint8_t hstrt();
-		virtual uint8_t hend();
-		virtual uint8_t tbl();
-		virtual bool vsense();
-		virtual uint8_t mres();
+		uint8_t hstrt();
+		uint8_t hend();
+		uint8_t tbl();
+		bool vsense();
+		uint8_t mres();
 		bool intpol();
 		bool dedge();
 		bool diss2g();
 		bool diss2vs();
 
 		// R: DRV_STATUS
-		virtual uint32_t DRV_STATUS();
+		uint32_t DRV_STATUS();
 		bool otpw();
 		bool ot();
 		bool s2ga();
@@ -999,8 +999,8 @@ class TMC2208Stepper : public TMCStepper {
 		uint8_t serial_write(const uint8_t data);
 		void postWriteCommunication();
 		void postReadCommunication();
-		virtual void write(uint8_t, uint32_t);
-		virtual uint32_t read(uint8_t);
+		void write(uint8_t, uint32_t);
+		uint32_t read(uint8_t);
 		const uint8_t slave_address;
 		uint8_t calcCRC(uint8_t datagram[], uint8_t len);
 		static constexpr uint8_t  TMC2208_SYNC = 0x05,
