@@ -129,9 +129,6 @@ public:
     /* Set up/tear down */
     inline size_t begin(uint32_t baudrate) { return baudrate; }
     void end();
-    void msgDone() {};
-    bool connected() {};
-    void flushTX() {};
     virtual int available(void);
     virtual int peek(void);
     virtual int read(void);
@@ -152,6 +149,10 @@ public:
     /* Escape hatch into libmaple */
     /* FIXME [0.0.13] documentation */
     struct usart_dev* c_dev(void) { return this->usart_device; }
+
+    bool connected() {};
+    void flushTX();
+    void msgDone() {};
 
     // Interrupt handlers - Not intended to be called externally
     void _rx_complete_callback(unsigned char c);

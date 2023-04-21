@@ -136,7 +136,7 @@ typedef struct stc_sdmmc_resp_card_status
     uint32_t    ERASE_SEQ_ERR       :1;     ///< An error in the sequence of erase commands occurred.
     uint32_t    BLOCK_LEN_ERR       :1;     ///< The transferred block length is not allowed for this card, or the number of transferred bytes does not match the block length.
     uint32_t    ADDRESS_ERROR       :1;     ///< A misaligned address which did not match the block length was used in the command.
-    uint32_t    OUT_OF_RANGE        :1;     ///< The command¡¯s argument was out of the allowed range for this card.
+    uint32_t    OUT_OF_RANGE        :1;     ///< The commandï¿½ï¿½s argument was out of the allowed range for this card.
 } stc_sdmmc_resp_card_status_t;
 
 /*******************************************************************************

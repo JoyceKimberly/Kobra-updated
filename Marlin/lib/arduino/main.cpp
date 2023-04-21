@@ -36,8 +36,7 @@ void scb_init(void)
     SCB->VTOR = ((uint32_t) APP_START_ADDRESS & SCB_VTOR_TBLOFF_Msk);
 }
 
-int32_t main(void)
-{
+int32_t main(void) {
     scb_init();
 
     PWC_HS2HP();
@@ -83,10 +82,9 @@ int32_t main(void)
 
     setup();
 
-    while(1) {
+    while (1) {
         loop();
     }
-
     return 0;
 }
 
