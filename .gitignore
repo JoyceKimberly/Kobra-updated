@@ -89,3 +89,4 @@ project/*.bin
 *.si4project/
 
 .DS_Store
+workspace/.vscode/uv4.log
