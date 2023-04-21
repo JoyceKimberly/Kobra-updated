@@ -633,9 +633,8 @@ namespace Anycubic {
   #endif // POWER_LOSS_RECOVERY
 
   void DgusTFT::HomingStart() {
-    if (!isPrintingFromMedia()) {
-        ChangePageOfTFT(PAGE_HOMING);
-    }
+    if (!isPrintingFromMedia())
+      ChangePageOfTFT(PAGE_HOMING);
   }
 
   void DgusTFT::HomingComplete() {
@@ -644,9 +643,8 @@ namespace Anycubic {
       DEBUG_ECHOLNPGM("page_index_last: ", page_index_last);
     #endif
 
-    if (!isPrintingFromMedia()) {
+    if (!isPrintingFromMedia())
       ChangePageOfTFT(page_index_last);
-    }
   }
 
   void DgusTFT::SendtoTFT(FSTR_P const fstr/*=nullptr*/) {  // A helper to print PROGMEM string to the panel
@@ -1460,9 +1458,7 @@ namespace Anycubic {
         feedrate_back = (uint16_t)getFeedrate_percent();
         SendValueToTFT(feedrate_back, TXT_ADJUST_SPEED);
         TERN_(HAS_FAN, SendValueToTFT(uint16_t(getActualFan_percent(FAN0)), TXT_FAN_SPEED_TARGET));
-        str_buf[0] = 0;
-        strcat(str_buf, ftostr52sprj(getZOffset_mm()) + 3);
-        SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
+        SendTxtToTFT(ftostr52sprj(getZOffset_mm()), TXT_LEVEL_OFFSET);
         break;
     }
 
@@ -2543,7 +2539,7 @@ namespace Anycubic {
           #if PROBING_BED_TEMP || LEVELING_BED_TEMP
             setTargetTemp_celsius(LEVELING_BED_TEMP, BED);
           #endif
-          injectCommands_P(PSTR("M851 Z0\nG28\nG29"));
+          injectCommands(F("M851 Z0\nG28\nG29"));
           printer_state = AC_printer_probing;
 
           ChangePageOfTFT(PAGE_LEVELING);
@@ -2881,7 +2877,7 @@ namespace Anycubic {
 
     delay(3000);
 
-    injectCommands_P(PSTR("M851 Z0\nG28\nG29"));
+    injectCommands(F("M851 Z0\nG28\nG29"));
     printer_state = AC_printer_probing;
     ChangePageOfTFT(PAGE_LEVELING);
   }
