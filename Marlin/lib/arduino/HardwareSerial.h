@@ -151,7 +151,7 @@ public:
     struct usart_dev* c_dev(void) { return this->usart_device; }
 
     bool connected() {};
-    void flushTX();
+    void flushTX() { flush(); };
     void msgDone() {};
 
     // Interrupt handlers - Not intended to be called externally

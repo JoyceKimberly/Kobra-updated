@@ -2628,84 +2628,85 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
 #endif
 
 /**
- * Test Sensor & Heater pin combos.
  * Pins and Sensor IDs must be set for each heater
  */
-#if HAS_EXTRUDERS && !ANY_PIN(TEMP_0, TEMP_0_CS)
-  #error "TEMP_0_PIN or TEMP_0_CS_PIN not defined for this board."
-#elif HAS_EXTRUDERS && !HAS_HEATER_0
-  #error "HEATER_0_PIN not defined for this board."
-#elif TEMP_SENSOR_IS_MAX_TC(0) && !PIN_EXISTS(TEMP_0_CS)
-  #error "TEMP_SENSOR_0 MAX thermocouple requires TEMP_0_CS_PIN."
-#elif HAS_HOTEND && !HAS_TEMP_HOTEND && !TEMP_SENSOR_0_IS_DUMMY
-  #error "TEMP_0_PIN (required for TEMP_SENSOR_0) not defined for this board."
-#elif EITHER(HAS_MULTI_HOTEND, HEATERS_PARALLEL) && !HAS_HEATER_1
-  #error "HEATER_1_PIN is not defined. TEMP_SENSOR_1 might not be set, or the board (not EEB / EEF?) doesn't define a pin."
-#endif
-
-#if HAS_MULTI_HOTEND
-  #if TEMP_SENSOR_IS_MAX_TC(1) && !PIN_EXISTS(TEMP_1_CS)
-    #error "TEMP_SENSOR_1 MAX thermocouple requires TEMP_1_CS_PIN."
-  #elif TEMP_SENSOR_1 == 0
-    #error "TEMP_SENSOR_1 is required with 2 or more HOTENDS."
-  #elif !ANY_PIN(TEMP_1, TEMP_1_CS) && !TEMP_SENSOR_1_IS_DUMMY
-    #error "TEMP_1_PIN or TEMP_1_CS_PIN not defined for this board."
+#if HAS_HOTEND
+  #if !HAS_HEATER_0
+    #error "HEATER_0_PIN not defined for this board."
+  #elif TEMP_SENSOR_IS_MAX_TC(0) && !PIN_EXISTS(TEMP_0_CS)
+    #error "TEMP_SENSOR_0 MAX thermocouple requires TEMP_0_CS_PIN."
+  #elif TEMP_SENSOR_0 == 0
+    #error "TEMP_SENSOR_0 is required with 1 or more HOTENDS."
+  #elif !ANY_PIN(TEMP_0, TEMP_0_CS) && !TEMP_SENSOR_0_IS_DUMMY
+    #error "TEMP_0_PIN or TEMP_0_CS_PIN not defined for this board."
   #endif
-  #if HOTENDS > 2
-    #if TEMP_SENSOR_2 == 0
-      #error "TEMP_SENSOR_2 is required with 3 or more HOTENDS."
-    #elif !HAS_HEATER_2
-      #error "HEATER_2_PIN not defined for this board."
-    #elif !ANY_PIN(TEMP_2, TEMP_2_CS) && !TEMP_SENSOR_2_IS_DUMMY
-      #error "TEMP_2_PIN or TEMP_2_CS_PIN not defined for this board."
+  #if EITHER(HAS_MULTI_HOTEND, HEATERS_PARALLEL) && !HAS_HEATER_1
+    #error "HEATER_1_PIN is not defined. TEMP_SENSOR_1 might not be set, or the board (not EEB / EEF?) doesn't define a pin."
+  #endif
+  #if HAS_MULTI_HOTEND
+    #if TEMP_SENSOR_IS_MAX_TC(1) && !PIN_EXISTS(TEMP_1_CS)
+      #error "TEMP_SENSOR_1 MAX thermocouple requires TEMP_1_CS_PIN."
+    #elif TEMP_SENSOR_1 == 0
+      #error "TEMP_SENSOR_1 is required with 2 or more HOTENDS."
+    #elif !ANY_PIN(TEMP_1, TEMP_1_CS) && !TEMP_SENSOR_1_IS_DUMMY
+      #error "TEMP_1_PIN or TEMP_1_CS_PIN not defined for this board."
     #endif
-    #if HOTENDS > 3
-      #if TEMP_SENSOR_3 == 0
-        #error "TEMP_SENSOR_3 is required with 4 or more HOTENDS."
-      #elif !HAS_HEATER_3
-        #error "HEATER_3_PIN not defined for this board."
-      #elif !PIN_EXISTS(TEMP_3) && !TEMP_SENSOR_3_IS_DUMMY
-        #error "TEMP_3_PIN not defined for this board."
+    #if HOTENDS > 2
+      #if TEMP_SENSOR_2 == 0
+        #error "TEMP_SENSOR_2 is required with 3 or more HOTENDS."
+      #elif !HAS_HEATER_2
+        #error "HEATER_2_PIN not defined for this board."
+      #elif !ANY_PIN(TEMP_2, TEMP_2_CS) && !TEMP_SENSOR_2_IS_DUMMY
+        #error "TEMP_2_PIN or TEMP_2_CS_PIN not defined for this board."
       #endif
-      #if HOTENDS > 4
-        #if TEMP_SENSOR_4 == 0
-          #error "TEMP_SENSOR_4 is required with 5 or more HOTENDS."
-        #elif !HAS_HEATER_4
-          #error "HEATER_4_PIN not defined for this board."
-        #elif !PIN_EXISTS(TEMP_4) && !TEMP_SENSOR_4_IS_DUMMY
-          #error "TEMP_4_PIN not defined for this board."
+      #if HOTENDS > 3
+        #if TEMP_SENSOR_3 == 0
+          #error "TEMP_SENSOR_3 is required with 4 or more HOTENDS."
+        #elif !HAS_HEATER_3
+          #error "HEATER_3_PIN not defined for this board."
+        #elif !PIN_EXISTS(TEMP_3) && !TEMP_SENSOR_3_IS_DUMMY
+          #error "TEMP_3_PIN not defined for this board."
         #endif
-        #if HOTENDS > 5
-          #if TEMP_SENSOR_5 == 0
-            #error "TEMP_SENSOR_5 is required with 6 HOTENDS."
-          #elif !HAS_HEATER_5
-            #error "HEATER_5_PIN not defined for this board."
-          #elif !PIN_EXISTS(TEMP_5) && !TEMP_SENSOR_5_IS_DUMMY
-            #error "TEMP_5_PIN not defined for this board."
+        #if HOTENDS > 4
+          #if TEMP_SENSOR_4 == 0
+            #error "TEMP_SENSOR_4 is required with 5 or more HOTENDS."
+          #elif !HAS_HEATER_4
+            #error "HEATER_4_PIN not defined for this board."
+          #elif !PIN_EXISTS(TEMP_4) && !TEMP_SENSOR_4_IS_DUMMY
+            #error "TEMP_4_PIN not defined for this board."
           #endif
-          #if HOTENDS > 6
-            #if TEMP_SENSOR_6 == 0
-              #error "TEMP_SENSOR_6 is required with 6 HOTENDS."
-            #elif !HAS_HEATER_6
-              #error "HEATER_6_PIN not defined for this board."
-            #elif !PIN_EXISTS(TEMP_6) && !TEMP_SENSOR_6_IS_DUMMY
-              #error "TEMP_6_PIN not defined for this board."
+          #if HOTENDS > 5
+            #if TEMP_SENSOR_5 == 0
+              #error "TEMP_SENSOR_5 is required with 6 HOTENDS."
+            #elif !HAS_HEATER_5
+              #error "HEATER_5_PIN not defined for this board."
+            #elif !PIN_EXISTS(TEMP_5) && !TEMP_SENSOR_5_IS_DUMMY
+              #error "TEMP_5_PIN not defined for this board."
             #endif
-            #if HOTENDS > 7
-              #if TEMP_SENSOR_7 == 0
-                #error "TEMP_SENSOR_7 is required with 7 HOTENDS."
-              #elif !HAS_HEATER_7
-                #error "HEATER_7_PIN not defined for this board."
-              #elif !PIN_EXISTS(TEMP_7) && !TEMP_SENSOR_7_IS_DUMMY
-                #error "TEMP_7_PIN not defined for this board."
+            #if HOTENDS > 6
+              #if TEMP_SENSOR_6 == 0
+                #error "TEMP_SENSOR_6 is required with 6 HOTENDS."
+              #elif !HAS_HEATER_6
+                #error "HEATER_6_PIN not defined for this board."
+              #elif !PIN_EXISTS(TEMP_6) && !TEMP_SENSOR_6_IS_DUMMY
+                #error "TEMP_6_PIN not defined for this board."
               #endif
-            #endif // HOTENDS > 7
-          #endif // HOTENDS > 6
-        #endif // HOTENDS > 5
-      #endif // HOTENDS > 4
-    #endif // HOTENDS > 3
-  #endif // HOTENDS > 2
-#endif // HAS_MULTI_HOTEND
+              #if HOTENDS > 7
+                #if TEMP_SENSOR_7 == 0
+                  #error "TEMP_SENSOR_7 is required with 7 HOTENDS."
+                #elif !HAS_HEATER_7
+                  #error "HEATER_7_PIN not defined for this board."
+                #elif !PIN_EXISTS(TEMP_7) && !TEMP_SENSOR_7_IS_DUMMY
+                  #error "TEMP_7_PIN not defined for this board."
+                #endif
+              #endif // HOTENDS > 7
+            #endif // HOTENDS > 6
+          #endif // HOTENDS > 5
+        #endif // HOTENDS > 4
+      #endif // HOTENDS > 3
+    #endif // HOTENDS > 2
+  #endif // HAS_MULTI_HOTEND
+#endif // HAS_HOTEND
 
 #if DO_TOOLCHANGE_FOR_PROBING && PROBING_TOOL >= EXTRUDERS
   #error "PROBING_TOOL must be a valid tool index."
@@ -2836,8 +2837,8 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
     #error "E0_STEP_PIN or E0_DIR_PIN not defined for this board."
   #elif ( !(defined(__AVR_ATmega644P__) || defined(__AVR_ATmega1284P__)) && (!PINS_EXIST(E0_STEP, E0_DIR) || !HAS_E0_ENABLE))
     #error "E0_STEP_PIN, E0_DIR_PIN, or E0_ENABLE_PIN not defined for this board."
-  #elif EXTRUDERS && TEMP_SENSOR_0 == 0
-    #error "TEMP_SENSOR_0 is required if there are any extruders."
+  #elif HOTENDS && TEMP_SENSOR_0 == 0
+    #error "TEMP_SENSOR_0 is required if there are any hotends."
   #endif
 #endif
 
@@ -3618,41 +3619,41 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
 
   #if NONE(SPI_ENDSTOPS, ONBOARD_ENDSTOPPULLUPS, ENDSTOPPULLUPS)
     #if   X_SENSORLESS && X_HOME_TO_MIN && DISABLED(ENDSTOPPULLUP_XMIN)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_XMIN (or ENDSTOPPULLUPS) for X_MIN homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_XMIN (or ENDSTOPPULLUPS) for X MIN homing."
     #elif X_SENSORLESS && X_HOME_TO_MAX && DISABLED(ENDSTOPPULLUP_XMAX)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_XMAX (or ENDSTOPPULLUPS) for X_MAX homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_XMAX (or ENDSTOPPULLUPS) for X MAX homing."
     #elif Y_SENSORLESS && Y_HOME_TO_MIN && DISABLED(ENDSTOPPULLUP_YMIN)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_YMIN (or ENDSTOPPULLUPS) for Y_MIN homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_YMIN (or ENDSTOPPULLUPS) for Y MIN homing."
     #elif Y_SENSORLESS && Y_HOME_TO_MAX && DISABLED(ENDSTOPPULLUP_YMAX)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_YMAX (or ENDSTOPPULLUPS) for Y_MAX homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_YMAX (or ENDSTOPPULLUPS) for Y MAX homing."
     #elif Z_SENSORLESS && Z_HOME_TO_MIN && DISABLED(ENDSTOPPULLUP_ZMIN)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_ZMIN (or ENDSTOPPULLUPS) for Z_MIN homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_ZMIN (or ENDSTOPPULLUPS) for Z MIN homing."
     #elif Z_SENSORLESS && Z_HOME_TO_MAX && DISABLED(ENDSTOPPULLUP_ZMAX)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_ZMAX (or ENDSTOPPULLUPS) for Z_MAX homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_ZMAX (or ENDSTOPPULLUPS) for Z MAX homing."
     #elif I_SENSORLESS && I_HOME_TO_MIN && DISABLED(ENDSTOPPULLUP_IMIN)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_IMIN (or ENDSTOPPULLUPS) for I_MIN homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_IMIN (or ENDSTOPPULLUPS) for I MIN homing."
     #elif I_SENSORLESS && I_HOME_TO_MAX && DISABLED(ENDSTOPPULLUP_IMAX)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_IMAX (or ENDSTOPPULLUPS) for I_MAX homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_IMAX (or ENDSTOPPULLUPS) for I MAX homing."
     #elif J_SENSORLESS && J_HOME_TO_MIN && DISABLED(ENDSTOPPULLUP_JMIN)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_JMIN (or ENDSTOPPULLUPS) for J_MIN homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_JMIN (or ENDSTOPPULLUPS) for J MIN homing."
     #elif J_SENSORLESS && J_HOME_TO_MAX && DISABLED(ENDSTOPPULLUP_JMAX)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_JMAX (or ENDSTOPPULLUPS) for J_MAX homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_JMAX (or ENDSTOPPULLUPS) for J MAX homing."
     #elif K_SENSORLESS && K_HOME_TO_MIN && DISABLED(ENDSTOPPULLUP_KMIN)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_KMIN (or ENDSTOPPULLUPS) for K_MIN homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_KMIN (or ENDSTOPPULLUPS) for K MIN homing."
     #elif K_SENSORLESS && K_HOME_TO_MAX && DISABLED(ENDSTOPPULLUP_KMAX)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_KMAX (or ENDSTOPPULLUPS) for K_MAX homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_KMAX (or ENDSTOPPULLUPS) for K MAX homing."
     #elif U_SENSORLESS && U_HOME_TO_MIN && DISABLED(ENDSTOPPULLUP_UMIN)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_UMIN (or ENDSTOPPULLUPS) for U_MIN homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_UMIN (or ENDSTOPPULLUPS) for U MIN homing."
     #elif U_SENSORLESS && U_HOME_TO_MAX && DISABLED(ENDSTOPPULLUP_UMAX)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_UMAX (or ENDSTOPPULLUPS) for U_MAX homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_UMAX (or ENDSTOPPULLUPS) for U MAX homing."
     #elif V_SENSORLESS && V_HOME_TO_MIN && DISABLED(ENDSTOPPULLUP_VMIN)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_VMIN (or ENDSTOPPULLUPS) for V_MIN homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_VMIN (or ENDSTOPPULLUPS) for V MIN homing."
     #elif V_SENSORLESS && V_HOME_TO_MAX && DISABLED(ENDSTOPPULLUP_VMAX)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_VMAX (or ENDSTOPPULLUPS) for V_MAX homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_VMAX (or ENDSTOPPULLUPS) for V MAX homing."
     #elif W_SENSORLESS && W_HOME_TO_MIN && DISABLED(ENDSTOPPULLUP_WMIN)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_WMIN (or ENDSTOPPULLUPS) for W_MIN homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_WMIN (or ENDSTOPPULLUPS) for W MIN homing."
     #elif W_SENSORLESS && W_HOME_TO_MAX && DISABLED(ENDSTOPPULLUP_WMAX)
-      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_WMAX (or ENDSTOPPULLUPS) for W_MAX homing."
+      #error "SENSORLESS_HOMING requires ENDSTOPPULLUP_WMAX (or ENDSTOPPULLUPS) for W MAX homing."
 
     #endif
   #endif
@@ -3668,15 +3669,15 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
       #define _HIT_STATE AXIS_DRIVER_TYPE(X,TMC2209)
       #if X_HOME_TO_MIN && X_MIN_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires X_MIN_ENDSTOP_HIT_STATE HIGH for X_MIN homing with TMC2209."
+          #error "SENSORLESS_HOMING requires X_MIN_ENDSTOP_HIT_STATE HIGH for X MIN homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires X_MIN_ENDSTOP_HIT_STATE LOW for X_MIN homing."
+          #error "SENSORLESS_HOMING requires X_MIN_ENDSTOP_HIT_STATE LOW for X MIN homing."
         #endif
       #elif X_HOME_TO_MAX && X_MAX_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires X_MAX_ENDSTOP_HIT_STATE HIGH for X_MAX homing with TMC2209."
+          #error "SENSORLESS_HOMING requires X_MAX_ENDSTOP_HIT_STATE HIGH for X MAX homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires X_MAX_ENDSTOP_HIT_STATE LOW for X_MAX homing."
+          #error "SENSORLESS_HOMING requires X_MAX_ENDSTOP_HIT_STATE LOW for X MAX homing."
         #endif
       #endif
       #undef _HIT_STATE
@@ -3686,15 +3687,15 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
       #define _HIT_STATE AXIS_DRIVER_TYPE(Y,TMC2209)
       #if Y_HOME_TO_MIN && Y_MIN_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires Y_MIN_ENDSTOP_HIT_STATE HIGH for Y_MIN homing with TMC2209."
+          #error "SENSORLESS_HOMING requires Y_MIN_ENDSTOP_HIT_STATE HIGH for Y MIN homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires Y_MIN_ENDSTOP_HIT_STATE LOW for Y_MIN homing."
+          #error "SENSORLESS_HOMING requires Y_MIN_ENDSTOP_HIT_STATE LOW for Y MIN homing."
         #endif
       #elif Y_HOME_TO_MAX && Y_MAX_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires Y_MAY_ENDSTOP_HIT_STATE HIGH for Y_MAX homing with TMC2209."
+          #error "SENSORLESS_HOMING requires Y_MAX_ENDSTOP_HIT_STATE HIGH for Y MAX homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires Y_MAY_ENDSTOP_HIT_STATE LOW for Y_MAX homing."
+          #error "SENSORLESS_HOMING requires Y_MAX_ENDSTOP_HIT_STATE LOW for Y MAX homing."
         #endif
       #endif
       #undef _HIT_STATE
@@ -3704,15 +3705,15 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
       #define _HIT_STATE AXIS_DRIVER_TYPE(Z,TMC2209)
       #if Z_HOME_TO_MIN && Z_MIN_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires Z_MIN_ENDSTOP_HIT_STATE HIGH for Z_MIN homing with TMC2209."
+          #error "SENSORLESS_HOMING requires Z_MIN_ENDSTOP_HIT_STATE HIGH for Z MIN homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires Z_MIN_ENDSTOP_HIT_STATE LOW for Z_MIN homing."
+          #error "SENSORLESS_HOMING requires Z_MIN_ENDSTOP_HIT_STATE LOW for Z MIN homing."
         #endif
       #elif Z_HOME_TO_MAX && Z_MAX_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires Z_MAZ_ENDSTOP_HIT_STATE HIGH for Z_MAX homing with TMC2209."
+          #error "SENSORLESS_HOMING requires Z_MAX_ENDSTOP_HIT_STATE HIGH for Z MAX homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires Z_MAZ_ENDSTOP_HIT_STATE LOW for Z_MAX homing."
+          #error "SENSORLESS_HOMING requires Z_MAX_ENDSTOP_HIT_STATE LOW for Z MAX homing."
         #endif
       #endif
       #undef _HIT_STATE
@@ -3722,15 +3723,15 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
       #define _HIT_STATE AXIS_DRIVER_TYPE(I,TMC2209)
       #if I_HOME_TO_MIN && I_MIN_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires I_MIN_ENDSTOP_HIT_STATE HIGH for I_MIN homing with TMC2209."
+          #error "SENSORLESS_HOMING requires I_MIN_ENDSTOP_HIT_STATE HIGH for I MIN homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires I_MIN_ENDSTOP_HIT_STATE LOW for I_MIN homing."
+          #error "SENSORLESS_HOMING requires I_MIN_ENDSTOP_HIT_STATE LOW for I MIN homing."
         #endif
       #elif I_HOME_TO_MAX && I_MAX_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires I_MAI_ENDSTOP_HIT_STATE HIGH for I_MAX homing with TMC2209."
+          #error "SENSORLESS_HOMING requires I_MAX_ENDSTOP_HIT_STATE HIGH for I MAX homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires I_MAI_ENDSTOP_HIT_STATE LOW for I_MAX homing."
+          #error "SENSORLESS_HOMING requires I_MAX_ENDSTOP_HIT_STATE LOW for I MAX homing."
         #endif
       #endif
       #undef _HIT_STATE
@@ -3740,15 +3741,15 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
       #define _HIT_STATE AXIS_DRIVER_TYPE(J,TMC2209)
       #if J_HOME_TO_MIN && J_MIN_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires J_MIN_ENDSTOP_HIT_STATE HIGH for J_MIN homing with TMC2209."
+          #error "SENSORLESS_HOMING requires J_MIN_ENDSTOP_HIT_STATE HIGH for J MIN homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires J_MIN_ENDSTOP_HIT_STATE LOW for J_MIN homing."
+          #error "SENSORLESS_HOMING requires J_MIN_ENDSTOP_HIT_STATE LOW for J MIN homing."
         #endif
       #elif J_HOME_TO_MAX && J_MAX_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires J_MAJ_ENDSTOP_HIT_STATE HIGH for J_MAX homing with TMC2209."
+          #error "SENSORLESS_HOMING requires J_MAX_ENDSTOP_HIT_STATE HIGH for J MAX homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires J_MAJ_ENDSTOP_HIT_STATE LOW for J_MAX homing."
+          #error "SENSORLESS_HOMING requires J_MAX_ENDSTOP_HIT_STATE LOW for J MAX homing."
         #endif
       #endif
       #undef _HIT_STATE
@@ -3758,15 +3759,15 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
       #define _HIT_STATE AXIS_DRIVER_TYPE(K,TMC2209)
       #if K_HOME_TO_MIN && K_MIN_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires K_MIN_ENDSTOP_HIT_STATE HIGH for K_MIN homing with TMC2209."
+          #error "SENSORLESS_HOMING requires K_MIN_ENDSTOP_HIT_STATE HIGH for K MIN homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires K_MIN_ENDSTOP_HIT_STATE LOW for K_MIN homing."
+          #error "SENSORLESS_HOMING requires K_MIN_ENDSTOP_HIT_STATE LOW for K MIN homing."
         #endif
       #elif K_HOME_TO_MAX && K_MAX_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires K_MAK_ENDSTOP_HIT_STATE HIGH for K_MAX homing with TMC2209."
+          #error "SENSORLESS_HOMING requires K_MAX_ENDSTOP_HIT_STATE HIGH for K MAX homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires K_MAK_ENDSTOP_HIT_STATE LOW for K_MAX homing."
+          #error "SENSORLESS_HOMING requires K_MAX_ENDSTOP_HIT_STATE LOW for K MAX homing."
         #endif
       #endif
       #undef _HIT_STATE
@@ -3776,15 +3777,15 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
       #define _HIT_STATE AXIS_DRIVER_TYPE(U,TMC2209)
       #if U_HOME_TO_MIN && U_MIN_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires U_MIN_ENDSTOP_HIT_STATE HIGH for U_MIN homing with TMC2209."
+          #error "SENSORLESS_HOMING requires U_MIN_ENDSTOP_HIT_STATE HIGH for U MIN homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires U_MIN_ENDSTOP_HIT_STATE LOW for U_MIN homing."
+          #error "SENSORLESS_HOMING requires U_MIN_ENDSTOP_HIT_STATE LOW for U MIN homing."
         #endif
       #elif U_HOME_TO_MAX && U_MAX_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires U_MAU_ENDSTOP_HIT_STATE HIGH for U_MAX homing with TMC2209."
+          #error "SENSORLESS_HOMING requires U_MAX_ENDSTOP_HIT_STATE HIGH for U MAX homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires U_MAU_ENDSTOP_HIT_STATE LOW for U_MAX homing."
+          #error "SENSORLESS_HOMING requires U_MAX_ENDSTOP_HIT_STATE LOW for U MAX homing."
         #endif
       #endif
       #undef _HIT_STATE
@@ -3794,15 +3795,15 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
       #define _HIT_STATE AXIS_DRIVER_TYPE(V,TMC2209)
       #if V_HOME_TO_MIN && V_MIN_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires V_MIN_ENDSTOP_HIT_STATE HIGH for V_MIN homing with TMC2209."
+          #error "SENSORLESS_HOMING requires V_MIN_ENDSTOP_HIT_STATE HIGH for V MIN homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires V_MIN_ENDSTOP_HIT_STATE LOW for V_MIN homing."
+          #error "SENSORLESS_HOMING requires V_MIN_ENDSTOP_HIT_STATE LOW for V MIN homing."
         #endif
       #elif V_HOME_TO_MAX && V_MAX_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires V_MAV_ENDSTOP_HIT_STATE HIGH for V_MAX homing with TMC2209."
+          #error "SENSORLESS_HOMING requires V_MAX_ENDSTOP_HIT_STATE HIGH for V MAX homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires V_MAV_ENDSTOP_HIT_STATE LOW for V_MAX homing."
+          #error "SENSORLESS_HOMING requires V_MAX_ENDSTOP_HIT_STATE LOW for V MAX homing."
         #endif
       #endif
       #undef _HIT_STATE
@@ -3812,15 +3813,15 @@ static_assert(X_MAX_LENGTH >= X_BED_SIZE, "Movement bounds (X_MIN_POS, X_MAX_POS
       #define _HIT_STATE AXIS_DRIVER_TYPE(W,TMC2209)
       #if W_HOME_TO_MIN && W_MIN_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires W_MIN_ENDSTOP_HIT_STATE HIGH for W_MIN homing with TMC2209."
+          #error "SENSORLESS_HOMING requires W_MIN_ENDSTOP_HIT_STATE HIGH for W MIN homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires W_MIN_ENDSTOP_HIT_STATE LOW for W_MIN homing."
+          #error "SENSORLESS_HOMING requires W_MIN_ENDSTOP_HIT_STATE LOW for W MIN homing."
         #endif
       #elif W_HOME_TO_MAX && W_MAX_ENDSTOP_HIT_STATE != _HIT_STATE
         #if _HIT_STATE
-          #error "SENSORLESS_HOMING requires W_MAW_ENDSTOP_HIT_STATE HIGH for W_MAX homing with TMC2209."
+          #error "SENSORLESS_HOMING requires W_MAX_ENDSTOP_HIT_STATE HIGH for W MAX homing with TMC2209."
         #else
-          #error "SENSORLESS_HOMING requires W_MAW_ENDSTOP_HIT_STATE LOW for W_MAX homing."
+          #error "SENSORLESS_HOMING requires W_MAX_ENDSTOP_HIT_STATE LOW for W MAX homing."
         #endif
       #endif
       #undef _HIT_STATE

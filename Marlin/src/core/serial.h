@@ -166,7 +166,7 @@ void SERIAL_PRINTLN(T x, PrintBase y) { SERIAL_IMPL.println(x, y); }
 
 // Flush the serial port
 inline void SERIAL_FLUSH()    { SERIAL_IMPL.flush(); }
-inline void SERIAL_FLUSHTX()  { SERIAL_IMPL.flush(); } // changed
+inline void SERIAL_FLUSHTX()  { SERIAL_IMPL.flushTX(); }
 
 // Serial echo and error prefixes
 #define SERIAL_ECHO_START()           serial_echo_start()

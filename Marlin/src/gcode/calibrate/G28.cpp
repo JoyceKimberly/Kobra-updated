@@ -158,7 +158,7 @@
 #if ENABLED(IMPROVE_HOMING_RELIABILITY)
 
   motion_state_t begin_slow_homing() {
-    motion_state_t motion_state={0}; // changed
+    motion_state_t motion_state{0};
     motion_state.acceleration.set(planner.settings.max_acceleration_mm_per_s2[X_AXIS],
                                  planner.settings.max_acceleration_mm_per_s2[Y_AXIS]
                                  OPTARG(DELTA, planner.settings.max_acceleration_mm_per_s2[Z_AXIS])
