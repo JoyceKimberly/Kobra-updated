@@ -1922,7 +1922,7 @@ void Temperature::task() {
       quickstop_stepper();
     }
 
-    #if ENABLED(SDSUPPORT)
+    #if HAS_MEDIA
       if (emergency_parser.sd_abort_by_M524) { // abort SD print immediately
         emergency_parser.sd_abort_by_M524 = false;
         card.flag.abort_sd_printing = true;
@@ -2772,7 +2772,7 @@ void Temperature::init() {
         temp_range[NR].raw_max -= TEMPDIR(NR) * (OVERSAMPLENR); \
     }while(0)
 
-    #define _MINMAX_TEST(N,M) (HOTENDS > N && TEMP_SENSOR(N) > 0 && TEMP_SENSOR(N) != 998 && TEMP_SENSOR(N) != 999 && defined(HEATER_##N##_##M##TEMP))
+    #define _MINMAX_TEST(N,M) (HOTENDS > N && TEMP_SENSOR_##NR##_IS_THERMISTOR && defined(HEATER_##N##_##M##TEMP))
 
     #if _MINMAX_TEST(0, MIN)
       _TEMP_MIN_E(0);

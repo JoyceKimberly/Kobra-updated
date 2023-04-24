@@ -78,7 +78,7 @@ public:
     static xy_pos_t default_probe_xy_offset; // changed
 
     #if EITHER(PREHEAT_BEFORE_PROBING, PREHEAT_BEFORE_LEVELING)
-      static void preheat_for_probing(const celsius_t hotend_temp, const celsius_t bed_temp);
+      static void preheat_for_probing(const celsius_t hotend_temp, const celsius_t bed_temp, const bool early=false);
     #endif
 
     static void probe_error_stop();
