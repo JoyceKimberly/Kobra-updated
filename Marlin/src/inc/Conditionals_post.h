@@ -510,7 +510,7 @@
  * Override the SD_DETECT_STATE set in Configuration_adv.h
  * and enable sharing of onboard SD host drives (all platforms but AGCM4)
  */
-#if ENABLED(SDSUPPORT)
+#if HAS_MEDIA
 
   #if HAS_SD_HOST_DRIVE && SD_CONNECTION_IS(ONBOARD)
     //
@@ -583,270 +583,6 @@
 /**
  * Temp Sensor defines; set up pins as needed.
  */
-
-#define ANY_TEMP_SENSOR_IS(n) (TEMP_SENSOR_0 == (n) || TEMP_SENSOR_1 == (n) || TEMP_SENSOR_2 == (n) || TEMP_SENSOR_3 == (n) || TEMP_SENSOR_4 == (n) || TEMP_SENSOR_5 == (n) || TEMP_SENSOR_6 == (n) || TEMP_SENSOR_7 == (n) || TEMP_SENSOR_BED == (n) || TEMP_SENSOR_PROBE == (n) || TEMP_SENSOR_CHAMBER == (n))
-
-#if ANY_TEMP_SENSOR_IS(1000)
-  #define HAS_USER_THERMISTORS 1
-#endif
-
-#if TEMP_SENSOR_0 == -5 || TEMP_SENSOR_0 == -3 || TEMP_SENSOR_0 == -2
-  #define HEATER_0_USES_MAX6675 1
-  #if TEMP_SENSOR_0 == -3
-    #define HEATER_0_MAX6675_TMIN -270
-    #define HEATER_0_MAX6675_TMAX 1800
-  #else
-    #define HEATER_0_MAX6675_TMIN    0
-    #define HEATER_0_MAX6675_TMAX 1024
-  #endif
-  #if TEMP_SENSOR_0 == -5
-    #define MAX6675_0_IS_MAX31865 1
-  #elif TEMP_SENSOR_0 == -3
-    #define MAX6675_0_IS_MAX31855 1
-  #endif
-#elif TEMP_SENSOR_0 == -4
-  #define HEATER_0_USES_AD8495 1
-#elif TEMP_SENSOR_0 == -1
-  #define HEATER_0_USES_AD595 1
-#elif TEMP_SENSOR_0 > 0
-  #define THERMISTOR_HEATER_0 TEMP_SENSOR_0
-  #define HEATER_0_USES_THERMISTOR 1
-  #if TEMP_SENSOR_0 == 1000
-    #define HEATER_0_USER_THERMISTOR 1
-  #elif TEMP_SENSOR_0 == 998 || TEMP_SENSOR_0 == 999
-    #define HEATER_0_DUMMY_THERMISTOR 1
-  #endif
-#else
-  #undef HEATER_0_MINTEMP
-  #undef HEATER_0_MAXTEMP
-#endif
-
-#if TEMP_SENSOR_1 == -5 || TEMP_SENSOR_1 == -3 || TEMP_SENSOR_1 == -2
-  #define HEATER_1_USES_MAX6675 1
-  #if TEMP_SENSOR_1 == -3
-    #define HEATER_1_MAX6675_TMIN -270
-    #define HEATER_1_MAX6675_TMAX 1800
-  #else
-    #define HEATER_1_MAX6675_TMIN    0
-    #define HEATER_1_MAX6675_TMAX 1024
-  #endif
-  #if TEMP_SENSOR_1 == -5
-    #define MAX6675_1_IS_MAX31865 1
-  #elif TEMP_SENSOR_1 == -3
-    #define MAX6675_1_IS_MAX31855 1
-  #endif
-  #if TEMP_SENSOR_1 != TEMP_SENSOR_0
-    #if   TEMP_SENSOR_1 == -5
-      #error "If MAX31865 Thermocouple (-5) is used for TEMP_SENSOR_1 then TEMP_SENSOR_0 must match."
-    #elif TEMP_SENSOR_1 == -3
-      #error "If MAX31855 Thermocouple (-3) is used for TEMP_SENSOR_1 then TEMP_SENSOR_0 must match."
-    #elif TEMP_SENSOR_1 == -2
-      #error "If MAX6675 Thermocouple (-2) is used for TEMP_SENSOR_1 then TEMP_SENSOR_0 must match."
-    #endif
-  #endif
-#elif TEMP_SENSOR_1 == -4
-  #define HEATER_1_USES_AD8495 1
-#elif TEMP_SENSOR_1 == -1
-  #define HEATER_1_USES_AD595 1
-#elif TEMP_SENSOR_1 > 0
-  #define THERMISTOR_HEATER_1 TEMP_SENSOR_1
-  #define HEATER_1_USES_THERMISTOR 1
-  #if TEMP_SENSOR_1 == 1000
-    #define HEATER_1_USER_THERMISTOR 1
-  #elif TEMP_SENSOR_1 == 998 || TEMP_SENSOR_1 == 999
-    #define HEATER_1_DUMMY_THERMISTOR 1
-  #endif
-#else
-  #undef HEATER_1_MINTEMP
-  #undef HEATER_1_MAXTEMP
-#endif
-
-#if TEMP_SENSOR_2 == -4
-  #define HEATER_2_USES_AD8495 1
-#elif TEMP_SENSOR_2 == -3
-  #error "MAX31855 Thermocouples (-3) not supported for TEMP_SENSOR_2."
-#elif TEMP_SENSOR_2 == -2
-  #error "MAX6675 Thermocouples (-2) not supported for TEMP_SENSOR_2."
-#elif TEMP_SENSOR_2 == -1
-  #define HEATER_2_USES_AD595 1
-#elif TEMP_SENSOR_2 > 0
-  #define THERMISTOR_HEATER_2 TEMP_SENSOR_2
-  #define HEATER_2_USES_THERMISTOR 1
-  #if TEMP_SENSOR_2 == 1000
-    #define HEATER_2_USER_THERMISTOR 1
-  #elif TEMP_SENSOR_2 == 998 || TEMP_SENSOR_2 == 999
-    #define HEATER_2_DUMMY_THERMISTOR 1
-  #endif
-#else
-  #undef HEATER_2_MINTEMP
-  #undef HEATER_2_MAXTEMP
-#endif
-
-#if TEMP_SENSOR_3 == -4
-  #define HEATER_3_USES_AD8495 1
-#elif TEMP_SENSOR_3 == -3
-  #error "MAX31855 Thermocouples (-3) not supported for TEMP_SENSOR_3."
-#elif TEMP_SENSOR_3 == -2
-  #error "MAX6675 Thermocouples (-2) not supported for TEMP_SENSOR_3."
-#elif TEMP_SENSOR_3 == -1
-  #define HEATER_3_USES_AD595 1
-#elif TEMP_SENSOR_3 > 0
-  #define THERMISTOR_HEATER_3 TEMP_SENSOR_3
-  #define HEATER_3_USES_THERMISTOR 1
-  #if TEMP_SENSOR_3 == 1000
-    #define HEATER_3_USER_THERMISTOR 1
-  #elif TEMP_SENSOR_3 == 998 || TEMP_SENSOR_3 == 999
-    #define HEATER_3_DUMMY_THERMISTOR 1
-  #endif
-#else
-  #undef HEATER_3_MINTEMP
-  #undef HEATER_3_MAXTEMP
-#endif
-
-#if TEMP_SENSOR_4 == -4
-  #define HEATER_4_USES_AD8495 1
-#elif TEMP_SENSOR_4 == -3
-  #error "MAX31855 Thermocouples (-3) not supported for TEMP_SENSOR_4."
-#elif TEMP_SENSOR_4 == -2
-  #error "MAX6675 Thermocouples (-2) not supported for TEMP_SENSOR_4."
-#elif TEMP_SENSOR_4 == -1
-  #define HEATER_4_USES_AD595 1
-#elif TEMP_SENSOR_4 > 0
-  #define THERMISTOR_HEATER_4 TEMP_SENSOR_4
-  #define HEATER_4_USES_THERMISTOR 1
-  #if TEMP_SENSOR_4 == 1000
-    #define HEATER_4_USER_THERMISTOR 1
-  #elif TEMP_SENSOR_4 == 998 || TEMP_SENSOR_4 == 999
-    #define HEATER_4_DUMMY_THERMISTOR 1
-  #endif
-#else
-  #undef HEATER_4_MINTEMP
-  #undef HEATER_4_MAXTEMP
-#endif
-
-#if TEMP_SENSOR_5 == -4
-  #define HEATER_5_USES_AD8495 1
-#elif TEMP_SENSOR_5 == -3
-  #error "MAX31855 Thermocouples (-3) not supported for TEMP_SENSOR_5."
-#elif TEMP_SENSOR_5 == -2
-  #error "MAX6675 Thermocouples (-2) not supported for TEMP_SENSOR_5."
-#elif TEMP_SENSOR_5 == -1
-  #define HEATER_5_USES_AD595 1
-#elif TEMP_SENSOR_5 > 0
-  #define THERMISTOR_HEATER_5 TEMP_SENSOR_5
-  #define HEATER_5_USES_THERMISTOR 1
-  #if TEMP_SENSOR_5 == 1000
-    #define HEATER_5_USER_THERMISTOR 1
-  #elif TEMP_SENSOR_5 == 998 || TEMP_SENSOR_5 == 999
-    #define HEATER_5_DUMMY_THERMISTOR 1
-  #endif
-#else
-  #undef HEATER_5_MINTEMP
-  #undef HEATER_5_MAXTEMP
-#endif
-
-#if TEMP_SENSOR_6 == -4
-  #define HEATER_6_USES_AD8495 1
-#elif TEMP_SENSOR_6 == -3
-  #error "MAX31855 Thermocouples (-3) not supported for TEMP_SENSOR_6."
-#elif TEMP_SENSOR_6 == -2
-  #error "MAX6675 Thermocouples (-2) not supported for TEMP_SENSOR_6."
-#elif TEMP_SENSOR_6 == -1
-  #define HEATER_6_USES_AD595 1
-#elif TEMP_SENSOR_6 > 0
-  #define THERMISTOR_HEATER_6 TEMP_SENSOR_6
-  #define HEATER_6_USES_THERMISTOR 1
-  #if TEMP_SENSOR_6 == 1000
-    #define HEATER_6_USER_THERMISTOR 1
-  #elif TEMP_SENSOR_6 == 998 || TEMP_SENSOR_6 == 999
-    #define HEATER_6_DUMMY_THERMISTOR 1
-  #endif
-#else
-  #undef HEATER_6_MINTEMP
-  #undef HEATER_6_MAXTEMP
-#endif
-
-#if TEMP_SENSOR_7 == -4
-  #define HEATER_7_USES_AD8495 1
-#elif TEMP_SENSOR_7 == -3
-  #error "MAX31855 Thermocouples (-3) not supported for TEMP_SENSOR_7."
-#elif TEMP_SENSOR_7 == -2
-  #error "MAX7775 Thermocouples (-2) not supported for TEMP_SENSOR_7."
-#elif TEMP_SENSOR_7 == -1
-  #define HEATER_7_USES_AD595 1
-#elif TEMP_SENSOR_7 > 0
-  #define THERMISTOR_HEATER_7 TEMP_SENSOR_7
-  #define HEATER_7_USES_THERMISTOR 1
-  #if TEMP_SENSOR_7 == 1000
-    #define HEATER_7_USER_THERMISTOR 1
-  #elif TEMP_SENSOR_7 == 998 || TEMP_SENSOR_7 == 999
-    #define HEATER_7_DUMMY_THERMISTOR 1
-  #endif
-#else
-  #undef HEATER_7_MINTEMP
-  #undef HEATER_7_MAXTEMP
-#endif
-
-#if TEMP_SENSOR_BED == -4
-  #define HEATER_BED_USES_AD8495 1
-#elif TEMP_SENSOR_BED == -3
-  #error "MAX31855 Thermocouples (-3) not supported for TEMP_SENSOR_BED."
-#elif TEMP_SENSOR_BED == -2
-  #error "MAX6675 Thermocouples (-2) not supported for TEMP_SENSOR_BED."
-#elif TEMP_SENSOR_BED == -1
-  #define HEATER_BED_USES_AD595 1
-#elif TEMP_SENSOR_BED > 0
-  #define THERMISTORBED TEMP_SENSOR_BED
-  #define HEATER_BED_USES_THERMISTOR 1
-  #if TEMP_SENSOR_BED == 1000
-    #define HEATER_BED_USER_THERMISTOR 1
-  #elif TEMP_SENSOR_BED == 998 || TEMP_SENSOR_BED == 999
-    #define HEATER_BED_DUMMY_THERMISTOR 1
-  #endif
-#else
-  #undef BED_MINTEMP
-  #undef BED_MAXTEMP
-#endif
-
-#if TEMP_SENSOR_CHAMBER == -4
-  #define HEATER_CHAMBER_USES_AD8495 1
-#elif TEMP_SENSOR_CHAMBER == -3
-  #error "MAX31855 Thermocouples (-3) not supported for TEMP_SENSOR_CHAMBER."
-#elif TEMP_SENSOR_CHAMBER == -2
-  #error "MAX6675 Thermocouples (-2) not supported for TEMP_SENSOR_CHAMBER."
-#elif TEMP_SENSOR_CHAMBER == -1
-  #define HEATER_CHAMBER_USES_AD595 1
-#elif TEMP_SENSOR_CHAMBER > 0
-  #define THERMISTORCHAMBER TEMP_SENSOR_CHAMBER
-  #define HEATER_CHAMBER_USES_THERMISTOR 1
-  #if TEMP_SENSOR_CHAMBER == 1000
-    #define HEATER_CHAMBER_USER_THERMISTOR 1
-  #elif TEMP_SENSOR_CHAMBER == 998 || TEMP_SENSOR_CHAMBER == 999
-    #define HEATER_CHAMBER_DUMMY_THERMISTOR 1
-  #endif
-#else
-  #undef CHAMBER_MINTEMP
-  #undef CHAMBER_MAXTEMP
-#endif
-
-#if TEMP_SENSOR_PROBE == -4
-  #define HEATER_PROBE_USES_AD8495 1
-#elif TEMP_SENSOR_PROBE == -3
-  #error "MAX31855 Thermocouples (-3) not supported for TEMP_SENSOR_PROBE."
-#elif TEMP_SENSOR_PROBE == -2
-  #error "MAX6675 Thermocouples (-2) not supported for TEMP_SENSOR_PROBE."
-#elif TEMP_SENSOR_PROBE == -1
-  #define HEATER_PROBE_USES_AD595 1
-#elif TEMP_SENSOR_PROBE > 0
-  #define THERMISTORPROBE TEMP_SENSOR_PROBE
-  #define HEATER_PROBE_USES_THERMISTOR 1
-  #if TEMP_SENSOR_PROBE == 1000
-    #define HEATER_PROBE_USER_THERMISTOR 1
-  #elif TEMP_SENSOR_PROBE == 998 || TEMP_SENSOR_PROBE == 999
-    #define HEATER_PROBE_DUMMY_THERMISTOR 1
-  #endif
-#endif
-
 
 // Usurp a sensor to do redundant readings
 #if TEMP_SENSOR_REDUNDANT
@@ -947,213 +683,33 @@
  */
 #if HAS_MAX_TC
 
-  // Translate old _SS, _CS, _SCK, _DO, _DI, _MISO, and _MOSI PIN defines.
-  #if TEMP_SENSOR_IS_MAX_TC(0) || (TEMP_SENSOR_IS_MAX_TC(REDUNDANT) && REDUNDANT_TEMP_MATCH(SOURCE, E1))
-
-    #if !PIN_EXISTS(TEMP_0_CS) // SS, CS
-      #if PIN_EXISTS(MAX6675_SS)
-        #define TEMP_0_CS_PIN MAX6675_SS_PIN
-      #elif PIN_EXISTS(MAX6675_CS)
-        #define TEMP_0_CS_PIN MAX6675_CS_PIN
-      #elif PIN_EXISTS(MAX31855_SS)
-        #define TEMP_0_CS_PIN MAX31855_SS_PIN
-      #elif PIN_EXISTS(MAX31855_CS)
-        #define TEMP_0_CS_PIN MAX31855_CS_PIN
-      #elif PIN_EXISTS(MAX31865_SS)
-        #define TEMP_0_CS_PIN MAX31865_SS_PIN
-      #elif PIN_EXISTS(MAX31865_CS)
-        #define TEMP_0_CS_PIN MAX31865_CS_PIN
-      #endif
+  // Software SPI - enable if MISO/SCK are defined.
+  #if (TEMP_SENSOR_IS_MAX_TC(0) || (TEMP_SENSOR_IS_MAX_TC(REDUNDANT) && REDUNDANT_TEMP_MATCH(SOURCE, E1))) \
+    && PIN_EXISTS(TEMP_0_MISO) && PIN_EXISTS(TEMP_0_SCK) && DISABLED(TEMP_SENSOR_0_FORCE_HW_SPI)
+    #if TEMP_SENSOR_0_IS_MAX31865 && !PIN_EXISTS(TEMP_0_MOSI)
+      #error "TEMP_SENSOR_0 MAX31865 requires TEMP_0_MOSI_PIN defined for Software SPI. To use Hardware SPI instead, undefine MISO/SCK or enable TEMP_SENSOR_0_FORCE_HW_SPI."
+    #else
+      #define TEMP_SENSOR_0_HAS_SPI_PINS 1
     #endif
+  #endif
 
-    #if TEMP_SENSOR_0_IS_MAX6675
-      #if !PIN_EXISTS(TEMP_0_MISO) // DO
-        #if PIN_EXISTS(MAX6675_MISO)
-          #define TEMP_0_MISO_PIN MAX6675_MISO_PIN
-        #elif PIN_EXISTS(MAX6675_DO)
-          #define TEMP_0_MISO_PIN MAX6675_DO_PIN
-        #endif
-      #endif
-      #if !PIN_EXISTS(TEMP_0_SCK) && PIN_EXISTS(MAX6675_SCK)
-        #define TEMP_0_SCK_PIN MAX6675_SCK_PIN
-      #endif
-
-    #elif TEMP_SENSOR_0_IS_MAX31855
-      #if !PIN_EXISTS(TEMP_0_MISO) // DO
-        #if PIN_EXISTS(MAX31855_MISO)
-          #define TEMP_0_MISO_PIN MAX31855_MISO_PIN
-        #elif PIN_EXISTS(MAX31855_DO)
-          #define TEMP_0_MISO_PIN MAX31855_DO_PIN
-        #endif
-      #endif
-      #if !PIN_EXISTS(TEMP_0_SCK) && PIN_EXISTS(MAX31855_SCK)
-        #define TEMP_0_SCK_PIN MAX31855_SCK_PIN
-      #endif
-
-    #elif TEMP_SENSOR_0_IS_MAX31865
-      #if !PIN_EXISTS(TEMP_0_MISO) // DO
-        #if PIN_EXISTS(MAX31865_MISO)
-          #define TEMP_0_MISO_PIN MAX31865_MISO_PIN
-        #elif PIN_EXISTS(MAX31865_DO)
-          #define TEMP_0_MISO_PIN MAX31865_DO_PIN
-        #endif
-      #endif
-      #if !PIN_EXISTS(TEMP_0_SCK) && PIN_EXISTS(MAX31865_SCK)
-        #define TEMP_0_SCK_PIN MAX31865_SCK_PIN
-      #endif
-      #if !PIN_EXISTS(TEMP_0_MOSI) && PIN_EXISTS(MAX31865_MOSI) // MOSI for '65 only
-        #define TEMP_0_MOSI_PIN MAX31865_MOSI_PIN
-      #endif
+  #if (TEMP_SENSOR_IS_MAX_TC(1) || (TEMP_SENSOR_IS_MAX_TC(REDUNDANT) && REDUNDANT_TEMP_MATCH(SOURCE, E1))) \
+    && PIN_EXISTS(TEMP_1_MISO) && PIN_EXISTS(TEMP_1_SCK) && DISABLED(TEMP_SENSOR_1_FORCE_HW_SPI)
+    #if TEMP_SENSOR_1_IS_MAX31865 && !PIN_EXISTS(TEMP_1_MOSI)
+      #error "TEMP_SENSOR_1 MAX31865 requires TEMP_1_MOSI_PIN defined for Software SPI. To use Hardware SPI instead, undefine MISO/SCK or enable TEMP_SENSOR_1_FORCE_HW_SPI."
+    #else
+      #define TEMP_SENSOR_1_HAS_SPI_PINS 1
     #endif
+  #endif
 
-    // Software SPI - enable if MISO/SCK are defined.
-    #if PIN_EXISTS(TEMP_0_MISO) && PIN_EXISTS(TEMP_0_SCK) && DISABLED(TEMP_SENSOR_0_FORCE_HW_SPI)
-      #if TEMP_SENSOR_0_IS_MAX31865 && !PIN_EXISTS(TEMP_0_MOSI)
-        #error "TEMP_SENSOR_0 MAX31865 requires TEMP_0_MOSI_PIN defined for Software SPI. To use Hardware SPI instead, undefine MISO/SCK or enable TEMP_SENSOR_0_FORCE_HW_SPI."
-      #else
-        #define TEMP_SENSOR_0_HAS_SPI_PINS 1
-      #endif
+  #if (TEMP_SENSOR_IS_MAX_TC(2) || (TEMP_SENSOR_IS_MAX_TC(REDUNDANT) && REDUNDANT_TEMP_MATCH(SOURCE, E2))) \
+    && PIN_EXISTS(TEMP_2_MISO) && PIN_EXISTS(TEMP_2_SCK) && DISABLED(TEMP_SENSOR_2_FORCE_HW_SPI)
+    #if TEMP_SENSOR_2_IS_MAX31865 && !PIN_EXISTS(TEMP_2_MOSI)
+      #error "TEMP_SENSOR_2 MAX31865 requires TEMP_2_MOSI_PIN defined for Software SPI. To use Hardware SPI instead, undefine MISO/SCK or enable TEMP_SENSOR_2_FORCE_HW_SPI."
+    #else
+      #define TEMP_SENSOR_2_HAS_SPI_PINS 1
     #endif
-
-  #endif // TEMP_SENSOR_IS_MAX_TC(0)
-
-  #if TEMP_SENSOR_IS_MAX_TC(1) || (TEMP_SENSOR_IS_MAX_TC(REDUNDANT) && REDUNDANT_TEMP_MATCH(SOURCE, E1))
-
-    #if !PIN_EXISTS(TEMP_1_CS) // SS2, CS2
-      #if PIN_EXISTS(MAX6675_SS2)
-        #define TEMP_1_CS_PIN MAX6675_SS2_PIN
-      #elif PIN_EXISTS(MAX6675_CS)
-        #define TEMP_1_CS_PIN MAX6675_CS2_PIN
-      #elif PIN_EXISTS(MAX31855_SS2)
-        #define TEMP_1_CS_PIN MAX31855_SS2_PIN
-      #elif PIN_EXISTS(MAX31855_CS2)
-        #define TEMP_1_CS_PIN MAX31855_CS2_PIN
-      #elif PIN_EXISTS(MAX31865_SS2)
-        #define TEMP_1_CS_PIN MAX31865_SS2_PIN
-      #elif PIN_EXISTS(MAX31865_CS2)
-        #define TEMP_1_CS_PIN MAX31865_CS2_PIN
-      #endif
-    #endif
-
-    #if TEMP_SENSOR_1_IS_MAX6675
-      #if !PIN_EXISTS(TEMP_1_MISO) // DO
-        #if PIN_EXISTS(MAX6675_MISO)
-          #define TEMP_1_MISO_PIN MAX6675_MISO_PIN
-        #elif PIN_EXISTS(MAX6675_DO)
-          #define TEMP_1_MISO_PIN MAX6675_DO_PIN
-        #endif
-      #endif
-      #if !PIN_EXISTS(TEMP_1_SCK) && PIN_EXISTS(MAX6675_SCK)
-        #define TEMP_1_SCK_PIN MAX6675_SCK_PIN
-      #endif
-
-    #elif TEMP_SENSOR_1_IS_MAX31855
-      #if !PIN_EXISTS(TEMP_1_MISO) // DO
-        #if PIN_EXISTS(MAX31855_MISO)
-          #define TEMP_1_MISO_PIN MAX31855_MISO_PIN
-        #elif PIN_EXISTS(MAX31855_DO)
-          #define TEMP_1_MISO_PIN MAX31855_DO_PIN
-        #endif
-      #endif
-      #if !PIN_EXISTS(TEMP_1_SCK) && PIN_EXISTS(MAX31855_SCK)
-        #define TEMP_1_SCK_PIN MAX31855_SCK_PIN
-      #endif
-
-    #elif TEMP_SENSOR_1_IS_MAX31865
-      #if !PIN_EXISTS(TEMP_1_MISO) // DO
-        #if PIN_EXISTS(MAX31865_MISO)
-          #define TEMP_1_MISO_PIN MAX31865_MISO_PIN
-        #elif PIN_EXISTS(MAX31865_DO)
-          #define TEMP_1_MISO_PIN MAX31865_DO_PIN
-        #endif
-      #endif
-      #if !PIN_EXISTS(TEMP_1_SCK) && PIN_EXISTS(MAX31865_SCK)
-        #define TEMP_1_SCK_PIN MAX31865_SCK_PIN
-      #endif
-      #if !PIN_EXISTS(TEMP_1_MOSI) && PIN_EXISTS(MAX31865_MOSI) // MOSI for '65 only
-        #define TEMP_1_MOSI_PIN MAX31865_MOSI_PIN
-      #endif
-    #endif
-
-    // Software SPI - enable if MISO/SCK are defined.
-    #if PIN_EXISTS(TEMP_1_MISO) && PIN_EXISTS(TEMP_1_SCK) && DISABLED(TEMP_SENSOR_1_FORCE_HW_SPI)
-      #if TEMP_SENSOR_1_IS_MAX31865 && !PIN_EXISTS(TEMP_1_MOSI)
-        #error "TEMP_SENSOR_1 MAX31865 requires TEMP_1_MOSI_PIN defined for Software SPI. To use Hardware SPI instead, undefine MISO/SCK or enable TEMP_SENSOR_1_FORCE_HW_SPI."
-      #else
-        #define TEMP_SENSOR_1_HAS_SPI_PINS 1
-      #endif
-    #endif
-
-  #endif // TEMP_SENSOR_IS_MAX_TC(1)
-
-  #if TEMP_SENSOR_IS_MAX_TC(2) || (TEMP_SENSOR_IS_MAX_TC(REDUNDANT) && REDUNDANT_TEMP_MATCH(SOURCE, E2))
-
-    #if !PIN_EXISTS(TEMP_2_CS) // SS3, CS3
-      #if PIN_EXISTS(MAX6675_SS3)
-        #define TEMP_2_CS_PIN MAX6675_SS3_PIN
-      #elif PIN_EXISTS(MAX6675_CS)
-        #define TEMP_2_CS_PIN MAX6675_CS3_PIN
-      #elif PIN_EXISTS(MAX31855_SS3)
-        #define TEMP_2_CS_PIN MAX31855_SS3_PIN
-      #elif PIN_EXISTS(MAX31855_CS3)
-        #define TEMP_2_CS_PIN MAX31855_CS3_PIN
-      #elif PIN_EXISTS(MAX31865_SS3)
-        #define TEMP_2_CS_PIN MAX31865_SS3_PIN
-      #elif PIN_EXISTS(MAX31865_CS3)
-        #define TEMP_2_CS_PIN MAX31865_CS3_PIN
-      #endif
-    #endif
-
-    #if TEMP_SENSOR_2_IS_MAX6675
-      #if !PIN_EXISTS(TEMP_2_MISO) // DO
-        #if PIN_EXISTS(MAX6675_MISO)
-          #define TEMP_2_MISO_PIN MAX6675_MISO_PIN
-        #elif PIN_EXISTS(MAX6675_DO)
-          #define TEMP_2_MISO_PIN MAX6675_DO_PIN
-        #endif
-      #endif
-      #if !PIN_EXISTS(TEMP_2_SCK) && PIN_EXISTS(MAX6675_SCK)
-        #define TEMP_2_SCK_PIN MAX6675_SCK_PIN
-      #endif
-
-    #elif TEMP_SENSOR_2_IS_MAX31855
-      #if !PIN_EXISTS(TEMP_2_MISO) // DO
-        #if PIN_EXISTS(MAX31855_MISO)
-          #define TEMP_2_MISO_PIN MAX31855_MISO_PIN
-        #elif PIN_EXISTS(MAX31855_DO)
-          #define TEMP_2_MISO_PIN MAX31855_DO_PIN
-        #endif
-      #endif
-      #if !PIN_EXISTS(TEMP_2_SCK) && PIN_EXISTS(MAX31855_SCK)
-        #define TEMP_2_SCK_PIN MAX31855_SCK_PIN
-      #endif
-
-    #elif TEMP_SENSOR_2_IS_MAX31865
-      #if !PIN_EXISTS(TEMP_2_MISO) // DO
-        #if PIN_EXISTS(MAX31865_MISO)
-          #define TEMP_2_MISO_PIN MAX31865_MISO_PIN
-        #elif PIN_EXISTS(MAX31865_DO)
-          #define TEMP_2_MISO_PIN MAX31865_DO_PIN
-        #endif
-      #endif
-      #if !PIN_EXISTS(TEMP_2_SCK) && PIN_EXISTS(MAX31865_SCK)
-        #define TEMP_2_SCK_PIN MAX31865_SCK_PIN
-      #endif
-      #if !PIN_EXISTS(TEMP_2_MOSI) && PIN_EXISTS(MAX31865_MOSI) // MOSI for '65 only
-        #define TEMP_2_MOSI_PIN MAX31865_MOSI_PIN
-      #endif
-    #endif
-
-    // Software SPI - enable if MISO/SCK are defined.
-    #if PIN_EXISTS(TEMP_2_MISO) && PIN_EXISTS(TEMP_2_SCK) && DISABLED(TEMP_SENSOR_2_FORCE_HW_SPI)
-      #if TEMP_SENSOR_2_IS_MAX31865 && !PIN_EXISTS(TEMP_2_MOSI)
-        #error "TEMP_SENSOR_2 MAX31865 requires TEMP_2_MOSI_PIN defined for Software SPI. To use Hardware SPI instead, undefine MISO/SCK or enable TEMP_SENSOR_2_FORCE_HW_SPI."
-      #else
-        #define TEMP_SENSOR_2_HAS_SPI_PINS 1
-      #endif
-    #endif
-
-  #endif // TEMP_SENSOR_IS_MAX_TC(2)
+  #endif
 
   //
   // User-defined thermocouple libraries
@@ -2983,37 +2539,8 @@
   #define HAS_FAN 1
 #endif
 
-/**
- * Part Cooling fan multipliexer
- */
 #if PIN_EXISTS(FANMUX0)
-  #define HAS_FANMUX 1
-#endif
-
-/**
- * MIN/MAX fan PWM scaling
- */
-#ifndef FAN_OFF_PWM
-  #define FAN_OFF_PWM 0
-#endif
-#ifndef FAN_MIN_PWM
-  #if FAN_OFF_PWM > 0
-    #define FAN_MIN_PWM (FAN_OFF_PWM + 1)
-  #else
-    #define FAN_MIN_PWM 0
-  #endif
-#endif
-#ifndef FAN_MAX_PWM
-  #define FAN_MAX_PWM 255
-#endif
-#if FAN_MIN_PWM < 0 || FAN_MIN_PWM > 255
-  #error "FAN_MIN_PWM must be a value from 0 to 255."
-#elif FAN_MAX_PWM < 0 || FAN_MAX_PWM > 255
-  #error "FAN_MAX_PWM must be a value from 0 to 255."
-#elif FAN_MIN_PWM > FAN_MAX_PWM
-  #error "FAN_MIN_PWM must be less than or equal to FAN_MAX_PWM."
-#elif FAN_OFF_PWM > FAN_MIN_PWM
-  #error "FAN_OFF_PWM must be less than or equal to FAN_MIN_PWM."
+  #define HAS_FANMUX 1  // Part Cooling fan multipliexer
 #endif
 
 /**
@@ -3035,6 +2562,35 @@
   #else
     #undef CONTROLLER_FAN_TRIGGER_TEMP
   #endif
+#endif
+
+/**
+ * MIN/MAX fan PWM scaling
+ */
+#if EITHER(HAS_FAN, USE_CONTROLLER_FAN)
+  #ifndef FAN_OFF_PWM
+    #define FAN_OFF_PWM 0
+  #endif
+  #ifndef FAN_MIN_PWM
+    #if FAN_OFF_PWM > 0
+      #define FAN_MIN_PWM (FAN_OFF_PWM + 1)
+    #else
+      #define FAN_MIN_PWM 0
+    #endif
+  #endif
+  #ifndef FAN_MAX_PWM
+    #define FAN_MAX_PWM 255
+  #endif
+  #if FAN_MIN_PWM == 0 && FAN_MAX_PWM == 255
+    #define CALC_FAN_SPEED(f) (f ?: FAN_OFF_PWM)
+  #else
+    #define CALC_FAN_SPEED(f) (f ? map(f, 1, 255, FAN_MIN_PWM, FAN_MAX_PWM) : FAN_OFF_PWM)
+  #endif
+#endif
+
+// Fan Kickstart
+#if FAN_KICKSTART_TIME && !defined(FAN_KICKSTART_POWER)
+  #define FAN_KICKSTART_POWER 180
 #endif
 
 // Servos
@@ -3615,7 +3171,7 @@
 #endif
 
 // Fallback SPI Speed for SD
-#if ENABLED(SDSUPPORT) && !defined(SD_SPI_SPEED)
+#if HAS_MEDIA && !defined(SD_SPI_SPEED)
   #define SD_SPI_SPEED SPI_FULL_SPEED
 #endif
 
