@@ -30,7 +30,7 @@
 
 // Allow SDSUPPORT to be disabled
 #if DISABLED(SDSUPPORT)
-  #undef SDIO_SUPPORT
+  #undef ONBOARD_SDIO
 #endif
 
 // Some STM32F4 boards may lose steps when saving to EEPROM during print (PR #17946)

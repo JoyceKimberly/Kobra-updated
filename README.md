@@ -9,6 +9,7 @@ https://www.reddit.com/r/anycubic/comments/y2waxu/tutorial_how_to_build_anycubic
 I've set the F_CPU value in uVision after making the firmware print out the value together with the other stored values and copying it from Pronterface, I have no idea if this value is the same for all Kobra's, so if it doesn't work, just remove the value from uVision, compile and flash, and read out the value when sending M503.
 
 Please note that any tuned values (like PiD) in configuration will be set to my printer's as it's a pain having to redo them when you're flashing new firmware all the time.
+It's for that same reason that I will not be releasing any pre-compiled bin files.
 
 With many thanks to
 https://github.com/jojos38/anycubic-kobra-improved-firmware
@@ -16,7 +17,7 @@ https://github.com/shadow578/Marlin-H32
 
 # Warning
 
-Please do not install this on your machine in order to use it. I cannot promise it is safe, it really needs some proper programmers to go over it first.
+Unfortunately I cannot give any promises or guarantees, I just have my one printer to try things on, so I cannot test for any other circumstances or variables. Which means that you are fully responsible for what happens when using this firmware.
 
 # To do
 
@@ -25,3 +26,4 @@ Please do not install this on your machine in order to use it. I cannot promise 
 - Make MarlinSerial work
 - Completely redo kobra extui and dgus so it makes sense
 - Find a way to get rid of having to use uVision to compile
+- Update SD. This is the only folder that's relatively unchanged, as I figured that as long as it works, doesn't matter much :P

@@ -31,7 +31,7 @@
 
 #include "../inc/MarlinConfig.h"
 
-#if ENABLED(SDSUPPORT)
+#if HAS_MEDIA
 
 #include "SdFatUtil.h"
 #include <string.h>
@@ -60,4 +60,4 @@
 
 #endif
 
-#endif // SDSUPPORT
+#endif // HAS_MEDIA

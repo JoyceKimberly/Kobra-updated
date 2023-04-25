@@ -156,7 +156,7 @@
 //
 // SD Card
 //
-#define SDIO_SUPPORT
+#define ONBOARD_SDIO
 #define SD_DETECT_PIN                       PA10
 
 //

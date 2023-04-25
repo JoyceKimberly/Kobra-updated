@@ -23,7 +23,7 @@
 
 #include "../inc/MarlinConfig.h"
 
-#if ENABLED(SDIO_SUPPORT)
+#if ENABLED(ONBOARD_SDIO)
 
 bool SDIO_Init();
 bool SDIO_ReadBlock(uint32_t block, uint8_t *dst);
@@ -36,4 +36,4 @@ class Sd2Card {
     bool writeBlock(uint32_t block, const uint8_t *src) { return SDIO_WriteBlock(block, src); }
 };
 
-#endif // SDIO_SUPPORT
+#endif // ONBOARD_SDIO
