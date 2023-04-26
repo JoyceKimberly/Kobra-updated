@@ -167,3 +167,4 @@ tags
 workspace/obj/*
 workspace/.vscode/uv4.log
 workspace/armv5.uvguix.*
+*.bin
