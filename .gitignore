@@ -164,7 +164,13 @@ tags
 *.logs
 *.bak
 
-workspace/obj/*
-workspace/.vscode/uv4.log
-workspace/armv5.uvguix.*
+# User-specific uVision files
+*.opt
+*.uvopt
+*.uvoptx
+*.uvgui
+*.uvgui.*
+*.uvguix.*
+*.scvd
+*/obj/*
 *.bin

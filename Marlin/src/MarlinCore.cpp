@@ -264,6 +264,11 @@ PGMSTR(M112_KILL_STR, "M112 Shutdown");
 
 MarlinState marlin_state = MF_INITIALIZING;
 
+// Define gcodeComment - MEL_MOD malebuffy
+const char * gcodeComment = "";
+bool activeFilamentChange = false;// MEL_MOD flag for M600 test
+bool mel_PrintAbort = false;// so we don't count aborted prints MEL_MOD
+	 
 // For M109 and M190, this flag may be cleared (by M108) to exit the wait loop
 bool wait_for_heatup = true;
 

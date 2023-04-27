@@ -1130,16 +1130,6 @@
               <FilePath>..\Marlin\src\lcd\buttons.h</FilePath>
             </File>
             <File>
-              <FileName>fontutils.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\fontutils.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>fontutils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\lcd\fontutils.h</FilePath>
-            </File>
-            <File>
               <FileName>lcdprint.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\lcd\lcdprint.cpp</FilePath>
@@ -1153,6 +1143,16 @@
               <FileName>scaled_tft.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Marlin\src\lcd\scaled_tft.h</FilePath>
+            </File>
+            <File>
+              <FileName>utf8.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\src\lcd\utf8.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>utf8.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\lcd\utf8.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1373,6 +1373,16 @@
               <FileName>backlash.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Marlin\src\feature\backlash.h</FilePath>
+            </File>
+            <File>
+              <FileName>host_actions.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\src\feature\host_actions.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>host_actions.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\feature\host_actions.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1613,11 +1623,6 @@
               <FileName>M380_M381.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\gcode\control\M380_M381.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>M400.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M400.cpp</FilePath>
             </File>
             <File>
               <FileName>M605.cpp</FileName>
@@ -2253,6 +2258,11 @@
               <FileName>M493.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\gcode\feature\ft_motion\M493.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>M400.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\src\gcode\motion\M400.cpp</FilePath>
             </File>
           </Files>
         </Group>

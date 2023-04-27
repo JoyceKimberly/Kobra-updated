@@ -75,6 +75,8 @@
 #define PAGE_LEVEL_ENSURE   (33+PAGE_OFFSET)
 #define PAGE_LEVELING       (34+PAGE_OFFSET)
 
+#define PAGE_PRINTERSTATS   (93+PAGE_OFFSET)// MEL_MOD for printer stats (213)
+
 #define PAGE_AUTO_OFFSET               (115)
 
 #define PAGE_SYSTEM_AUDIO_ON           (131)
@@ -101,6 +103,10 @@
 #define PAGE_PROBE_PRECHECK            (204)
 #define PAGE_PROBE_PRECHECK_OK         (205)
 #define PAGE_PROBE_PRECHECK_FAILED     (206)
+
+#define PAGE_TOOL_CASELIGHT            (209)
+
+#define PAGE_PRINTING_SETTING          (212)
 
 /****************** Lcd control **************************/
 #define REG_LCD_READY        0x0014
@@ -129,8 +135,7 @@
 #define TXT_PRINT_SPEED     0x2000+9*0x30
 #define TXT_PRINT_TIME      0x2000+10*0x30
 #define TXT_PRINT_PROGRESS  0x2000+11*0x30
-//#define TXT_PRINT_HOTEND    0x2000+12*0x30
-//#define TXT_PRINT_BED       0x2000+13*0x30
+#define TXT_PRINT_COMMENT   0x2000+12*0x30 // MEL_MOD malebuffy
 
 // PRINT ADJUST TXT
 
@@ -179,6 +184,10 @@
 #define TXT_OUTAGE_RECOVERY_PROGRESS 0x2210
 #define TXT_OUTAGE_RECOVERY_FILE     0x2180
 
+// PREVIEW PAGE
+#define TXT_BASE64									 0x3020
+#define TXT_VAR_IMAGE 							 0x7FFE
+
 #define ADDRESS_SYSTEM_AUDIO     0x0080
 
 #define ADDRESS_MOVE_DISTANCE              0x4300
@@ -189,6 +198,14 @@
 #define TXT_ABOUT_FW_VERSION     0x2690
 #define TXT_ABOUT_PRINT_VOLUME   0x2770
 #define TXT_ABOUT_TECH_SUPPORT   0x2790
+
+#define TXT_STATS_PRINTS_TOTAL	   0x2690
+#define TXT_STATS_PRINTS_FINISHED	 0x2750
+#define TXT_STATS_PRINTS_FAILED    0x2770
+#define TXT_STATS_PRINTS_TIME      0x2790
+#define TXT_STATS_PRINTS_LONGEST   0x2810
+#define TXT_STATS_PRINTS_FILAMENT  0x2830
+
 
 /*********************** KEY VALUE **************************/
 #define KEY_ADDRESS          0x1000
@@ -303,12 +320,9 @@
 #define KEY_RECORD_PaDn    3
 #define KEY_RECORD_FLASH   4
 
-#if ENABLED(LCD_KOBRA_EXTENDED)
-  #define COLOR1 0xFFFF
-#else
-  #define COLOR1 0x0210
-#endif
-#define COLOR2   0xF800
+#define TXT_RED            0xf800
+#define TXT_BLUE           0x0210
+#define TXT_WHITE          0xffff
 
 namespace Anycubic {
 
@@ -456,7 +470,12 @@ namespace Anycubic {
       static void page205();
       static void page206();
 
+      static void page207_209();
+
+      static void page211_212();
+			static void page213(); // MEL_MOD printer stats page (213)
       static void pop_up_manager();
+			static void printerStatsToTFT(); // MEL_MOD
 
       static void SendtoTFT(FSTR_P const=nullptr);
       static void SendtoTFTLN(FSTR_P const=nullptr);
