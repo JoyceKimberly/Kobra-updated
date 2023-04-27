@@ -21,12 +21,8 @@
  */
 #pragma once
 
-#ifdef USE_USB_COMPOSITE
-  //#warning "SD_CHECK_AND_RETRY isn't needed with USE_USB_COMPOSITE."
-  #undef SD_CHECK_AND_RETRY
-  #if DISABLED(NO_SD_HOST_DRIVE)
-    #define HAS_SD_HOST_DRIVE 1
-  #endif
+#if BOTH(HAS_MEDIA, USBD_USE_CDC_MSC) && DISABLED(NO_SD_HOST_DRIVE)
+  #define HAS_SD_HOST_DRIVE 1
 #endif
 
 // Fix F_CPU not being a compile-time constant in STSTM32 framework

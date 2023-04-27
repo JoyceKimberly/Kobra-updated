@@ -164,7 +164,6 @@ tags
 *.logs
 *.bak
 
-# User-specific uVision files
 *.opt
 *.uvopt
 *.uvoptx
@@ -174,3 +173,5 @@ tags
 *.scvd
 */obj/*
 *.bin
+
+*/.vscode/*

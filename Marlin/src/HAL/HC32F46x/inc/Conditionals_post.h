@@ -21,16 +21,11 @@
  */
 #pragma once
 
-// If no real EEPROM, Flash emulation, or SRAM emulation is available fall back to SD emulation
+// If no real or emulated EEPROM selected, fall back to SD emulation
 #if USE_FALLBACK_EEPROM
   #define SDCARD_EEPROM_EMULATION
 #elif EITHER(I2C_EEPROM, SPI_EEPROM)
   #define USE_SHARED_EEPROM 1
-#endif
-
-// Allow SDSUPPORT to be disabled
-#if DISABLED(SDSUPPORT)
-  #undef ONBOARD_SDIO
 #endif
 
 // Some STM32F4 boards may lose steps when saving to EEPROM during print (PR #17946)

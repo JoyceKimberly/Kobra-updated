@@ -28,6 +28,7 @@
 #include "../shared/Marduino.h"
 #include "../shared/math_32bit.h"
 #include "../shared/HAL_SPI.h"
+#include "temp_soc.h"
 #include "fastio.h"
 #include "timers.h"
 //#include "MarlinSerial.h"
@@ -44,8 +45,12 @@
 #define CPU_ST7920_DELAY_2  40
 #define CPU_ST7920_DELAY_3 340
 
+// ------------------------
+// Serial ports
+// ------------------------
 #define _MSERIAL(X) Serial##X
 #define MSERIAL(X) _MSERIAL(X)
+
 #define NUM_UARTS 4
 
 #if WITHIN(SERIAL_PORT, 1, 6)
@@ -116,7 +121,9 @@ typedef double isr_float_t;   // FPU ops are used for single-precision, so use d
 #define JTAG_DISABLE()    // afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY)
 #define JTAGSWD_DISABLE() // afio_cfg_debug_ports(AFIO_DEBUG_NONE)
 
-#define PLATFORM_M997_SUPPORT
+#ifndef PLATFORM_M997_SUPPORT
+  #define PLATFORM_M997_SUPPORT
+#endif
 void flashFirmware(const int16_t);
 
 // Maple Compatibility

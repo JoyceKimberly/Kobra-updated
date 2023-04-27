@@ -46,6 +46,13 @@ struct MarlinSerial : public HardwareSerial {
     HardwareSerial::begin(baud);
     setPriority();
   }
+/*
+  void begin(uint32 baud, uint8_t config)
+  {
+    HardwareSerial::begin(baud, config);
+    setPriority();
+  }
+//*/
 #endif
 };
 
