@@ -11,9 +11,12 @@ I've set the F_CPU value in uVision after making the firmware print out the valu
 Please note that any tuned values (like PiD) in configuration will be set to my printer's as it's a pain having to redo them when you're flashing new firmware all the time.
 It's for that same reason that I will not be releasing any pre-compiled bin files.
 
-With many thanks to
+The configuration is set to use the Vyper lcd ui on purpose as it is almost identical to Kobra's.
+
+With many thanks to 
 https://github.com/jojos38/anycubic-kobra-improved-firmware
 https://github.com/shadow578/Marlin-H32
+https://github.com/wabbitguy/Kobra_Max
 
 # Warning
 
