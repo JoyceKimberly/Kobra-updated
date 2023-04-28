@@ -37,11 +37,7 @@
 #define DATA_BUF_SIZE       64
 
 /****************** PAGE INDEX***********************/
-#if ENABLED(LCD_KOBRA_EXTENDED)
-  #define PAGE_OFFSET       0
-#else
-  #define PAGE_OFFSET       120
-#endif
+#define PAGE_OFFSET         120
 #define PAGE_MAIN           (1+PAGE_OFFSET)
 #define PAGE_FILE           (2+PAGE_OFFSET)
 #define PAGE_STATUS1        (3+PAGE_OFFSET)  // show resume
@@ -138,13 +134,11 @@
 #define TXT_PRINT_COMMENT   0x2000+12*0x30 // MEL_MOD malebuffy
 
 // PRINT ADJUST TXT
-
 #define TXT_ADJUST_HOTEND       (0x2000+14*0x30)
 #define TXT_ADJUST_BED          (0x2000+15*0x30)
 #define TXT_ADJUST_SPEED        (0x2000+16*0x30)
 
 // TEMP SET TXT
-
 #define TXT_BED_NOW             (0x2000+17*0x30)
 #define TXT_BED_TARGET          (0x2000+18*0x30)
 #define TXT_HOTEND_NOW          (0x2000+19*0x30)
@@ -211,14 +205,12 @@
 #define KEY_ADDRESS          0x1000
 
 // MAIN PAGE KEY
-
 #define KEY_MAIN_TO_FILE    1
 #define KEY_MAIN_TO_TOOL    2
 #define KEY_MAIN_TO_PREPARE 3
 #define KEY_MAIN_TO_SYSTEM  4
 
 // FILE PAGE KEY
-
 #define KEY_FILE_TO_MAIN    1
 #define KEY_PRINT           6
 #define KEY_RESUME          5
@@ -241,7 +233,6 @@
 #define KEY_DONE_OFF        3
 
 // TOOL PAGE KEY
-
 #define KEY_TOOL_TO_MAIN   1
 #define KEY_TOOL_TO_MOVE   2
 #define KEY_TOOL_TO_TEMP   3
@@ -304,7 +295,6 @@
 #define KEY_FILAMENT_STOP        4
 
 // SYSTEM PAGE KEY
-
 #define KEY_SYS_TO_MAIN    1
 #define KEY_LANGUAGE       2
 #define KEY_SYS_TO_WIFI    3
@@ -320,9 +310,12 @@
 #define KEY_RECORD_PaDn    3
 #define KEY_RECORD_FLASH   4
 
-#define TXT_RED            0xf800
-#define TXT_BLUE           0x0210
-#define TXT_WHITE          0xffff
+#if ENABLED(LCD_KOBRA_DARK)
+  #define TXT_CLR1         0xffff
+#else
+  #define TXT_CLR1         0x0210
+#endif
+#define TXT_CLR2           0xf800
 
 namespace Anycubic {
 

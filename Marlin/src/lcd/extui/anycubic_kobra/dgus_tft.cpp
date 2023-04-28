@@ -351,7 +351,7 @@ namespace Anycubic {
 
         lcd_txtbox_page = 0;
         if (lcd_txtbox_index) {
-          set_descript_color(TXT_BLUE);
+          set_descript_color(TXT_CLR1);
           lcd_txtbox_index = 0;
         }
 
@@ -364,7 +364,7 @@ namespace Anycubic {
 
         lcd_txtbox_page = 0;
         if (lcd_txtbox_index) {
-          set_descript_color(TXT_BLUE);
+          set_descript_color(TXT_CLR1);
           lcd_txtbox_index = 0;
         }
 
@@ -1143,7 +1143,7 @@ namespace Anycubic {
       case 1: { // main page, print
         lcd_txtbox_page = 0;
         if (lcd_txtbox_index) {
-          set_descript_color(TXT_BLUE);
+          set_descript_color(TXT_CLR1);
           lcd_txtbox_index = 0;
         }
         ChangePageOfTFT(PAGE_FILE);
@@ -1199,14 +1199,14 @@ namespace Anycubic {
 
       case 1: // return
         ChangePageOfTFT(PAGE_MAIN);
-        set_descript_color(TXT_BLUE);
+        set_descript_color(TXT_CLR1);
         break;
 
       case 2: // page up
         if (lcd_txtbox_page > 0) {
           lcd_txtbox_page--;
 
-          set_descript_color(TXT_BLUE);
+          set_descript_color(TXT_CLR1);
           lcd_txtbox_index = 0;
 
           SendFileList(lcd_txtbox_page * 5);
@@ -1217,7 +1217,7 @@ namespace Anycubic {
         if ((lcd_txtbox_page + 1) * 5 < filenavigator.getFileNum()) {
           lcd_txtbox_page++;
 
-          set_descript_color(TXT_BLUE);
+          set_descript_color(TXT_CLR1);
           lcd_txtbox_index = 0;
 
           SendFileList(lcd_txtbox_page * 5);
@@ -1231,7 +1231,7 @@ namespace Anycubic {
 
         lcd_txtbox_page = 0;
         if (lcd_txtbox_index) {
-          set_descript_color(TXT_BLUE);
+          set_descript_color(TXT_CLR1);
           lcd_txtbox_index = 0;
         }
         SendFileList(lcd_txtbox_index);
@@ -1245,7 +1245,7 @@ namespace Anycubic {
 
           if (filenavigator.filelist.seek(lcd_txtbox_page * 5 + (lcd_txtbox_index - 1))) {
 
-            set_descript_color(TXT_BLUE);
+            set_descript_color(TXT_CLR1);
 
             TERN_(CASE_LIGHT_ENABLE, setCaseLightState(true));
 
@@ -1277,7 +1277,7 @@ namespace Anycubic {
               SERIAL_ECHOLNPGM("start print: ", filenavigator.filelist.longFilename());
             #endif
 
-            set_descript_color(TXT_BLUE);
+            set_descript_color(TXT_CLR1);
 
             // Allows printer to restart the job if we don't want to recover
             if (printer_state == AC_printer_resuming_from_power_outage) {
@@ -1326,10 +1326,10 @@ namespace Anycubic {
         file_index = lcd_txtbox_page * 5 + (lcd_txtbox_index - 1);
         if (file_index < filenavigator.getFileNum()) {
 
-          set_descript_color(TXT_RED);
+          set_descript_color(TXT_CLR2);
 
           if (lcd_txtbox_index_last && lcd_txtbox_index_last != lcd_txtbox_index)    // 1~5
-            set_descript_color(TXT_BLUE, lcd_txtbox_index_last);
+            set_descript_color(TXT_CLR1, lcd_txtbox_index_last);
           lcd_txtbox_index_last = lcd_txtbox_index;
         }
       } break;

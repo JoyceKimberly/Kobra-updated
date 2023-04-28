@@ -3097,6 +3097,7 @@
 #if ENABLED(ANYCUBIC_LCD_KOBRA)
   #define IS_EXTUI 1
   #define EXTENSIBLE_UI
+  #define LCD_KOBRA_DARK // Enable if you're using the dark skin of the default ui
 #endif
 
 //
