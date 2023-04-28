@@ -1762,7 +1762,7 @@
 
   <Group>
     <GroupName>src_lcd</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1833,7 +1833,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_kobra\dgus_tft.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_vyper\dgus_tft.h</PathWithFileName>
       <FilenameWithoutPath>dgus_tft.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1845,7 +1845,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_kobra\dgus_tft_defs.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_vyper\dgus_tft_defs.h</PathWithFileName>
       <FilenameWithoutPath>dgus_tft_defs.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1857,7 +1857,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_kobra\FileNavigator.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_vyper\FileNavigator.cpp</PathWithFileName>
       <FilenameWithoutPath>FileNavigator.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1869,7 +1869,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_kobra\FileNavigator.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_vyper\FileNavigator.h</PathWithFileName>
       <FilenameWithoutPath>FileNavigator.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1881,8 +1881,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_kobra\kobra_extui.cpp</PathWithFileName>
-      <FilenameWithoutPath>kobra_extui.cpp</FilenameWithoutPath>
+      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_vyper\vyper_extui.cpp</PathWithFileName>
+      <FilenameWithoutPath>vyper_extui.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1893,7 +1893,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_kobra\dgus_tft.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_vyper\dgus_tft.cpp</PathWithFileName>
       <FilenameWithoutPath>dgus_tft.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1905,7 +1905,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_kobra\Tunes.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic\Tunes.cpp</PathWithFileName>
       <FilenameWithoutPath>Tunes.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1917,7 +1917,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic_kobra\Tunes.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\src\lcd\extui\anycubic\Tunes.h</PathWithFileName>
       <FilenameWithoutPath>Tunes.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>

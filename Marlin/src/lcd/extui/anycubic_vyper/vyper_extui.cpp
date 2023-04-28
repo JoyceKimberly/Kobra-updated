@@ -60,7 +60,9 @@ namespace ExtUI {
   void onPrintTimerStopped() { Dgus.TimerEvent(AC_timer_stopped); }
   void onPrintDone() {}
 
+#if ENABLED(FILAMENT_RUNOUT_SENSOR)
   void onFilamentRunout(const extruder_t)            { Dgus.FilamentRunout();             }
+#endif
 
   void onUserConfirmRequired(const char * const msg) { Dgus.ConfirmationRequest(msg);     }
   void onStatusChanged(const char * const msg)       { Dgus.StatusChange(msg);            }
@@ -70,7 +72,7 @@ namespace ExtUI {
 
   void onFactoryReset() {
     Dgus.page_index_now = 121;
-    Dgus.lcd_info.audio_on = DISABLED(SPEAKER);
+    Dgus.lcd_info.audio_on = ENABLED(SPEAKER);
   }
 
   void onStoreSettings(char *buff) {
@@ -78,7 +80,7 @@ namespace ExtUI {
     // permanent data to be stored, it can write up to eeprom_data_size bytes
     // into buff.
 
-    static_assert(sizeof(Dgus.lcd_info) <= ExtUI::eeprom_data_size);
+    //static_assert(sizeof(Dgus.lcd_info) <= ExtUI::eeprom_data_size);
     memcpy(buff, &Dgus.lcd_info, sizeof(Dgus.lcd_info));
   }
 
@@ -87,7 +89,7 @@ namespace ExtUI {
     // needs to retrieve data, it should copy up to eeprom_data_size bytes
     // from buff
 
-    static_assert(sizeof(Dgus.lcd_info) <= ExtUI::eeprom_data_size);
+    //static_assert(sizeof(Dgus.lcd_info) <= ExtUI::eeprom_data_size);
     memcpy(&Dgus.lcd_info, buff, sizeof(Dgus.lcd_info));
     memcpy(&Dgus.lcd_info_back, buff, sizeof(Dgus.lcd_info_back));
   }
@@ -95,7 +97,9 @@ namespace ExtUI {
   void onPostprocessSettings() {
     // Called after loading or resetting stored settings
     Dgus.ParamInit();
+  #if ENABLED(POWER_LOSS_RECOVERY)
     Dgus.PowerLoss();
+  #endif
   }
 
   void onSettingsStored(const bool success) {

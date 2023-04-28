@@ -49,7 +49,7 @@ namespace Anycubic {
       static uint16_t lastindex;
       static uint16_t currentindex;
       static uint8_t  folderdepth;
-      static char     currentfoldername[MAX_PATH_LEN + 1];
+      static char     currentfoldername[MAX_PATH_LEN];
   };
 
   extern FileNavigator filenavigator;

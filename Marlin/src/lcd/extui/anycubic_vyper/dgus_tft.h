@@ -29,9 +29,12 @@
 #include "../../../inc/MarlinConfigPre.h"
 #include "../ui_api.h"
 
-#define MAIN_BOARD_FIRMWARE_VER "V2.4.5"
+#define DEVICE_NAME         "Anycubic Kobra"
+#define FIRMWARE_VER        "Marlin bugfix-2.1.x"
+#define BUILD_VOLUME        "220*220*250 (mm)"
+#define TECH_SUPPORT        "https://www.anycubic.com"
 
-#define DATA_BUF_SIZE 64
+#define DATA_BUF_SIZE       64
 
 /****************** PAGE INDEX***********************/
 #define PAGE_OFFSET        0
@@ -60,7 +63,7 @@
 #define PAGE_PRINT_FINISH   (22+PAGE_OFFSET)
 #define PAGE_WAIT_STOP      (23+PAGE_OFFSET)
 #define PAGE_FILAMENT_LACK  (25+PAGE_OFFSET)
-#define PAGE_FORBIT         (26+PAGE_OFFSET)
+#define PAGE_FORBID         (26+PAGE_OFFSET)
 #define PAGE_STOP_CONF      (27+PAGE_OFFSET)
 #define PAGE_NO_SD          (29+PAGE_OFFSET)
 #define PAGE_FILAMENT_HEAT  (30+PAGE_OFFSET)
@@ -118,6 +121,10 @@
 #define PAGE_ENG_PROBE_PRECHECK_OK        (205+PAGE_OFFSET)
 #define PAGE_ENG_PROBE_PRECHECK_FAILED    (206+PAGE_OFFSET)
 
+#define PAGE_TOOL_CASELIGHT            (209)
+
+#define PAGE_PRINTING_SETTING          (212)
+
 /****************** Lcd control **************************/
 #define REG_LCD_READY        0x0014
 
@@ -145,21 +152,18 @@
 #define TXT_PRINT_SPEED     0x2000+9*0x30
 #define TXT_PRINT_TIME      0x2000+10*0x30
 #define TXT_PRINT_PROGRESS  0x2000+11*0x30
-#define TXT_PRINT_HOTEND    0x2000+12*0x30
-#define TXT_PRINT_BED       0x2000+13*0x30
+#define TXT_PRINT_COMMENT   0x2000+12*0x30 // MEL_MOD malebuffy
 
 // PRINT ADJUST TXT
-
 #define TXT_ADJUST_HOTEND       (0x2000+14*0x30)
 #define TXT_ADJUST_BED          (0x2000+15*0x30)
 #define TXT_ADJUST_SPEED        (0x2000+16*0x30)
 
 // TEMP SET TXT
-
 #define TXT_BED_NOW             (0x2000+17*0x30)
 #define TXT_BED_TARGET          (0x2000+18*0x30)
-#define TXT_HOTEND_NOW           (0x2000+19*0x30)
-#define TXT_HOTEND_TARGET        (0x2000+20*0x30)
+#define TXT_HOTEND_NOW          (0x2000+19*0x30)
+#define TXT_HOTEND_TARGET       (0x2000+20*0x30)
 
 // SPEED SET TXT
 #define TXT_FAN_SPEED_NOW       (0x2000+21*0x30)
@@ -170,16 +174,16 @@
 // ABOUT TXT
 #define TXT_ABOUT               (0x2000+25*0x30)
 
-// RECORT TXT
-#define TXT_RECORT_0             (0x2000+26*0x30)
-#define TXT_RECORT_1             (0x2000+27*0x30)
-#define TXT_RECORT_2             (0x2000+28*0x30)
-#define TXT_RECORT_3             (0x2000+29*0x30)
-#define TXT_RECORT_4             (0x2000+30*0x30)
-#define TXT_RECORT_5             (0x2000+31*0x30)
+// RECORD TXT
+#define TXT_RECORD_0             (0x2000+26*0x30)
+#define TXT_RECORD_1             (0x2000+27*0x30)
+#define TXT_RECORD_2             (0x2000+28*0x30)
+#define TXT_RECORD_3             (0x2000+29*0x30)
+#define TXT_RECORD_4             (0x2000+30*0x30)
+#define TXT_RECORD_5             (0x2000+31*0x30)
 
 // ADVANCE LEVEL TXT
-#define TXT_LEVEL_OFFSET             (0x2000+32*0x30)
+#define TXT_LEVEL_OFFSET         (0x2000+32*0x30)
 
 // FILAMENT TXT
 #define TXT_FILAMENT_TEMP        (0x2000+33*0x30)
@@ -189,7 +193,15 @@
 #define TXT_PREHEAT_HOTEND       (0x2000+36*0x30)
 #define TXT_PREHEAT_BED          (0x2000+37*0x30)
 
-#define TXT_OUTAGE_RECOVERY_FILE 0x2180
+#define TXT_PREHEAT_HOTEND_INPUT 0x3000
+#define TXT_PREHEAT_BED_INPUT    0x3002
+
+#define TXT_OUTAGE_RECOVERY_PROGRESS 0x2210
+#define TXT_OUTAGE_RECOVERY_FILE     0x2180
+
+// PREVIEW PAGE
+#define TXT_BASE64                   0x3020
+#define TXT_VAR_IMAGE                0x7FFE
 
 #define ADDRESS_SYSTEM_AUDIO     0x0080
 
@@ -197,18 +209,21 @@
 #define ADDRESS_SYSTEM_LED_STATUS          0x4500
 #define ADDRESS_PRINT_SETTING_LED_STATUS   0x4550
 
+#define TXT_ABOUT_DEVICE_NAME    0x2750
+#define TXT_ABOUT_FW_VERSION     0x2690
+#define TXT_ABOUT_PRINT_VOLUME   0x2770
+#define TXT_ABOUT_TECH_SUPPORT   0x2790
+
 /*********************** KEY VALUE **************************/
 #define KEY_ADDRESS          0x1000
 
 // MAIN PAGE KEY
-
 #define KEY_MAIN_TO_FILE    1
 #define KEY_MAIN_TO_TOOL    2
 #define KEY_MAIN_TO_PREPARE 3
 #define KEY_MAIN_TO_SYSTEM  4
 
 // FILE PAGE KEY
-
 #define KEY_FILE_TO_MAIN    1
 #define KEY_PRINT           6
 #define KEY_RESUME          5
@@ -231,14 +246,13 @@
 #define KEY_DONE_OFF        3
 
 // TOOL PAGE KEY
-
 #define KEY_TOOL_TO_MAIN   1
 #define KEY_TOOL_TO_MOVE   2
 #define KEY_TOOL_TO_TEMP   3
 #define KEY_TOOL_TO_SPEED  4
 #define KEY_TOOL_LIGHT     5
 
-#define KEY_MOVE_TO_TOLL   1// move page
+#define KEY_MOVE_TO_TOLL   1 // move page
 #define KEY_MOVE_X         2
 #define KEY_01             3
 #define KEY_MOVE_NX        4
@@ -294,7 +308,6 @@
 #define KEY_FILAMENT_STOP        4
 
 // SYSTEM PAGE KEY
-
 #define KEY_SYS_TO_MAIN    1
 #define KEY_LANGUAGE       2
 #define KEY_SYS_TO_WIFI    3
@@ -310,8 +323,12 @@
 #define KEY_RECORD_PaDn    3
 #define KEY_RECORD_FLASH   4
 
-#define COLOR_RED  0xF800
-#define COLOR_BLUE 0x0210
+#if ENABLED(LCD_DARK)
+  #define TXT_CLR1         0xffff
+#else
+  #define TXT_CLR1         0x0210
+#endif
+#define TXT_CLR2           0xf800
 
 namespace Anycubic {
 
@@ -334,9 +351,11 @@ namespace Anycubic {
     #if HAS_HEATED_BED
       static heater_state_t hotbed_state;
     #endif
+    static xy_uint8_t   selectedmeshpoint;
     static char         panel_command[MAX_CMND_LEN];
     static uint8_t      command_len;
     static char         selectedfile[MAX_PATH_LEN];
+    static float        live_Zoffset;
     static file_menu_t  file_menu;
     static bool         data_received;
     static uint8_t      data_buf[DATA_BUF_SIZE];
@@ -344,9 +363,17 @@ namespace Anycubic {
     static uint16_t     page_index_last, page_index_last_2;
     static uint8_t      message_index;
     static uint8_t      pop_up_index;
+    static uint32_t     key_index;
     static uint32_t     key_value;
+    static uint16_t     filenumber;
+    static uint16_t     filepage;
     static uint8_t      lcd_txtbox_index;
     static uint8_t      lcd_txtbox_page;
+    static uint16_t     change_color_index;
+    static uint8_t      TFTpausingFlag;
+    static uint8_t      TFTStatusFlag;
+    static uint8_t      TFTresumingflag;
+    static uint8_t      ready;
     static int16_t      feedrate_back;
     static language_t   ui_language;
 
@@ -362,10 +389,14 @@ namespace Anycubic {
       static void PrinterKilled(FSTR_P,FSTR_P);
       static void MediaEvent(media_event_t);
       static void TimerEvent(timer_event_t);
+      #if ENABLED(FILAMENT_RUNOUT_SENSOR)
       static void FilamentRunout();
+      #endif
       static void ConfirmationRequest(const char * const);
       static void StatusChange(const char * const);
+      #if ENABLED(POWER_LOSS_RECOVERY)
       static void PowerLoss();
+      #endif
       static void PowerLossRecovery();
       static void HomingStart();
       static void HomingComplete();
@@ -385,55 +416,55 @@ namespace Anycubic {
       #endif
 
       typedef void (*p_fun)();
-      static void page1();
-      static void page2();
-      static void page3();
-      static void page4();
-      static void page5();
-      static void page6();
-      static void page7();   // tool
-      static void page8();
-      static void page9();
-      static void page10();  // fan and print speed
-      static void page11();  // system
-      static void page12();
-      static void page13();
-      static void page14();
-      static void page15();
-      static void page16();
-      static void page17();
-      static void page18();
-      static void page19();
-      static void page20();
-      static void page21();
-      static void page22();
-      static void page23();
+      static void page1();     // PAGE_MAIN
+      static void page2();     // PAGE_FILE
+      static void page3();     // PAGE_STATUS1
+      static void page4();     // PAGE_STATUS2
+      static void page5();     // PAGE_ADJUST
+      static void page6();     // PAGE_KEYBOARD
+      static void page7();     // PAGE_TOOL
+      static void page8();     // PAGE_MOVE
+      static void page9();     // PAGE_TEMP
+      static void page10();    // PAGE_SPEED
+      static void page11();    // PAGE_SYSTEM_AUDIO_ON
+      static void page12();    // PAGE_WIFI
+      static void page13();    // PAGE_ABOUT
+      static void page14();    // PAGE_RECORD
+      static void page15();    // PAGE_PREPARE
+      static void page16();    // PAGE_PreLEVEL
+      static void page17();    // PAGE_LEVEL_ADVANCE
+      static void page18();    // PAGE_PREHEAT
+      static void page19();    // PAGE_FILAMENT
+      static void page20();    // PAGE_DONE
+      static void page21();    // PAGE_ABNORMAL
+      static void page22();    // PAGE_PRINT_FINISH
+      static void page23();    // PAGE_WAIT_STOP
       static void page24();
-      static void page25();
-      static void page26();
-      static void page27();
+      static void page25();    // PAGE_FILAMENT_LACK
+      static void page26();    // PAGE_FORBID
+      static void page27();    // PAGE_STOP_CONF
       static void page28();
-      static void page29();
-      static void page30();
+      static void page29();    // PAGE_NO_SD
+      static void page30();    // PAGE_FILAMENT_HEAT
       static void page31();
-      static void page32();
+      static void page32();    // PAGE_WAIT_PAUSE
 
       #if HAS_LEVELING
-        static void page33();
+        static void page33();  // PAGE_LEVEL_ENSURE
       #endif
-      static void page34();
-      static void page115();
+      static void page34();    // PAGE_LEVELING
+      static void page115();   // PAGE_AUTO_OFFSET
       static void page117();     // CHS Mute handler
       static void page124();
       static void page125();
-      static void page170();     // ENG Mute handler
+      static void page170();   // PAGE_SYSTEM_AUDIO_OFF
 
       #if ENABLED(POWER_LOSS_RECOVERY)
         static void page171();   // CHS power outage resume handler
-        static void page173();   // ENG power outage resume handler
+        static void page173(); // PAGE_OUTAGE_RECOVERY
       #endif
       #if HAS_LEVELING
-        static void page175();   // ENG probe preheating handler
+        static void page175(); // PAGE_PROBE_PREHEATING
         static void page176();   // CHS probe preheating handler
       #endif
 
@@ -448,7 +479,12 @@ namespace Anycubic {
       static void page205();
       static void page206();
 
+      static void page207_209();
+
+      static void page211_212();
+
       static void pop_up_manager();
+			static void printerStatsToTFT(); // MEL_MOD
 
       static void SendtoTFT(FSTR_P const=nullptr);
       static void SendtoTFTLN(FSTR_P const=nullptr);
@@ -465,7 +501,7 @@ namespace Anycubic {
       static void SendValueToTFT(const uint16_t value, const uint16_t address);
       static void RequestValueFromTFT(const uint16_t address);
       static void SendTxtToTFT(const char *pdata, const uint16_t address);
-      static void SendColorToTFT(const uint16_t color, const uint16_t address);
+      static void SendColorToTFT(uint32_t color, uint32_t address);
       static void SendReadNumOfTxtToTFT(const uint8_t number, const uint16_t address);
       static void ChangePageOfTFT(const uint16_t page_index, const bool no_send=false);
       static void FakeChangePageOfTFT(const uint16_t page_index);

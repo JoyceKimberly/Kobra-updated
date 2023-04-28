@@ -21,37 +21,6 @@
  */
 #pragma once
 
-#ifdef redefined
-#define SERIAL_USB
-#endif
-
-#ifdef redefined
-#define ARDUINO_ARCH_STM32
-#endif
-
-#ifdef redefined
-#define ARDUINO_ARCH_STM32F1
-#endif
-
-#ifdef redefined
-#define STM32_HIGH_DENSITY
-#endif
-#ifndef __cplusplus
-#define __cplusplus
-#endif
-
-#ifdef redefined
-#define MCU_STM32F103RC
-#endif
-
-#ifdef redefined
-#define __GNUC__
-#endif
-
-#ifndef ARDUINO
-#define ARDUINO 100
-#endif
-
 /**
  * Configuration.h
  *
@@ -192,24 +161,6 @@
   //#define SINGLENOZZLE_STANDBY_TEMP
   //#define SINGLENOZZLE_STANDBY_FAN
 #endif
-
-// @section multi-material
-
-/**
- * Multi-Material Unit
- * Set to one of these predefined models:
- *
- *   PRUSA_MMU1           : Průša MMU1 (The "multiplexer" version)
- *   PRUSA_MMU2           : Průša MMU2
- *   PRUSA_MMU2S          : Průša MMU2S (Requires MK3S extruder with motion sensor, EXTRUDERS = 5)
- *   EXTENDABLE_EMU_MMU2  : MMU with configurable number of filaments (ERCF, SMuFF or similar with Průša MMU2 compatible firmware)
- *   EXTENDABLE_EMU_MMU2S : MMUS with configurable number of filaments (ERCF, SMuFF or similar with Průša MMU2 compatible firmware)
- *
- * Requires NOZZLE_PARK_FEATURE to park print head in case MMU unit fails.
- * See additional options in Configuration_adv.h.
- * :["PRUSA_MMU1", "PRUSA_MMU2", "PRUSA_MMU2S", "EXTENDABLE_EMU_MMU2", "EXTENDABLE_EMU_MMU2S"]
- */
-//#define MMU_MODEL PRUSA_MMU2
 
 // A dual extruder that uses a single stepper motor
 //#define SWITCHING_EXTRUDER
@@ -352,6 +303,24 @@
 //#define HOTEND_OFFSET_X { 0.0, 20.00 } // (mm) relative X-offset for each nozzle
 //#define HOTEND_OFFSET_Y { 0.0, 5.00 }  // (mm) relative Y-offset for each nozzle
 //#define HOTEND_OFFSET_Z { 0.0, 0.00 }  // (mm) relative Z-offset for each nozzle
+
+// @section multi-material
+
+/**
+ * Multi-Material Unit
+ * Set to one of these predefined models:
+ *
+ *   PRUSA_MMU1           : Průša MMU1 (The "multiplexer" version)
+ *   PRUSA_MMU2           : Průša MMU2
+ *   PRUSA_MMU2S          : Průša MMU2S (Requires MK3S extruder with motion sensor, EXTRUDERS = 5)
+ *   EXTENDABLE_EMU_MMU2  : MMU with configurable number of filaments (ERCF, SMuFF or similar with Průša MMU2 compatible firmware)
+ *   EXTENDABLE_EMU_MMU2S : MMUS with configurable number of filaments (ERCF, SMuFF or similar with Průša MMU2 compatible firmware)
+ *
+ * Requires NOZZLE_PARK_FEATURE to park print head in case MMU unit fails.
+ * See additional options in Configuration_adv.h.
+ * :["PRUSA_MMU1", "PRUSA_MMU2", "PRUSA_MMU2S", "EXTENDABLE_EMU_MMU2", "EXTENDABLE_EMU_MMU2S"]
+ */
+//#define MMU_MODEL PRUSA_MMU2
 
 // @section psu control
 
@@ -3088,16 +3057,9 @@
 //
 // Touch-screen LCD for Anycubic Vyper
 //
-//#define ANYCUBIC_LCD_VYPER
-
-//
-// Touch-screen LCD for Anycubic Kobra
-//
-#define ANYCUBIC_LCD_KOBRA
-#if ENABLED(ANYCUBIC_LCD_KOBRA)
-  #define IS_EXTUI 1
-  #define EXTENSIBLE_UI
-  #define LCD_KOBRA_DARK // Enable if you're using the dark skin of the default ui
+#define ANYCUBIC_LCD_VYPER
+#if ENABLED(ANYCUBIC_LCD_VYPER)
+  #define LCD_DARK // Enable if you're using the dark skin of the default ui
 #endif
 
 //
