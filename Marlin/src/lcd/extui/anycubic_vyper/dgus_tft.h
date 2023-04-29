@@ -29,12 +29,12 @@
 #include "../../../inc/MarlinConfigPre.h"
 #include "../ui_api.h"
 
-#define DEVICE_NAME         "Anycubic Kobra"
-#define FIRMWARE_VER        "Marlin bugfix-2.1.x"
-#define BUILD_VOLUME        "220*220*250 (mm)"
-#define TECH_SUPPORT        "https://www.anycubic.com"
+#define DEVICE_NAME        "Anycubic Kobra"
+#define FIRMWARE_VER       "Marlin bugfix-2.1.x"
+#define BUILD_VOLUME       "220*220*250 (mm)"
+#define TECH_SUPPORT       "https://www.anycubic.com"
 
-#define DATA_BUF_SIZE       64
+#define DATA_BUF_SIZE      64
 
 /****************** PAGE INDEX***********************/
 #define PAGE_OFFSET        0
@@ -323,12 +323,15 @@
 #define KEY_RECORD_PaDn    3
 #define KEY_RECORD_FLASH   4
 
+#define COLOR_RED  0xF800
+#define COLOR_BLUE 0x0210
+
 #if ENABLED(LCD_DARK)
-  #define TXT_CLR1         0xffff
+  #define TXT_CLR1         0xFFFF
 #else
-  #define TXT_CLR1         0x0210
+  #define TXT_CLR1         COLOR_BLUE
 #endif
-#define TXT_CLR2           0xf800
+#define TXT_CLR2           COLOR_RED
 
 namespace Anycubic {
 

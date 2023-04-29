@@ -2268,14 +2268,14 @@ namespace Anycubic {
           break;
 
         case 2:         // PLA
-          setTargetTemp_celsius(PREHEAT_1_TEMP_HOTEND, E0);// MEL_MOD
-          setTargetTemp_celsius(PREHEAT_1_TEMP_BED, BED);// MEL_MOD
+          TERN_(HAS_HOTEND, setTargetTemp_celsius(PREHEAT_1_TEMP_HOTEND, E0));
+          TERN_(HAS_HEATED_BED, setTargetTemp_celsius(PREHEAT_1_TEMP_BED, BED));
           ChangePageOfTFT(PAGE_PREHEAT);
           break;
 
         case 3:         // ABS
-          setTargetTemp_celsius(PREHEAT_2_TEMP_HOTEND, E0);// MEL_MOD
-          setTargetTemp_celsius(PREHEAT_2_TEMP_BED, BED);// MEL_MOD
+          TERN_(HAS_HOTEND, setTargetTemp_celsius(PREHEAT_2_TEMP_HOTEND, E0));
+          TERN_(HAS_HEATED_BED, setTargetTemp_celsius(PREHEAT_2_TEMP_BED, BED));
           ChangePageOfTFT(PAGE_PREHEAT);
           break;
       }
@@ -2543,7 +2543,7 @@ namespace Anycubic {
 
       case 1:           // print stop confirmed
         if (isPrintingFromMedia()) {
-					mel_PrintAbort = true;// abort print flag stops finished counts
+					mel_PrintAbort = true; // abort print flag stops finished counts
           printer_state = AC_printer_stopping;
           stopPrint();
           message_index = 6;

@@ -13,7 +13,7 @@ It's for that same reason that I will not be releasing any pre-compiled bin file
 
 The configuration is set to use the Vyper lcd ui on purpose as it is almost identical to Kobra's.
 
-With many thanks to 
+The following have been invaluable 
 https://github.com/jojos38/anycubic-kobra-improved-firmware
 https://github.com/shadow578/Marlin-H32
 https://github.com/wabbitguy/Kobra_Max
