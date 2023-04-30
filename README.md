@@ -16,7 +16,6 @@ The configuration is set to use the Vyper lcd ui on purpose as it is almost iden
 The following sources have been invaluable 
 https://github.com/jojos38/anycubic-kobra-improved-firmware
 https://github.com/shadow578/Marlin-H32
-https://github.com/malebuffy/Kobra-Max-Cobra-Kai-UI-and-Firmware
 
 # Warning
 

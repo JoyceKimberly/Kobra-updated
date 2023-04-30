@@ -716,6 +716,8 @@ bool Probe::probe_down_to_z(const_float_t z, const_feedRate_t fr_mm_s) {
  * @param sanity_check Flag to compare the probe result with the expected result
  *                     based on the probe Z offset. If the result is too far away
  *                     (more than 2mm too early) then consider it an error.
+ * @param z_min_point Override the minimum probing height (-2mm), to allow deeper probing.
+ * @param z_clearance Z clearance to apply on probe failure.
  *
  * @return The Z position of the bed at the current XY or NAN on error.
  */

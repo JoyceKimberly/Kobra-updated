@@ -21,8 +21,6 @@
  */
 
 #include "../../../inc/MarlinConfig.h"
-#include "../../../MarlinCore.h"// MEL_MOD 
-
 
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
 
@@ -73,7 +71,6 @@
  *  Default values are used for omitted arguments.
  */
 void GcodeSuite::M600() {
-	activeFilamentChange = true;// MEL_MOD set flag to show in filament change
 
   #if ENABLED(MIXING_EXTRUDER)
     const int8_t eindex = get_target_e_stepper_from_command();

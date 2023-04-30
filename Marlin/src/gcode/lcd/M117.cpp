@@ -24,31 +24,17 @@
 
 #if HAS_STATUS_MESSAGE
 
-#include "../../inc/MarlinConfig.h" // MEL_MOD malebuffy
-#include "../../../MarlinCore.h" // MEL_MOD malebuffy
 #include "../gcode.h"
 #include "../../lcd/marlinui.h"
-
-#include <map> // MEL_MOD malebuffy
-#include <string> // MEL_MOD malebuffy
-#include <stack> // MEL_MOD malebuffy
 
 /**
  * M117: Set LCD Status Message
  */
 void GcodeSuite::M117() {
 
-  if (parser.string_arg && parser.string_arg[0]) {
-
-    if (parser.command_letter == 'M' && parser.codenum == 117) { // MEL_MOD malebuffy
-      std::string str(parser.string_arg,31); // MEL_MOD malebuffy
-      std::string first30Chars = str.substr(0, 30); // MEL_MOD malebuffy
-      gcodeComment = first30Chars.c_str(); // MEL_MOD malebuffy
-    }
+  if (parser.string_arg && parser.string_arg[0])
     ui.set_status(parser.string_arg, true);
-  }
   else
-		gcodeComment = "";// MEL_MOD malebuffy
     ui.reset_status();
 
 }

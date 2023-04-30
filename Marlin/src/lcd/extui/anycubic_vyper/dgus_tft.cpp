@@ -82,42 +82,31 @@ namespace Anycubic {
     #endif
   };
 
-  printer_state_t  DgusTFT::printer_state;
-  paused_state_t   DgusTFT::pause_state;
+  printer_state_t DgusTFT::printer_state;
+  paused_state_t DgusTFT::pause_state;
   #if HAS_HOTEND
     heater_state_t DgusTFT::hotend_state;
   #endif
   #if HAS_HEATED_BED
     heater_state_t DgusTFT::hotbed_state;
   #endif
-  xy_uint8_t       DgusTFT::selectedmeshpoint;
-  char             DgusTFT::selectedfile[MAX_PATH_LEN];
-  char             DgusTFT::panel_command[MAX_CMND_LEN];
-  uint8_t          DgusTFT::command_len;
-  float            DgusTFT::live_Zoffset;
-  file_menu_t      DgusTFT::file_menu;
+  char DgusTFT::selectedfile[MAX_PATH_LEN];
+  char DgusTFT::panel_command[MAX_CMND_LEN];
+  uint8_t DgusTFT::command_len;
+  file_menu_t DgusTFT::file_menu;
 
-  bool             DgusTFT::data_received;
-  uint8_t          DgusTFT::data_buf[DATA_BUF_SIZE];
-  uint8_t          DgusTFT::data_index;
-  uint16_t         DgusTFT::page_index_now, DgusTFT::page_index_last, DgusTFT::page_index_last_2;
-  uint8_t          DgusTFT::message_index;
-  uint8_t          DgusTFT::pop_up_index;
-  uint32_t         DgusTFT::key_index;
-  uint32_t         DgusTFT::key_value;
-  uint16_t         DgusTFT::filenumber;
-  uint16_t         DgusTFT::filepage;
-  uint8_t          DgusTFT::lcd_txtbox_index;
-  uint8_t          DgusTFT::lcd_txtbox_page;
-  uint16_t         DgusTFT::change_color_index;
-  uint8_t          DgusTFT::TFTpausingFlag;
-  uint8_t          DgusTFT::TFTStatusFlag;
-  uint8_t          DgusTFT::TFTresumingflag;
-  uint8_t          DgusTFT::ready;
-  int16_t          DgusTFT::feedrate_back;
-  lcd_info_t       DgusTFT::lcd_info;
-  lcd_info_t       DgusTFT::lcd_info_back;  // back for changing on lcd, to save flash lifecycle
-  language_t       DgusTFT::ui_language;
+  bool DgusTFT::data_received;
+  uint8_t DgusTFT::data_buf[DATA_BUF_SIZE];
+  uint8_t DgusTFT::data_index;
+  uint16_t DgusTFT::page_index_now, DgusTFT::page_index_last, DgusTFT::page_index_last_2;
+  uint8_t DgusTFT::message_index;
+  uint8_t DgusTFT::pop_up_index;
+  uint32_t DgusTFT::key_value;
+  uint8_t DgusTFT::lcd_txtbox_index;
+  uint8_t DgusTFT::lcd_txtbox_page;
+  int16_t DgusTFT::feedrate_back;
+  lcd_info_t DgusTFT::lcd_info, DgusTFT::lcd_info_back;
+  language_t DgusTFT::ui_language;
   uint16_t page_index_saved;          // flags to keep from bombing the host display
   uint8_t pop_up_index_saved;
   uint32_t key_value_saved;
@@ -130,9 +119,9 @@ namespace Anycubic {
   DgusTFT Dgus;
 
   DgusTFT::DgusTFT() {
-    data_buf[0]   = '\0';
+    data_buf[0] = '\0';
     message_index = 100;
-    pop_up_index  = 100;
+    pop_up_index = 100;
     page_index_now = page_index_last = page_index_last_2 = 1;
     lcd_txtbox_index = 0;
     feedrate_back = -1;
@@ -142,16 +131,14 @@ namespace Anycubic {
     #if ACDEBUG(AC_MARLIN)
       DEBUG_ECHOLNPGM("DgusTFT::Startup()");
     #endif
-    selectedfile[0]   = '\0';
-    panel_command[0]  = '\0';
-    gcodeComment      = "";// MEL_MOD malebuffy
-    command_len       = 0;
-    printer_state     = AC_printer_idle;
-    pause_state       = AC_paused_idle;
-    hotend_state      = AC_heater_off;
-    hotbed_state      = AC_heater_off;
-    live_Zoffset      = 0.0;
-    file_menu         = AC_menu_file;
+    selectedfile[0] = '\0';
+    panel_command[0] = '\0';
+    command_len = 0;
+    printer_state = AC_printer_idle;
+    pause_state = AC_paused_idle;
+    TERN_(HAS_HOTEND, hotend_state = AC_heater_off);
+    TERN_(HAS_HEATED_BED, hotbed_state = AC_heater_off);
+    file_menu = AC_menu_file;
     set_language(ui_language); // use language stored in EEPROM
 
     // Filament runout is handled by Marlin settings in Configuration.h
@@ -163,7 +150,7 @@ namespace Anycubic {
     // Signal Board has reset
     SendtoTFTLN(AC_msg_main_board_has_reset);
 
-    // Enable leveling and Disable end stops during print
+    // Enable levelling and Disable end stops during print
     // as Z home places nozzle above the bed so we need to allow it past the end stops
     injectCommands(AC_cmnd_enable_leveling);
 
@@ -263,8 +250,6 @@ namespace Anycubic {
       case 201: case 204: page201(); break;
       case 202: case 205: page202(); break;
       case 203: case 206: page203(); break;
-      case 207: case 209: page207_209(); break;
-      case 211: case 212: page211_212(); break;
 
       default:
         if (lcd_info.language == CHS) {
@@ -440,7 +425,6 @@ namespace Anycubic {
 
     switch (event) {
       case AC_timer_started:
-        live_Zoffset = 0.0; // reset print offset
         setSoftEndstopState(false);  // disable endstops to print
         printer_state = AC_printer_printing;
         SendtoTFTLN(AC_msg_print_from_sd_card);
@@ -1019,7 +1003,6 @@ namespace Anycubic {
   void DgusTFT::SelectFile() {
     strncpy(selectedfile, panel_command + 4, command_len - 4);
     selectedfile[command_len - 5] = '\0';
-    gcodeComment = "";// MEL_MOD malebuffy
     #if ACDEBUG(AC_FILE)
       DEBUG_ECHOLNPGM(" Selected File: ", selectedfile);
     #endif
@@ -1052,7 +1035,7 @@ namespace Anycubic {
       if (0x83 == data_buf[0]) {
         control_index = uint16_t(data_buf[1] << 8) | uint16_t(data_buf[2]);
         if ((control_index & 0xF000) == KEY_ADDRESS) { // is KEY
-          key_index = control_index;
+          //key_index = control_index;
           key_value = (uint16_t(data_buf[4]) << 8) | uint16_t(data_buf[5]);
         }
 
@@ -1407,8 +1390,6 @@ namespace Anycubic {
             sprintf(str_buf, "%s H ", utostr3(time / 60));
             sprintf(str_buf + strlen(str_buf), "%s M", utostr3(time % 60));
             SendTxtToTFT(str_buf, TXT_PRINT_TIME);
-            gcodeComment = "";// MEL_MOD malebuffy
-            SendTxtToTFT(gcodeComment, TXT_PRINT_COMMENT);
 
             ChangePageOfTFT(PAGE_STATUS2);
           }
@@ -1524,7 +1505,7 @@ namespace Anycubic {
     sprintf(str_buf, "%s H ", utostr3(time / 60));
     sprintf(str_buf + strlen(str_buf), "%s M", utostr3(time % 60));
     SendTxtToTFT(str_buf, TXT_PRINT_TIME);
-    SendTxtToTFT(gcodeComment, TXT_PRINT_COMMENT);// MEL_MOD malebuffy
+
   }
 
   void DgusTFT::page4() { // PAGE_STATUS2 (show pause)
@@ -1548,7 +1529,7 @@ namespace Anycubic {
           ChangePageOfTFT(PAGE_FILE);
         break;
 
-      case 2:  // print pause (or continue) MEL_MOD
+      case 2:    // print pause
         if (isPrintingFromMedia()) {
           pausePrint();
           printer_state = AC_printer_pausing;
@@ -1587,28 +1568,17 @@ namespace Anycubic {
       SendTxtToTFT(str_buf, TXT_PRINT_SPEED);
     }
 
-  if (isPrintingFromMedia()) {
     if (progress_last != getProgress_percent()) {
       sprintf(str_buf, "%d", getProgress_percent());
       SendTxtToTFT(str_buf, TXT_PRINT_PROGRESS);
       progress_last = getProgress_percent();
     }
-  } else { // we are printing from a HOST
-    sprintf(str_buf, "Z:%3.2f", getAxisPosition_mm(Z));// MELS MOD
-    SendTxtToTFT(str_buf, TXT_PRINT_NAME);// this will show the Z height
-    //sprintf(str_buf, "%d", getProgress_percent());
-    //SendTxtToTFT(str_buf, TXT_PRINT_PROGRESS);
-  }
 
     uint32_t time = getProgress_seconds_elapsed() / 60;
     sprintf(str_buf, "%s H ", utostr3(time / 60));
     sprintf(str_buf + strlen(str_buf), "%s M", utostr3(time % 60));
     SendTxtToTFT(str_buf, TXT_PRINT_TIME);
-  if (activeFilamentChange == true) {
-    ChangePageOfTFT(PAGE_STATUS1);// MEL_MOD auto change to RESUME page for filament change
   }
-  SendTxtToTFT(gcodeComment, TXT_PRINT_COMMENT);// MEL_MOD malebuffy
-}
 
   void DgusTFT::page5() { // PAGE_ADJUST (print settings)
     #if ACDEBUG(AC_ALL)
@@ -1738,7 +1708,7 @@ namespace Anycubic {
         TERN_(HAS_FAN, RequestValueFromTFT(TXT_FAN_SPEED_TARGET));
 
         if (z_change == true) {
-          injectCommands_P(PSTR("M500"));
+          injectCommands(F("M500"));
           z_change = false;
         }
 
@@ -2022,9 +1992,9 @@ namespace Anycubic {
         store_changes();
         break;
 
-      case 2:       // language is now Printer Statistics MEL_MOD
-        printerStatsToTFT();
-        ChangePageOfTFT(PAGE_RECORD);
+      case 2:       // language
+        toggle_language();
+        goto_system_page();
         break;
 
       case 3: break;
@@ -2543,7 +2513,6 @@ namespace Anycubic {
 
       case 1:           // print stop confirmed
         if (isPrintingFromMedia()) {
-					mel_PrintAbort = true; // abort print flag stops finished counts
           printer_state = AC_printer_stopping;
           stopPrint();
           message_index = 6;
@@ -2875,9 +2844,9 @@ namespace Anycubic {
         store_changes();
         break;
 
-      case 2:       // language, now print stats handler MEL_MOD
-        printerStatsToTFT();// MEL_MOD
-        ChangePageOfTFT(PAGE_RECORD);
+      case 2:       // language
+        toggle_language();
+        goto_system_page();
         break;
 
       case 3: break;
@@ -3245,164 +3214,6 @@ namespace Anycubic {
     #endif
   }
 
-void DgusTFT::page207_209() {
-  //      unsigned char str_buf[20];
-  //      unsigned int temp;
-  switch (key_value) {
-    case 0:
-      break;
-
-    case 1:   // return
-      {
-        ChangePageOfTFT(PAGE_MAIN);
-      }
-      break;
-
-    case 2:
-      {
-        ChangePageOfTFT(PAGE_MOVE);
-      }
-      break;
-
-    case 3:   // set temperature
-      ChangePageOfTFT(PAGE_TEMP);
-      SendValueToTFT((uint16_t)getActualTemp_celsius(E0), TXT_HOTEND_NOW);
-      SendValueToTFT((uint16_t)getTargetTemp_celsius(E0), TXT_HOTEND_TARGET);
-      SendValueToTFT((uint16_t)getActualTemp_celsius(BED), TXT_BED_NOW);
-      SendValueToTFT((uint16_t)getTargetTemp_celsius(BED), TXT_BED_TARGET);
-
-      break;
-
-    case 4:
-      ChangePageOfTFT(PAGE_SPEED);
-      SendValueToTFT((uint16_t)getActualFan_percent(FAN0), TXT_FAN_SPEED_NOW);
-      SendValueToTFT((uint16_t)getTargetFan_percent(FAN0), TXT_FAN_SPEED_TARGET);
-      SendValueToTFT((uint16_t)getFeedrate_percent(), TXT_PRINT_SPEED_NOW);
-      SendValueToTFT((uint16_t)getFeedrate_percent(), TXT_PRINT_SPEED_TARGET);
-      break;
-
-    case 5:   // turn off the xyz motor
-      if (!isMoving()) {
-        stepper.disable_all_steppers();
-      }
-      break;
-
-    case 6:   // light control
-#if ENABLED(CASE_LIGHT_ENABLE)
-      if (getCaseLightState()) {
-        setCaseLightState(0);
-        SendValueToTFT(0, ADDRESS_SYSTEM_LED_STATUS);
-      } else {
-        setCaseLightState(1);
-        SendValueToTFT(1, ADDRESS_SYSTEM_LED_STATUS);
-      }
-#endif
-      break;
-    }
-  }
-
-// print settings with case light
-void DgusTFT::page211_212() {
-  char str_buf[10];
-  float z_off;
-  int16_t steps;
-  static bool z_change = false;
-
-  switch (key_value) {
-    case 0:
-      break;
-
-    case 1: // return
-      if (AC_printer_printing == printer_state) {
-        ChangePageOfTFT(PAGE_STATUS2);  // show pause
-      } else if (AC_printer_paused == printer_state) {
-        ChangePageOfTFT(PAGE_STATUS1);  // show print
-      }
-      break;
-
-    case 2: // -
-      {
-        z_off = getZOffset_mm();
-
-        if (z_off <= -5) {
-          return ;
-        }
-
-        steps = mmToWholeSteps(-BABYSTEP_MULTIPLICATOR_Z, Z);
-        babystepAxis_steps(steps, Z);
-
-        z_off -= BABYSTEP_MULTIPLICATOR_Z;
-        setZOffset_mm(z_off);
-
-        sprintf(str_buf, "%.2f", getZOffset_mm());
-        SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
-
-        z_change = true;
-      }
-      break;
-
-    case 3: // +
-      {
-        z_off = getZOffset_mm();
-
-        if (z_off >= 5) {
-          return ;
-        }
-
-        steps = mmToWholeSteps(BABYSTEP_MULTIPLICATOR_Z, Z);
-        babystepAxis_steps(steps, Z);
-
-        z_off += BABYSTEP_MULTIPLICATOR_Z;
-        setZOffset_mm(z_off);
-
-        sprintf(str_buf, "%.2f", getZOffset_mm());
-        SendTxtToTFT(str_buf, TXT_LEVEL_OFFSET);
-
-        z_change = true;
-      }
-      break;
-
-    case 4: // light control
-#if ENABLED(CASE_LIGHT_ENABLE)
-      if (getCaseLightState()) {
-        SendValueToTFT(0, ADDRESS_PRINT_SETTING_LED_STATUS);
-        setCaseLightState(0);
-      } else {
-        SendValueToTFT(1, ADDRESS_PRINT_SETTING_LED_STATUS);
-        setCaseLightState(1);
-      }
-#endif
-      break;
-
-    case 5:
-      ChangePageOfTFT(PAGE_DONE);
-      break;
-
-    case 6:
-
-      break;
-
-    case 7:
-      RequestValueFromTFT(TXT_ADJUST_BED);
-      RequestValueFromTFT(TXT_ADJUST_SPEED);
-      RequestValueFromTFT(TXT_ADJUST_HOTEND);
-      RequestValueFromTFT(TXT_FAN_SPEED_TARGET);
-
-      if (z_change) {
-        injectCommands_P(PSTR("M500"));
-        z_change = false;
-      }
-
-      if (AC_printer_printing == printer_state) {
-        ChangePageOfTFT(PAGE_STATUS2);  // show pause
-      } else if (AC_printer_paused == printer_state) {
-        ChangePageOfTFT(PAGE_STATUS1);  // show print
-      }
-
-      break;
-  }
-}
-
   void DgusTFT::pop_up_manager() {
     #if ACDEBUG(AC_ALL)
       if (pop_up_index_saved != pop_up_index) {
@@ -3457,42 +3268,6 @@ void DgusTFT::page211_212() {
         break;
     }
   }
-
-void DgusTFT::printerStatsToTFT() { // MEL_MOD printer statistics
-  char str_buf[31];
-  char buffer[30];
-  int32_t metresUsed, metresRemainder;
-
-  printStatistics stats = print_job_timer.getStats();// returns raw data
-
-  sprintf(str_buf, "Total: %d", stats.totalPrints);
-  SendTxtToTFT(str_buf, TXT_RECORD_0);// total prints started
-  //SERIAL_ECHOLNPAIR("Total ", str_buf);
-
-  sprintf(str_buf, "Finished: %d", stats.finishedPrints);
-  SendTxtToTFT(str_buf, TXT_RECORD_1);// total prints started
-
-  sprintf(str_buf, "Failed: %d", stats.totalPrints - stats.finishedPrints);
-  SendTxtToTFT(str_buf, TXT_RECORD_2);// total prints aborted or failed
-
-  sprintf(str_buf, "Time: %s", duration_t(stats.printTime).toString(buffer));
-  SendTxtToTFT(str_buf, TXT_RECORD_3);// print time used
-
-  sprintf(str_buf, "Longest: %s", duration_t(stats.longestPrint).toString(buffer));
-  SendTxtToTFT(str_buf, TXT_RECORD_4);// longest print
-
-  metresUsed = int32_t(stats.filamentUsed / 1000);
-  metresRemainder = int16_t(stats.filamentUsed / 100) % 10;// and the left over
-
-  sprintf(str_buf, "Filament Used: %d.%dm",metresUsed , metresRemainder);
-  SendTxtToTFT(str_buf, TXT_RECORD_5);// filament used in M
-
-//  sprintf(str_buf, "eSteps: %f", VOLUMETRIC_UNIT(planner.settings.axis_steps_per_mm[E_AXIS]));
-//  SendTxtToTFT(str_buf, TXT_RECORD_5);
-
-  //print_job_timer.showStats();//
-    //SERIAL_ECHOLNPAIR("Total Prints2: ", buffer);
-}
 
   void DEBUG_PRINT_PAUSED_STATE(FSTR_P const msg, paused_state_t state) {
     DEBUG_ECHOPGM(msg, state);

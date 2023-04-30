@@ -29,6 +29,10 @@
 
 #include "motion.h"
 
+#if ENABLED(BLTOUCH)
+  #include "../feature/bltouch.h"
+#endif
+
 #define DEBUG_OUT ENABLED(DEBUG_LEVELING_FEATURE)
 #include "../core/debug_out.h"
 
@@ -255,7 +259,8 @@ public:
     static float max_y() { return _max_y() TERN_(NOZZLE_AS_PROBE, TERN_(HAS_HOME_OFFSET, - home_offset.y)); }
 
     // constexpr helpers used in build-time static_asserts, relying on default probe offsets.
-    class build_time {/* // changed
+    class build_time {
+/* // changed
       static constexpr xyz_pos_t default_probe_xyz_offset = xyz_pos_t(
         #if HAS_BED_PROBE
           NOZZLE_TO_PROBE_OFFSET
@@ -265,6 +270,7 @@ public:
       );
       static constexpr xy_pos_t default_probe_xy_offset = xy_pos_t({ default_probe_xyz_offset.x,  default_probe_xyz_offset.y });
 //*/ // changed
+
     public:
       static constexpr bool can_reach(float x, float y) {
         #if IS_KINEMATIC

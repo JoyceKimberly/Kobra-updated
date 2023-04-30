@@ -21,7 +21,7 @@
  */
 
 #include "../../inc/MarlinConfig.h"
-#include "../../../MarlinCore.h"// MEL_MOD 
+
 #include "../gcode.h"
 
 #include "../../module/endstops.h"
@@ -203,9 +203,6 @@
  *  Z   Home to the Z endstop
  */
 void GcodeSuite::G28() {
-	
-	activeFilamentChange = false;// MEL_MOD any homing resets a filament change
-
   DEBUG_SECTION(log_G28, "G28", DEBUGGING(LEVELING));
   if (DEBUGGING(LEVELING)) log_machine_info();
 
@@ -358,6 +355,8 @@ void GcodeSuite::G28() {
   remember_feedrate_scaling_off();
 
   endstops.enable(true); // Enable endstops for next homing move
+
+  bool finalRaiseZ = false;
 
   #if ENABLED(DELTA)
 

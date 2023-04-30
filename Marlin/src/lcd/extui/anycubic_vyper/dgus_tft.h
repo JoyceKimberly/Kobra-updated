@@ -33,8 +33,9 @@
 #define FIRMWARE_VER       "Marlin bugfix-2.1.x"
 #define BUILD_VOLUME       "220*220*250 (mm)"
 #define TECH_SUPPORT       "https://www.anycubic.com"
+#define MAIN_BOARD_FIRMWARE_VER "Marlin bugfix-2.1.x"
 
-#define DATA_BUF_SIZE      64
+#define DATA_BUF_SIZE 64
 
 /****************** PAGE INDEX***********************/
 #define PAGE_OFFSET        0
@@ -121,10 +122,6 @@
 #define PAGE_ENG_PROBE_PRECHECK_OK        (205+PAGE_OFFSET)
 #define PAGE_ENG_PROBE_PRECHECK_FAILED    (206+PAGE_OFFSET)
 
-#define PAGE_TOOL_CASELIGHT            (209)
-
-#define PAGE_PRINTING_SETTING          (212)
-
 /****************** Lcd control **************************/
 #define REG_LCD_READY        0x0014
 
@@ -152,7 +149,7 @@
 #define TXT_PRINT_SPEED     0x2000+9*0x30
 #define TXT_PRINT_TIME      0x2000+10*0x30
 #define TXT_PRINT_PROGRESS  0x2000+11*0x30
-#define TXT_PRINT_COMMENT   0x2000+12*0x30 // MEL_MOD malebuffy
+#define TXT_PRINT_COMMENT   0x2000+12*0x30
 
 // PRINT ADJUST TXT
 #define TXT_ADJUST_HOTEND       (0x2000+14*0x30)
@@ -198,10 +195,6 @@
 
 #define TXT_OUTAGE_RECOVERY_PROGRESS 0x2210
 #define TXT_OUTAGE_RECOVERY_FILE     0x2180
-
-// PREVIEW PAGE
-#define TXT_BASE64                   0x3020
-#define TXT_VAR_IMAGE                0x7FFE
 
 #define ADDRESS_SYSTEM_AUDIO     0x0080
 
@@ -354,11 +347,9 @@ namespace Anycubic {
     #if HAS_HEATED_BED
       static heater_state_t hotbed_state;
     #endif
-    static xy_uint8_t   selectedmeshpoint;
     static char         panel_command[MAX_CMND_LEN];
     static uint8_t      command_len;
     static char         selectedfile[MAX_PATH_LEN];
-    static float        live_Zoffset;
     static file_menu_t  file_menu;
     static bool         data_received;
     static uint8_t      data_buf[DATA_BUF_SIZE];
@@ -366,17 +357,9 @@ namespace Anycubic {
     static uint16_t     page_index_last, page_index_last_2;
     static uint8_t      message_index;
     static uint8_t      pop_up_index;
-    static uint32_t     key_index;
     static uint32_t     key_value;
-    static uint16_t     filenumber;
-    static uint16_t     filepage;
     static uint8_t      lcd_txtbox_index;
     static uint8_t      lcd_txtbox_page;
-    static uint16_t     change_color_index;
-    static uint8_t      TFTpausingFlag;
-    static uint8_t      TFTStatusFlag;
-    static uint8_t      TFTresumingflag;
-    static uint8_t      ready;
     static int16_t      feedrate_back;
     static language_t   ui_language;
 
@@ -482,12 +465,7 @@ namespace Anycubic {
       static void page205();
       static void page206();
 
-      static void page207_209();
-
-      static void page211_212();
-
       static void pop_up_manager();
-			static void printerStatsToTFT(); // MEL_MOD
 
       static void SendtoTFT(FSTR_P const=nullptr);
       static void SendtoTFTLN(FSTR_P const=nullptr);
