@@ -5,12 +5,12 @@
 #include <stdint.h>
 
 #include "hc32_ddl.h"
-#include "hc32f46x_clk.h"
-#include "hc32f46x_efm.h"
-#include "hc32f46x_utility.h"
-#include "hc32f46x_sram.h"
-#include "hc32f46x_interrupts.h"
-#include "hc32f46x_pwc.h"
+#include "hc32f460_clk.h"
+#include "hc32f460_efm.h"
+#include "hc32f460_utility.h"
+#include "hc32f460_sram.h"
+#include "hc32f460_interrupts.h"
+#include "hc32f460_pwc.h"
 
 
 #ifdef __cplusplus

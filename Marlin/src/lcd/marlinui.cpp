@@ -1654,7 +1654,7 @@ void MarlinUI::init() {
   #if HAS_MEDIA
     extern bool wait_for_user, wait_for_heatup;
   #endif
-
+/*
   void MarlinUI::abort_print() {
     #if HAS_MEDIA
       wait_for_heatup = wait_for_user = false;
@@ -1669,7 +1669,7 @@ void MarlinUI::init() {
     TERN_(HAS_MARLINUI_MENU, return_to_status());
     TERN_(DWIN_LCD_PROUI, HMI_flag.abort_flag = true);
   }
-
+//*/
   #if BOTH(HAS_MARLINUI_MENU, PSU_CONTROL)
 
     void MarlinUI::poweroff() {

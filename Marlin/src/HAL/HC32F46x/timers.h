@@ -32,7 +32,7 @@
 #include "HAL.h"
 
 #include "bsp_timer.h"
-#include "hc32f46x_timer0.h"
+#include "hc32f460_timer0.h"
 
 // ------------------------
 // Defines

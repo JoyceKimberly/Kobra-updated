@@ -174,4 +174,5 @@ tags
 */obj/*
 *.bin
 
-*/.vscode/*
+.vscode/c_cpp_properties.json
+.vscode/

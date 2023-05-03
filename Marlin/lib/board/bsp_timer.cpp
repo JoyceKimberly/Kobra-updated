@@ -1,4 +1,4 @@
-#include "hc32f46x.h"
+#include "hc32f460.h"
 
 #include "bsp_timer.h"
 #include "bsp_irq.h"
