@@ -201,8 +201,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\drivers\board\board_gpio.c</PathWithFileName>
-      <FilenameWithoutPath>board_gpio.c</FilenameWithoutPath>
+      <PathWithFileName>..\Marlin\lib\HDSC\system_hc32f460.c</PathWithFileName>
+      <FilenameWithoutPath>system_hc32f460.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -213,8 +213,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\HDSC\system_hc32f460.c</PathWithFileName>
-      <FilenameWithoutPath>system_hc32f460.c</FilenameWithoutPath>
+      <PathWithFileName>..\Marlin\lib\drivers\board\board_gpio.c</PathWithFileName>
+      <FilenameWithoutPath>board_gpio.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

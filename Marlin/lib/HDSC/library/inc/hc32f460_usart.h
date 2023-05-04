@@ -131,8 +131,8 @@ typedef enum en_usart_data_dir
  ******************************************************************************/
 typedef enum en_usart_sample_mode
 {
-    UsartSamleBit16 = 0u,                   ///< 16 Bit
-    UsartSamleBit8  = 1u,                   ///< 8 Bit
+    UsartSampleBit16 = 0u,                   ///< 16 Bit
+    UsartSampleBit8  = 1u,                   ///< 8 Bit
 } en_usart_sample_mode_t;
 
 /**

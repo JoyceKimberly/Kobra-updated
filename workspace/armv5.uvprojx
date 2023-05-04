@@ -390,14 +390,14 @@
               <FilePath>..\Marlin\lib\HDSC\startup_hc32f460.s</FilePath>
             </File>
             <File>
-              <FileName>board_gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\drivers\board\board_gpio.c</FilePath>
-            </File>
-            <File>
               <FileName>system_hc32f460.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Marlin\lib\HDSC\system_hc32f460.c</FilePath>
+            </File>
+            <File>
+              <FileName>board_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Marlin\lib\drivers\board\board_gpio.c</FilePath>
             </File>
             <File>
               <FileName>board_tim0.cpp</FileName>

@@ -207,7 +207,7 @@ void fan_pin_init(void)
 }
 
 // PCLK1 max is 100Mhz
-// baudrate = clk/(8 ¡Á (2 - over8 ) * (DIV_Integer + 1) )
+// baudrate = clk/(8 ï¿½ï¿½ (2 - over8 ) * (DIV_Integer + 1) )
 void uart1_init(void)
 {
     en_result_t enRet = Ok;
@@ -218,7 +218,7 @@ void uart1_init(void)
         UsartDataLsbFirst,
         UsartOneStopBit,
         UsartParityNone,
-        UsartSamleBit8,
+        UsartSampleBit8,
         UsartStartBitFallEdge,
         UsartRtsEnable,
     };
@@ -288,7 +288,7 @@ void uart2_init(void)
         UsartDataLsbFirst,
         UsartOneStopBit,
         UsartParityNone,
-        UsartSamleBit8,
+        UsartSampleBit8,
         UsartStartBitFallEdge,
         UsartRtsEnable,
     };
@@ -358,7 +358,7 @@ void uart3_init(void)
         UsartDataLsbFirst,
         UsartOneStopBit,
         UsartParityNone,
-        UsartSamleBit8,
+        UsartSampleBit8,
         UsartStartBitFallEdge,
         UsartRtsEnable,
     };
@@ -428,7 +428,7 @@ void uart4_init(void)
         UsartDataLsbFirst,
         UsartOneStopBit,
         UsartParityNone,
-        UsartSamleBit8,
+        UsartSampleBit8,
         UsartStartBitFallEdge,
         UsartRtsEnable,
     };

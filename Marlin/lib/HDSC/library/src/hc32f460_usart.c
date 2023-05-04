@@ -144,8 +144,8 @@
 
 /*!< Parameter valid check for USART sample mode. */
 #define IS_VALID_USART_SAMPLE_MODE(x)                                          \
-(   (UsartSamleBit8  == (x))                ||                                 \
-    (UsartSamleBit16 == (x)))
+(   (UsartSampleBit8  == (x))                ||                                 \
+    (UsartSampleBit16 == (x)))
 
 /*!< Parameter valid check for USART sample mode. */
 #define IS_VALID_USART_HW_FLOW_MODE(x)                                         \
@@ -724,8 +724,8 @@ en_usart_parity_t USART_GetParity(M4_USART_TypeDef *USARTx)
  ** \arg M4_USART3                      USART unit 3 instance register base
  ** \arg M4_USART4                      USART unit 4 instance register base
  ** \param [in] enSampleMode            USART parity selection
- ** \arg UsartSamleBit16                16 Bit
- ** \arg UsartSamleBit8                 8 Bit
+ ** \arg UsartSampleBit16                16 Bit
+ ** \arg UsartSampleBit8                 8 Bit
  **
  ** \retval Ok                          Set successfully.
  ** \retval ErrorInvalidParameter       USARTx is invalid
@@ -759,8 +759,8 @@ en_result_t USART_SetOverSampling(M4_USART_TypeDef *USARTx,
  ** \arg M4_USART3                      USART unit 3 instance register base
  ** \arg M4_USART4                      USART unit 4 instance register base
  **
- ** \retval UsartSamleBit16             16 Bit
- ** \retval UsartSamleBit8              8 Bit
+ ** \retval UsartSampleBit16             16 Bit
+ ** \retval UsartSampleBit8              8 Bit
  **
  ******************************************************************************/
 en_usart_sample_mode_t USART_GetOverSampling(M4_USART_TypeDef *USARTx)
