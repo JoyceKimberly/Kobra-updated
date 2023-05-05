@@ -2210,7 +2210,7 @@
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
 #if ENABLED(EEPROM_SETTINGS)
   #define EEPROM_AUTO_INIT  // Init EEPROM automatically on any errors.
-  #define EEPROM_INIT_NOW   // Init EEPROM on first boot after a new build.
+  //#define EEPROM_INIT_NOW   // Init EEPROM on first boot after a new build.
 #endif
 
 // @section host
@@ -3022,7 +3022,7 @@
  *
  * :[ 'ORIGIN', 'FYSETC', 'HYPRECY', 'MKS', 'RELOADED', 'IA_CREALITY' ]
  */
-#define DGUS_LCD_UI RELOADED
+//#define DGUS_LCD_UI RELOADED
 #if DGUS_UI_IS(MKS)
   #define USE_MKS_GREEN_UI
 #elif DGUS_UI_IS(IA_CREALITY)
@@ -3057,7 +3057,7 @@
 //
 // Touch-screen LCD for Anycubic Vyper
 //
-//#define ANYCUBIC_LCD_VYPER
+#define ANYCUBIC_LCD_VYPER
 #if ENABLED(ANYCUBIC_LCD_VYPER)
   #define LCD_DARK // Enable if you're using the dark skin of the default ui
 #endif
