@@ -1174,6 +1174,31 @@
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\DGUSTxHandler.cpp</FilePath>
             </File>
+            <File>
+              <FileName>DGUS_Addr.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Addr.h</FilePath>
+            </File>
+            <File>
+              <FileName>DGUS_Constants.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Constants.h</FilePath>
+            </File>
+            <File>
+              <FileName>DGUS_Control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Control.h</FilePath>
+            </File>
+            <File>
+              <FileName>DGUS_Data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Data.h</FilePath>
+            </File>
+            <File>
+              <FileName>DGUS_Screen.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Screen.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
