@@ -21,7 +21,7 @@
  */
 #pragma once
 
-#ifndef HC32F46x
+#ifndef TARGET_HC32F46x
   #error "Oops! Select an HC32F46x board in 'options > c/c++->defines.'"
 #endif
 
@@ -203,5 +203,4 @@
 
 #define BOARD_USART4_TX_PIN     PB10    // LCD
 #define BOARD_USART4_RX_PIN     PH2
-
 

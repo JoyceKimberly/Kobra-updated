@@ -127,7 +127,7 @@ typedef enum en_result
  *******************************************************************************
  ** \brief Device include
  ******************************************************************************/
-#if defined(HC32F46x)
+#if defined(HC32F460)
     #include "hc32f460.h"
     #include "system_hc32f460.h"
 #elif defined(HC32xxxx)

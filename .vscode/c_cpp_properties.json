@@ -1,53 +1,43 @@
-//
-// !!! WARNING !!! AUTO-GENERATED FILE!
-// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
-// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
-//
 {
     "configurations": [
         {
-            "name": "PlatformIO",
+            "name": "Mac",
             "includePath": [
-                "/Users/joyce/GitHub/Marlin/Marlin",
-                "/Users/joyce/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                "/Users/joyce/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
-                "/Users/joyce/.platformio/packages/framework-arduino-avr/cores/arduino",
-                "/Users/joyce/.platformio/packages/framework-arduino-avr/variants/mega",
-                "/Users/joyce/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                "/Users/joyce/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                "/Users/joyce/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                ""
+                "${workspaceFolder}/**"
             ],
-            "browse": {
-                "limitSymbolsToIncludedHeaders": true,
-                "path": [
-                    "/Users/joyce/GitHub/Marlin/Marlin",
-                    "/Users/joyce/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                    "/Users/joyce/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
-                    "/Users/joyce/.platformio/packages/framework-arduino-avr/cores/arduino",
-                    "/Users/joyce/.platformio/packages/framework-arduino-avr/variants/mega",
-                    "/Users/joyce/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                    "/Users/joyce/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                    "/Users/joyce/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                    ""
-                ]
-            },
             "defines": [
-                "PLATFORMIO=60106",
-                "ARDUINO_AVR_MEGA2560",
-                "__MARLIN_FIRMWARE__",
-                "NDEBUG",
-                "F_CPU=16000000L",
-                "ARDUINO_ARCH_AVR",
-                "ARDUINO=10808",
-                "__AVR_ATmega2560__",
+                "HC32F46x",
+                "TARGET_HC32F46x",
+                "TARGET_STM32F1",
+                "ARDUINO_ARCH_STM32F1",
+                "REDIRECT_PRINTF_TO_SERIAL",
+                "ARDUINO=100",
+                "ARDUINO_ARCH_HC32",
+                "HC32F460",
+                "USE_DEVICE_DRIVER_LIB",
+                "__TARGET_FPU_VFP",
+                "__FPU_PRESENT=1",
+                "_MPU_PRESENT=1",
+                "ARM_MATH_CM4",
+                "ARM_MATH_MATRIX_CHECK",
+                "ARM_MATH_ROUNDING",
+                "BOARD_F_CPU=84000000",
                 ""
             ],
-            "cStandard": "c11",
-            "cppStandard": "c++17",
-            "compilerPath": "/Users/joyce/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c99",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "macos-clang-arm64",
             "compilerArgs": [
-                "-mmcu=atmega2560",
+                "-mcpu=cortex-m4",
+                "-mthumb",
+                "-mthumb-interwork",
+                "-mcpu=cortex-m4",
+                "-mthumb",
+                "-mthumb-interwork",
                 ""
             ]
         }
