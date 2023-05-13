@@ -2053,7 +2053,7 @@
 #endif
 
 // Add a menu item to move between bed corners for manual bed adjustment
-//#define LCD_BED_TRAMMING
+#define LCD_BED_TRAMMING
 
 #if ENABLED(LCD_BED_TRAMMING)
   #define BED_TRAMMING_INSET_LFRB { 30, 30, 30, 30 } // (mm) Left, Front, Right, Back insets
@@ -3022,7 +3022,7 @@
  *
  * :[ 'ORIGIN', 'FYSETC', 'HYPRECY', 'MKS', 'RELOADED', 'IA_CREALITY' ]
  */
-//#define DGUS_LCD_UI ORIGIN
+#define DGUS_LCD_UI RELOADED
 #if DGUS_UI_IS(MKS)
   #define USE_MKS_GREEN_UI
 #elif DGUS_UI_IS(IA_CREALITY)
@@ -3057,7 +3057,7 @@
 //
 // Touch-screen LCD for Anycubic Vyper
 //
-#define ANYCUBIC_LCD_VYPER
+//#define ANYCUBIC_LCD_VYPER
 #if ENABLED(ANYCUBIC_LCD_VYPER)
   #define LCD_DARK // Enable if you're using the dark skin of the default ui
 #endif
