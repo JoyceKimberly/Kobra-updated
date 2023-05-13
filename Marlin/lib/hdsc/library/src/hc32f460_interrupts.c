@@ -1,52 +1,18 @@
 /******************************************************************************
-* Copyright (C) 2016, Huada Semiconductor Co.,Ltd All rights reserved.
-*
-* This software is owned and published by:
-* Huada Semiconductor Co.,Ltd ("HDSC").
-*
-* BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
-* BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
-*
-* This software contains source code for use with HDSC
-* components. This software is licensed by HDSC to be adapted only
-* for use in systems utilizing HDSC components. HDSC shall not be
-* responsible for misuse or illegal use of this software for devices not
-* supported herein. HDSC is providing this software "AS IS" and will
-* not be responsible for issues arising from incorrect user implementation
-* of the software.
-*
-* Disclaimer:
-* HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
-* REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
-* ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
-* WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
-* WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
-* WARRANTY OF NONINFRINGEMENT.
-* HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
-* NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
-* LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
-* LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
-* INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
-* INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
-* SAVINGS OR PROFITS,
-* EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-* YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
-* INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
-* FROM, THE SOFTWARE.
-*
-* This software may be replicated in part or whole for the licensed use,
-* with the restriction that this Disclaimer and Copyright notice must be
-* included with each copy of this software, whether used in part or whole,
-* at all times.
-*/
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
+ *
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
+ */
 /*****************************************************************************/
-/** \file hc32f46x_interrupts.c
+/** \file hc32f460_interrupts.c
  **
  ** A detailed description is available at
  ** @link InterruptGroup Interrupt description @endlink
  **
- **   - 2018-10-12  1.0  Zhangxl First version for Device Driver Library of
- **     interrupt.
+ **   - 2018-10-12 CDT First version for Device Driver Library of interrupt.
  **
  ******************************************************************************/
 
@@ -73,34 +39,6 @@
  ******************************************************************************/
 /*! Parameter validity check for null pointer. */
 #define     IS_NULL_POINT(x)        (NULL != (x))
-
-/*! Parameter validity check for valid wakeup source from stop mode. */
-#define     IS_VALID_WKUP_SRC(x)                                                \
-(   ((x) == INT_USART1_WUPI)                    ||                              \
-    ((x) == INT_TMR01_GCMA)                     ||                              \
-    ((x) == INT_RTC_ALM)                        ||                              \
-    ((x) == INT_RTC_PRD)                        ||                              \
-    ((x) == INT_WKTM_PRD)                       ||                              \
-    ((x) == INT_ACMP1)                          ||                              \
-    ((x) == INT_PVD_PVD1)                       ||                              \
-    ((x) == INT_PVD_PVD2)                       ||                              \
-    ((x) == INT_SWDT_REFUDF)                    ||                              \
-    ((x) == INT_PORT_EIRQ0)                     ||                              \
-    ((x) == INT_PORT_EIRQ1)                     ||                              \
-    ((x) == INT_PORT_EIRQ2)                     ||                              \
-    ((x) == INT_PORT_EIRQ3)                     ||                              \
-    ((x) == INT_PORT_EIRQ4)                     ||                              \
-    ((x) == INT_PORT_EIRQ5)                     ||                              \
-    ((x) == INT_PORT_EIRQ6)                     ||                              \
-    ((x) == INT_PORT_EIRQ7)                     ||                              \
-    ((x) == INT_PORT_EIRQ8)                     ||                              \
-    ((x) == INT_PORT_EIRQ9)                     ||                              \
-    ((x) == INT_PORT_EIRQ10)                    ||                              \
-    ((x) == INT_PORT_EIRQ11)                    ||                              \
-    ((x) == INT_PORT_EIRQ12)                    ||                              \
-    ((x) == INT_PORT_EIRQ13)                    ||                              \
-    ((x) == INT_PORT_EIRQ14)                    ||                              \
-    ((x) == INT_PORT_EIRQ15))
 
 /*! Max IRQ Handler. */
 #define     IRQ_NUM_MAX             (128u)
@@ -445,7 +383,7 @@ void PendSV_Handler(void)
  ** \brief Systick IRQ handler
  **
  ******************************************************************************/
-extern "C" void SysTick_Handler(void)
+void SysTick_Handler(void)
 {
     SysTick_IrqHandler();
 }
@@ -455,7 +393,7 @@ extern "C" void SysTick_Handler(void)
  ** \brief Int No.000 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ000_Handler(void)
+void IRQ000_Handler(void)
 {
     if (NULL != IrqHandler[Int000_IRQn])
     {
@@ -468,7 +406,7 @@ extern "C" void IRQ000_Handler(void)
  ** \brief Int No.001 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ001_Handler(void)
+void IRQ001_Handler(void)
 {
     if (NULL != IrqHandler[Int001_IRQn])
     {
@@ -481,7 +419,7 @@ extern "C" void IRQ001_Handler(void)
  ** \brief Int No.002 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ002_Handler(void)
+void IRQ002_Handler(void)
 {
     if (NULL != IrqHandler[Int002_IRQn])
     {
@@ -494,7 +432,7 @@ extern "C" void IRQ002_Handler(void)
  ** \brief Int No.003 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ003_Handler(void)
+void IRQ003_Handler(void)
 {
     if (NULL != IrqHandler[Int003_IRQn])
     {
@@ -507,7 +445,7 @@ extern "C" void IRQ003_Handler(void)
  ** \brief Int No.004 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ004_Handler(void)
+void IRQ004_Handler(void)
 {
     if (NULL != IrqHandler[Int004_IRQn])
     {
@@ -520,7 +458,7 @@ extern "C" void IRQ004_Handler(void)
  ** \brief Int No.005 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ005_Handler(void)
+void IRQ005_Handler(void)
 {
     if (NULL != IrqHandler[Int005_IRQn])
     {
@@ -533,7 +471,7 @@ extern "C" void IRQ005_Handler(void)
  ** \brief Int No.006 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ006_Handler(void)
+void IRQ006_Handler(void)
 {
     if (NULL != IrqHandler[Int006_IRQn])
     {
@@ -546,7 +484,7 @@ extern "C" void IRQ006_Handler(void)
  ** \brief Int No.007 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ007_Handler(void)
+void IRQ007_Handler(void)
 {
     if (NULL != IrqHandler[Int007_IRQn])
     {
@@ -559,7 +497,7 @@ extern "C" void IRQ007_Handler(void)
  ** \brief Int No.008 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ008_Handler(void)
+void IRQ008_Handler(void)
 {
     if (NULL != IrqHandler[Int008_IRQn])
     {
@@ -572,7 +510,7 @@ extern "C" void IRQ008_Handler(void)
  ** \brief Int No.009 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ009_Handler(void)
+void IRQ009_Handler(void)
 {
     if (NULL != IrqHandler[Int009_IRQn])
     {
@@ -585,7 +523,7 @@ extern "C" void IRQ009_Handler(void)
  ** \brief Int No.010 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ010_Handler(void)
+void IRQ010_Handler(void)
 {
     if (NULL != IrqHandler[Int010_IRQn])
     {
@@ -598,7 +536,7 @@ extern "C" void IRQ010_Handler(void)
  ** \brief Int No.011 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ011_Handler(void)
+void IRQ011_Handler(void)
 {
     if (NULL != IrqHandler[Int011_IRQn])
     {
@@ -611,7 +549,7 @@ extern "C" void IRQ011_Handler(void)
  ** \brief Int No.012 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ012_Handler(void)
+void IRQ012_Handler(void)
 {
     if (NULL != IrqHandler[Int012_IRQn])
     {
@@ -624,7 +562,7 @@ extern "C" void IRQ012_Handler(void)
  ** \brief Int No.013 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ013_Handler(void)
+void IRQ013_Handler(void)
 {
     if (NULL != IrqHandler[Int013_IRQn])
     {
@@ -637,7 +575,7 @@ extern "C" void IRQ013_Handler(void)
  ** \brief Int No.014 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ014_Handler(void)
+void IRQ014_Handler(void)
 {
     if (NULL != IrqHandler[Int014_IRQn])
     {
@@ -650,7 +588,7 @@ extern "C" void IRQ014_Handler(void)
  ** \brief Int No.015 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ015_Handler(void)
+void IRQ015_Handler(void)
 {
     if (NULL != IrqHandler[Int015_IRQn])
     {
@@ -663,7 +601,7 @@ extern "C" void IRQ015_Handler(void)
  ** \brief Int No.016 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ016_Handler(void)
+void IRQ016_Handler(void)
 {
     if (NULL != IrqHandler[Int016_IRQn])
     {
@@ -676,7 +614,7 @@ extern "C" void IRQ016_Handler(void)
  ** \brief Int No.017 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ017_Handler(void)
+void IRQ017_Handler(void)
 {
     if (NULL != IrqHandler[Int017_IRQn])
     {
@@ -689,7 +627,7 @@ extern "C" void IRQ017_Handler(void)
  ** \brief Int No.018 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ018_Handler(void)
+void IRQ018_Handler(void)
 {
     if (NULL != IrqHandler[Int018_IRQn])
     {
@@ -702,7 +640,7 @@ extern "C" void IRQ018_Handler(void)
  ** \brief Int No.019 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ019_Handler(void)
+void IRQ019_Handler(void)
 {
     if (NULL != IrqHandler[Int019_IRQn])
     {
@@ -715,7 +653,7 @@ extern "C" void IRQ019_Handler(void)
  ** \brief Int No.020 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ020_Handler(void)
+void IRQ020_Handler(void)
 {
     if (NULL != IrqHandler[Int020_IRQn])
     {
@@ -728,7 +666,7 @@ extern "C" void IRQ020_Handler(void)
  ** \brief Int No.021 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ021_Handler(void)
+void IRQ021_Handler(void)
 {
     if (NULL != IrqHandler[Int021_IRQn])
     {
@@ -741,7 +679,7 @@ extern "C" void IRQ021_Handler(void)
  ** \brief Int No.022 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ022_Handler(void)
+void IRQ022_Handler(void)
 {
     if (NULL != IrqHandler[Int022_IRQn])
     {
@@ -754,7 +692,7 @@ extern "C" void IRQ022_Handler(void)
  ** \brief Int No.023 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ023_Handler(void)
+void IRQ023_Handler(void)
 {
     if (NULL != IrqHandler[Int023_IRQn])
     {
@@ -767,7 +705,7 @@ extern "C" void IRQ023_Handler(void)
  ** \brief Int No.024 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ024_Handler(void)
+void IRQ024_Handler(void)
 {
     if (NULL != IrqHandler[Int024_IRQn])
     {
@@ -780,7 +718,7 @@ extern "C" void IRQ024_Handler(void)
  ** \brief Int No.025 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ025_Handler(void)
+void IRQ025_Handler(void)
 {
     if (NULL != IrqHandler[Int025_IRQn])
     {
@@ -793,7 +731,7 @@ extern "C" void IRQ025_Handler(void)
  ** \brief Int No.026 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ026_Handler(void)
+void IRQ026_Handler(void)
 {
     if (NULL != IrqHandler[Int026_IRQn])
     {
@@ -806,7 +744,7 @@ extern "C" void IRQ026_Handler(void)
  ** \brief Int No.027 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ027_Handler(void)
+void IRQ027_Handler(void)
 {
     if (NULL != IrqHandler[Int027_IRQn])
     {
@@ -819,7 +757,7 @@ extern "C" void IRQ027_Handler(void)
  ** \brief Int No.028 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ028_Handler(void)
+void IRQ028_Handler(void)
 {
     if (NULL != IrqHandler[Int028_IRQn])
     {
@@ -832,7 +770,7 @@ extern "C" void IRQ028_Handler(void)
  ** \brief Int No.029 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ029_Handler(void)
+void IRQ029_Handler(void)
 {
     if (NULL != IrqHandler[Int029_IRQn])
     {
@@ -845,7 +783,7 @@ extern "C" void IRQ029_Handler(void)
  ** \brief Int No.030 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ030_Handler(void)
+void IRQ030_Handler(void)
 {
     if (NULL != IrqHandler[Int030_IRQn])
     {
@@ -858,7 +796,7 @@ extern "C" void IRQ030_Handler(void)
  ** \brief Int No.031 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ031_Handler(void)
+void IRQ031_Handler(void)
 {
     if (NULL != IrqHandler[Int031_IRQn])
     {
@@ -871,7 +809,7 @@ extern "C" void IRQ031_Handler(void)
  ** \brief Int No.032 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ032_Handler(void)
+void IRQ032_Handler(void)
 {
     if (NULL != IrqHandler[Int032_IRQn])
     {
@@ -884,7 +822,7 @@ extern "C" void IRQ032_Handler(void)
  ** \brief Int No.033 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ033_Handler(void)
+void IRQ033_Handler(void)
 {
     if (NULL != IrqHandler[Int033_IRQn])
     {
@@ -897,7 +835,7 @@ extern "C" void IRQ033_Handler(void)
  ** \brief Int No.034 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ034_Handler(void)
+void IRQ034_Handler(void)
 {
     if (NULL != IrqHandler[Int034_IRQn])
     {
@@ -910,7 +848,7 @@ extern "C" void IRQ034_Handler(void)
  ** \brief Int No.035 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ035_Handler(void)
+void IRQ035_Handler(void)
 {
     if (NULL != IrqHandler[Int035_IRQn])
     {
@@ -923,7 +861,7 @@ extern "C" void IRQ035_Handler(void)
  ** \brief Int No.036 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ036_Handler(void)
+void IRQ036_Handler(void)
 {
     if (NULL != IrqHandler[Int036_IRQn])
     {
@@ -936,7 +874,7 @@ extern "C" void IRQ036_Handler(void)
  ** \brief Int No.037 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ037_Handler(void)
+void IRQ037_Handler(void)
 {
     if (NULL != IrqHandler[Int037_IRQn])
     {
@@ -949,7 +887,7 @@ extern "C" void IRQ037_Handler(void)
  ** \brief Int No.038 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ038_Handler(void)
+void IRQ038_Handler(void)
 {
     if (NULL != IrqHandler[Int038_IRQn])
     {
@@ -962,7 +900,7 @@ extern "C" void IRQ038_Handler(void)
  ** \brief Int No.039 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ039_Handler(void)
+void IRQ039_Handler(void)
 {
     if (NULL != IrqHandler[Int039_IRQn])
     {
@@ -975,7 +913,7 @@ extern "C" void IRQ039_Handler(void)
  ** \brief Int No.040 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ040_Handler(void)
+void IRQ040_Handler(void)
 {
     if (NULL != IrqHandler[Int040_IRQn])
     {
@@ -988,7 +926,7 @@ extern "C" void IRQ040_Handler(void)
  ** \brief Int No.041 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ041_Handler(void)
+void IRQ041_Handler(void)
 {
     if (NULL != IrqHandler[Int041_IRQn])
     {
@@ -1001,7 +939,7 @@ extern "C" void IRQ041_Handler(void)
  ** \brief Int No.042 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ042_Handler(void)
+void IRQ042_Handler(void)
 {
     if (NULL != IrqHandler[Int042_IRQn])
     {
@@ -1014,7 +952,7 @@ extern "C" void IRQ042_Handler(void)
  ** \brief Int No.043 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ043_Handler(void)
+void IRQ043_Handler(void)
 {
     if (NULL != IrqHandler[Int043_IRQn])
     {
@@ -1027,7 +965,7 @@ extern "C" void IRQ043_Handler(void)
  ** \brief Int No.044 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ044_Handler(void)
+void IRQ044_Handler(void)
 {
     if (NULL != IrqHandler[Int044_IRQn])
     {
@@ -1040,7 +978,7 @@ extern "C" void IRQ044_Handler(void)
  ** \brief Int No.045 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ045_Handler(void)
+void IRQ045_Handler(void)
 {
     if (NULL != IrqHandler[Int045_IRQn])
     {
@@ -1053,7 +991,7 @@ extern "C" void IRQ045_Handler(void)
  ** \brief Int No.046 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ046_Handler(void)
+void IRQ046_Handler(void)
 {
     if (NULL != IrqHandler[Int046_IRQn])
     {
@@ -1066,7 +1004,7 @@ extern "C" void IRQ046_Handler(void)
  ** \brief Int No.047 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ047_Handler(void)
+void IRQ047_Handler(void)
 {
     if (NULL != IrqHandler[Int047_IRQn])
     {
@@ -1079,7 +1017,7 @@ extern "C" void IRQ047_Handler(void)
  ** \brief Int No.048 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ048_Handler(void)
+void IRQ048_Handler(void)
 {
     if (NULL != IrqHandler[Int048_IRQn])
     {
@@ -1092,7 +1030,7 @@ extern "C" void IRQ048_Handler(void)
  ** \brief Int No.049 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ049_Handler(void)
+void IRQ049_Handler(void)
 {
     if (NULL != IrqHandler[Int049_IRQn])
     {
@@ -1105,7 +1043,7 @@ extern "C" void IRQ049_Handler(void)
  ** \brief Int No.050 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ050_Handler(void)
+void IRQ050_Handler(void)
 {
     if (NULL != IrqHandler[Int050_IRQn])
     {
@@ -1118,7 +1056,7 @@ extern "C" void IRQ050_Handler(void)
  ** \brief Int No.051 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ051_Handler(void)
+void IRQ051_Handler(void)
 {
     if (NULL != IrqHandler[Int051_IRQn])
     {
@@ -1131,7 +1069,7 @@ extern "C" void IRQ051_Handler(void)
  ** \brief Int No.052 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ052_Handler(void)
+void IRQ052_Handler(void)
 {
     if (NULL != IrqHandler[Int052_IRQn])
     {
@@ -1144,7 +1082,7 @@ extern "C" void IRQ052_Handler(void)
  ** \brief Int No.053 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ053_Handler(void)
+void IRQ053_Handler(void)
 {
     if (NULL != IrqHandler[Int053_IRQn])
     {
@@ -1157,7 +1095,7 @@ extern "C" void IRQ053_Handler(void)
  ** \brief Int No.054 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ054_Handler(void)
+void IRQ054_Handler(void)
 {
     if (NULL != IrqHandler[Int054_IRQn])
     {
@@ -1170,7 +1108,7 @@ extern "C" void IRQ054_Handler(void)
  ** \brief Int No.055 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ055_Handler(void)
+void IRQ055_Handler(void)
 {
     if (NULL != IrqHandler[Int055_IRQn])
     {
@@ -1183,7 +1121,7 @@ extern "C" void IRQ055_Handler(void)
  ** \brief Int No.056 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ056_Handler(void)
+void IRQ056_Handler(void)
 {
     if (NULL != IrqHandler[Int056_IRQn])
     {
@@ -1196,7 +1134,7 @@ extern "C" void IRQ056_Handler(void)
  ** \brief Int No.057 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ057_Handler(void)
+void IRQ057_Handler(void)
 {
     if (NULL != IrqHandler[Int057_IRQn])
     {
@@ -1209,7 +1147,7 @@ extern "C" void IRQ057_Handler(void)
  ** \brief Int No.058 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ058_Handler(void)
+void IRQ058_Handler(void)
 {
     if (NULL != IrqHandler[Int058_IRQn])
     {
@@ -1222,7 +1160,7 @@ extern "C" void IRQ058_Handler(void)
  ** \brief Int No.059 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ059_Handler(void)
+void IRQ059_Handler(void)
 {
     if (NULL != IrqHandler[Int059_IRQn])
     {
@@ -1235,7 +1173,7 @@ extern "C" void IRQ059_Handler(void)
  ** \brief Int No.060 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ060_Handler(void)
+void IRQ060_Handler(void)
 {
     if (NULL != IrqHandler[Int060_IRQn])
     {
@@ -1248,7 +1186,7 @@ extern "C" void IRQ060_Handler(void)
  ** \brief Int No.061 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ061_Handler(void)
+void IRQ061_Handler(void)
 {
     if (NULL != IrqHandler[Int061_IRQn])
     {
@@ -1261,7 +1199,7 @@ extern "C" void IRQ061_Handler(void)
  ** \brief Int No.062 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ062_Handler(void)
+void IRQ062_Handler(void)
 {
     if (NULL != IrqHandler[Int062_IRQn])
     {
@@ -1274,7 +1212,7 @@ extern "C" void IRQ062_Handler(void)
  ** \brief Int No.063 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ063_Handler(void)
+void IRQ063_Handler(void)
 {
     if (NULL != IrqHandler[Int063_IRQn])
     {
@@ -1287,7 +1225,7 @@ extern "C" void IRQ063_Handler(void)
  ** \brief Int No.064 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ064_Handler(void)
+void IRQ064_Handler(void)
 {
     if (NULL != IrqHandler[Int064_IRQn])
     {
@@ -1300,7 +1238,7 @@ extern "C" void IRQ064_Handler(void)
  ** \brief Int No.065 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ065_Handler(void)
+void IRQ065_Handler(void)
 {
     if (NULL != IrqHandler[Int065_IRQn])
     {
@@ -1313,7 +1251,7 @@ extern "C" void IRQ065_Handler(void)
  ** \brief Int No.066 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ066_Handler(void)
+void IRQ066_Handler(void)
 {
     if (NULL != IrqHandler[Int066_IRQn])
     {
@@ -1326,7 +1264,7 @@ extern "C" void IRQ066_Handler(void)
  ** \brief Int No.067 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ067_Handler(void)
+void IRQ067_Handler(void)
 {
     if (NULL != IrqHandler[Int067_IRQn])
     {
@@ -1339,7 +1277,7 @@ extern "C" void IRQ067_Handler(void)
  ** \brief Int No.068 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ068_Handler(void)
+void IRQ068_Handler(void)
 {
     if (NULL != IrqHandler[Int068_IRQn])
     {
@@ -1352,7 +1290,7 @@ extern "C" void IRQ068_Handler(void)
  ** \brief Int No.069 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ069_Handler(void)
+void IRQ069_Handler(void)
 {
     if (NULL != IrqHandler[Int069_IRQn])
     {
@@ -1365,7 +1303,7 @@ extern "C" void IRQ069_Handler(void)
  ** \brief Int No.070 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ070_Handler(void)
+void IRQ070_Handler(void)
 {
     if (NULL != IrqHandler[Int070_IRQn])
     {
@@ -1378,7 +1316,7 @@ extern "C" void IRQ070_Handler(void)
  ** \brief Int No.071 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ071_Handler(void)
+void IRQ071_Handler(void)
 {
     if (NULL != IrqHandler[Int071_IRQn])
     {
@@ -1391,7 +1329,7 @@ extern "C" void IRQ071_Handler(void)
  ** \brief Int No.072 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ072_Handler(void)
+void IRQ072_Handler(void)
 {
     if (NULL != IrqHandler[Int072_IRQn])
     {
@@ -1404,7 +1342,7 @@ extern "C" void IRQ072_Handler(void)
  ** \brief Int No.073 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ073_Handler(void)
+void IRQ073_Handler(void)
 {
     if (NULL != IrqHandler[Int073_IRQn])
     {
@@ -1417,7 +1355,7 @@ extern "C" void IRQ073_Handler(void)
  ** \brief Int No.074 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ074_Handler(void)
+void IRQ074_Handler(void)
 {
     if (NULL != IrqHandler[Int074_IRQn])
     {
@@ -1430,7 +1368,7 @@ extern "C" void IRQ074_Handler(void)
  ** \brief Int No.075 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ075_Handler(void)
+void IRQ075_Handler(void)
 {
     if (NULL != IrqHandler[Int075_IRQn])
     {
@@ -1443,7 +1381,7 @@ extern "C" void IRQ075_Handler(void)
  ** \brief Int No.076 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ076_Handler(void)
+void IRQ076_Handler(void)
 {
     if (NULL != IrqHandler[Int076_IRQn])
     {
@@ -1456,7 +1394,7 @@ extern "C" void IRQ076_Handler(void)
  ** \brief Int No.077 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ077_Handler(void)
+void IRQ077_Handler(void)
 {
     if (NULL != IrqHandler[Int077_IRQn])
     {
@@ -1469,7 +1407,7 @@ extern "C" void IRQ077_Handler(void)
  ** \brief Int No.078 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ078_Handler(void)
+void IRQ078_Handler(void)
 {
     if (NULL != IrqHandler[Int078_IRQn])
     {
@@ -1482,7 +1420,7 @@ extern "C" void IRQ078_Handler(void)
  ** \brief Int No.079 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ079_Handler(void)
+void IRQ079_Handler(void)
 {
     if (NULL != IrqHandler[Int079_IRQn])
     {
@@ -1495,7 +1433,7 @@ extern "C" void IRQ079_Handler(void)
  ** \brief Int No.080 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ080_Handler(void)
+void IRQ080_Handler(void)
 {
     if (NULL != IrqHandler[Int080_IRQn])
     {
@@ -1508,7 +1446,7 @@ extern "C" void IRQ080_Handler(void)
  ** \brief Int No.081 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ081_Handler(void)
+void IRQ081_Handler(void)
 {
     if (NULL != IrqHandler[Int081_IRQn])
     {
@@ -1521,7 +1459,7 @@ extern "C" void IRQ081_Handler(void)
  ** \brief Int No.082 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ082_Handler(void)
+void IRQ082_Handler(void)
 {
     if (NULL != IrqHandler[Int082_IRQn])
     {
@@ -1534,7 +1472,7 @@ extern "C" void IRQ082_Handler(void)
  ** \brief Int No.083 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ083_Handler(void)
+void IRQ083_Handler(void)
 {
     if (NULL != IrqHandler[Int083_IRQn])
     {
@@ -1547,7 +1485,7 @@ extern "C" void IRQ083_Handler(void)
  ** \brief Int No.084 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ084_Handler(void)
+void IRQ084_Handler(void)
 {
     if (NULL != IrqHandler[Int084_IRQn])
     {
@@ -1560,7 +1498,7 @@ extern "C" void IRQ084_Handler(void)
  ** \brief Int No.085 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ085_Handler(void)
+void IRQ085_Handler(void)
 {
     if (NULL != IrqHandler[Int085_IRQn])
     {
@@ -1573,7 +1511,7 @@ extern "C" void IRQ085_Handler(void)
  ** \brief Int No.086 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ086_Handler(void)
+void IRQ086_Handler(void)
 {
     if (NULL != IrqHandler[Int086_IRQn])
     {
@@ -1586,7 +1524,7 @@ extern "C" void IRQ086_Handler(void)
  ** \brief Int No.087 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ087_Handler(void)
+void IRQ087_Handler(void)
 {
     if (NULL != IrqHandler[Int087_IRQn])
     {
@@ -1599,7 +1537,7 @@ extern "C" void IRQ087_Handler(void)
  ** \brief Int No.088 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ088_Handler(void)
+void IRQ088_Handler(void)
 {
     if (NULL != IrqHandler[Int088_IRQn])
     {
@@ -1612,7 +1550,7 @@ extern "C" void IRQ088_Handler(void)
  ** \brief Int No.089 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ089_Handler(void)
+void IRQ089_Handler(void)
 {
     if (NULL != IrqHandler[Int089_IRQn])
     {
@@ -1625,7 +1563,7 @@ extern "C" void IRQ089_Handler(void)
  ** \brief Int No.090 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ090_Handler(void)
+void IRQ090_Handler(void)
 {
     if (NULL != IrqHandler[Int090_IRQn])
     {
@@ -1638,7 +1576,7 @@ extern "C" void IRQ090_Handler(void)
  ** \brief Int No.091 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ091_Handler(void)
+void IRQ091_Handler(void)
 {
     if (NULL != IrqHandler[Int091_IRQn])
     {
@@ -1651,7 +1589,7 @@ extern "C" void IRQ091_Handler(void)
  ** \brief Int No.092 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ092_Handler(void)
+void IRQ092_Handler(void)
 {
     if (NULL != IrqHandler[Int092_IRQn])
     {
@@ -1664,7 +1602,7 @@ extern "C" void IRQ092_Handler(void)
  ** \brief Int No.093 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ093_Handler(void)
+void IRQ093_Handler(void)
 {
     if (NULL != IrqHandler[Int093_IRQn])
     {
@@ -1677,7 +1615,7 @@ extern "C" void IRQ093_Handler(void)
  ** \brief Int No.094 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ094_Handler(void)
+void IRQ094_Handler(void)
 {
     if (NULL != IrqHandler[Int094_IRQn])
     {
@@ -1690,7 +1628,7 @@ extern "C" void IRQ094_Handler(void)
  ** \brief Int No.095 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ095_Handler(void)
+void IRQ095_Handler(void)
 {
     if (NULL != IrqHandler[Int095_IRQn])
     {
@@ -1703,7 +1641,7 @@ extern "C" void IRQ095_Handler(void)
  ** \brief Int No.096 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ096_Handler(void)
+void IRQ096_Handler(void)
 {
     if (NULL != IrqHandler[Int096_IRQn])
     {
@@ -1716,7 +1654,7 @@ extern "C" void IRQ096_Handler(void)
  ** \brief Int No.097 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ097_Handler(void)
+void IRQ097_Handler(void)
 {
     if (NULL != IrqHandler[Int097_IRQn])
     {
@@ -1729,7 +1667,7 @@ extern "C" void IRQ097_Handler(void)
  ** \brief Int No.098 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ098_Handler(void)
+void IRQ098_Handler(void)
 {
     if (NULL != IrqHandler[Int098_IRQn])
     {
@@ -1742,7 +1680,7 @@ extern "C" void IRQ098_Handler(void)
  ** \brief Int No.099 IRQ handler
  **
  ******************************************************************************/
-extern "C" void IRQ099_Handler(void)
+void IRQ099_Handler(void)
 {
     if (NULL != IrqHandler[Int099_IRQn])
     {
@@ -2114,7 +2052,7 @@ void IRQ127_Handler(void)
     }
 }
 
-
+#if (DDL_INTERRUPTS_SHARE_ENABLE == DDL_ON)
 /**
  *******************************************************************************
  ** \brief Int No.128 share IRQ handler
@@ -3645,14 +3583,14 @@ void IRQ141_Handler(void)
         I2c3Err_IrqHandler();
     }
     /* PVD Ch.1 detected */
-    if (1ul == bM4_SYSREG_PWR_PVDCR1_PVD1IRE)
+    if (1ul == M4_SYSREG->PWR_PVDDSR_f.PVD1DETFLG)
     {
         if((1ul == bM4_SYSREG_PWR_PVDDSR_PVD1DETFLG) && (VSSEL141 & BIT_MASK_17))
         {
             Pvd1_IrqHandler();
         }
     }
-    if (1ul == bM4_SYSREG_PWR_PVDCR1_PVD2IRE)
+    if (1ul == M4_SYSREG->PWR_PVDDSR_f.PVD2DETFLG)
     {
         /* PVD Ch.2 detected */
         if((1ul == bM4_SYSREG_PWR_PVDDSR_PVD2DETFLG) && (VSSEL141 & BIT_MASK_18))
@@ -3833,6 +3771,8 @@ void IRQ143_Handler(void)
         }
     }
 }
+
+#endif
 
 //@} // InterruptGroup
 

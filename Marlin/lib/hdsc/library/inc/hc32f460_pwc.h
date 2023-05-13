@@ -1,55 +1,22 @@
 /*****************************************************************************
- * Copyright (C) 2016, Huada Semiconductor Co.,Ltd All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co.,Ltd. ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
-/** \file hc32f46x_pwc.h
+/** \file hc32f460_pwc.h
  **
  ** A detailed description is available at
  ** @link PwcGroup PWC description @endlink
  **
- **   - 2018-10-28  1.0  Chengy First version for Device Driver Library of PWC.
+ **   - 2018-10-28  CDT  First version for Device Driver Library of PWC.
  **
  ******************************************************************************/
-#ifndef __HC32F46X_PWC_H__
-#define __HC32F46X_PWC_H__
+#ifndef __HC32F460_PWC_H__
+#define __HC32F460_PWC_H__
 
 /*******************************************************************************
  * Include files
@@ -153,8 +120,8 @@ typedef enum en_pwc_waketime_sel
  ******************************************************************************/
 typedef enum en_pwc_stop_flash_sel
 {
-    Wait                            = 0u,  ///< wait flash stable.
-    NotWait                         = 1u,  ///< Not Wait flash stable.
+    FlashWait                            = 0u,  ///< wait flash stable.
+    FlashNotWait                         = 1u,  ///< Not Wait flash stable.
 }en_pwc_stop_flash_sel_t;
 
 /**
@@ -200,17 +167,6 @@ typedef enum en_pwc_wkover_flag
     UnEqual                         = 0u,  ///< Timer value unequal with the wake_up compare value whitch set.
     Equal                           = 1u,  ///< Timer value equal with the wake_up compare value whitch set..
 }en_pwc_wkover_flag_t;
-
-/**
- *******************************************************************************
- ** \brief  The RAM power down control.
- **
- ******************************************************************************/
-typedef enum en_pwc_ram_pwr_ctl
-{
-    DynamicCtl                      = 0u,   ///< Ram dynamic.
-    PowDownCtl                      = 1u,   ///< Ram power down.
-}en_pwc_ram_pwr_ctl_t;
 
 /**
  *******************************************************************************
@@ -326,10 +282,6 @@ typedef struct stc_pwc_pwr_mode_cfg
     en_functional_state_t   enRLdo;         ///< Enable or disable RLDO.
     en_functional_state_t   enRetSram;      ///< Enable or disable Ret_Sram.
     en_pwc_iortn_t          enIoRetain;     ///< IO retain.
-    en_functional_state_t   enVPll;         ///< Enable or disable PLL vcc.
-    en_functional_state_t   enVHrc;         ///< Enable or disable HRC vcc.
-    en_pwc_drvability_sca_t enDrvAbility;   ///< Driver ability scale.
-    en_pwc_rundrvs_t        enRunDrvs;      ///< Run drive select.
     en_pwc_waketime_sel_t   enPwrDWkupTm;   ///< The power down wake up time select.
 }stc_pwc_pwr_mode_cfg_t;
 
@@ -345,25 +297,6 @@ typedef struct stc_pwc_stop_mode_cfg
     en_pwc_stop_clk_sel_t   enStopClk;      ///< Clock value while stop mode awake.
     en_functional_state_t   enPll;          ///< Whether the PLL enable or disable while enter stop mode.
 }stc_pwc_stop_mode_cfg_t;
-
-/**
- *******************************************************************************
- ** \brief  The Ram config(include operating mode & power down control).
- **
- ******************************************************************************/
-typedef struct stc_pwc_ram_cfg
-{
-    en_pwc_ram_pwr_ctl_t    enRam0;         ///< Ram0(0x20000000-0x2000FFFF) power down control.
-    en_pwc_ram_pwr_ctl_t    enRam1;         ///< Ram1(0x20010000-0x2001FFFF).
-    en_pwc_ram_pwr_ctl_t    enRam2;         ///< Ram2(0x20020000-0x20026FFF).
-    en_pwc_ram_pwr_ctl_t    enRam3;         ///< Rom3(0x1FFF8000-0x1FFFFFFF).
-    en_pwc_ram_pwr_ctl_t    enUsbfs;        ///< Usbfs.
-    en_pwc_ram_pwr_ctl_t    enSdioc0;       ///< Sdioc0.
-    en_pwc_ram_pwr_ctl_t    enSdioc1;       ///< Sdioc1.
-    en_pwc_ram_pwr_ctl_t    enCan;          ///< Can.
-    en_pwc_ram_pwr_ctl_t    enCache;        ///< Cache.
-    en_pwc_ram_op_md_t      enRamOpMd;      ///< Ram operate mode(high or ultra low speed).
-}stc_pwc_ram_cfg_t;
 
 /**
  *******************************************************************************
@@ -444,6 +377,17 @@ typedef struct stc_pwc_pvd_cfg
 #define PWC_PDWKUP_EDGE_PVD1        ((uint8_t)0x10)
 #define PWC_PDWKUP_EDGE_PVD2        ((uint8_t)0x20)
 #define PWC_PDWKUP_EDGE_NMI         ((uint8_t)0x40)
+
+#define PWC_RAMPWRDOWN_SRAM1        ((uint32_t)0x00000001)
+#define PWC_RAMPWRDOWN_SRAM2        ((uint32_t)0x00000002)
+#define PWC_RAMPWRDOWN_SRAM3        ((uint32_t)0x00000004)
+#define PWC_RAMPWRDOWN_SRAMH        ((uint32_t)0x00000008)
+#define PWC_RAMPWRDOWN_USBFS        ((uint32_t)0x00000010)
+#define PWC_RAMPWRDOWN_SDIOC0       ((uint32_t)0x00000020)
+#define PWC_RAMPWRDOWN_SDIOC1       ((uint32_t)0x00000040)
+#define PWC_RAMPWRDOWN_CAN          ((uint32_t)0x00000080)
+#define PWC_RAMPWRDOWN_CACHE        ((uint32_t)0x00000100)
+#define PWC_RAMPWRDOWN_FULL         ((uint32_t)0x000001FF)
 
 #define PWC_STOPWKUPEN_EIRQ0        ((uint32_t)0x00000001)
 #define PWC_STOPWKUPEN_EIRQ1        ((uint32_t)0x00000002)
@@ -578,8 +522,12 @@ void PWC_StopWkupCmd(uint32_t u32Wkup0Event, en_functional_state_t enNewState);
 void PWC_EnterStopMd(void);
 void PWC_EnterSleepMd(void);
 
-void PWC_RamCfg(const stc_pwc_ram_cfg_t* pstcRamCfg);
 void PWC_Xtal32CsCmd(en_functional_state_t enNewState);
+void PWC_HrcPwrCmd(en_functional_state_t enNewState);
+void PWC_PllPwrCmd(en_functional_state_t enNewState);
+void PWC_RamPwrdownCmd(uint32_t u32RamCtlBit, en_functional_state_t enNewState);
+void PWC_RamOpMdConfig(en_pwc_ram_op_md_t enRamOpMd);
+
 void PWC_WktmControl(const stc_pwc_wktm_ctl_t* pstcWktmCtl);
 
 void PWC_PvdCfg(const stc_pwc_pvd_cfg_t* pstcPvdCfg);
@@ -590,9 +538,10 @@ void PWC_ClearPvdFlag(en_pwc_pvd_t enPvd);
 en_flag_status_t PWC_GetPvdFlag(en_pwc_pvd_t enPvd);
 en_flag_status_t PWC_GetPvdStatus(en_pwc_pvd_t enPvd);
 
-void PWC_HrcPwrCmd(en_functional_state_t enNewState);
-void PWC_PllPwrCmd(en_functional_state_t enNewState);
-
+void PWC_enNvicBackup(void);
+void PWC_enNvicRecover(void);
+void PWC_ClkBackup(void);
+void PWC_ClkRecover(void);
 void PWC_IrqClkBackup(void);
 void PWC_IrqClkRecover(void);
 
@@ -611,7 +560,7 @@ en_result_t PWC_HP2LS(void);
 
 #endif /* DDL_PWC_ENABLE */
 
-#endif /* __HC32F46X_PWC_H__ */
+#endif /* __HC32F460_PWC_H__ */
 
 /*******************************************************************************
  * EOF (not truncated)

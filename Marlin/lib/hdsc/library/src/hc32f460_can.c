@@ -1,51 +1,18 @@
 /*******************************************************************************
-* Copyright (C) 2016, Huada Semiconductor Co., Ltd. All rights reserved.
-*
-* This software is owned and published by:
-* Huada Semiconductor Co., Ltd. ("HDSC").
-*
-* BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
-* BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
-*
-* This software contains source code for use with HDSC
-* components. This software is licensed by HDSC to be adapted only
-* for use in systems utilizing HDSC components. HDSC shall not be
-* responsible for misuse or illegal use of this software for devices not
-* supported herein. HDSC is providing this software "AS IS" and will
-* not be responsible for issues arising from incorrect user implementation
-* of the software.
-*
-* Disclaimer:
-* HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
-* REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
-* ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
-* WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
-* WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
-* WARRANTY OF NONINFRINGEMENT.
-* HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
-* NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
-* LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
-* LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
-* INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
-* INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
-* SAVINGS OR PROFITS,
-* EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-* YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
-* INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
-* FROM, THE SOFTWARE.
-*
-* This software may be replicated in part or whole for the licensed use,
-* with the restriction that this Disclaimer and Copyright notice must be
-* included with each copy of this software, whether used in part or whole,
-* at all times.
-*/
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
+ *
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
+ */
 /******************************************************************************/
-/** \file hc32f46x_can.c
+/** \file hc32f460_can.c
  **
  ** A detailed description is available at
  ** @link CanGroup CAN description @endlink
  **
- **   - 2018-12-13  1.0  Lux First version for Device Driver Library of CAN.
+ **   - 2018-12-13  CDT First version for Device Driver Library of CAN.
  **
  ******************************************************************************/
 
@@ -141,6 +108,14 @@ do{                                                                             
         (CanBusErrorIrqFlg         == (enCanIrqFLg))                           \
 )
 
+/*! Parameter validity check for CAN filter \a enCanFilter. */
+#define IS_CAN_FILTER_VALID(enCanFilter)                                       \
+(       (enCanFilter) <= CanFilterSel8)
+
+/*! Parameter validity check for CAN filter count \a u8Count. */
+#define IS_CAN_FILTER_COUNT_VALID(u8Count)                                     \
+(       (u8Count) <= 8u)
+
 /*******************************************************************************
  * Global variable definitions (declared in header file with 'extern')
  ******************************************************************************/
@@ -167,28 +142,33 @@ do{                                                                             
  ** \note   None
  **
  ******************************************************************************/
-void CAN_Init(stc_can_init_config_t *pstcCanInitCfg)
+void CAN_Init(const stc_can_init_config_t *pstcCanInitCfg)
 {
+    uint8_t i;
     if (NULL != pstcCanInitCfg)
     {
-        M4_CAN->RCTRL_f.SACK   = pstcCanInitCfg->enCanSAck;
-        M4_CAN->TCTRL_f.TSMODE = pstcCanInitCfg->enCanSTBMode;
-        M4_CAN->RCTRL_f.RBALL  = pstcCanInitCfg->enCanRxBufAll;
-        M4_CAN->RCTRL_f.ROM    = pstcCanInitCfg->enCanRxBufMode;
-
-        M4_CAN->RTIE = 0x00u;
+        DDL_ASSERT(IS_CAN_FILTER_COUNT_VALID(pstcCanInitCfg->u8FilterCount));
 
         CAN_RESET_ENABLE();
-
-        M4_CAN->BT_f.PRESC = pstcCanInitCfg->stcCanBt.PRESC;
-        M4_CAN->BT_f.SEG_1 = pstcCanInitCfg->stcCanBt.SEG_1;
-        M4_CAN->BT_f.SEG_2 = pstcCanInitCfg->stcCanBt.SEG_2;
-        M4_CAN->BT_f.SJW   = pstcCanInitCfg->stcCanBt.SJW;
-
-        M4_CAN->LIMIT_f.AFWL = pstcCanInitCfg->stcWarningLimit.CanWarningLimitVal;
-        M4_CAN->LIMIT_f.EWL  = pstcCanInitCfg->stcWarningLimit.CanErrorWarningLimitVal;
+        M4_CAN->BT_f.PRESC     = pstcCanInitCfg->stcCanBt.PRESC;
+        M4_CAN->BT_f.SEG_1     = pstcCanInitCfg->stcCanBt.SEG_1;
+        M4_CAN->BT_f.SEG_2     = pstcCanInitCfg->stcCanBt.SEG_2;
+        M4_CAN->BT_f.SJW       = pstcCanInitCfg->stcCanBt.SJW;
+        M4_CAN->TCTRL_f.TSMODE = pstcCanInitCfg->enCanSTBMode;
+        CAN_FilterConfig(pstcCanInitCfg->pstcFilter, pstcCanInitCfg->u8FilterCount);
 
         CAN_RESET_DISABLE();
+        M4_CAN->RCTRL_f.RBALL  = pstcCanInitCfg->enCanRxBufAll;
+        M4_CAN->RCTRL_f.ROM    = pstcCanInitCfg->enCanRxBufMode;
+        M4_CAN->RCTRL_f.SACK   = pstcCanInitCfg->enCanSAck;
+        M4_CAN->LIMIT_f.AFWL   = pstcCanInitCfg->stcWarningLimit.CanWarningLimitVal;
+        M4_CAN->LIMIT_f.EWL    = pstcCanInitCfg->stcWarningLimit.CanErrorWarningLimitVal;
+
+        // Enable filters.
+        for (i=0u; i<pstcCanInitCfg->u8FilterCount; i++)
+        {
+            CAN_FilterCmd(pstcCanInitCfg->pstcFilter[i].enFilterSel, Enable);
+        }
     }
 }
 
@@ -239,7 +219,6 @@ void CAN_ModeConfig(en_can_mode_t enMode, en_functional_state_t enNewState)
             M4_CAN->CFG_STAT &= ~enMode;
         }
     }
-
 }
 
 
@@ -247,52 +226,73 @@ void CAN_ModeConfig(en_can_mode_t enMode, en_functional_state_t enNewState)
  *******************************************************************************
  ** \brief  Configures the can acceptance filter
  **
- ** \param  [in] pstcFilter             The can filter config struct.
+ ** \param  [in] pstcFilter             Pointer to a stc_can_filter_t type array.
  **                                     @ref stc_can_filter_t
- ** \param  [in] enNewState             The new state of the can filter chanel.
- ** \arg    Enable                      Enable filter.
- ** \arg    Disable                     Disable filter.
+ ** \param  [in] u8FilterCount          Number of filters that to be configured.
  **
  ** \retval None
  **
  ** \note   None
  **
  ******************************************************************************/
-void CAN_FilterConfig(const stc_can_filter_t *pstcFilter, en_functional_state_t enNewState)
+void CAN_FilterConfig(const stc_can_filter_t pstcFilter[], uint8_t u8FilterCount)
 {
+    uint8_t i;
+
     if(NULL != pstcFilter)
     {
-        DDL_ASSERT(IS_FUNCTIONAL_STATE(enNewState));
+        DDL_ASSERT(IS_CAN_FILTER_COUNT_VALID(u8FilterCount));
 
-        CAN_RESET_ENABLE();
-
-        //<<Acceptance filter address
-        M4_CAN->ACFCTRL_f.ACFADR  = pstcFilter->enFilterSel;
-
-        //<<ID config
-        M4_CAN->ACFCTRL_f.SELMASK = CAN_ACF_ID_REG_SEL;
-        M4_CAN->ACF               = pstcFilter->u32CODE;
-
-        //<<MASK config
-        M4_CAN->ACFCTRL_f.SELMASK = CAN_ACF_MASK_REG_SEL;
-        M4_CAN->ACF               = pstcFilter->u32MASK;
-
-        //<<Frame format config
-        M4_CAN->ACF_f.AIDEE = ((pstcFilter->enAcfFormat >> 1ul) & 0x01u);
-        M4_CAN->ACF_f.AIDE  = (pstcFilter->enAcfFormat & 0x01ul);
-
-        if(Enable == enNewState)
+        for (i=0u; i<u8FilterCount; i++)
         {
-            M4_CAN->ACFEN |= (uint8_t)(1ul << pstcFilter->enFilterSel);
-        }else
-        {
-            M4_CAN->ACFEN &= (uint8_t)(~(1ul << (pstcFilter->enFilterSel)));
+            DDL_ASSERT(IS_CAN_FILTER_VALID(pstcFilter[i].enFilterSel));
+            //<<Acceptance filter address
+            M4_CAN->ACFCTRL_f.ACFADR  = pstcFilter[i].enFilterSel;
+            //<<ID config
+            M4_CAN->ACFCTRL_f.SELMASK = CAN_ACF_ID_REG_SEL;
+            M4_CAN->ACF               = pstcFilter[i].u32CODE;
+            //<<MASK config
+            M4_CAN->ACFCTRL_f.SELMASK = CAN_ACF_MASK_REG_SEL;
+            M4_CAN->ACF               = pstcFilter[i].u32MASK;
+            //<<Frame format config
+            M4_CAN->ACF_f.AIDEE = ((pstcFilter[i].enAcfFormat >> 1ul) & 0x01u);
+            M4_CAN->ACF_f.AIDE  = (pstcFilter[i].enAcfFormat & 0x01ul);
         }
-
-        CAN_RESET_DISABLE();
     }
 }
 
+/**
+ *******************************************************************************
+ ** \brief  Enable or disable the specified can acceptance filter.
+ **
+ ** \param  [in] enFilter               Specifies a filter.
+ **                                     @ref en_can_filter_sel_t
+ ** \param  [in] enNewState             The new state of the specified filter.
+ ** \arg    Enable                      Enable.
+ ** \arg    Disable                     Disable.
+ **
+ ** \retval None
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+void CAN_FilterCmd(en_can_filter_sel_t enFilter, en_functional_state_t enNewState)
+{
+    uint8_t u8FilterSel;
+
+    DDL_ASSERT(IS_CAN_FILTER_VALID(enFilter));
+    DDL_ASSERT(IS_FUNCTIONAL_STATE(enNewState));
+
+    u8FilterSel = (uint8_t)(1ul << enFilter);
+
+    if(Enable == enNewState)
+    {
+        M4_CAN->ACFEN |= u8FilterSel;
+    }else
+    {
+        M4_CAN->ACFEN &= (uint8_t)(~u8FilterSel);
+    }
+}
 
 /**
  *******************************************************************************
@@ -343,7 +343,6 @@ en_can_tx_buf_status_t CAN_TransmitCmd(en_can_tx_cmd_t enTxCmd)
     M4_CAN->TCMD |= enTxCmd;
 
     return (en_can_tx_buf_status_t)M4_CAN->TCTRL_f.TSSTAT;
-
 }
 
 /**
@@ -395,7 +394,6 @@ en_can_error_t CAN_ErrorStatusGet(void)
         enRet = (en_can_error_t)M4_CAN->EALCAP_f.KOER;
     }
     return enRet;
-
 }
 
 /**
@@ -426,7 +424,7 @@ bool CAN_StatusGet(en_can_status_t enCanStatus)
  *******************************************************************************
  ** \brief  Configures the can Interrupt enable
  **
- ** \param  [in] enCanIrqType            The can interrupt type.
+ ** \param  [in] enCanIrqType           The can interrupt type.
  ** \param  [in] enNewState             The new state of the can interrupt.
  ** \arg    Enable                      Enable.
  ** \arg    Disable                     Disable.
@@ -452,7 +450,6 @@ void CAN_IrqCmd(en_can_irq_type_t enCanIrqType, en_functional_state_t enNewState
     {
         *u32pIE &= ~((uint32_t)enCanIrqType);
     }
-
 }
 
 /**
