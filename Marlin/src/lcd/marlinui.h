@@ -453,7 +453,20 @@ public:
 
     static void update();
 
-    static void abort_print();
+    static void abort_print() {
+    #if HAS_MEDIA
+      wait_for_heatup = wait_for_user = false;
+      card.abortFilePrintSoon();
+    #endif
+    #ifdef ACTION_ON_CANCEL
+      hostui.cancel();
+    #endif
+    print_job_timer.stop();
+    TERN_(HOST_PROMPT_SUPPORT, hostui.prompt_open(PROMPT_INFO, F("UI Aborted"), FPSTR(DISMISS_STR)));
+    //LCD_MESSAGE(MSG_PRINT_ABORTED);
+    TERN_(HAS_MARLINUI_MENU, return_to_status());
+    TERN_(DWIN_LCD_PROUI, HMI_flag.abort_flag = true);
+  }
     static void pause_print();
     static void resume_print();
     static void flow_fault();

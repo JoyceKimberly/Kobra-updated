@@ -36,7 +36,7 @@
 #include <inttypes.h>
 
 #include "Stream.h"
-#include "hc32f46x_usart.h"
+#include "hc32f460_usart.h"
 
 // Define constants and variables for buffering incoming serial data.  We're
 // using a ring buffer (I think), in which head is the index of the location
