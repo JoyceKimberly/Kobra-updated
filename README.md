@@ -9,9 +9,8 @@ https://www.reddit.com/r/anycubic/comments/y2waxu/tutorial_how_to_build_anycubic
 I've set the F_CPU value in uVision after making the firmware print out the value together with the other stored values and copying it from Pronterface, I have no idea if this value is the same for all Kobra's, so if it doesn't work, just remove the value from uVision, compile and flash, and read out the value when sending M503.
 
 Please note that any tuned values (like PiD) in configuration will be set to my printer's as it's a pain having to redo them when you're flashing new firmware all the time.
-It's for that same reason that I will not be releasing any pre-compiled bin files.
 
-The configuration is set to use the Vyper lcd ui on purpose as it is almost identical to Kobra's.
+Also note that the configuration is currently set to use DGUS Reloaded as that is what I've flashed my lcd with, but if you're using the Kobra stock lcd firmware, you can select the Vyper lcd ui as it is almost identical to Kobra's.
 
 The following sources have been invaluable 
 https://github.com/jojos38/anycubic-kobra-improved-firmware
