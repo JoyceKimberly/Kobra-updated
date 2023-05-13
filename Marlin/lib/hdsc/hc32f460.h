@@ -1,25 +1,25 @@
-/*******************************************************************************
+/**
+ *******************************************************************************
+ * @file  HC32F460.h
+ * @brief Headerfile for HC32F460 series MCU
+ @verbatim
+   Change Logs:
+   Date             Author          Notes
+   2021-05-24       CDT          First version
+ @endverbatim
+ *******************************************************************************
  * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
  * This software component is licensed by HDSC under BSD 3-Clause license
  * (the "License"); You may not use this file except in compliance with the
  * License. You may obtain a copy of the License at:
  *                    opensource.org/licenses/BSD-3-Clause
- */
-/******************************************************************************/
-/** \file HC32F460PETB.h
- **
- ** Auto generate.
- ** Headerfile for HC32F460PETB series MCU
- **
- ** History:
- **
- **   - 2021-03-11  1.03   First version for Device Driver Library of HC32F460PETB series MCU.
- **
- ******************************************************************************/
+ *
+ *******************************************************************************
+ **/
 
-#ifndef __HC32F460PETB_H__
-#define __HC32F460PETB_H__
+#ifndef __HC32F460_H__
+#define __HC32F460_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,9 +28,9 @@ extern "C" {
 /*******************************************************************************
  * Configuration of the Cortex-M4 Processor and Core Peripherals
  ******************************************************************************/
-#define __CM4_REV                 0x0001  /*!< Core revision r0p1                                   */
-#define __MPU_PRESENT             1       /*!< HC32F460PETB provides an MPU                             */
-#define __NVIC_PRIO_BITS          4       /*!< HC32F460PETB uses 4 Bits for the Priority Levels         */
+#define __CM4_REV                 1       /*!< Core revision r0p1                                   */
+#define __MPU_PRESENT             1       /*!< HC32F460 provides an MPU                             */
+#define __NVIC_PRIO_BITS          4       /*!< HC32F460 uses 4 Bits for the Priority Levels         */
 #define __Vendor_SysTickConfig    0       /*!< Set to 1 if different SysTick Config is used         */
 #define __FPU_PRESENT             1       /*!< FPU present                                          */
 
@@ -39,159 +39,159 @@ extern "C" {
  ******************************************************************************/
 typedef enum IRQn
 {
-    NMI_IRQn            = -14, /*  2 Non Maskable                            */
-    HardFault_IRQn      = -13, /*  3 Hard Fault                              */
-    MemManageFault_IRQn = -12, /*  4 MemManage Fault                         */
-    BusFault_IRQn       = -11, /*  5 Bus Fault                               */
-    UsageFault_IRQn     = -10, /*  6 Usage Fault                             */
-    SVC_IRQn            = -5,  /* 11 SV Call                                 */
-    DM_IRQn             = -4,  /* 12 Debug Monitor                           */
-    PendSV_IRQn         = -2,  /* 14 Pend SV                                 */
-    SysTick_IRQn        = -1,  /* 15 System Tick                             */
-    Int000_IRQn         = 0,
-    Int001_IRQn         = 1,
-    Int002_IRQn         = 2,
-    Int003_IRQn         = 3,
-    Int004_IRQn         = 4,
-    Int005_IRQn         = 5,
-    Int006_IRQn         = 6,
-    Int007_IRQn         = 7,
-    Int008_IRQn         = 8,
-    Int009_IRQn         = 9,
-    Int010_IRQn         = 10,
-    Int011_IRQn         = 11,
-    Int012_IRQn         = 12,
-    Int013_IRQn         = 13,
-    Int014_IRQn         = 14,
-    Int015_IRQn         = 15,
-    Int016_IRQn         = 16,
-    Int017_IRQn         = 17,
-    Int018_IRQn         = 18,
-    Int019_IRQn         = 19,
-    Int020_IRQn         = 20,
-    Int021_IRQn         = 21,
-    Int022_IRQn         = 22,
-    Int023_IRQn         = 23,
-    Int024_IRQn         = 24,
-    Int025_IRQn         = 25,
-    Int026_IRQn         = 26,
-    Int027_IRQn         = 27,
-    Int028_IRQn         = 28,
-    Int029_IRQn         = 29,
-    Int030_IRQn         = 30,
-    Int031_IRQn         = 31,
-    Int032_IRQn         = 32,
-    Int033_IRQn         = 33,
-    Int034_IRQn         = 34,
-    Int035_IRQn         = 35,
-    Int036_IRQn         = 36,
-    Int037_IRQn         = 37,
-    Int038_IRQn         = 38,
-    Int039_IRQn         = 39,
-    Int040_IRQn         = 40,
-    Int041_IRQn         = 41,
-    Int042_IRQn         = 42,
-    Int043_IRQn         = 43,
-    Int044_IRQn         = 44,
-    Int045_IRQn         = 45,
-    Int046_IRQn         = 46,
-    Int047_IRQn         = 47,
-    Int048_IRQn         = 48,
-    Int049_IRQn         = 49,
-    Int050_IRQn         = 50,
-    Int051_IRQn         = 51,
-    Int052_IRQn         = 52,
-    Int053_IRQn         = 53,
-    Int054_IRQn         = 54,
-    Int055_IRQn         = 55,
-    Int056_IRQn         = 56,
-    Int057_IRQn         = 57,
-    Int058_IRQn         = 58,
-    Int059_IRQn         = 59,
-    Int060_IRQn         = 60,
-    Int061_IRQn         = 61,
-    Int062_IRQn         = 62,
-    Int063_IRQn         = 63,
-    Int064_IRQn         = 64,
-    Int065_IRQn         = 65,
-    Int066_IRQn         = 66,
-    Int067_IRQn         = 67,
-    Int068_IRQn         = 68,
-    Int069_IRQn         = 69,
-    Int070_IRQn         = 70,
-    Int071_IRQn         = 71,
-    Int072_IRQn         = 72,
-    Int073_IRQn         = 73,
-    Int074_IRQn         = 74,
-    Int075_IRQn         = 75,
-    Int076_IRQn         = 76,
-    Int077_IRQn         = 77,
-    Int078_IRQn         = 78,
-    Int079_IRQn         = 79,
-    Int080_IRQn         = 80,
-    Int081_IRQn         = 81,
-    Int082_IRQn         = 82,
-    Int083_IRQn         = 83,
-    Int084_IRQn         = 84,
-    Int085_IRQn         = 85,
-    Int086_IRQn         = 86,
-    Int087_IRQn         = 87,
-    Int088_IRQn         = 88,
-    Int089_IRQn         = 89,
-    Int090_IRQn         = 90,
-    Int091_IRQn         = 91,
-    Int092_IRQn         = 92,
-    Int093_IRQn         = 93,
-    Int094_IRQn         = 94,
-    Int095_IRQn         = 95,
-    Int096_IRQn         = 96,
-    Int097_IRQn         = 97,
-    Int098_IRQn         = 98,
-    Int099_IRQn         = 99,
-    Int100_IRQn         = 100,
-    Int101_IRQn         = 101,
-    Int102_IRQn         = 102,
-    Int103_IRQn         = 103,
-    Int104_IRQn         = 104,
-    Int105_IRQn         = 105,
-    Int106_IRQn         = 106,
-    Int107_IRQn         = 107,
-    Int108_IRQn         = 108,
-    Int109_IRQn         = 109,
-    Int110_IRQn         = 110,
-    Int111_IRQn         = 111,
-    Int112_IRQn         = 112,
-    Int113_IRQn         = 113,
-    Int114_IRQn         = 114,
-    Int115_IRQn         = 115,
-    Int116_IRQn         = 116,
-    Int117_IRQn         = 117,
-    Int118_IRQn         = 118,
-    Int119_IRQn         = 119,
-    Int120_IRQn         = 120,
-    Int121_IRQn         = 121,
-    Int122_IRQn         = 122,
-    Int123_IRQn         = 123,
-    Int124_IRQn         = 124,
-    Int125_IRQn         = 125,
-    Int126_IRQn         = 126,
-    Int127_IRQn         = 127,
-    Int128_IRQn         = 128,
-    Int129_IRQn         = 129,
-    Int130_IRQn         = 130,
-    Int131_IRQn         = 131,
-    Int132_IRQn         = 132,
-    Int133_IRQn         = 133,
-    Int134_IRQn         = 134,
-    Int135_IRQn         = 135,
-    Int136_IRQn         = 136,
-    Int137_IRQn         = 137,
-    Int138_IRQn         = 138,
-    Int139_IRQn         = 139,
-    Int140_IRQn         = 140,
-    Int141_IRQn         = 141,
-    Int142_IRQn         = 142,
-    Int143_IRQn         = 143,
+    NMI_IRQn                    = -14, /*  2 Non Maskable                            */
+    HardFault_IRQn              = -13, /*  3 Hard Fault                              */
+    MemManageFault_IRQn         = -12, /*  4 MemManage Fault                         */
+    BusFault_IRQn               = -11, /*  5 Bus Fault                               */
+    UsageFault_IRQn             = -10, /*  6 Usage Fault                             */
+    SVC_IRQn                    = -5,  /* 11 SV Call                                 */
+    DebugMonitor_IRQn           = -4,  /* 12 Debug Monitor                           */
+    PendSV_IRQn                 = -2,  /* 14 Pend SV                                 */
+    SysTick_IRQn                = -1,  /* 15 System Tick                             */
+    Int000_IRQn                 = 0,
+    Int001_IRQn                 = 1,
+    Int002_IRQn                 = 2,
+    Int003_IRQn                 = 3,
+    Int004_IRQn                 = 4,
+    Int005_IRQn                 = 5,
+    Int006_IRQn                 = 6,
+    Int007_IRQn                 = 7,
+    Int008_IRQn                 = 8,
+    Int009_IRQn                 = 9,
+    Int010_IRQn                 = 10,
+    Int011_IRQn                 = 11,
+    Int012_IRQn                 = 12,
+    Int013_IRQn                 = 13,
+    Int014_IRQn                 = 14,
+    Int015_IRQn                 = 15,
+    Int016_IRQn                 = 16,
+    Int017_IRQn                 = 17,
+    Int018_IRQn                 = 18,
+    Int019_IRQn                 = 19,
+    Int020_IRQn                 = 20,
+    Int021_IRQn                 = 21,
+    Int022_IRQn                 = 22,
+    Int023_IRQn                 = 23,
+    Int024_IRQn                 = 24,
+    Int025_IRQn                 = 25,
+    Int026_IRQn                 = 26,
+    Int027_IRQn                 = 27,
+    Int028_IRQn                 = 28,
+    Int029_IRQn                 = 29,
+    Int030_IRQn                 = 30,
+    Int031_IRQn                 = 31,
+    Int032_IRQn                 = 32,
+    Int033_IRQn                 = 33,
+    Int034_IRQn                 = 34,
+    Int035_IRQn                 = 35,
+    Int036_IRQn                 = 36,
+    Int037_IRQn                 = 37,
+    Int038_IRQn                 = 38,
+    Int039_IRQn                 = 39,
+    Int040_IRQn                 = 40,
+    Int041_IRQn                 = 41,
+    Int042_IRQn                 = 42,
+    Int043_IRQn                 = 43,
+    Int044_IRQn                 = 44,
+    Int045_IRQn                 = 45,
+    Int046_IRQn                 = 46,
+    Int047_IRQn                 = 47,
+    Int048_IRQn                 = 48,
+    Int049_IRQn                 = 49,
+    Int050_IRQn                 = 50,
+    Int051_IRQn                 = 51,
+    Int052_IRQn                 = 52,
+    Int053_IRQn                 = 53,
+    Int054_IRQn                 = 54,
+    Int055_IRQn                 = 55,
+    Int056_IRQn                 = 56,
+    Int057_IRQn                 = 57,
+    Int058_IRQn                 = 58,
+    Int059_IRQn                 = 59,
+    Int060_IRQn                 = 60,
+    Int061_IRQn                 = 61,
+    Int062_IRQn                 = 62,
+    Int063_IRQn                 = 63,
+    Int064_IRQn                 = 64,
+    Int065_IRQn                 = 65,
+    Int066_IRQn                 = 66,
+    Int067_IRQn                 = 67,
+    Int068_IRQn                 = 68,
+    Int069_IRQn                 = 69,
+    Int070_IRQn                 = 70,
+    Int071_IRQn                 = 71,
+    Int072_IRQn                 = 72,
+    Int073_IRQn                 = 73,
+    Int074_IRQn                 = 74,
+    Int075_IRQn                 = 75,
+    Int076_IRQn                 = 76,
+    Int077_IRQn                 = 77,
+    Int078_IRQn                 = 78,
+    Int079_IRQn                 = 79,
+    Int080_IRQn                 = 80,
+    Int081_IRQn                 = 81,
+    Int082_IRQn                 = 82,
+    Int083_IRQn                 = 83,
+    Int084_IRQn                 = 84,
+    Int085_IRQn                 = 85,
+    Int086_IRQn                 = 86,
+    Int087_IRQn                 = 87,
+    Int088_IRQn                 = 88,
+    Int089_IRQn                 = 89,
+    Int090_IRQn                 = 90,
+    Int091_IRQn                 = 91,
+    Int092_IRQn                 = 92,
+    Int093_IRQn                 = 93,
+    Int094_IRQn                 = 94,
+    Int095_IRQn                 = 95,
+    Int096_IRQn                 = 96,
+    Int097_IRQn                 = 97,
+    Int098_IRQn                 = 98,
+    Int099_IRQn                 = 99,
+    Int100_IRQn                 = 100,
+    Int101_IRQn                 = 101,
+    Int102_IRQn                 = 102,
+    Int103_IRQn                 = 103,
+    Int104_IRQn                 = 104,
+    Int105_IRQn                 = 105,
+    Int106_IRQn                 = 106,
+    Int107_IRQn                 = 107,
+    Int108_IRQn                 = 108,
+    Int109_IRQn                 = 109,
+    Int110_IRQn                 = 110,
+    Int111_IRQn                 = 111,
+    Int112_IRQn                 = 112,
+    Int113_IRQn                 = 113,
+    Int114_IRQn                 = 114,
+    Int115_IRQn                 = 115,
+    Int116_IRQn                 = 116,
+    Int117_IRQn                 = 117,
+    Int118_IRQn                 = 118,
+    Int119_IRQn                 = 119,
+    Int120_IRQn                 = 120,
+    Int121_IRQn                 = 121,
+    Int122_IRQn                 = 122,
+    Int123_IRQn                 = 123,
+    Int124_IRQn                 = 124,
+    Int125_IRQn                 = 125,
+    Int126_IRQn                 = 126,
+    Int127_IRQn                 = 127,
+    Int128_IRQn                 = 128,
+    Int129_IRQn                 = 129,
+    Int130_IRQn                 = 130,
+    Int131_IRQn                 = 131,
+    Int132_IRQn                 = 132,
+    Int133_IRQn                 = 133,
+    Int134_IRQn                 = 134,
+    Int135_IRQn                 = 135,
+    Int136_IRQn                 = 136,
+    Int137_IRQn                 = 137,
+    Int138_IRQn                 = 138,
+    Int139_IRQn                 = 139,
+    Int140_IRQn                 = 140,
+    Int141_IRQn                 = 141,
+    Int142_IRQn                 = 142,
+    Int143_IRQn                 = 143,
 
 }IRQn_Type;
 
@@ -204,280 +204,280 @@ typedef enum IRQn
  ******************************************************************************/
 typedef enum en_event_src
 {
-    EVT_SWI_IRQ0            = 0u,
-    EVT_SWI_IRQ1            = 1u,
-    EVT_SWI_IRQ2            = 2u,
-    EVT_SWI_IRQ3            = 3u,
-    EVT_SWI_IRQ4            = 4u,
-    EVT_SWI_IRQ5            = 5u,
-    EVT_SWI_IRQ6            = 6u,
-    EVT_SWI_IRQ7            = 7u,
-    EVT_SWI_IRQ8            = 8u,
-    EVT_SWI_IRQ9            = 9u,
-    EVT_SWI_IRQ10           = 10u,
-    EVT_SWI_IRQ11           = 11u,
-    EVT_SWI_IRQ12           = 12u,
-    EVT_SWI_IRQ13           = 13u,
-    EVT_SWI_IRQ14           = 14u,
-    EVT_SWI_IRQ15           = 15u,
-    EVT_SWI_IRQ16           = 16u,
-    EVT_SWI_IRQ17           = 17u,
-    EVT_SWI_IRQ18           = 18u,
-    EVT_SWI_IRQ19           = 19u,
-    EVT_SWI_IRQ20           = 20u,
-    EVT_SWI_IRQ21           = 21u,
-    EVT_SWI_IRQ22           = 22u,
-    EVT_SWI_IRQ23           = 23u,
-    EVT_SWI_IRQ24           = 24u,
-    EVT_SWI_IRQ25           = 25u,
-    EVT_SWI_IRQ26           = 26u,
-    EVT_SWI_IRQ27           = 27u,
-    EVT_SWI_IRQ28           = 28u,
-    EVT_SWI_IRQ29           = 29u,
-    EVT_SWI_IRQ30           = 30u,
-    EVT_SWI_IRQ31           = 31u,
+    EVT_SWI_IRQ0            = 0U,
+    EVT_SWI_IRQ1            = 1U,
+    EVT_SWI_IRQ2            = 2U,
+    EVT_SWI_IRQ3            = 3U,
+    EVT_SWI_IRQ4            = 4U,
+    EVT_SWI_IRQ5            = 5U,
+    EVT_SWI_IRQ6            = 6U,
+    EVT_SWI_IRQ7            = 7U,
+    EVT_SWI_IRQ8            = 8U,
+    EVT_SWI_IRQ9            = 9U,
+    EVT_SWI_IRQ10           = 10U,
+    EVT_SWI_IRQ11           = 11U,
+    EVT_SWI_IRQ12           = 12U,
+    EVT_SWI_IRQ13           = 13U,
+    EVT_SWI_IRQ14           = 14U,
+    EVT_SWI_IRQ15           = 15U,
+    EVT_SWI_IRQ16           = 16U,
+    EVT_SWI_IRQ17           = 17U,
+    EVT_SWI_IRQ18           = 18U,
+    EVT_SWI_IRQ19           = 19U,
+    EVT_SWI_IRQ20           = 20U,
+    EVT_SWI_IRQ21           = 21U,
+    EVT_SWI_IRQ22           = 22U,
+    EVT_SWI_IRQ23           = 23U,
+    EVT_SWI_IRQ24           = 24U,
+    EVT_SWI_IRQ25           = 25U,
+    EVT_SWI_IRQ26           = 26U,
+    EVT_SWI_IRQ27           = 27U,
+    EVT_SWI_IRQ28           = 28U,
+    EVT_SWI_IRQ29           = 29U,
+    EVT_SWI_IRQ30           = 30U,
+    EVT_SWI_IRQ31           = 31U,
 
     /* External Interrupt. */
-    EVT_PORT_EIRQ0          = 0u,
-    EVT_PORT_EIRQ1          = 1u,
-    EVT_PORT_EIRQ2          = 2u,
-    EVT_PORT_EIRQ3          = 3u,
-    EVT_PORT_EIRQ4          = 4u,
-    EVT_PORT_EIRQ5          = 5u,
-    EVT_PORT_EIRQ6          = 6u,
-    EVT_PORT_EIRQ7          = 7u,
-    EVT_PORT_EIRQ8          = 8u,
-    EVT_PORT_EIRQ9          = 9u,
-    EVT_PORT_EIRQ10         = 10u,
-    EVT_PORT_EIRQ11         = 11u,
-    EVT_PORT_EIRQ12         = 12u,
-    EVT_PORT_EIRQ13         = 13u,
-    EVT_PORT_EIRQ14         = 14u,
-    EVT_PORT_EIRQ15         = 15u,
+    EVT_PORT_EIRQ0          = 0U,
+    EVT_PORT_EIRQ1          = 1U,
+    EVT_PORT_EIRQ2          = 2U,
+    EVT_PORT_EIRQ3          = 3U,
+    EVT_PORT_EIRQ4          = 4U,
+    EVT_PORT_EIRQ5          = 5U,
+    EVT_PORT_EIRQ6          = 6U,
+    EVT_PORT_EIRQ7          = 7U,
+    EVT_PORT_EIRQ8          = 8U,
+    EVT_PORT_EIRQ9          = 9U,
+    EVT_PORT_EIRQ10         = 10U,
+    EVT_PORT_EIRQ11         = 11U,
+    EVT_PORT_EIRQ12         = 12U,
+    EVT_PORT_EIRQ13         = 13U,
+    EVT_PORT_EIRQ14         = 14U,
+    EVT_PORT_EIRQ15         = 15U,
 
     /* DMAC */
-    EVT_DMA1_TC0            = 32u,
-    EVT_DMA1_TC1            = 33u,
-    EVT_DMA1_TC2            = 34u,
-    EVT_DMA1_TC3            = 35u,
-    EVT_DMA2_TC0            = 36u,
-    EVT_DMA2_TC1            = 37u,
-    EVT_DMA2_TC2            = 38u,
-    EVT_DMA2_TC3            = 39u,
-    EVT_DMA1_BTC0           = 40u,
-    EVT_DMA1_BTC1           = 41u,
-    EVT_DMA1_BTC2           = 42u,
-    EVT_DMA1_BTC3           = 43u,
-    EVT_DMA2_BTC0           = 44u,
-    EVT_DMA2_BTC1           = 45u,
-    EVT_DMA2_BTC2           = 46u,
-    EVT_DMA2_BTC3           = 47u,
+    EVT_DMA1_TC0            = 32U,
+    EVT_DMA1_TC1            = 33U,
+    EVT_DMA1_TC2            = 34U,
+    EVT_DMA1_TC3            = 35U,
+    EVT_DMA2_TC0            = 36U,
+    EVT_DMA2_TC1            = 37U,
+    EVT_DMA2_TC2            = 38U,
+    EVT_DMA2_TC3            = 39U,
+    EVT_DMA1_BTC0           = 40U,
+    EVT_DMA1_BTC1           = 41U,
+    EVT_DMA1_BTC2           = 42U,
+    EVT_DMA1_BTC3           = 43U,
+    EVT_DMA2_BTC0           = 44U,
+    EVT_DMA2_BTC1           = 45U,
+    EVT_DMA2_BTC2           = 46U,
+    EVT_DMA2_BTC3           = 47U,
 
     /* EFM */
-    EVT_EFM_OPTEND          = 52u,
+    EVT_EFM_OPTEND          = 52U,
 
     /* USB SOF */
-    EVT_USBFS_SOF           = 53u,
+    EVT_USBFS_SOF           = 53U,
 
     /* DCU */
-    EVT_DCU1                = 55u,
-    EVT_DCU2                = 56u,
-    EVT_DCU3                = 57u,
-    EVT_DCU4                = 58u,
+    EVT_DCU1                = 55U,
+    EVT_DCU2                = 56U,
+    EVT_DCU3                = 57U,
+    EVT_DCU4                = 58U,
 
     /* TIMER 0 */
-    EVT_TMR01_GCMA          = 64u,
-    EVT_TMR01_GCMB          = 65u,
-    EVT_TMR02_GCMA          = 66u,
-    EVT_TMR02_GCMB          = 67u,
+    EVT_TMR01_GCMA          = 64U,
+    EVT_TMR01_GCMB          = 65U,
+    EVT_TMR02_GCMA          = 66U,
+    EVT_TMR02_GCMB          = 67U,
 
     /* RTC */
-    EVT_RTC_ALM             = 81u,
-    EVT_RTC_PRD             = 82u,
+    EVT_RTC_ALM             = 81U,
+    EVT_RTC_PRD             = 82U,
 
     /* TIMER 6 */
-    EVT_TMR61_GCMA          = 96u,
-    EVT_TMR61_GCMB          = 97u,
-    EVT_TMR61_GCMC          = 98u,
-    EVT_TMR61_GCMD          = 99u,
-    EVT_TMR61_GCME          = 100u,
-    EVT_TMR61_GCMF          = 101u,
-    EVT_TMR61_GOVF          = 102u,
-    EVT_TMR61_GUDF          = 103u,
-    EVT_TMR61_SCMA          = 107u,
-    EVT_TMR61_SCMB          = 108u,
-    EVT_TMR62_GCMA          = 112u,
-    EVT_TMR62_GCMB          = 113u,
-    EVT_TMR62_GCMC          = 114u,
-    EVT_TMR62_GCMD          = 115u,
-    EVT_TMR62_GCME          = 116u,
-    EVT_TMR62_GCMF          = 117u,
-    EVT_TMR62_GOVF          = 118u,
-    EVT_TMR62_GUDF          = 119u,
-    EVT_TMR62_SCMA          = 123u,
-    EVT_TMR62_SCMB          = 124u,
-    EVT_TMR63_GCMA          = 128u,
-    EVT_TMR63_GCMB          = 129u,
-    EVT_TMR63_GCMC          = 130u,
-    EVT_TMR63_GCMD          = 131u,
-    EVT_TMR63_GCME          = 132u,
-    EVT_TMR63_GCMF          = 133u,
-    EVT_TMR63_GOVF          = 134u,
-    EVT_TMR63_GUDF          = 135u,
-    EVT_TMR63_SCMA          = 139u,
-    EVT_TMR63_SCMB          = 140u,
+    EVT_TMR61_GCMA          = 96U,
+    EVT_TMR61_GCMB          = 97U,
+    EVT_TMR61_GCMC          = 98U,
+    EVT_TMR61_GCMD          = 99U,
+    EVT_TMR61_GCME          = 100U,
+    EVT_TMR61_GCMF          = 101U,
+    EVT_TMR61_GOVF          = 102U,
+    EVT_TMR61_GUDF          = 103U,
+    EVT_TMR61_SCMA          = 107U,
+    EVT_TMR61_SCMB          = 108U,
+    EVT_TMR62_GCMA          = 112U,
+    EVT_TMR62_GCMB          = 113U,
+    EVT_TMR62_GCMC          = 114U,
+    EVT_TMR62_GCMD          = 115U,
+    EVT_TMR62_GCME          = 116U,
+    EVT_TMR62_GCMF          = 117U,
+    EVT_TMR62_GOVF          = 118U,
+    EVT_TMR62_GUDF          = 119U,
+    EVT_TMR62_SCMA          = 123U,
+    EVT_TMR62_SCMB          = 124U,
+    EVT_TMR63_GCMA          = 128U,
+    EVT_TMR63_GCMB          = 129U,
+    EVT_TMR63_GCMC          = 130U,
+    EVT_TMR63_GCMD          = 131U,
+    EVT_TMR63_GCME          = 132U,
+    EVT_TMR63_GCMF          = 133U,
+    EVT_TMR63_GOVF          = 134U,
+    EVT_TMR63_GUDF          = 135U,
+    EVT_TMR63_SCMA          = 139U,
+    EVT_TMR63_SCMB          = 140U,
 
     /* TIMER A */
-    EVT_TMRA1_OVF           = 256u,
-    EVT_TMRA1_UDF           = 257u,
-    EVT_TMRA1_CMP           = 258u,
-    EVT_TMRA2_OVF           = 259u,
-    EVT_TMRA2_UDF           = 260u,
-    EVT_TMRA2_CMP           = 261u,
-    EVT_TMRA3_OVF           = 262u,
-    EVT_TMRA3_UDF           = 263u,
-    EVT_TMRA3_CMP           = 264u,
-    EVT_TMRA4_OVF           = 265u,
-    EVT_TMRA4_UDF           = 266u,
-    EVT_TMRA4_CMP           = 267u,
-    EVT_TMRA5_OVF           = 268u,
-    EVT_TMRA5_UDF           = 269u,
-    EVT_TMRA5_CMP           = 270u,
-    EVT_TMRA6_OVF           = 272u,
-    EVT_TMRA6_UDF           = 273u,
-    EVT_TMRA6_CMP           = 274u,
+    EVT_TMRA1_OVF           = 256U,
+    EVT_TMRA1_UDF           = 257U,
+    EVT_TMRA1_CMP           = 258U,
+    EVT_TMRA2_OVF           = 259U,
+    EVT_TMRA2_UDF           = 260U,
+    EVT_TMRA2_CMP           = 261U,
+    EVT_TMRA3_OVF           = 262U,
+    EVT_TMRA3_UDF           = 263U,
+    EVT_TMRA3_CMP           = 264U,
+    EVT_TMRA4_OVF           = 265U,
+    EVT_TMRA4_UDF           = 266U,
+    EVT_TMRA4_CMP           = 267U,
+    EVT_TMRA5_OVF           = 268U,
+    EVT_TMRA5_UDF           = 269U,
+    EVT_TMRA5_CMP           = 270U,
+    EVT_TMRA6_OVF           = 272U,
+    EVT_TMRA6_UDF           = 273U,
+    EVT_TMRA6_CMP           = 274U,
 
     /* USART */
-    EVT_USART1_EI           = 278u,
-    EVT_USART1_RI           = 279u,
-    EVT_USART1_TI           = 280u,
-    EVT_USART1_TCI          = 281u,
-    EVT_USART1_RTO          = 282u,
-    EVT_USART2_EI           = 283u,
-    EVT_USART2_RI           = 284u,
-    EVT_USART2_TI           = 285u,
-    EVT_USART2_TCI          = 286u,
-    EVT_USART2_RTO          = 287u,
-    EVT_USART3_EI           = 288u,
-    EVT_USART3_RI           = 289u,
-    EVT_USART3_TI           = 290u,
-    EVT_USART3_TCI          = 291u,
-    EVT_USART3_RTO          = 292u,
-    EVT_USART4_EI           = 293u,
-    EVT_USART4_RI           = 294u,
-    EVT_USART4_TI           = 295u,
-    EVT_USART4_TCI          = 296u,
-    EVT_USART4_RTO          = 297u,
+    EVT_USART1_EI           = 278U,
+    EVT_USART1_RI           = 279U,
+    EVT_USART1_TI           = 280U,
+    EVT_USART1_TCI          = 281U,
+    EVT_USART1_RTO          = 282U,
+    EVT_USART2_EI           = 283U,
+    EVT_USART2_RI           = 284U,
+    EVT_USART2_TI           = 285U,
+    EVT_USART2_TCI          = 286U,
+    EVT_USART2_RTO          = 287U,
+    EVT_USART3_EI           = 288U,
+    EVT_USART3_RI           = 289U,
+    EVT_USART3_TI           = 290U,
+    EVT_USART3_TCI          = 291U,
+    EVT_USART3_RTO          = 292U,
+    EVT_USART4_EI           = 293U,
+    EVT_USART4_RI           = 294U,
+    EVT_USART4_TI           = 295U,
+    EVT_USART4_TCI          = 296U,
+    EVT_USART4_RTO          = 297U,
 
     /* SPI */
-    EVT_SPI1_SPRI           = 299u,
-    EVT_SPI1_SPTI           = 300u,
-    EVT_SPI1_SPII           = 301u,
-    EVT_SPI1_SPEI           = 302u,
-    EVT_SPI1_SPTEND         = 303u,
-    EVT_SPI2_SPRI           = 304u,
-    EVT_SPI2_SPTI           = 305u,
-    EVT_SPI2_SPII           = 306u,
-    EVT_SPI2_SPEI           = 307u,
-    EVT_SPI2_SPTEND         = 308u,
-    EVT_SPI3_SPRI           = 309u,
-    EVT_SPI3_SPTI           = 310u,
-    EVT_SPI3_SPII           = 311u,
-    EVT_SPI3_SPEI           = 312u,
-    EVT_SPI3_SPTEND         = 313u,
-    EVT_SPI4_SPRI           = 314u,
-    EVT_SPI4_SPTI           = 315u,
-    EVT_SPI4_SPII           = 316u,
-    EVT_SPI4_SPEI           = 317u,
-    EVT_SPI4_SPTEND         = 318u,
+    EVT_SPI1_SPRI           = 299U,
+    EVT_SPI1_SPTI           = 300U,
+    EVT_SPI1_SPII           = 301U,
+    EVT_SPI1_SPEI           = 302U,
+    EVT_SPI1_SPTEND         = 303U,
+    EVT_SPI2_SPRI           = 304U,
+    EVT_SPI2_SPTI           = 305U,
+    EVT_SPI2_SPII           = 306U,
+    EVT_SPI2_SPEI           = 307U,
+    EVT_SPI2_SPTEND         = 308U,
+    EVT_SPI3_SPRI           = 309U,
+    EVT_SPI3_SPTI           = 310U,
+    EVT_SPI3_SPII           = 311U,
+    EVT_SPI3_SPEI           = 312U,
+    EVT_SPI3_SPTEND         = 313U,
+    EVT_SPI4_SPRI           = 314U,
+    EVT_SPI4_SPTI           = 315U,
+    EVT_SPI4_SPII           = 316U,
+    EVT_SPI4_SPEI           = 317U,
+    EVT_SPI4_SPTEND         = 318U,
 
     /* AOS */
-    EVT_AOS_STRG            = 319u,
+    EVT_AOS_STRG            = 319U,
 
     /* TIMER 4 */
-    EVT_TMR41_SCMUH         = 368u,
-    EVT_TMR41_SCMUL         = 369u,
-    EVT_TMR41_SCMVH         = 370u,
-    EVT_TMR41_SCMVL         = 371u,
-    EVT_TMR41_SCMWH         = 372u,
-    EVT_TMR41_SCMWL         = 373u,
-    EVT_TMR42_SCMUH         = 374u,
-    EVT_TMR42_SCMUL         = 375u,
-    EVT_TMR42_SCMVH         = 376u,
-    EVT_TMR42_SCMVL         = 377u,
-    EVT_TMR42_SCMWH         = 378u,
-    EVT_TMR42_SCMWL         = 379u,
-    EVT_TMR43_SCMUH         = 384u,
-    EVT_TMR43_SCMUL         = 385u,
-    EVT_TMR43_SCMVH         = 386u,
-    EVT_TMR43_SCMVL         = 387u,
-    EVT_TMR43_SCMWH         = 388u,
-    EVT_TMR43_SCMWL         = 389u,
+    EVT_TMR41_SCMUH         = 368U,
+    EVT_TMR41_SCMUL         = 369U,
+    EVT_TMR41_SCMVH         = 370U,
+    EVT_TMR41_SCMVL         = 371U,
+    EVT_TMR41_SCMWH         = 372U,
+    EVT_TMR41_SCMWL         = 373U,
+    EVT_TMR42_SCMUH         = 374U,
+    EVT_TMR42_SCMUL         = 375U,
+    EVT_TMR42_SCMVH         = 376U,
+    EVT_TMR42_SCMVL         = 377U,
+    EVT_TMR42_SCMWH         = 378U,
+    EVT_TMR42_SCMWL         = 379U,
+    EVT_TMR43_SCMUH         = 384U,
+    EVT_TMR43_SCMUL         = 385U,
+    EVT_TMR43_SCMVH         = 386U,
+    EVT_TMR43_SCMVL         = 387U,
+    EVT_TMR43_SCMWH         = 388U,
+    EVT_TMR43_SCMWL         = 389U,
 
     /* EVENT PORT */
-    EVT_EVENT_PORT1         = 394u,
-    EVT_EVENT_PORT2         = 395u,
-    EVT_EVENT_PORT3         = 396u,
-    EVT_EVENT_PORT4         = 397u,
+    EVT_EVENT_PORT1         = 394U,
+    EVT_EVENT_PORT2         = 395U,
+    EVT_EVENT_PORT3         = 396U,
+    EVT_EVENT_PORT4         = 397U,
 
     /* I2S */
-    EVT_I2S1_TXIRQOUT       = 400u,
-    EVT_I2S1_RXIRQOUT       = 401u,
-    EVT_I2S2_TXIRQOUT       = 403u,
-    EVT_I2S2_RXIRQOUT       = 404u,
-    EVT_I2S3_TXIRQOUT       = 406u,
-    EVT_I2S3_RXIRQOUT       = 407u,
-    EVT_I2S4_TXIRQOUT       = 409u,
-    EVT_I2S4_RXIRQOUT       = 410u,
+    EVT_I2S1_TXIRQOUT       = 400U,
+    EVT_I2S1_RXIRQOUT       = 401U,
+    EVT_I2S2_TXIRQOUT       = 403U,
+    EVT_I2S2_RXIRQOUT       = 404U,
+    EVT_I2S3_TXIRQOUT       = 406U,
+    EVT_I2S3_RXIRQOUT       = 407U,
+    EVT_I2S4_TXIRQOUT       = 409U,
+    EVT_I2S4_RXIRQOUT       = 410U,
 
     /* COMPARATOR */
-    EVT_ACMP1               = 416u,
-    EVT_ACMP2               = 417u,
-    EVT_ACMP3               = 418u,
+    EVT_ACMP1               = 416U,
+    EVT_ACMP2               = 417U,
+    EVT_ACMP3               = 418U,
 
     /* I2C */
-    EVT_I2C1_RXI            = 420u,
-    EVT_I2C1_TXI            = 421u,
-    EVT_I2C1_TEI            = 422u,
-    EVT_I2C1_EEI            = 423u,
-    EVT_I2C2_RXI            = 424u,
-    EVT_I2C2_TXI            = 425u,
-    EVT_I2C2_TEI            = 426u,
-    EVT_I2C2_EEI            = 427u,
-    EVT_I2C3_RXI            = 428u,
-    EVT_I2C3_TXI            = 429u,
-    EVT_I2C3_TEI            = 430u,
-    EVT_I2C3_EEI            = 431u,
+    EVT_I2C1_RXI            = 420U,
+    EVT_I2C1_TXI            = 421U,
+    EVT_I2C1_TEI            = 422U,
+    EVT_I2C1_EEI            = 423U,
+    EVT_I2C2_RXI            = 424U,
+    EVT_I2C2_TXI            = 425U,
+    EVT_I2C2_TEI            = 426U,
+    EVT_I2C2_EEI            = 427U,
+    EVT_I2C3_RXI            = 428U,
+    EVT_I2C3_TXI            = 429U,
+    EVT_I2C3_TEI            = 430U,
+    EVT_I2C3_EEI            = 431U,
 
     /* PVD */
-    EVT_PVD_PVD1            = 433u,
-    EVT_PVD_PVD2            = 434u,
+    EVT_PVD_PVD1            = 433U,
+    EVT_PVD_PVD2            = 434U,
 
     /* OTS */
-    EVT_OTS                 = 435u,
+    EVT_OTS                 = 435U,
 
     /* WDT */
-    EVT_WDT_REFUDF          = 439u,
+    EVT_WDT_REFUDF          = 439U,
 
     /* ADC */
-    EVT_ADC1_EOCA           = 448u,
-    EVT_ADC1_EOCB           = 449u,
-    EVT_ADC1_CHCMP          = 450u,
-    EVT_ADC1_SEQCMP         = 451u,
-    EVT_ADC2_EOCA           = 452u,
-    EVT_ADC2_EOCB           = 453u,
-    EVT_ADC2_CHCMP          = 454u,
-    EVT_ADC2_SEQCMP         = 455u,
+    EVT_ADC1_EOCA           = 448U,
+    EVT_ADC1_EOCB           = 449U,
+    EVT_ADC1_CHCMP          = 450U,
+    EVT_ADC1_SEQCMP         = 451U,
+    EVT_ADC2_EOCA           = 452U,
+    EVT_ADC2_EOCB           = 453U,
+    EVT_ADC2_CHCMP          = 454U,
+    EVT_ADC2_SEQCMP         = 455U,
 
     /* TRNG */
-    EVT_TRNG_END            = 456u,
+    EVT_TRNG_END            = 456U,
 
     /* SDIO */
-    EVT_SDIOC1_DMAR         = 480u,
-    EVT_SDIOC1_DMAW         = 481u,
-    EVT_SDIOC2_DMAR         = 483u,
-    EVT_SDIOC2_DMAW         = 484u,
-    EVT_MAX                 = 511u,
+    EVT_SDIOC1_DMAR         = 480U,
+    EVT_SDIOC1_DMAW         = 481U,
+    EVT_SDIOC2_DMAR         = 483U,
+    EVT_SDIOC2_DMAW         = 484U,
+    EVT_MAX                 = 511U,
 }en_event_src_t;
 
 /**
@@ -486,328 +486,328 @@ typedef enum en_event_src
  ******************************************************************************/
 typedef enum en_int_src
 {
-    INT_SWI_IRQ0            = 0u,
-    INT_SWI_IRQ1            = 1u,
-    INT_SWI_IRQ2            = 2u,
-    INT_SWI_IRQ3            = 3u,
-    INT_SWI_IRQ4            = 4u,
-    INT_SWI_IRQ5            = 5u,
-    INT_SWI_IRQ6            = 6u,
-    INT_SWI_IRQ7            = 7u,
-    INT_SWI_IRQ8            = 8u,
-    INT_SWI_IRQ9            = 9u,
-    INT_SWI_IRQ10           = 10u,
-    INT_SWI_IRQ11           = 11u,
-    INT_SWI_IRQ12           = 12u,
-    INT_SWI_IRQ13           = 13u,
-    INT_SWI_IRQ14           = 14u,
-    INT_SWI_IRQ15           = 15u,
-    INT_SWI_IRQ16           = 16u,
-    INT_SWI_IRQ17           = 17u,
-    INT_SWI_IRQ18           = 18u,
-    INT_SWI_IRQ19           = 19u,
-    INT_SWI_IRQ20           = 20u,
-    INT_SWI_IRQ21           = 21u,
-    INT_SWI_IRQ22           = 22u,
-    INT_SWI_IRQ23           = 23u,
-    INT_SWI_IRQ24           = 24u,
-    INT_SWI_IRQ25           = 25u,
-    INT_SWI_IRQ26           = 26u,
-    INT_SWI_IRQ27           = 27u,
-    INT_SWI_IRQ28           = 28u,
-    INT_SWI_IRQ29           = 29u,
-    INT_SWI_IRQ30           = 30u,
-    INT_SWI_IRQ31           = 31u,
+    INT_SWI_IRQ0            = 0U,
+    INT_SWI_IRQ1            = 1U,
+    INT_SWI_IRQ2            = 2U,
+    INT_SWI_IRQ3            = 3U,
+    INT_SWI_IRQ4            = 4U,
+    INT_SWI_IRQ5            = 5U,
+    INT_SWI_IRQ6            = 6U,
+    INT_SWI_IRQ7            = 7U,
+    INT_SWI_IRQ8            = 8U,
+    INT_SWI_IRQ9            = 9U,
+    INT_SWI_IRQ10           = 10U,
+    INT_SWI_IRQ11           = 11U,
+    INT_SWI_IRQ12           = 12U,
+    INT_SWI_IRQ13           = 13U,
+    INT_SWI_IRQ14           = 14U,
+    INT_SWI_IRQ15           = 15U,
+    INT_SWI_IRQ16           = 16U,
+    INT_SWI_IRQ17           = 17U,
+    INT_SWI_IRQ18           = 18U,
+    INT_SWI_IRQ19           = 19U,
+    INT_SWI_IRQ20           = 20U,
+    INT_SWI_IRQ21           = 21U,
+    INT_SWI_IRQ22           = 22U,
+    INT_SWI_IRQ23           = 23U,
+    INT_SWI_IRQ24           = 24U,
+    INT_SWI_IRQ25           = 25U,
+    INT_SWI_IRQ26           = 26U,
+    INT_SWI_IRQ27           = 27U,
+    INT_SWI_IRQ28           = 28U,
+    INT_SWI_IRQ29           = 29U,
+    INT_SWI_IRQ30           = 30U,
+    INT_SWI_IRQ31           = 31U,
 
     /* External Interrupt. */
-    INT_PORT_EIRQ0          = 0u,
-    INT_PORT_EIRQ1          = 1u,
-    INT_PORT_EIRQ2          = 2u,
-    INT_PORT_EIRQ3          = 3u,
-    INT_PORT_EIRQ4          = 4u,
-    INT_PORT_EIRQ5          = 5u,
-    INT_PORT_EIRQ6          = 6u,
-    INT_PORT_EIRQ7          = 7u,
-    INT_PORT_EIRQ8          = 8u,
-    INT_PORT_EIRQ9          = 9u,
-    INT_PORT_EIRQ10         = 10u,
-    INT_PORT_EIRQ11         = 11u,
-    INT_PORT_EIRQ12         = 12u,
-    INT_PORT_EIRQ13         = 13u,
-    INT_PORT_EIRQ14         = 14u,
-    INT_PORT_EIRQ15         = 15u,
+    INT_PORT_EIRQ0          = 0U,
+    INT_PORT_EIRQ1          = 1U,
+    INT_PORT_EIRQ2          = 2U,
+    INT_PORT_EIRQ3          = 3U,
+    INT_PORT_EIRQ4          = 4U,
+    INT_PORT_EIRQ5          = 5U,
+    INT_PORT_EIRQ6          = 6U,
+    INT_PORT_EIRQ7          = 7U,
+    INT_PORT_EIRQ8          = 8U,
+    INT_PORT_EIRQ9          = 9U,
+    INT_PORT_EIRQ10         = 10U,
+    INT_PORT_EIRQ11         = 11U,
+    INT_PORT_EIRQ12         = 12U,
+    INT_PORT_EIRQ13         = 13U,
+    INT_PORT_EIRQ14         = 14U,
+    INT_PORT_EIRQ15         = 15U,
 
     /* DMAC */
-    INT_DMA1_TC0            = 32u,
-    INT_DMA1_TC1            = 33u,
-    INT_DMA1_TC2            = 34u,
-    INT_DMA1_TC3            = 35u,
-    INT_DMA2_TC0            = 36u,
-    INT_DMA2_TC1            = 37u,
-    INT_DMA2_TC2            = 38u,
-    INT_DMA2_TC3            = 39u,
-    INT_DMA1_BTC0           = 40u,
-    INT_DMA1_BTC1           = 41u,
-    INT_DMA1_BTC2           = 42u,
-    INT_DMA1_BTC3           = 43u,
-    INT_DMA2_BTC0           = 44u,
-    INT_DMA2_BTC1           = 45u,
-    INT_DMA2_BTC2           = 46u,
-    INT_DMA2_BTC3           = 47u,
-    INT_DMA1_ERR            = 48u,
-    INT_DMA2_ERR            = 49u,
+    INT_DMA1_TC0            = 32U,
+    INT_DMA1_TC1            = 33U,
+    INT_DMA1_TC2            = 34U,
+    INT_DMA1_TC3            = 35U,
+    INT_DMA2_TC0            = 36U,
+    INT_DMA2_TC1            = 37U,
+    INT_DMA2_TC2            = 38U,
+    INT_DMA2_TC3            = 39U,
+    INT_DMA1_BTC0           = 40U,
+    INT_DMA1_BTC1           = 41U,
+    INT_DMA1_BTC2           = 42U,
+    INT_DMA1_BTC3           = 43U,
+    INT_DMA2_BTC0           = 44U,
+    INT_DMA2_BTC1           = 45U,
+    INT_DMA2_BTC2           = 46U,
+    INT_DMA2_BTC3           = 47U,
+    INT_DMA1_ERR            = 48U,
+    INT_DMA2_ERR            = 49U,
 
     /* EFM */
-    INT_EFM_PEERR           = 50u,
-    INT_EFM_COLERR          = 51u,
-    INT_EFM_OPTEND          = 52u,
+    INT_EFM_PEERR           = 50U,
+    INT_EFM_COLERR          = 51U,
+    INT_EFM_OPTEND          = 52U,
 
     /* QSPI */
-    INT_QSPI_INTR           = 54u,
+    INT_QSPI_INTR           = 54U,
 
     /* DCU */
-    INT_DCU1                = 55u,
-    INT_DCU2                = 56u,
-    INT_DCU3                = 57u,
-    INT_DCU4                = 58u,
+    INT_DCU1                = 55U,
+    INT_DCU2                = 56U,
+    INT_DCU3                = 57U,
+    INT_DCU4                = 58U,
 
     /* TIMER 0 */
-    INT_TMR01_GCMA          = 64u,
-    INT_TMR01_GCMB          = 65u,
-    INT_TMR02_GCMA          = 66u,
-    INT_TMR02_GCMB          = 67u,
+    INT_TMR01_GCMA          = 64U,
+    INT_TMR01_GCMB          = 65U,
+    INT_TMR02_GCMA          = 66U,
+    INT_TMR02_GCMB          = 67U,
 
     /* RTC */
-    INT_RTC_ALM             = 81u,
-    INT_RTC_PRD             = 82u,
+    INT_RTC_ALM             = 81U,
+    INT_RTC_PRD             = 82U,
 
     /* XTAL32 stop */
-    INT_XTAL32_STOP         = 84u,
+    INT_XTAL32_STOP         = 84U,
 
     /* XTAL stop */
-    INT_XTAL_STOP           = 85u,
+    INT_XTAL_STOP           = 85U,
 
     /* wake-up timer */
-    INT_WKTM_PRD            = 86u,
+    INT_WKTM_PRD            = 86U,
 
     /* SWDT */
-    INT_SWDT_REFUDF         = 87u,
+    INT_SWDT_REFUDF         = 87U,
 
     /* TIMER 6 */
-    INT_TMR61_GCMA          = 96u,
-    INT_TMR61_GCMB          = 97u,
-    INT_TMR61_GCMC          = 98u,
-    INT_TMR61_GCMD          = 99u,
-    INT_TMR61_GCME          = 100u,
-    INT_TMR61_GCMF          = 101u,
-    INT_TMR61_GOVF          = 102u,
-    INT_TMR61_GUDF          = 103u,
-    INT_TMR61_GDTE          = 104u,
-    INT_TMR61_SCMA          = 107u,
-    INT_TMR61_SCMB          = 108u,
-    INT_TMR62_GCMA          = 112u,
-    INT_TMR62_GCMB          = 113u,
-    INT_TMR62_GCMC          = 114u,
-    INT_TMR62_GCMD          = 115u,
-    INT_TMR62_GCME          = 116u,
-    INT_TMR62_GCMF          = 117u,
-    INT_TMR62_GOVF          = 118u,
-    INT_TMR62_GUDF          = 119u,
-    INT_TMR62_GDTE          = 120u,
-    INT_TMR62_SCMA          = 123u,
-    INT_TMR62_SCMB          = 124u,
-    INT_TMR63_GCMA          = 128u,
-    INT_TMR63_GCMB          = 129u,
-    INT_TMR63_GCMC          = 130u,
-    INT_TMR63_GCMD          = 131u,
-    INT_TMR63_GCME          = 132u,
-    INT_TMR63_GCMF          = 133u,
-    INT_TMR63_GOVF          = 134u,
-    INT_TMR63_GUDF          = 135u,
-    INT_TMR63_GDTE          = 136u,
-    INT_TMR63_SCMA          = 139u,
-    INT_TMR63_SCMB          = 140u,
+    INT_TMR61_GCMA          = 96U,
+    INT_TMR61_GCMB          = 97U,
+    INT_TMR61_GCMC          = 98U,
+    INT_TMR61_GCMD          = 99U,
+    INT_TMR61_GCME          = 100U,
+    INT_TMR61_GCMF          = 101U,
+    INT_TMR61_GOVF          = 102U,
+    INT_TMR61_GUDF          = 103U,
+    INT_TMR61_GDTE          = 104U,
+    INT_TMR61_SCMA          = 107U,
+    INT_TMR61_SCMB          = 108U,
+    INT_TMR62_GCMA          = 112U,
+    INT_TMR62_GCMB          = 113U,
+    INT_TMR62_GCMC          = 114U,
+    INT_TMR62_GCMD          = 115U,
+    INT_TMR62_GCME          = 116U,
+    INT_TMR62_GCMF          = 117U,
+    INT_TMR62_GOVF          = 118U,
+    INT_TMR62_GUDF          = 119U,
+    INT_TMR62_GDTE          = 120U,
+    INT_TMR62_SCMA          = 123U,
+    INT_TMR62_SCMB          = 124U,
+    INT_TMR63_GCMA          = 128U,
+    INT_TMR63_GCMB          = 129U,
+    INT_TMR63_GCMC          = 130U,
+    INT_TMR63_GCMD          = 131U,
+    INT_TMR63_GCME          = 132U,
+    INT_TMR63_GCMF          = 133U,
+    INT_TMR63_GOVF          = 134U,
+    INT_TMR63_GUDF          = 135U,
+    INT_TMR63_GDTE          = 136U,
+    INT_TMR63_SCMA          = 139U,
+    INT_TMR63_SCMB          = 140U,
 
     /* TIMER A */
-    INT_TMRA1_OVF           = 256u,
-    INT_TMRA1_UDF           = 257u,
-    INT_TMRA1_CMP           = 258u,
-    INT_TMRA2_OVF           = 259u,
-    INT_TMRA2_UDF           = 260u,
-    INT_TMRA2_CMP           = 261u,
-    INT_TMRA3_OVF           = 262u,
-    INT_TMRA3_UDF           = 263u,
-    INT_TMRA3_CMP           = 264u,
-    INT_TMRA4_OVF           = 265u,
-    INT_TMRA4_UDF           = 266u,
-    INT_TMRA4_CMP           = 267u,
-    INT_TMRA5_OVF           = 268u,
-    INT_TMRA5_UDF           = 269u,
-    INT_TMRA5_CMP           = 270u,
-    INT_TMRA6_OVF           = 272u,
-    INT_TMRA6_UDF           = 273u,
-    INT_TMRA6_CMP           = 274u,
+    INT_TMRA1_OVF           = 256U,
+    INT_TMRA1_UDF           = 257U,
+    INT_TMRA1_CMP           = 258U,
+    INT_TMRA2_OVF           = 259U,
+    INT_TMRA2_UDF           = 260U,
+    INT_TMRA2_CMP           = 261U,
+    INT_TMRA3_OVF           = 262U,
+    INT_TMRA3_UDF           = 263U,
+    INT_TMRA3_CMP           = 264U,
+    INT_TMRA4_OVF           = 265U,
+    INT_TMRA4_UDF           = 266U,
+    INT_TMRA4_CMP           = 267U,
+    INT_TMRA5_OVF           = 268U,
+    INT_TMRA5_UDF           = 269U,
+    INT_TMRA5_CMP           = 270U,
+    INT_TMRA6_OVF           = 272U,
+    INT_TMRA6_UDF           = 273U,
+    INT_TMRA6_CMP           = 274U,
 
     /* USB FS */
-    INT_USBFS_GLB           = 275u,
+    INT_USBFS_GLB           = 275U,
 
     /* USRAT */
-    INT_USART1_EI           = 278u,
-    INT_USART1_RI           = 279u,
-    INT_USART1_TI           = 280u,
-    INT_USART1_TCI          = 281u,
-    INT_USART1_RTO          = 282u,
-    INT_USART1_WUPI         = 432u,
-    INT_USART2_EI           = 283u,
-    INT_USART2_RI           = 284u,
-    INT_USART2_TI           = 285u,
-    INT_USART2_TCI          = 286u,
-    INT_USART2_RTO          = 287u,
-    INT_USART3_EI           = 288u,
-    INT_USART3_RI           = 289u,
-    INT_USART3_TI           = 290u,
-    INT_USART3_TCI          = 291u,
-    INT_USART3_RTO          = 292u,
-    INT_USART4_EI           = 293u,
-    INT_USART4_RI           = 294u,
-    INT_USART4_TI           = 295u,
-    INT_USART4_TCI          = 296u,
-    INT_USART4_RTO          = 297u,
+    INT_USART1_EI           = 278U,
+    INT_USART1_RI           = 279U,
+    INT_USART1_TI           = 280U,
+    INT_USART1_TCI          = 281U,
+    INT_USART1_RTO          = 282U,
+    INT_USART1_WUPI         = 432U,
+    INT_USART2_EI           = 283U,
+    INT_USART2_RI           = 284U,
+    INT_USART2_TI           = 285U,
+    INT_USART2_TCI          = 286U,
+    INT_USART2_RTO          = 287U,
+    INT_USART3_EI           = 288U,
+    INT_USART3_RI           = 289U,
+    INT_USART3_TI           = 290U,
+    INT_USART3_TCI          = 291U,
+    INT_USART3_RTO          = 292U,
+    INT_USART4_EI           = 293U,
+    INT_USART4_RI           = 294U,
+    INT_USART4_TI           = 295U,
+    INT_USART4_TCI          = 296U,
+    INT_USART4_RTO          = 297U,
 
     /* SPI */
-    INT_SPI1_SPRI           = 299u,
-    INT_SPI1_SPTI           = 300u,
-    INT_SPI1_SPII           = 301u,
-    INT_SPI1_SPEI           = 302u,
-    INT_SPI2_SPRI           = 304u,
-    INT_SPI2_SPTI           = 305u,
-    INT_SPI2_SPII           = 306u,
-    INT_SPI2_SPEI           = 307u,
-    INT_SPI3_SPRI           = 309u,
-    INT_SPI3_SPTI           = 310u,
-    INT_SPI3_SPII           = 311u,
-    INT_SPI3_SPEI           = 312u,
-    INT_SPI4_SPRI           = 314u,
-    INT_SPI4_SPTI           = 315u,
-    INT_SPI4_SPII           = 316u,
-    INT_SPI4_SPEI           = 317u,
+    INT_SPI1_SPRI           = 299U,
+    INT_SPI1_SPTI           = 300U,
+    INT_SPI1_SPII           = 301U,
+    INT_SPI1_SPEI           = 302U,
+    INT_SPI2_SPRI           = 304U,
+    INT_SPI2_SPTI           = 305U,
+    INT_SPI2_SPII           = 306U,
+    INT_SPI2_SPEI           = 307U,
+    INT_SPI3_SPRI           = 309U,
+    INT_SPI3_SPTI           = 310U,
+    INT_SPI3_SPII           = 311U,
+    INT_SPI3_SPEI           = 312U,
+    INT_SPI4_SPRI           = 314U,
+    INT_SPI4_SPTI           = 315U,
+    INT_SPI4_SPII           = 316U,
+    INT_SPI4_SPEI           = 317U,
 
     /* TIMER 4 */
-    INT_TMR41_GCMUH         = 320u,
-    INT_TMR41_GCMUL         = 321u,
-    INT_TMR41_GCMVH         = 322u,
-    INT_TMR41_GCMVL         = 323u,
-    INT_TMR41_GCMWH         = 324u,
-    INT_TMR41_GCMWL         = 325u,
-    INT_TMR41_GOVF          = 326u,
-    INT_TMR41_GUDF          = 327u,
-    INT_TMR41_RLOU          = 328u,
-    INT_TMR41_RLOV          = 329u,
-    INT_TMR41_RLOW          = 330u,
-    INT_TMR42_GCMUH         = 336u,
-    INT_TMR42_GCMUL         = 337u,
-    INT_TMR42_GCMVH         = 338u,
-    INT_TMR42_GCMVL         = 339u,
-    INT_TMR42_GCMWH         = 340u,
-    INT_TMR42_GCMWL         = 341u,
-    INT_TMR42_GOVF          = 342u,
-    INT_TMR42_GUDF          = 343u,
-    INT_TMR42_RLOU          = 344u,
-    INT_TMR42_RLOV          = 345u,
-    INT_TMR42_RLOW          = 346u,
-    INT_TMR43_GCMUH         = 352u,
-    INT_TMR43_GCMUL         = 353u,
-    INT_TMR43_GCMVH         = 354u,
-    INT_TMR43_GCMVL         = 355u,
-    INT_TMR43_GCMWH         = 356u,
-    INT_TMR43_GCMWL         = 357u,
-    INT_TMR43_GOVF          = 358u,
-    INT_TMR43_GUDF          = 359u,
-    INT_TMR43_RLOU          = 360u,
-    INT_TMR43_RLOV          = 361u,
-    INT_TMR43_RLOW          = 362u,
+    INT_TMR41_GCMUH         = 320U,
+    INT_TMR41_GCMUL         = 321U,
+    INT_TMR41_GCMVH         = 322U,
+    INT_TMR41_GCMVL         = 323U,
+    INT_TMR41_GCMWH         = 324U,
+    INT_TMR41_GCMWL         = 325U,
+    INT_TMR41_GOVF          = 326U,
+    INT_TMR41_GUDF          = 327U,
+    INT_TMR41_RLOU          = 328U,
+    INT_TMR41_RLOV          = 329U,
+    INT_TMR41_RLOW          = 330U,
+    INT_TMR42_GCMUH         = 336U,
+    INT_TMR42_GCMUL         = 337U,
+    INT_TMR42_GCMVH         = 338U,
+    INT_TMR42_GCMVL         = 339U,
+    INT_TMR42_GCMWH         = 340U,
+    INT_TMR42_GCMWL         = 341U,
+    INT_TMR42_GOVF          = 342U,
+    INT_TMR42_GUDF          = 343U,
+    INT_TMR42_RLOU          = 344U,
+    INT_TMR42_RLOV          = 345U,
+    INT_TMR42_RLOW          = 346U,
+    INT_TMR43_GCMUH         = 352U,
+    INT_TMR43_GCMUL         = 353U,
+    INT_TMR43_GCMVH         = 354U,
+    INT_TMR43_GCMVL         = 355U,
+    INT_TMR43_GCMWH         = 356U,
+    INT_TMR43_GCMWL         = 357U,
+    INT_TMR43_GOVF          = 358U,
+    INT_TMR43_GUDF          = 359U,
+    INT_TMR43_RLOU          = 360U,
+    INT_TMR43_RLOV          = 361U,
+    INT_TMR43_RLOW          = 362U,
 
     /* EMB */
-    INT_EMB_GR0             = 390u,
-    INT_EMB_GR1             = 391u,
-    INT_EMB_GR2             = 392u,
-    INT_EMB_GR3             = 393u,
+    INT_EMB_GR0             = 390U,
+    INT_EMB_GR1             = 391U,
+    INT_EMB_GR2             = 392U,
+    INT_EMB_GR3             = 393U,
 
     /* EVENT PORT */
-    INT_EVENT_PORT1         = 394u,
-    INT_EVENT_PORT2         = 395u,
-    INT_EVENT_PORT3         = 396u,
-    INT_EVENT_PORT4         = 397u,
+    INT_EVENT_PORT1         = 394U,
+    INT_EVENT_PORT2         = 395U,
+    INT_EVENT_PORT3         = 396U,
+    INT_EVENT_PORT4         = 397U,
 
     /* I2S */
-    INT_I2S1_TXIRQOUT       = 400u,
-    INT_I2S1_RXIRQOUT       = 401u,
-    INT_I2S1_ERRIRQOUT      = 402u,
-    INT_I2S2_TXIRQOUT       = 403u,
-    INT_I2S2_RXIRQOUT       = 404u,
-    INT_I2S2_ERRIRQOUT      = 405u,
-    INT_I2S3_TXIRQOUT       = 406u,
-    INT_I2S3_RXIRQOUT       = 407u,
-    INT_I2S3_ERRIRQOUT      = 408u,
-    INT_I2S4_TXIRQOUT       = 409u,
-    INT_I2S4_RXIRQOUT       = 410u,
-    INT_I2S4_ERRIRQOUT      = 411u,
+    INT_I2S1_TXIRQOUT       = 400U,
+    INT_I2S1_RXIRQOUT       = 401U,
+    INT_I2S1_ERRIRQOUT      = 402U,
+    INT_I2S2_TXIRQOUT       = 403U,
+    INT_I2S2_RXIRQOUT       = 404U,
+    INT_I2S2_ERRIRQOUT      = 405U,
+    INT_I2S3_TXIRQOUT       = 406U,
+    INT_I2S3_RXIRQOUT       = 407U,
+    INT_I2S3_ERRIRQOUT      = 408U,
+    INT_I2S4_TXIRQOUT       = 409U,
+    INT_I2S4_RXIRQOUT       = 410U,
+    INT_I2S4_ERRIRQOUT      = 411U,
 
     /* COMPARATOR */
-    INT_ACMP1               = 416u,
-    INT_ACMP2               = 417u,
-    INT_ACMP3               = 418u,
+    INT_ACMP1               = 416U,
+    INT_ACMP2               = 417U,
+    INT_ACMP3               = 418U,
 
     /* I2C */
-    INT_I2C1_RXI            = 420u,
-    INT_I2C1_TXI            = 421u,
-    INT_I2C1_TEI            = 422u,
-    INT_I2C1_EEI            = 423u,
-    INT_I2C2_RXI            = 424u,
-    INT_I2C2_TXI            = 425u,
-    INT_I2C2_TEI            = 426u,
-    INT_I2C2_EEI            = 427u,
-    INT_I2C3_RXI            = 428u,
-    INT_I2C3_TXI            = 429u,
-    INT_I2C3_TEI            = 430u,
-    INT_I2C3_EEI            = 431u,
+    INT_I2C1_RXI            = 420U,
+    INT_I2C1_TXI            = 421U,
+    INT_I2C1_TEI            = 422U,
+    INT_I2C1_EEI            = 423U,
+    INT_I2C2_RXI            = 424U,
+    INT_I2C2_TXI            = 425U,
+    INT_I2C2_TEI            = 426U,
+    INT_I2C2_EEI            = 427U,
+    INT_I2C3_RXI            = 428U,
+    INT_I2C3_TXI            = 429U,
+    INT_I2C3_TEI            = 430U,
+    INT_I2C3_EEI            = 431U,
 
     /* PVD */
-    INT_PVD_PVD1            = 433u,
-    INT_PVD_PVD2            = 434u,
+    INT_PVD_PVD1            = 433U,
+    INT_PVD_PVD2            = 434U,
 
     /* Temp. sensor */
-    INT_OTS                 = 435u,
+    INT_OTS                 = 435U,
 
     /* FCM */
-    INT_FCMFERRI            = 436u,
-    INT_FCMMENDI            = 437u,
-    INT_FCMCOVFI            = 438u,
+    INT_FCMFERRI            = 436U,
+    INT_FCMMENDI            = 437U,
+    INT_FCMCOVFI            = 438U,
 
     /* WDT */
-    INT_WDT_REFUDF          = 439u,
+    INT_WDT_REFUDF          = 439U,
 
     /* ADC */
-    INT_ADC1_EOCA           = 448u,
-    INT_ADC1_EOCB           = 449u,
-    INT_ADC1_CHCMP          = 450u,
-    INT_ADC1_SEQCMP         = 451u,
-    INT_ADC2_EOCA           = 452u,
-    INT_ADC2_EOCB           = 453u,
-    INT_ADC2_CHCMP          = 454u,
-    INT_ADC2_SEQCMP         = 455u,
+    INT_ADC1_EOCA           = 448U,
+    INT_ADC1_EOCB           = 449U,
+    INT_ADC1_CHCMP          = 450U,
+    INT_ADC1_SEQCMP         = 451U,
+    INT_ADC2_EOCA           = 452U,
+    INT_ADC2_EOCB           = 453U,
+    INT_ADC2_CHCMP          = 454U,
+    INT_ADC2_SEQCMP         = 455U,
 
     /* TRNG */
-    INT_TRNG_END            = 456u,
+    INT_TRNG_END            = 456U,
 
     /* SDIOC */
-    INT_SDIOC1_SD           = 482u,
-    INT_SDIOC2_SD           = 485u,
+    INT_SDIOC1_SD           = 482U,
+    INT_SDIOC2_SD           = 485U,
 
     /* CAN */
-    INT_CAN_INT             = 486u,
+    INT_CAN_INT             = 486U,
 
-    INT_MAX                 = 511u,
+    INT_MAX                 = 511U,
 }en_int_src_t;
 
 /******************************************************************************/
@@ -981,7 +981,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t STRG                      : 1;
+    __O  uint32_t STRG                      : 1;
     uint32_t RESERVED1                      :31;
 } stc_aos_int_sfttrg_field_t;
 
@@ -1132,22 +1132,22 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t PIN00                     : 1;
-    __IO uint32_t PIN01                     : 1;
-    __IO uint32_t PIN02                     : 1;
-    __IO uint32_t PIN03                     : 1;
-    __IO uint32_t PIN04                     : 1;
-    __IO uint32_t PIN05                     : 1;
-    __IO uint32_t PIN06                     : 1;
-    __IO uint32_t PIN07                     : 1;
-    __IO uint32_t PIN08                     : 1;
-    __IO uint32_t PIN09                     : 1;
-    __IO uint32_t PIN10                     : 1;
-    __IO uint32_t PIN11                     : 1;
-    __IO uint32_t PIN12                     : 1;
-    __IO uint32_t PIN13                     : 1;
-    __IO uint32_t PIN14                     : 1;
-    __IO uint32_t PIN15                     : 1;
+    __I  uint32_t PIN00                     : 1;
+    __I  uint32_t PIN01                     : 1;
+    __I  uint32_t PIN02                     : 1;
+    __I  uint32_t PIN03                     : 1;
+    __I  uint32_t PIN04                     : 1;
+    __I  uint32_t PIN05                     : 1;
+    __I  uint32_t PIN06                     : 1;
+    __I  uint32_t PIN07                     : 1;
+    __I  uint32_t PIN08                     : 1;
+    __I  uint32_t PIN09                     : 1;
+    __I  uint32_t PIN10                     : 1;
+    __I  uint32_t PIN11                     : 1;
+    __I  uint32_t PIN12                     : 1;
+    __I  uint32_t PIN13                     : 1;
+    __I  uint32_t PIN14                     : 1;
+    __I  uint32_t PIN15                     : 1;
     uint32_t RESERVED16                     :16;
 } stc_aos_pevntidr_field_t;
 
@@ -1275,8 +1275,8 @@ typedef struct
 typedef struct
 {
     __IO uint8_t BUSOFF                     : 1;
-    __IO uint8_t TACTIVE                    : 1;
-    __IO uint8_t RACTIVE                    : 1;
+    __I  uint8_t TACTIVE                    : 1;
+    __I  uint8_t RACTIVE                    : 1;
     __IO uint8_t TSSS                       : 1;
     __IO uint8_t TPSS                       : 1;
     __IO uint8_t LBMI                       : 1;
@@ -1298,7 +1298,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint8_t TSSTAT                     : 2;
+    __I  uint8_t TSSTAT                     : 2;
     uint8_t RESERVED2                       : 2;
     __IO uint8_t TTBM                       : 1;
     __IO uint8_t TSMODE                     : 1;
@@ -1308,18 +1308,18 @@ typedef struct
 
 typedef struct
 {
-    __IO uint8_t RSSTAT                     : 2;
+    __I  uint8_t RSSTAT                     : 2;
     uint8_t RESERVED2                       : 1;
     __IO uint8_t RBALL                      : 1;
     __IO uint8_t RREL                       : 1;
-    __IO uint8_t ROV                        : 1;
+    __I  uint8_t ROV                        : 1;
     __IO uint8_t ROM                        : 1;
     __IO uint8_t SACK                       : 1;
 } stc_can_rctrl_field_t;
 
 typedef struct
 {
-    __IO uint8_t TSFF                       : 1;
+    __I  uint8_t TSFF                       : 1;
     __IO uint8_t EIE                        : 1;
     __IO uint8_t TSIE                       : 1;
     __IO uint8_t TPIE                       : 1;
@@ -1349,8 +1349,8 @@ typedef struct
     __IO uint8_t ALIE                       : 1;
     __IO uint8_t EPIF                       : 1;
     __IO uint8_t EPIE                       : 1;
-    __IO uint8_t EPASS                      : 1;
-    __IO uint8_t EWARN                      : 1;
+    __I  uint8_t EPASS                      : 1;
+    __I  uint8_t EWARN                      : 1;
 } stc_can_errint_field_t;
 
 typedef struct
@@ -1371,8 +1371,8 @@ typedef struct
 
 typedef struct
 {
-    __IO uint8_t ALC                        : 5;
-    __IO uint8_t KOER                       : 3;
+    __I  uint8_t ALC                        : 5;
+    __I  uint8_t KOER                       : 3;
 } stc_can_ealcap_field_t;
 
 typedef struct
@@ -1462,9 +1462,9 @@ typedef struct
 
 typedef struct
 {
-    __IO uint16_t OMON                      : 1;
+    __I  uint16_t OMON                      : 1;
     uint16_t RESERVED1                      : 7;
-    __IO uint16_t CVST                      : 4;
+    __I  uint16_t CVST                      : 4;
     uint16_t RESERVED12                     : 4;
 } stc_cmp_mon_field_t;
 
@@ -1521,7 +1521,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t FLAG                      : 1;
+    __I  uint32_t FLAG                      : 1;
     uint32_t RESERVED1                      :31;
 } stc_crc_flg_field_t;
 
@@ -1606,25 +1606,25 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t FLAG_OP                   : 1;
-    __IO uint32_t FLAG_LS2                  : 1;
-    __IO uint32_t FLAG_EQ2                  : 1;
-    __IO uint32_t FLAG_GT2                  : 1;
-    __IO uint32_t FLAG_LS1                  : 1;
-    __IO uint32_t FLAG_EQ1                  : 1;
-    __IO uint32_t FLAG_GT1                  : 1;
+    __I  uint32_t FLAG_OP                   : 1;
+    __I  uint32_t FLAG_LS2                  : 1;
+    __I  uint32_t FLAG_EQ2                  : 1;
+    __I  uint32_t FLAG_GT2                  : 1;
+    __I  uint32_t FLAG_LS1                  : 1;
+    __I  uint32_t FLAG_EQ1                  : 1;
+    __I  uint32_t FLAG_GT1                  : 1;
     uint32_t RESERVED7                      :25;
 } stc_dcu_flag_field_t;
 
 typedef struct
 {
-    __IO uint32_t CLR_OP                    : 1;
-    __IO uint32_t CLR_LS2                   : 1;
-    __IO uint32_t CLR_EQ2                   : 1;
-    __IO uint32_t CLR_GT2                   : 1;
-    __IO uint32_t CLR_LS1                   : 1;
-    __IO uint32_t CLR_EQ1                   : 1;
-    __IO uint32_t CLR_GT1                   : 1;
+    __O  uint32_t CLR_OP                    : 1;
+    __O  uint32_t CLR_LS2                   : 1;
+    __O  uint32_t CLR_EQ2                   : 1;
+    __O  uint32_t CLR_GT2                   : 1;
+    __O  uint32_t CLR_LS1                   : 1;
+    __O  uint32_t CLR_EQ1                   : 1;
+    __O  uint32_t CLR_GT1                   : 1;
     uint32_t RESERVED7                      :25;
 } stc_dcu_flagclr_field_t;
 
@@ -1649,17 +1649,17 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t TRNERR                    : 4;
+    __I  uint32_t TRNERR                    : 4;
     uint32_t RESERVED4                      :12;
-    __IO uint32_t REQERR                    : 4;
+    __I  uint32_t REQERR                    : 4;
     uint32_t RESERVED20                     :12;
 } stc_dma_intstat0_field_t;
 
 typedef struct
 {
-    __IO uint32_t TC                        : 4;
+    __I  uint32_t TC                        : 4;
     uint32_t RESERVED4                      :12;
-    __IO uint32_t BTC                       : 4;
+    __I  uint32_t BTC                       : 4;
     uint32_t RESERVED20                     :12;
 } stc_dma_intstat1_field_t;
 
@@ -1681,17 +1681,17 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t CLRTRNERR                 : 4;
+    __O  uint32_t CLRTRNERR                 : 4;
     uint32_t RESERVED4                      :12;
-    __IO uint32_t CLRREQERR                 : 4;
+    __O  uint32_t CLRREQERR                 : 4;
     uint32_t RESERVED20                     :12;
 } stc_dma_intclr0_field_t;
 
 typedef struct
 {
-    __IO uint32_t CLRTC                     : 4;
+    __O  uint32_t CLRTC                     : 4;
     uint32_t RESERVED4                      :12;
-    __IO uint32_t CLRBTC                    : 4;
+    __O  uint32_t CLRBTC                    : 4;
     uint32_t RESERVED20                     :12;
 } stc_dma_intclr1_field_t;
 
@@ -1703,10 +1703,10 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t DMAACT                    : 1;
-    __IO uint32_t RCFGACT                   : 1;
+    __I  uint32_t DMAACT                    : 1;
+    __I  uint32_t RCFGACT                   : 1;
     uint32_t RESERVED2                      :14;
-    __IO uint32_t CHACT                     : 4;
+    __I  uint32_t CHACT                     : 4;
     uint32_t RESERVED20                     :12;
 } stc_dma_chstat_field_t;
 
@@ -1793,29 +1793,29 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t BLKSIZE                   :10;
+    __I  uint32_t BLKSIZE                   :10;
     uint32_t RESERVED10                     : 6;
-    __IO uint32_t CNT                       :16;
+    __I  uint32_t CNT                       :16;
 } stc_dma_mondtctl_field_t;
 
 typedef struct
 {
-    __IO uint32_t SRPT                      :10;
+    __I  uint32_t SRPT                      :10;
     uint32_t RESERVED10                     : 6;
-    __IO uint32_t DRPT                      :10;
+    __I  uint32_t DRPT                      :10;
     uint32_t RESERVED26                     : 6;
 } stc_dma_monrpt_field_t;
 
 typedef struct
 {
-    __IO uint32_t SOFFSET                   :20;
-    __IO uint32_t SNSCNT                    :12;
+    __I  uint32_t SOFFSET                   :20;
+    __I  uint32_t SNSCNT                    :12;
 } stc_dma_monsnseqctl_field_t;
 
 typedef struct
 {
-    __IO uint32_t DOFFSET                   :20;
-    __IO uint32_t DNSCNT                    :12;
+    __I  uint32_t DOFFSET                   :20;
+    __I  uint32_t DNSCNT                    :12;
 } stc_dma_mondnseqctl_field_t;
 
 typedef struct
@@ -1900,14 +1900,14 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t PEWERR                    : 1;
-    __IO uint32_t PEPRTERR                  : 1;
-    __IO uint32_t PGSZERR                   : 1;
-    __IO uint32_t PGMISMTCH                 : 1;
-    __IO uint32_t OPTEND                    : 1;
-    __IO uint32_t COLERR                    : 1;
+    __I  uint32_t PEWERR                    : 1;
+    __I  uint32_t PEPRTERR                  : 1;
+    __I  uint32_t PGSZERR                   : 1;
+    __I  uint32_t PGMISMTCH                 : 1;
+    __I  uint32_t OPTEND                    : 1;
+    __I  uint32_t COLERR                    : 1;
     uint32_t RESERVED6                      : 2;
-    __IO uint32_t RDY                       : 1;
+    __I  uint32_t RDY                       : 1;
     uint32_t RESERVED9                      :23;
 } stc_efm_fsr_field_t;
 
@@ -1932,7 +1932,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t FSWP                      : 1;
+    __I  uint32_t FSWP                      : 1;
     uint32_t RESERVED1                      :31;
 } stc_efm_fswp_field_t;
 
@@ -1979,7 +1979,7 @@ typedef struct
     uint32_t RESERVED15                     : 1;
     __IO uint32_t FRANDFG                   : 1;
     uint32_t RESERVED17                     :15;
-} stc_efm_efm_frands_field_t;
+} stc_efm_frands_field_t;
 
 typedef struct
 {
@@ -2008,21 +2008,21 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t PORTINF                   : 1;
-    __IO uint32_t PWMSF                     : 1;
-    __IO uint32_t CMPF                      : 1;
-    __IO uint32_t OSF                       : 1;
-    __IO uint32_t PORTINST                  : 1;
-    __IO uint32_t PWMST                     : 1;
+    __I  uint32_t PORTINF                   : 1;
+    __I  uint32_t PWMSF                     : 1;
+    __I  uint32_t CMPF                      : 1;
+    __I  uint32_t OSF                       : 1;
+    __I  uint32_t PORTINST                  : 1;
+    __I  uint32_t PWMST                     : 1;
     uint32_t RESERVED6                      :26;
 } stc_emb_stat_field_t;
 
 typedef struct
 {
-    __IO uint32_t PORTINFCLR                : 1;
-    __IO uint32_t PWMSFCLR                  : 1;
-    __IO uint32_t CMPFCLR                   : 1;
-    __IO uint32_t OSFCLR                    : 1;
+    __O  uint32_t PORTINFCLR                : 1;
+    __O  uint32_t PWMSFCLR                  : 1;
+    __O  uint32_t CMPFCLR                   : 1;
+    __O  uint32_t OSFCLR                    : 1;
     uint32_t RESERVED4                      :28;
 } stc_emb_statclr_field_t;
 
@@ -2049,7 +2049,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t CNTR                      :16;
+    __I  uint32_t CNTR                      :16;
     uint32_t RESERVED16                     :16;
 } stc_fcm_cntr_field_t;
 
@@ -2095,17 +2095,17 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t ERRF                      : 1;
-    __IO uint32_t MENDF                     : 1;
-    __IO uint32_t OVF                       : 1;
+    __I  uint32_t ERRF                      : 1;
+    __I  uint32_t MENDF                     : 1;
+    __I  uint32_t OVF                       : 1;
     uint32_t RESERVED3                      :29;
 } stc_fcm_sr_field_t;
 
 typedef struct
 {
-    __IO uint32_t ERRFCLR                   : 1;
-    __IO uint32_t MENDFCLR                  : 1;
-    __IO uint32_t OVFCLR                    : 1;
+    __O  uint32_t ERRFCLR                   : 1;
+    __O  uint32_t MENDFCLR                  : 1;
+    __O  uint32_t OVFCLR                    : 1;
     uint32_t RESERVED3                      :29;
 } stc_fcm_clr_field_t;
 
@@ -2225,36 +2225,36 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t STARTFCLR                 : 1;
-    __IO uint32_t SLADDR0FCLR               : 1;
-    __IO uint32_t SLADDR1FCLR               : 1;
-    __IO uint32_t TENDFCLR                  : 1;
-    __IO uint32_t STOPFCLR                  : 1;
+    __O  uint32_t STARTFCLR                 : 1;
+    __O  uint32_t SLADDR0FCLR               : 1;
+    __O  uint32_t SLADDR1FCLR               : 1;
+    __O  uint32_t TENDFCLR                  : 1;
+    __O  uint32_t STOPFCLR                  : 1;
     uint32_t RESERVED5                      : 1;
-    __IO uint32_t RFULLFCLR                 : 1;
-    __IO uint32_t TEMPTYFCLR                : 1;
+    __O  uint32_t RFULLFCLR                 : 1;
+    __O  uint32_t TEMPTYFCLR                : 1;
     uint32_t RESERVED8                      : 1;
-    __IO uint32_t ARLOFCLR                  : 1;
+    __O  uint32_t ARLOFCLR                  : 1;
     uint32_t RESERVED10                     : 2;
-    __IO uint32_t NACKFCLR                  : 1;
+    __O  uint32_t NACKFCLR                  : 1;
     uint32_t RESERVED13                     : 1;
-    __IO uint32_t TMOUTFCLR                 : 1;
+    __O  uint32_t TMOUTFCLR                 : 1;
     uint32_t RESERVED15                     : 5;
-    __IO uint32_t GENCALLFCLR               : 1;
-    __IO uint32_t SMBDEFAULTFCLR            : 1;
-    __IO uint32_t SMBHOSTFCLR               : 1;
-    __IO uint32_t SMBALRTFCLR               : 1;
+    __O  uint32_t GENCALLFCLR               : 1;
+    __O  uint32_t SMBDEFAULTFCLR            : 1;
+    __O  uint32_t SMBHOSTFCLR               : 1;
+    __O  uint32_t SMBALRTFCLR               : 1;
     uint32_t RESERVED24                     : 8;
 } stc_i2c_clr_field_t;
 
 typedef struct
 {
-    __IO uint8_t DT                         : 8;
+    __O  uint8_t DT                         : 8;
 } stc_i2c_dtr_field_t;
 
 typedef struct
 {
-    __IO uint8_t DR                         : 8;
+    __I  uint8_t DR                         : 8;
 } stc_i2c_drr_field_t;
 
 typedef struct
@@ -2303,12 +2303,12 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t TXBA                      : 1;
-    __IO uint32_t RXBA                      : 1;
-    __IO uint32_t TXBE                      : 1;
-    __IO uint32_t TXBF                      : 1;
-    __IO uint32_t RXBE                      : 1;
-    __IO uint32_t RXBF                      : 1;
+    __I  uint32_t TXBA                      : 1;
+    __I  uint32_t RXBA                      : 1;
+    __I  uint32_t TXBE                      : 1;
+    __I  uint32_t TXBF                      : 1;
+    __I  uint32_t RXBE                      : 1;
+    __I  uint32_t RXBF                      : 1;
     uint32_t RESERVED6                      :26;
 } stc_i2s_sr_field_t;
 
@@ -2336,36 +2336,36 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t SWDTAUTS                  : 1;
-    __IO uint32_t SWDTITS                   : 1;
-    __IO uint32_t SWDTPERI                  : 2;
-    __IO uint32_t SWDTCKS                   : 4;
-    __IO uint32_t SWDTWDPT                  : 4;
-    __IO uint32_t SWDTSLPOFF                : 1;
+    __I  uint32_t SWDTAUTS                  : 1;
+    __I  uint32_t SWDTITS                   : 1;
+    __I  uint32_t SWDTPERI                  : 2;
+    __I  uint32_t SWDTCKS                   : 4;
+    __I  uint32_t SWDTWDPT                  : 4;
+    __I  uint32_t SWDTSLPOFF                : 1;
     uint32_t RESERVED13                     : 3;
-    __IO uint32_t WDTAUTS                   : 1;
-    __IO uint32_t WDTITS                    : 1;
-    __IO uint32_t WDTPERI                   : 2;
-    __IO uint32_t WDTCKS                    : 4;
-    __IO uint32_t WDTWDPT                   : 4;
-    __IO uint32_t WDTSLPOFF                 : 1;
+    __I  uint32_t WDTAUTS                   : 1;
+    __I  uint32_t WDTITS                    : 1;
+    __I  uint32_t WDTPERI                   : 2;
+    __I  uint32_t WDTCKS                    : 4;
+    __I  uint32_t WDTWDPT                   : 4;
+    __I  uint32_t WDTSLPOFF                 : 1;
     uint32_t RESERVED29                     : 3;
 } stc_icg_icg0_field_t;
 
 typedef struct
 {
-    __IO uint32_t HRCFREQSEL                : 1;
+    __I  uint32_t HRCFREQSEL                : 1;
     uint32_t RESERVED1                      : 7;
-    __IO uint32_t HRCSTOP                   : 1;
+    __I  uint32_t HRCSTOP                   : 1;
     uint32_t RESERVED9                      : 7;
-    __IO uint32_t BOR_LEV                   : 2;
-    __IO uint32_t BORDIS                    : 1;
+    __I  uint32_t BOR_LEV                   : 2;
+    __I  uint32_t BORDIS                    : 1;
     uint32_t RESERVED19                     : 7;
-    __IO uint32_t SMPCLK                    : 2;
-    __IO uint32_t NMITRG                    : 1;
-    __IO uint32_t NMIENR                    : 1;
-    __IO uint32_t NFEN                      : 1;
-    __IO uint32_t NMIICGENA                 : 1;
+    __I  uint32_t SMPCLK                    : 2;
+    __I  uint32_t NMITRG                    : 1;
+    __I  uint32_t NMIENR                    : 1;
+    __I  uint32_t NFEN                      : 1;
+    __I  uint32_t NMIICGENA                 : 1;
 } stc_icg_icg1_field_t;
 
 typedef struct
@@ -3025,28 +3025,28 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t SMPU2EAF                  : 1;
+    __I  uint32_t SMPU2EAF                  : 1;
     uint32_t RESERVED1                      : 7;
-    __IO uint32_t SMPU1EAF                  : 1;
+    __I  uint32_t SMPU1EAF                  : 1;
     uint32_t RESERVED9                      : 7;
-    __IO uint32_t FMPUEAF                   : 1;
+    __I  uint32_t FMPUEAF                   : 1;
     uint32_t RESERVED17                     :15;
 } stc_mpu_sr_field_t;
 
 typedef struct
 {
-    __IO uint32_t SMPU2ECLR                 : 1;
+    __O  uint32_t SMPU2ECLR                 : 1;
     uint32_t RESERVED1                      : 7;
-    __IO uint32_t SMPU1ECLR                 : 1;
+    __O  uint32_t SMPU1ECLR                 : 1;
     uint32_t RESERVED9                      : 7;
-    __IO uint32_t FMPUECLR                  : 1;
+    __O  uint32_t FMPUECLR                  : 1;
     uint32_t RESERVED17                     :15;
 } stc_mpu_eclr_field_t;
 
 typedef struct
 {
     __IO uint32_t MPUWE                     : 1;
-    __IO uint32_t WKEY                      :15;
+    __O  uint32_t WKEY                      :15;
     uint32_t RESERVED16                     :16;
 } stc_mpu_wp_field_t;
 
@@ -3142,7 +3142,7 @@ typedef struct
 {
     __IO uint32_t PRT0                      : 1;
     uint32_t RESERVED1                      :15;
-    __IO uint32_t FCG0PCWE                  :16;
+    __O  uint32_t FCG0PCWE                  :16;
 } stc_mstp_fcg0pc_field_t;
 
 typedef struct
@@ -3156,8 +3156,8 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t TSOFS                     : 8;
-    __IO uint32_t TSSLP                     :24;
+    __I  uint32_t TSOFS                     : 8;
+    __I  uint32_t TSSLP                     :24;
 } stc_ots_lpr_field_t;
 
 typedef struct
@@ -3178,22 +3178,22 @@ typedef struct
 
 typedef struct
 {
-    __IO uint16_t PIN00                     : 1;
-    __IO uint16_t PIN01                     : 1;
-    __IO uint16_t PIN02                     : 1;
-    __IO uint16_t PIN03                     : 1;
-    __IO uint16_t PIN04                     : 1;
-    __IO uint16_t PIN05                     : 1;
-    __IO uint16_t PIN06                     : 1;
-    __IO uint16_t PIN07                     : 1;
-    __IO uint16_t PIN08                     : 1;
-    __IO uint16_t PIN09                     : 1;
-    __IO uint16_t PIN10                     : 1;
-    __IO uint16_t PIN11                     : 1;
-    __IO uint16_t PIN12                     : 1;
-    __IO uint16_t PIN13                     : 1;
-    __IO uint16_t PIN14                     : 1;
-    __IO uint16_t PIN15                     : 1;
+    __I  uint16_t PIN00                     : 1;
+    __I  uint16_t PIN01                     : 1;
+    __I  uint16_t PIN02                     : 1;
+    __I  uint16_t PIN03                     : 1;
+    __I  uint16_t PIN04                     : 1;
+    __I  uint16_t PIN05                     : 1;
+    __I  uint16_t PIN06                     : 1;
+    __I  uint16_t PIN07                     : 1;
+    __I  uint16_t PIN08                     : 1;
+    __I  uint16_t PIN09                     : 1;
+    __I  uint16_t PIN10                     : 1;
+    __I  uint16_t PIN11                     : 1;
+    __I  uint16_t PIN12                     : 1;
+    __I  uint16_t PIN13                     : 1;
+    __I  uint16_t PIN14                     : 1;
+    __I  uint16_t PIN15                     : 1;
 } stc_port_pidr_field_t;
 
 typedef struct
@@ -3238,69 +3238,69 @@ typedef struct
 
 typedef struct
 {
-    __IO uint16_t POS00                     : 1;
-    __IO uint16_t POS01                     : 1;
-    __IO uint16_t POS02                     : 1;
-    __IO uint16_t POS03                     : 1;
-    __IO uint16_t POS04                     : 1;
-    __IO uint16_t POS05                     : 1;
-    __IO uint16_t POS06                     : 1;
-    __IO uint16_t POS07                     : 1;
-    __IO uint16_t POS08                     : 1;
-    __IO uint16_t POS09                     : 1;
-    __IO uint16_t POS10                     : 1;
-    __IO uint16_t POS11                     : 1;
-    __IO uint16_t POS12                     : 1;
-    __IO uint16_t POS13                     : 1;
-    __IO uint16_t POS14                     : 1;
-    __IO uint16_t POS15                     : 1;
+    __O  uint16_t POS00                     : 1;
+    __O  uint16_t POS01                     : 1;
+    __O  uint16_t POS02                     : 1;
+    __O  uint16_t POS03                     : 1;
+    __O  uint16_t POS04                     : 1;
+    __O  uint16_t POS05                     : 1;
+    __O  uint16_t POS06                     : 1;
+    __O  uint16_t POS07                     : 1;
+    __O  uint16_t POS08                     : 1;
+    __O  uint16_t POS09                     : 1;
+    __O  uint16_t POS10                     : 1;
+    __O  uint16_t POS11                     : 1;
+    __O  uint16_t POS12                     : 1;
+    __O  uint16_t POS13                     : 1;
+    __O  uint16_t POS14                     : 1;
+    __O  uint16_t POS15                     : 1;
 } stc_port_posr_field_t;
 
 typedef struct
 {
-    __IO uint16_t POR00                     : 1;
-    __IO uint16_t POR01                     : 1;
-    __IO uint16_t POR02                     : 1;
-    __IO uint16_t POR03                     : 1;
-    __IO uint16_t POR04                     : 1;
-    __IO uint16_t POR05                     : 1;
-    __IO uint16_t POR06                     : 1;
-    __IO uint16_t POR07                     : 1;
-    __IO uint16_t POR08                     : 1;
-    __IO uint16_t POR09                     : 1;
-    __IO uint16_t POR10                     : 1;
-    __IO uint16_t POR11                     : 1;
-    __IO uint16_t POR12                     : 1;
-    __IO uint16_t POR13                     : 1;
-    __IO uint16_t POR14                     : 1;
-    __IO uint16_t POR15                     : 1;
+    __O  uint16_t POR00                     : 1;
+    __O  uint16_t POR01                     : 1;
+    __O  uint16_t POR02                     : 1;
+    __O  uint16_t POR03                     : 1;
+    __O  uint16_t POR04                     : 1;
+    __O  uint16_t POR05                     : 1;
+    __O  uint16_t POR06                     : 1;
+    __O  uint16_t POR07                     : 1;
+    __O  uint16_t POR08                     : 1;
+    __O  uint16_t POR09                     : 1;
+    __O  uint16_t POR10                     : 1;
+    __O  uint16_t POR11                     : 1;
+    __O  uint16_t POR12                     : 1;
+    __O  uint16_t POR13                     : 1;
+    __O  uint16_t POR14                     : 1;
+    __O  uint16_t POR15                     : 1;
 } stc_port_porr_field_t;
 
 typedef struct
 {
-    __IO uint16_t POT00                     : 1;
-    __IO uint16_t POT01                     : 1;
-    __IO uint16_t POT02                     : 1;
-    __IO uint16_t POT03                     : 1;
-    __IO uint16_t POT04                     : 1;
-    __IO uint16_t POT05                     : 1;
-    __IO uint16_t POT06                     : 1;
-    __IO uint16_t POT07                     : 1;
-    __IO uint16_t POT08                     : 1;
-    __IO uint16_t POT09                     : 1;
-    __IO uint16_t POT10                     : 1;
-    __IO uint16_t POT11                     : 1;
-    __IO uint16_t POT12                     : 1;
-    __IO uint16_t POT13                     : 1;
-    __IO uint16_t POT14                     : 1;
-    __IO uint16_t POT15                     : 1;
+    __O  uint16_t POT00                     : 1;
+    __O  uint16_t POT01                     : 1;
+    __O  uint16_t POT02                     : 1;
+    __O  uint16_t POT03                     : 1;
+    __O  uint16_t POT04                     : 1;
+    __O  uint16_t POT05                     : 1;
+    __O  uint16_t POT06                     : 1;
+    __O  uint16_t POT07                     : 1;
+    __O  uint16_t POT08                     : 1;
+    __O  uint16_t POT09                     : 1;
+    __O  uint16_t POT10                     : 1;
+    __O  uint16_t POT11                     : 1;
+    __O  uint16_t POT12                     : 1;
+    __O  uint16_t POT13                     : 1;
+    __O  uint16_t POT14                     : 1;
+    __O  uint16_t POT15                     : 1;
 } stc_port_potr_field_t;
 
 typedef struct
 {
-    __IO uint16_t PIN00                     : 1;
-    __IO uint16_t PIN01                     : 1;
-    __IO uint16_t PIN02                     : 1;
+    __I  uint16_t PIN00                     : 1;
+    __I  uint16_t PIN01                     : 1;
+    __I  uint16_t PIN02                     : 1;
     uint16_t RESERVED3                      :13;
 } stc_port_pidrh_field_t;
 
@@ -3322,25 +3322,25 @@ typedef struct
 
 typedef struct
 {
-    __IO uint16_t POS00                     : 1;
-    __IO uint16_t POS01                     : 1;
-    __IO uint16_t POS02                     : 1;
+    __O  uint16_t POS00                     : 1;
+    __O  uint16_t POS01                     : 1;
+    __O  uint16_t POS02                     : 1;
     uint16_t RESERVED3                      :13;
 } stc_port_posrh_field_t;
 
 typedef struct
 {
-    __IO uint16_t POR00                     : 1;
-    __IO uint16_t POR01                     : 1;
-    __IO uint16_t POR02                     : 1;
+    __O  uint16_t POR00                     : 1;
+    __O  uint16_t POR01                     : 1;
+    __O  uint16_t POR02                     : 1;
     uint16_t RESERVED3                      :13;
 } stc_port_porrh_field_t;
 
 typedef struct
 {
-    __IO uint16_t POT00                     : 1;
-    __IO uint16_t POT01                     : 1;
-    __IO uint16_t POT02                     : 1;
+    __O  uint16_t POT00                     : 1;
+    __O  uint16_t POT01                     : 1;
+    __O  uint16_t POT02                     : 1;
     uint16_t RESERVED3                      :13;
 } stc_port_potrh_field_t;
 
@@ -3367,7 +3367,7 @@ typedef struct
 {
     __IO uint16_t WE                        : 1;
     uint16_t RESERVED1                      : 7;
-    __IO uint16_t WP                        : 8;
+    __O  uint16_t WP                        : 8;
 } stc_port_pwpr_field_t;
 
 typedef struct
@@ -3379,7 +3379,7 @@ typedef struct
     __IO uint16_t DRV                       : 2;
     __IO uint16_t PUU                       : 1;
     uint16_t RESERVED7                      : 1;
-    __IO uint16_t PIN                       : 1;
+    __I  uint16_t PIN                       : 1;
     __IO uint16_t INVE                      : 1;
     uint16_t RESERVED10                     : 2;
     __IO uint16_t INTE                      : 1;
@@ -3468,7 +3468,7 @@ typedef struct
 typedef struct
 {
     uint32_t RESERVED0                      : 7;
-    __IO uint32_t RAERCLR                   : 1;
+    __O  uint32_t RAERCLR                   : 1;
     uint32_t RESERVED8                      :24;
 } stc_qspi_sr2_field_t;
 
@@ -3628,21 +3628,21 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t CIC                       : 1;
-    __IO uint32_t CID                       : 1;
-    __IO uint32_t DA                        : 1;
+    __I  uint32_t CIC                       : 1;
+    __I  uint32_t CID                       : 1;
+    __I  uint32_t DA                        : 1;
     uint32_t RESERVED3                      : 5;
-    __IO uint32_t WTA                       : 1;
-    __IO uint32_t RTA                       : 1;
-    __IO uint32_t BWE                       : 1;
-    __IO uint32_t BRE                       : 1;
+    __I  uint32_t WTA                       : 1;
+    __I  uint32_t RTA                       : 1;
+    __I  uint32_t BWE                       : 1;
+    __I  uint32_t BRE                       : 1;
     uint32_t RESERVED12                     : 4;
-    __IO uint32_t CIN                       : 1;
-    __IO uint32_t CSS                       : 1;
-    __IO uint32_t CDL                       : 1;
-    __IO uint32_t WPL                       : 1;
-    __IO uint32_t DATL                      : 4;
-    __IO uint32_t CMDL                      : 1;
+    __I  uint32_t CIN                       : 1;
+    __I  uint32_t CSS                       : 1;
+    __I  uint32_t CDL                       : 1;
+    __I  uint32_t WPL                       : 1;
+    __I  uint32_t DATL                      : 4;
+    __I  uint32_t CMDL                      : 1;
     uint32_t RESERVED25                     : 7;
 } stc_sdioc_pstat_field_t;
 
@@ -3705,9 +3705,9 @@ typedef struct
     __IO uint16_t BRR                       : 1;
     __IO uint16_t CIST                      : 1;
     __IO uint16_t CRM                       : 1;
-    __IO uint16_t CINT                      : 1;
+    __I  uint16_t CINT                      : 1;
     uint16_t RESERVED9                      : 6;
-    __IO uint16_t EI                        : 1;
+    __I  uint16_t EI                        : 1;
 } stc_sdioc_norintst_field_t;
 
 typedef struct
@@ -3782,39 +3782,39 @@ typedef struct
 
 typedef struct
 {
-    __IO uint16_t NE                        : 1;
-    __IO uint16_t TOE                       : 1;
-    __IO uint16_t CE                        : 1;
-    __IO uint16_t EBE                       : 1;
-    __IO uint16_t IE                        : 1;
+    __I  uint16_t NE                        : 1;
+    __I  uint16_t TOE                       : 1;
+    __I  uint16_t CE                        : 1;
+    __I  uint16_t EBE                       : 1;
+    __I  uint16_t IE                        : 1;
     uint16_t RESERVED5                      : 2;
-    __IO uint16_t CMDE                      : 1;
+    __I  uint16_t CMDE                      : 1;
     uint16_t RESERVED8                      : 8;
 } stc_sdioc_atcerrst_field_t;
 
 typedef struct
 {
-    __IO uint16_t FNE                       : 1;
-    __IO uint16_t FTOE                      : 1;
-    __IO uint16_t FCE                       : 1;
-    __IO uint16_t FEBE                      : 1;
-    __IO uint16_t FIE                       : 1;
+    __O  uint16_t FNE                       : 1;
+    __O  uint16_t FTOE                      : 1;
+    __O  uint16_t FCE                       : 1;
+    __O  uint16_t FEBE                      : 1;
+    __O  uint16_t FIE                       : 1;
     uint16_t RESERVED5                      : 2;
-    __IO uint16_t FCMDE                     : 1;
+    __O  uint16_t FCMDE                     : 1;
     uint16_t RESERVED8                      : 8;
 } stc_sdioc_fea_field_t;
 
 typedef struct
 {
-    __IO uint16_t FCTOE                     : 1;
-    __IO uint16_t FCCE                      : 1;
-    __IO uint16_t FCEBE                     : 1;
-    __IO uint16_t FCIE                      : 1;
-    __IO uint16_t FDTOE                     : 1;
-    __IO uint16_t FDCE                      : 1;
-    __IO uint16_t FDEBE                     : 1;
+    __O  uint16_t FCTOE                     : 1;
+    __O  uint16_t FCCE                      : 1;
+    __O  uint16_t FCEBE                     : 1;
+    __O  uint16_t FCIE                      : 1;
+    __O  uint16_t FDTOE                     : 1;
+    __O  uint16_t FDCE                      : 1;
+    __O  uint16_t FDEBE                     : 1;
     uint16_t RESERVED7                      : 1;
-    __IO uint16_t FACE                      : 1;
+    __O  uint16_t FACE                      : 1;
     uint16_t RESERVED9                      : 7;
 } stc_sdioc_fee_field_t;
 
@@ -3941,7 +3941,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t CNT                       :16;
+    __I  uint32_t CNT                       :16;
     __IO uint32_t UDF                       : 1;
     __IO uint32_t REF                       : 1;
     uint32_t RESERVED18                     :14;
@@ -3949,7 +3949,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t RF                        :16;
+    __I  uint32_t RF                        :16;
     uint32_t RESERVED16                     :16;
 } stc_swdt_rr_field_t;
 
@@ -4537,8 +4537,8 @@ typedef struct
 {
     __IO uint16_t ZIM                       : 4;
     __IO uint16_t PIM                       : 4;
-    __IO uint16_t ZIC                       : 4;
-    __IO uint16_t PIC                       : 4;
+    __I  uint16_t ZIC                       : 4;
+    __I  uint16_t PIC                       : 4;
 } stc_tmr4_cvpr_field_t;
 
 typedef struct
@@ -4555,15 +4555,15 @@ typedef struct
     __IO uint16_t RTIDV                     : 1;
     __IO uint16_t RTIDW                     : 1;
     uint16_t RESERVED3                      : 1;
-    __IO uint16_t RTIFU                     : 1;
+    __I  uint16_t RTIFU                     : 1;
     __IO uint16_t RTICU                     : 1;
     __IO uint16_t RTEU                      : 1;
     __IO uint16_t RTSU                      : 1;
-    __IO uint16_t RTIFV                     : 1;
+    __I  uint16_t RTIFV                     : 1;
     __IO uint16_t RTICV                     : 1;
     __IO uint16_t RTEV                      : 1;
     __IO uint16_t RTSV                      : 1;
-    __IO uint16_t RTIFW                     : 1;
+    __I  uint16_t RTIFW                     : 1;
     __IO uint16_t RTICW                     : 1;
     __IO uint16_t RTEW                      : 1;
     __IO uint16_t RTSW                      : 1;
@@ -4865,15 +4865,15 @@ typedef struct
     __IO uint32_t CMFF                      : 1;
     __IO uint32_t OVFF                      : 1;
     __IO uint32_t UDFF                      : 1;
-    __IO uint32_t DTEF                      : 1;
+    __I  uint32_t DTEF                      : 1;
     __IO uint32_t CMSAUF                    : 1;
     __IO uint32_t CMSADF                    : 1;
     __IO uint32_t CMSBUF                    : 1;
     __IO uint32_t CMSBDF                    : 1;
     uint32_t RESERVED13                     : 8;
-    __IO uint32_t VPERNUM                   : 3;
+    __I  uint32_t VPERNUM                   : 3;
     uint32_t RESERVED24                     : 7;
-    __IO uint32_t DIRF                      : 1;
+    __I  uint32_t DIRF                      : 1;
 } stc_tmr6_stflr_field_t;
 
 typedef struct
@@ -5222,17 +5222,17 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t PE                        : 1;
-    __IO uint32_t FE                        : 1;
+    __I  uint32_t PE                        : 1;
+    __I  uint32_t FE                        : 1;
     uint32_t RESERVED2                      : 1;
-    __IO uint32_t ORE                       : 1;
+    __I  uint32_t ORE                       : 1;
     uint32_t RESERVED4                      : 1;
-    __IO uint32_t RXNE                      : 1;
-    __IO uint32_t TC                        : 1;
-    __IO uint32_t TXE                       : 1;
-    __IO uint32_t RTOF                      : 1;
+    __I  uint32_t RXNE                      : 1;
+    __I  uint32_t TC                        : 1;
+    __I  uint32_t TXE                       : 1;
+    __I  uint32_t RTOF                      : 1;
     uint32_t RESERVED9                      : 7;
-    __IO uint32_t MPB                       : 1;
+    __I  uint32_t MPB                       : 1;
     uint32_t RESERVED17                     :15;
 } stc_usart_sr_field_t;
 
@@ -5270,11 +5270,11 @@ typedef struct
     __IO uint32_t M                         : 1;
     uint32_t RESERVED13                     : 2;
     __IO uint32_t OVER8                     : 1;
-    __IO uint32_t CPE                       : 1;
-    __IO uint32_t CFE                       : 1;
+    __O  uint32_t CPE                       : 1;
+    __O  uint32_t CFE                       : 1;
     uint32_t RESERVED18                     : 1;
-    __IO uint32_t CORE                      : 1;
-    __IO uint32_t CRTOF                     : 1;
+    __O  uint32_t CORE                      : 1;
+    __O  uint32_t CRTOF                     : 1;
     uint32_t RESERVED21                     : 3;
     __IO uint32_t MS                        : 1;
     uint32_t RESERVED25                     : 3;
@@ -5316,7 +5316,7 @@ typedef struct
     __IO uint32_t VBUSOVEN                  : 1;
     __IO uint32_t VBUSVAL                   : 1;
     uint32_t RESERVED8                      :24;
-} stc_usbfs_usbfs_gvbuscfg_field_t;
+} stc_usbfs_gvbuscfg_field_t;
 
 typedef struct
 {
@@ -5352,20 +5352,20 @@ typedef struct
     __IO uint32_t TXFFLSH                   : 1;
     __IO uint32_t TXFNUM                    : 5;
     uint32_t RESERVED11                     :19;
-    __IO uint32_t DMAREQ                    : 1;
-    __IO uint32_t AHBIDL                    : 1;
+    __I  uint32_t DMAREQ                    : 1;
+    __I  uint32_t AHBIDL                    : 1;
 } stc_usbfs_grstctl_field_t;
 
 typedef struct
 {
-    __IO uint32_t CMOD                      : 1;
+    __I  uint32_t CMOD                      : 1;
     __IO uint32_t MMIS                      : 1;
     uint32_t RESERVED2                      : 1;
     __IO uint32_t SOF                       : 1;
-    __IO uint32_t RXFNE                     : 1;
-    __IO uint32_t NPTXFE                    : 1;
-    __IO uint32_t GINAKEFF                  : 1;
-    __IO uint32_t GONAKEFF                  : 1;
+    __I  uint32_t RXFNE                     : 1;
+    __I  uint32_t NPTXFE                    : 1;
+    __I  uint32_t GINAKEFF                  : 1;
+    __I  uint32_t GONAKEFF                  : 1;
     uint32_t RESERVED8                      : 2;
     __IO uint32_t ESUSP                     : 1;
     __IO uint32_t USBSUSP                   : 1;
@@ -5374,15 +5374,15 @@ typedef struct
     __IO uint32_t ISOODRP                   : 1;
     __IO uint32_t EOPF                      : 1;
     uint32_t RESERVED16                     : 2;
-    __IO uint32_t IEPINT                    : 1;
-    __IO uint32_t OEPINT                    : 1;
+    __I  uint32_t IEPINT                    : 1;
+    __I  uint32_t OEPINT                    : 1;
     __IO uint32_t IISOIXFR                  : 1;
     __IO uint32_t IPXFR_INCOMPISOOUT        : 1;
     __IO uint32_t DATAFSUSP                 : 1;
     uint32_t RESERVED23                     : 1;
-    __IO uint32_t HPRTINT                   : 1;
-    __IO uint32_t HCINT                     : 1;
-    __IO uint32_t PTXFE                     : 1;
+    __I  uint32_t HPRTINT                   : 1;
+    __I  uint32_t HCINT                     : 1;
+    __I  uint32_t PTXFE                     : 1;
     uint32_t RESERVED27                     : 1;
     __IO uint32_t CIDSCHG                   : 1;
     __IO uint32_t DISCINT                   : 1;
@@ -5426,19 +5426,19 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t CHNUM_EPNUM               : 4;
-    __IO uint32_t BCNT                      :11;
-    __IO uint32_t DPID                      : 2;
-    __IO uint32_t PKTSTS                    : 4;
+    __I  uint32_t CHNUM_EPNUM               : 4;
+    __I  uint32_t BCNT                      :11;
+    __I  uint32_t DPID                      : 2;
+    __I  uint32_t PKTSTS                    : 4;
     uint32_t RESERVED21                     :11;
 } stc_usbfs_grxstsr_field_t;
 
 typedef struct
 {
-    __IO uint32_t CHNUM_EPNUM               : 4;
-    __IO uint32_t BCNT                      :11;
-    __IO uint32_t DPID                      : 2;
-    __IO uint32_t PKTSTS                    : 4;
+    __I  uint32_t CHNUM_EPNUM               : 4;
+    __I  uint32_t BCNT                      :11;
+    __I  uint32_t DPID                      : 2;
+    __I  uint32_t PKTSTS                    : 4;
     uint32_t RESERVED21                     :11;
 } stc_usbfs_grxstsp_field_t;
 
@@ -5456,9 +5456,9 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t NPTXFSAV                  :16;
-    __IO uint32_t NPTQXSAV                  : 8;
-    __IO uint32_t NPTXQTOP                  : 7;
+    __I  uint32_t NPTXFSAV                  :16;
+    __I  uint32_t NPTQXSAV                  : 8;
+    __I  uint32_t NPTXQTOP                  : 7;
     uint32_t RESERVED31                     : 1;
 } stc_usbfs_hnptxsts_field_t;
 
@@ -5493,20 +5493,20 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t FRNUM                     :16;
-    __IO uint32_t FTREM                     :16;
+    __I  uint32_t FRNUM                     :16;
+    __I  uint32_t FTREM                     :16;
 } stc_usbfs_hfnum_field_t;
 
 typedef struct
 {
-    __IO uint32_t PTXFSAVL                  :16;
-    __IO uint32_t PTXQSAV                   : 8;
-    __IO uint32_t PTXQTOP                   : 8;
+    __I  uint32_t PTXFSAVL                  :16;
+    __I  uint32_t PTXQSAV                   : 8;
+    __I  uint32_t PTXQTOP                   : 8;
 } stc_usbfs_hptxsts_field_t;
 
 typedef struct
 {
-    __IO uint32_t HAINT                     :12;
+    __I  uint32_t HAINT                     :12;
     uint32_t RESERVED12                     :20;
 } stc_usbfs_haint_field_t;
 
@@ -5518,7 +5518,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t PCSTS                     : 1;
+    __I  uint32_t PCSTS                     : 1;
     __IO uint32_t PCDET                     : 1;
     __IO uint32_t PENA                      : 1;
     __IO uint32_t PENCHNG                   : 1;
@@ -5527,10 +5527,10 @@ typedef struct
     __IO uint32_t PSUSP                     : 1;
     __IO uint32_t PRST                      : 1;
     uint32_t RESERVED9                      : 1;
-    __IO uint32_t PLSTS                     : 2;
+    __I  uint32_t PLSTS                     : 2;
     __IO uint32_t PWPR                      : 1;
     uint32_t RESERVED13                     : 4;
-    __IO uint32_t PSPD                      : 2;
+    __I  uint32_t PSPD                      : 2;
     uint32_t RESERVED19                     :13;
 } stc_usbfs_hprt_field_t;
 
@@ -5541,7 +5541,7 @@ typedef struct
     __IO uint32_t EPDIR                     : 1;
     uint32_t RESERVED16                     : 1;
     __IO uint32_t LSDEV                     : 1;
-    __IO uint32_t EPTYP                     : 2;
+    __I  uint32_t EPTYP                     : 2;
     uint32_t RESERVED20                     : 2;
     __IO uint32_t DAD                       : 7;
     __IO uint32_t ODDFRM                    : 1;
@@ -5603,24 +5603,24 @@ typedef struct
 {
     __IO uint32_t RWUSIG                    : 1;
     __IO uint32_t SDIS                      : 1;
-    __IO uint32_t GINSTS                    : 1;
-    __IO uint32_t GONSTS                    : 1;
+    __I  uint32_t GINSTS                    : 1;
+    __I  uint32_t GONSTS                    : 1;
     uint32_t RESERVED4                      : 3;
-    __IO uint32_t SGINAK                    : 1;
-    __IO uint32_t CGINAK                    : 1;
-    __IO uint32_t SGONAK                    : 1;
-    __IO uint32_t CGONAK                    : 1;
+    __O  uint32_t SGINAK                    : 1;
+    __O  uint32_t CGINAK                    : 1;
+    __O  uint32_t SGONAK                    : 1;
+    __O  uint32_t CGONAK                    : 1;
     __IO uint32_t POPRGDNE                  : 1;
     uint32_t RESERVED12                     :20;
 } stc_usbfs_dctl_field_t;
 
 typedef struct
 {
-    __IO uint32_t SUSPSTS                   : 1;
-    __IO uint32_t ENUMSPD                   : 2;
-    __IO uint32_t EERR                      : 1;
+    __I  uint32_t SUSPSTS                   : 1;
+    __I  uint32_t ENUMSPD                   : 2;
+    __I  uint32_t EERR                      : 1;
     uint32_t RESERVED4                      : 4;
-    __IO uint32_t FNSOF                     :14;
+    __I  uint32_t FNSOF                     :14;
     uint32_t RESERVED22                     :10;
 } stc_usbfs_dsts_field_t;
 
@@ -5648,17 +5648,17 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t IEPINT                    : 6;
+    __I  uint32_t IEPINT                    : 6;
     uint32_t RESERVED6                      :10;
-    __IO uint32_t OEPINT                    : 6;
+    __I  uint32_t OEPINT                    : 6;
     uint32_t RESERVED22                     :10;
 } stc_usbfs_daint_field_t;
 
 typedef struct
 {
-    __IO uint32_t IEPINTM                   : 6;
+    __I  uint32_t IEPINTM                   : 6;
     uint32_t RESERVED6                      :10;
-    __IO uint32_t OEPINTM                   : 6;
+    __I  uint32_t OEPINTM                   : 6;
     uint32_t RESERVED22                     :10;
 } stc_usbfs_daintmsk_field_t;
 
@@ -5670,19 +5670,19 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t MPSIZ                     : 2;
+    __I  uint32_t MPSIZ                     : 2;
     uint32_t RESERVED2                      :13;
-    __IO uint32_t USBAEP                    : 1;
+    __I  uint32_t USBAEP                    : 1;
     uint32_t RESERVED16                     : 1;
-    __IO uint32_t NAKSTS                    : 1;
-    __IO uint32_t EPTYP                     : 2;
+    __I  uint32_t NAKSTS                    : 1;
+    __I  uint32_t EPTYP                     : 2;
     uint32_t RESERVED20                     : 1;
     __IO uint32_t STALL                     : 1;
     __IO uint32_t TXFNUM                    : 4;
-    __IO uint32_t CNAK                      : 1;
-    __IO uint32_t SNAK                      : 1;
+    __O  uint32_t CNAK                      : 1;
+    __O  uint32_t SNAK                      : 1;
     uint32_t RESERVED28                     : 2;
-    __IO uint32_t EPDIS                     : 1;
+    __I  uint32_t EPDIS                     : 1;
     __IO uint32_t EPENA                     : 1;
 } stc_usbfs_diepctl0_field_t;
 
@@ -5695,7 +5695,7 @@ typedef struct
     __IO uint32_t TTXFE                     : 1;
     uint32_t RESERVED5                      : 1;
     __IO uint32_t INEPNE                    : 1;
-    __IO uint32_t TXFE                      : 1;
+    __I  uint32_t TXFE                      : 1;
     uint32_t RESERVED8                      :24;
 } stc_usbfs_diepint0_field_t;
 
@@ -5709,7 +5709,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t INEPTFSAV                 :16;
+    __I  uint32_t INEPTFSAV                 :16;
     uint32_t RESERVED16                     :16;
 } stc_usbfs_dtxfsts0_field_t;
 
@@ -5717,18 +5717,18 @@ typedef struct
 {
     __IO uint32_t MPSIZ                     :11;
     uint32_t RESERVED11                     : 4;
-    __IO uint32_t USBAEP                    : 1;
-    __IO uint32_t EONUM_DPID                : 1;
-    __IO uint32_t NAKSTS                    : 1;
-    __IO uint32_t EPTYP                     : 2;
+    __I  uint32_t USBAEP                    : 1;
+    __I  uint32_t EONUM_DPID                : 1;
+    __I  uint32_t NAKSTS                    : 1;
+    __I  uint32_t EPTYP                     : 2;
     uint32_t RESERVED20                     : 1;
     __IO uint32_t STALL                     : 1;
     __IO uint32_t TXFNUM                    : 4;
-    __IO uint32_t CNAK                      : 1;
-    __IO uint32_t SNAK                      : 1;
-    __IO uint32_t SD0PID_SEVNFRM            : 1;
-    __IO uint32_t SODDFRM                   : 1;
-    __IO uint32_t EPDIS                     : 1;
+    __O  uint32_t CNAK                      : 1;
+    __O  uint32_t SNAK                      : 1;
+    __O  uint32_t SD0PID_SEVNFRM            : 1;
+    __O  uint32_t SODDFRM                   : 1;
+    __I  uint32_t EPDIS                     : 1;
     __IO uint32_t EPENA                     : 1;
 } stc_usbfs_diepctl_field_t;
 
@@ -5741,7 +5741,7 @@ typedef struct
     __IO uint32_t TTXFE                     : 1;
     uint32_t RESERVED5                      : 1;
     __IO uint32_t INEPNE                    : 1;
-    __IO uint32_t TXFE                      : 1;
+    __I  uint32_t TXFE                      : 1;
     uint32_t RESERVED8                      :24;
 } stc_usbfs_diepint_field_t;
 
@@ -5754,25 +5754,25 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t INEPTFSAV                 :16;
+    __I  uint32_t INEPTFSAV                 :16;
     uint32_t RESERVED16                     :16;
 } stc_usbfs_dtxfsts_field_t;
 
 typedef struct
 {
-    __IO uint32_t MPSIZ                     : 2;
+    __I  uint32_t MPSIZ                     : 2;
     uint32_t RESERVED2                      :13;
-    __IO uint32_t USBAEP                    : 1;
+    __I  uint32_t USBAEP                    : 1;
     uint32_t RESERVED16                     : 1;
-    __IO uint32_t NAKSTS                    : 1;
-    __IO uint32_t EPTYP                     : 2;
+    __I  uint32_t NAKSTS                    : 1;
+    __I  uint32_t EPTYP                     : 2;
     __IO uint32_t SNPM                      : 1;
     __IO uint32_t STALL                     : 1;
     uint32_t RESERVED22                     : 4;
-    __IO uint32_t CNAK                      : 1;
-    __IO uint32_t SNAK                      : 1;
+    __O  uint32_t CNAK                      : 1;
+    __O  uint32_t SNAK                      : 1;
     uint32_t RESERVED28                     : 2;
-    __IO uint32_t EPDIS                     : 1;
+    __I  uint32_t EPDIS                     : 1;
     __IO uint32_t EPENA                     : 1;
 } stc_usbfs_doepctl0_field_t;
 
@@ -5802,18 +5802,18 @@ typedef struct
 {
     __IO uint32_t MPSIZ                     :11;
     uint32_t RESERVED11                     : 4;
-    __IO uint32_t USBAEP                    : 1;
-    __IO uint32_t DPID                      : 1;
-    __IO uint32_t NAKSTS                    : 1;
-    __IO uint32_t EPTYP                     : 2;
+    __I  uint32_t USBAEP                    : 1;
+    __I  uint32_t DPID                      : 1;
+    __I  uint32_t NAKSTS                    : 1;
+    __I  uint32_t EPTYP                     : 2;
     __IO uint32_t SNPM                      : 1;
     __IO uint32_t STALL                     : 1;
     uint32_t RESERVED22                     : 4;
-    __IO uint32_t CNAK                      : 1;
-    __IO uint32_t SNAK                      : 1;
+    __O  uint32_t CNAK                      : 1;
+    __O  uint32_t SNAK                      : 1;
     __IO uint32_t SD0PID                    : 1;
     __IO uint32_t SD1PID                    : 1;
-    __IO uint32_t EPDIS                     : 1;
+    __I  uint32_t EPDIS                     : 1;
     __IO uint32_t EPENA                     : 1;
 } stc_usbfs_doepctl_field_t;
 
@@ -5845,7 +5845,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t CNT                       :16;
+    __I  uint32_t CNT                       :16;
     __IO uint32_t UDF                       : 1;
     __IO uint32_t REF                       : 1;
     uint32_t RESERVED18                     :14;
@@ -5853,7 +5853,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t RF                        :16;
+    __I  uint32_t RF                        :16;
     uint32_t RESERVED16                     :16;
 } stc_wdt_rr_field_t;
 
@@ -5866,6 +5866,9 @@ typedef struct
 } stc_wktm_cr_field_t;
 
 
+/**
+ * @brief ADC
+ */
 typedef struct
 {
     union
@@ -5873,7 +5876,7 @@ typedef struct
         __IO uint8_t STR;
         stc_adc_str_field_t STR_f;
     };
-    uint8_t RESERVED1[1];
+    uint8_t RESERVED0[1];
     union
     {
         __IO uint16_t CR0;
@@ -5884,7 +5887,7 @@ typedef struct
         __IO uint16_t CR1;
         stc_adc_cr1_field_t CR1_f;
     };
-    uint8_t RESERVED3[4];
+    uint8_t RESERVED1[4];
     union
     {
         __IO uint16_t TRGSR;
@@ -5908,7 +5911,7 @@ typedef struct
         __IO uint16_t AVCHSELR1;
         stc_adc_avchselr1_field_t AVCHSELR1_f;
     };
-    uint8_t RESERVED10[8];
+    uint8_t RESERVED2[8];
     __IO uint8_t SSTR0;
     __IO uint8_t SSTR1;
     __IO uint8_t SSTR2;
@@ -5926,7 +5929,7 @@ typedef struct
     __IO uint8_t SSTR14;
     __IO uint8_t SSTR15;
     __IO uint8_t SSTRL;
-    uint8_t RESERVED27[7];
+    uint8_t RESERVED3[7];
     union
     {
         __IO uint16_t CHMUXR0;
@@ -5947,7 +5950,7 @@ typedef struct
         __IO uint16_t CHMUXR3;
         stc_adc_chmuxr3_field_t CHMUXR3_f;
     };
-    uint8_t RESERVED31[6];
+    uint8_t RESERVED4[6];
     union
     {
         __IO uint8_t ISR;
@@ -5958,13 +5961,13 @@ typedef struct
         __IO uint8_t ICR;
         stc_adc_icr_field_t ICR_f;
     };
-    uint8_t RESERVED33[4];
+    uint8_t RESERVED5[4];
     union
     {
         __IO uint16_t SYNCCR;
         stc_adc_synccr_field_t SYNCCR_f;
     };
-    uint8_t RESERVED34[2];
+    uint8_t RESERVED6[2];
     __IO uint16_t DR0;
     __IO uint16_t DR1;
     __IO uint16_t DR2;
@@ -5982,16 +5985,16 @@ typedef struct
     __IO uint16_t DR14;
     __IO uint16_t DR15;
     __IO uint16_t DR16;
-    uint8_t RESERVED51[46];
+    uint8_t RESERVED7[46];
     union
     {
         __IO uint16_t AWDCR;
         stc_adc_awdcr_field_t AWDCR_f;
     };
-    uint8_t RESERVED52[2];
+    uint8_t RESERVED8[2];
     __IO uint16_t AWDDR0;
     __IO uint16_t AWDDR1;
-    uint8_t RESERVED54[4];
+    uint8_t RESERVED9[4];
     __IO uint16_t AWDCHSR0;
     union
     {
@@ -6004,7 +6007,7 @@ typedef struct
         __IO uint16_t AWDSR1;
         stc_adc_awdsr1_field_t AWDSR1_f;
     };
-    uint8_t RESERVED58[12];
+    uint8_t RESERVED10[12];
     union
     {
         __IO uint16_t PGACR;
@@ -6015,7 +6018,7 @@ typedef struct
         __IO uint16_t PGAGSR;
         stc_adc_pgagsr_field_t PGAGSR_f;
     };
-    uint8_t RESERVED60[8];
+    uint8_t RESERVED11[8];
     union
     {
         __IO uint16_t PGAINSR0;
@@ -6026,8 +6029,11 @@ typedef struct
         __IO uint16_t PGAINSR1;
         stc_adc_pgainsr1_field_t PGAINSR1_f;
     };
-}M4_ADC_TypeDef;
+} M4_ADC_TypeDef;
 
+/**
+ * @brief AES
+ */
 typedef struct
 {
     union
@@ -6035,7 +6041,7 @@ typedef struct
         __IO uint32_t CR;
         stc_aes_cr_field_t CR_f;
     };
-    uint8_t RESERVED1[12];
+    uint8_t RESERVED0[12];
     __IO uint32_t DR0;
     __IO uint32_t DR1;
     __IO uint32_t DR2;
@@ -6044,8 +6050,11 @@ typedef struct
     __IO uint32_t KR1;
     __IO uint32_t KR2;
     __IO uint32_t KR3;
-}M4_AES_TypeDef;
+} M4_AES_TypeDef;
 
+/**
+ * @brief AOS
+ */
 typedef struct
 {
     union
@@ -6188,7 +6197,7 @@ typedef struct
         __IO uint32_t COMTRG2;
         stc_aos_comtrg2_field_t COMTRG2_f;
     };
-    uint8_t RESERVED28[144];
+    uint8_t RESERVED0[144];
     union
     {
         __IO uint32_t PEVNTDIRR1;
@@ -6334,14 +6343,17 @@ typedef struct
         __IO uint32_t PEVNTNFCR;
         stc_aos_pevntnfcr_field_t PEVNTNFCR_f;
     };
-}M4_AOS_TypeDef;
+} M4_AOS_TypeDef;
 
+/**
+ * @brief CAN
+ */
 typedef struct
 {
     __IO uint32_t RBUF;
-    uint8_t RESERVED1[76];
+    uint8_t RESERVED0[76];
     __IO uint32_t TBUF;
-    uint8_t RESERVED2[76];
+    uint8_t RESERVED1[76];
     union
     {
         __IO uint8_t CFG_STAT;
@@ -6387,13 +6399,13 @@ typedef struct
         __IO uint32_t BT;
         stc_can_bt_field_t BT_f;
     };
-    uint8_t RESERVED11[4];
+    uint8_t RESERVED2[4];
     union
     {
         __IO uint8_t EALCAP;
         stc_can_ealcap_field_t EALCAP_f;
     };
-    uint8_t RESERVED12[1];
+    uint8_t RESERVED3[1];
     __IO uint8_t RECNT;
     __IO uint8_t TECNT;
     union
@@ -6401,19 +6413,19 @@ typedef struct
         __IO uint8_t ACFCTRL;
         stc_can_acfctrl_field_t ACFCTRL_f;
     };
-    uint8_t RESERVED15[1];
+    uint8_t RESERVED4[1];
     union
     {
         __IO uint8_t ACFEN;
         stc_can_acfen_field_t ACFEN_f;
     };
-    uint8_t RESERVED16[1];
+    uint8_t RESERVED5[1];
     union
     {
         __IO uint32_t ACF;
         stc_can_acf_field_t ACF_f;
     };
-    uint8_t RESERVED17[2];
+    uint8_t RESERVED6[2];
     union
     {
         __IO uint8_t TBSLOT;
@@ -6436,8 +6448,11 @@ typedef struct
     };
     __IO uint16_t TT_TRIG;
     __IO uint16_t TT_WTRIG;
-}M4_CAN_TypeDef;
+} M4_CAN_TypeDef;
 
+/**
+ * @brief CMP
+ */
 typedef struct
 {
     union
@@ -6465,8 +6480,11 @@ typedef struct
         __IO uint16_t CVSPRD;
         stc_cmp_cvsprd_field_t CVSPRD_f;
     };
-}M4_CMP_TypeDef;
+} M4_CMP_TypeDef;
 
+/**
+ * @brief CMP_CR
+ */
 typedef struct
 {
     uint8_t RESERVED0[256];
@@ -6480,20 +6498,23 @@ typedef struct
         __IO uint16_t DADR2;
         stc_cmp_cr_dadr2_field_t DADR2_f;
     };
-    uint8_t RESERVED2[4];
+    uint8_t RESERVED1[4];
     union
     {
         __IO uint16_t DACR;
         stc_cmp_cr_dacr_field_t DACR_f;
     };
-    uint8_t RESERVED3[2];
+    uint8_t RESERVED2[2];
     union
     {
         __IO uint16_t RVADC;
         stc_cmp_cr_rvadc_field_t RVADC_f;
     };
-}M4_CMP_CR_TypeDef;
+} M4_CMP_CR_TypeDef;
 
+/**
+ * @brief CRC
+ */
 typedef struct
 {
     union
@@ -6502,13 +6523,13 @@ typedef struct
         stc_crc_cr_field_t CR_f;
     };
     __IO uint32_t RESLT;
-    uint8_t RESERVED2[4];
+    uint8_t RESERVED0[4];
     union
     {
         __IO uint32_t FLG;
         stc_crc_flg_field_t FLG_f;
     };
-    uint8_t RESERVED3[112];
+    uint8_t RESERVED1[112];
     __IO uint32_t DAT0;
     __IO uint32_t DAT1;
     __IO uint32_t DAT2;
@@ -6541,8 +6562,11 @@ typedef struct
     __IO uint32_t DAT29;
     __IO uint32_t DAT30;
     __IO uint32_t DAT31;
-}M4_CRC_TypeDef;
+} M4_CRC_TypeDef;
 
+/**
+ * @brief DBGC
+ */
 typedef struct
 {
     __IO uint32_t AUTHID0;
@@ -6579,8 +6603,11 @@ typedef struct
         __IO uint32_t MCUTRACECTL;
         stc_dbgc_mcutracectl_field_t MCUTRACECTL_f;
     };
-}M4_DBGC_TypeDef;
+} M4_DBGC_TypeDef;
 
+/**
+ * @brief DCU
+ */
 typedef struct
 {
     union
@@ -6606,8 +6633,11 @@ typedef struct
         __IO uint32_t INTSEL;
         stc_dcu_intsel_field_t INTSEL_f;
     };
-}M4_DCU_TypeDef;
+} M4_DCU_TypeDef;
 
+/**
+ * @brief DMA
+ */
 typedef struct
 {
     union
@@ -6650,19 +6680,19 @@ typedef struct
         __IO uint32_t CHEN;
         stc_dma_chen_field_t CHEN_f;
     };
-    uint8_t RESERVED8[4];
+    uint8_t RESERVED0[4];
     union
     {
         __IO uint32_t CHSTAT;
         stc_dma_chstat_field_t CHSTAT_f;
     };
-    uint8_t RESERVED9[4];
+    uint8_t RESERVED1[4];
     union
     {
         __IO uint32_t RCFGCTL;
         stc_dma_rcfgctl_field_t RCFGCTL_f;
     };
-    uint8_t RESERVED10[16];
+    uint8_t RESERVED2[16];
     __IO uint32_t SAR0;
     __IO uint32_t DAR0;
     union
@@ -6723,7 +6753,7 @@ typedef struct
         __IO uint32_t MONDNSEQCTL0;
         stc_dma_mondnseqctl_field_t MONDNSEQCTL0_f;
     };
-    uint8_t RESERVED27[8];
+    uint8_t RESERVED3[8];
     __IO uint32_t SAR1;
     __IO uint32_t DAR1;
     union
@@ -6784,7 +6814,7 @@ typedef struct
         __IO uint32_t MONDNSEQCTL1;
         stc_dma_mondnseqctl_field_t MONDNSEQCTL1_f;
     };
-    uint8_t RESERVED44[8];
+    uint8_t RESERVED4[8];
     __IO uint32_t SAR2;
     __IO uint32_t DAR2;
     union
@@ -6845,7 +6875,7 @@ typedef struct
         __IO uint32_t MONDNSEQCTL2;
         stc_dma_mondnseqctl_field_t MONDNSEQCTL2_f;
     };
-    uint8_t RESERVED61[8];
+    uint8_t RESERVED5[8];
     __IO uint32_t SAR3;
     __IO uint32_t DAR3;
     union
@@ -6906,8 +6936,11 @@ typedef struct
         __IO uint32_t MONDNSEQCTL3;
         stc_dma_mondnseqctl_field_t MONDNSEQCTL3_f;
     };
-}M4_DMA_TypeDef;
+} M4_DMA_TypeDef;
 
+/**
+ * @brief EFM
+ */
 typedef struct
 {
     union
@@ -6960,11 +6993,11 @@ typedef struct
         __IO uint32_t FPMTEW;
         stc_efm_fpmtew_field_t FPMTEW_f;
     };
-    uint8_t RESERVED10[40];
+    uint8_t RESERVED0[40];
     __IO uint32_t UQID1;
     __IO uint32_t UQID2;
     __IO uint32_t UQID3;
-    uint8_t RESERVED13[164];
+    uint8_t RESERVED1[164];
     union
     {
         __IO uint32_t MMF_REMPRT;
@@ -6980,14 +7013,17 @@ typedef struct
         __IO uint32_t MMF_REMCR1;
         stc_efm_mmf_remcr1_field_t MMF_REMCR1_f;
     };
-    uint8_t RESERVED16[248];
+    uint8_t RESERVED2[248];
     union
     {
-        __IO uint32_t EFM_FRANDS;
-        stc_efm_efm_frands_field_t EFM_FRANDS_f;
+        __IO uint32_t FRANDS;
+        stc_efm_frands_field_t FRANDS_f;
     };
-}M4_EFM_TypeDef;
+} M4_EFM_TypeDef;
 
+/**
+ * @brief EMB
+ */
 typedef struct
 {
     union
@@ -7020,8 +7056,11 @@ typedef struct
         __IO uint32_t INTEN;
         stc_emb_inten_field_t INTEN_f;
     };
-}M4_EMB_TypeDef;
+} M4_EMB_TypeDef;
 
+/**
+ * @brief FCM
+ */
 typedef struct
 {
     union
@@ -7069,8 +7108,11 @@ typedef struct
         __IO uint32_t CLR;
         stc_fcm_clr_field_t CLR_f;
     };
-}M4_FCM_TypeDef;
+} M4_FCM_TypeDef;
 
+/**
+ * @brief HASH
+ */
 typedef struct
 {
     union
@@ -7078,7 +7120,7 @@ typedef struct
         __IO uint32_t CR;
         stc_hash_cr_field_t CR_f;
     };
-    uint8_t RESERVED1[12];
+    uint8_t RESERVED0[12];
     __IO uint32_t HR7;
     __IO uint32_t HR6;
     __IO uint32_t HR5;
@@ -7087,7 +7129,7 @@ typedef struct
     __IO uint32_t HR2;
     __IO uint32_t HR1;
     __IO uint32_t HR0;
-    uint8_t RESERVED9[16];
+    uint8_t RESERVED1[16];
     __IO uint32_t DR15;
     __IO uint32_t DR14;
     __IO uint32_t DR13;
@@ -7104,8 +7146,11 @@ typedef struct
     __IO uint32_t DR2;
     __IO uint32_t DR1;
     __IO uint32_t DR0;
-}M4_HASH_TypeDef;
+} M4_HASH_TypeDef;
 
+/**
+ * @brief I2C
+ */
 typedef struct
 {
     union
@@ -7123,7 +7168,7 @@ typedef struct
         __IO uint32_t CR3;
         stc_i2c_cr3_field_t CR3_f;
     };
-    uint8_t RESERVED3[4];
+    uint8_t RESERVED0[4];
     union
     {
         __IO uint32_t SLR0;
@@ -7154,13 +7199,13 @@ typedef struct
         __IO uint8_t DTR;
         stc_i2c_dtr_field_t DTR_f;
     };
-    uint8_t RESERVED9[3];
+    uint8_t RESERVED1[3];
     union
     {
         __IO uint8_t DRR;
         stc_i2c_drr_field_t DRR_f;
     };
-    uint8_t RESERVED10[3];
+    uint8_t RESERVED2[3];
     union
     {
         __IO uint32_t CCR;
@@ -7171,8 +7216,11 @@ typedef struct
         __IO uint32_t FLTR;
         stc_i2c_fltr_field_t FLTR_f;
     };
-}M4_I2C_TypeDef;
+} M4_I2C_TypeDef;
 
+/**
+ * @brief I2S
+ */
 typedef struct
 {
     union
@@ -7202,8 +7250,11 @@ typedef struct
         __IO uint32_t PR;
         stc_i2s_pr_field_t PR_f;
     };
-}M4_I2S_TypeDef;
+} M4_I2S_TypeDef;
 
+/**
+ * @brief ICG
+ */
 typedef struct
 {
     union
@@ -7222,8 +7273,11 @@ typedef struct
     __IO uint32_t ICG5;
     __IO uint32_t ICG6;
     __IO uint32_t ICG7;
-}M4_ICG_TypeDef;
+} M4_ICG_TypeDef;
 
+/**
+ * @brief INTC
+ */
 typedef struct
 {
     union
@@ -8076,8 +8130,11 @@ typedef struct
         __IO uint32_t IER;
         stc_intc_ier_field_t IER_f;
     };
-}M4_INTC_TypeDef;
+} M4_INTC_TypeDef;
 
+/**
+ * @brief KEYSCAN
+ */
 typedef struct
 {
     union
@@ -8095,8 +8152,11 @@ typedef struct
         __IO uint32_t SSR;
         stc_keyscan_ssr_field_t SSR_f;
     };
-}M4_KEYSCAN_TypeDef;
+} M4_KEYSCAN_TypeDef;
 
+/**
+ * @brief MPU
+ */
 typedef struct
 {
     union
@@ -8279,8 +8339,11 @@ typedef struct
         __IO uint32_t WP;
         stc_mpu_wp_field_t WP_f;
     };
-}M4_MPU_TypeDef;
+} M4_MPU_TypeDef;
 
+/**
+ * @brief MSTP
+ */
 typedef struct
 {
     union
@@ -8308,8 +8371,11 @@ typedef struct
         __IO uint32_t FCG0PC;
         stc_mstp_fcg0pc_field_t FCG0PC_f;
     };
-}M4_MSTP_TypeDef;
+} M4_MSTP_TypeDef;
 
+/**
+ * @brief OTS
+ */
 typedef struct
 {
     union
@@ -8325,8 +8391,11 @@ typedef struct
         __IO uint32_t LPR;
         stc_ots_lpr_field_t LPR_f;
     };
-}M4_OTS_TypeDef;
+} M4_OTS_TypeDef;
 
+/**
+ * @brief PERIC
+ */
 typedef struct
 {
     union
@@ -8339,8 +8408,11 @@ typedef struct
         __IO uint32_t SDIOC_SYCTLREG;
         stc_peric_sdioc_syctlreg_field_t SDIOC_SYCTLREG_f;
     };
-}M4_PERIC_TypeDef;
+} M4_PERIC_TypeDef;
 
+/**
+ * @brief PORT
+ */
 typedef struct
 {
     union
@@ -8348,7 +8420,7 @@ typedef struct
         __IO uint16_t PIDRA;
         stc_port_pidr_field_t PIDRA_f;
     };
-    uint8_t RESERVED1[2];
+    uint8_t RESERVED0[2];
     union
     {
         __IO uint16_t PODRA;
@@ -8374,13 +8446,13 @@ typedef struct
         __IO uint16_t POTRA;
         stc_port_potr_field_t POTRA_f;
     };
-    uint8_t RESERVED6[2];
+    uint8_t RESERVED1[2];
     union
     {
         __IO uint16_t PIDRB;
         stc_port_pidr_field_t PIDRB_f;
     };
-    uint8_t RESERVED7[2];
+    uint8_t RESERVED2[2];
     union
     {
         __IO uint16_t PODRB;
@@ -8406,13 +8478,13 @@ typedef struct
         __IO uint16_t POTRB;
         stc_port_potr_field_t POTRB_f;
     };
-    uint8_t RESERVED12[2];
+    uint8_t RESERVED3[2];
     union
     {
         __IO uint16_t PIDRC;
         stc_port_pidr_field_t PIDRC_f;
     };
-    uint8_t RESERVED13[2];
+    uint8_t RESERVED4[2];
     union
     {
         __IO uint16_t PODRC;
@@ -8438,13 +8510,13 @@ typedef struct
         __IO uint16_t POTRC;
         stc_port_potr_field_t POTRC_f;
     };
-    uint8_t RESERVED18[2];
+    uint8_t RESERVED5[2];
     union
     {
         __IO uint16_t PIDRD;
         stc_port_pidr_field_t PIDRD_f;
     };
-    uint8_t RESERVED19[2];
+    uint8_t RESERVED6[2];
     union
     {
         __IO uint16_t PODRD;
@@ -8470,13 +8542,13 @@ typedef struct
         __IO uint16_t POTRD;
         stc_port_potr_field_t POTRD_f;
     };
-    uint8_t RESERVED24[2];
+    uint8_t RESERVED7[2];
     union
     {
         __IO uint16_t PIDRE;
         stc_port_pidr_field_t PIDRE_f;
     };
-    uint8_t RESERVED25[2];
+    uint8_t RESERVED8[2];
     union
     {
         __IO uint16_t PODRE;
@@ -8502,13 +8574,13 @@ typedef struct
         __IO uint16_t POTRE;
         stc_port_potr_field_t POTRE_f;
     };
-    uint8_t RESERVED30[2];
+    uint8_t RESERVED9[2];
     union
     {
         __IO uint16_t PIDRH;
         stc_port_pidrh_field_t PIDRH_f;
     };
-    uint8_t RESERVED31[2];
+    uint8_t RESERVED10[2];
     union
     {
         __IO uint16_t PODRH;
@@ -8534,13 +8606,13 @@ typedef struct
         __IO uint16_t POTRH;
         stc_port_potrh_field_t POTRH_f;
     };
-    uint8_t RESERVED36[918];
+    uint8_t RESERVED11[918];
     union
     {
         __IO uint16_t PSPCR;
         stc_port_pspcr_field_t PSPCR_f;
     };
-    uint8_t RESERVED37[2];
+    uint8_t RESERVED12[2];
     union
     {
         __IO uint16_t PCCR;
@@ -8556,7 +8628,7 @@ typedef struct
         __IO uint16_t PWPR;
         stc_port_pwpr_field_t PWPR_f;
     };
-    uint8_t RESERVED40[2];
+    uint8_t RESERVED13[2];
     union
     {
         __IO uint16_t PCRA0;
@@ -9387,8 +9459,11 @@ typedef struct
         __IO uint16_t PFSRH2;
         stc_port_pfsr_field_t PFSRH2_f;
     };
-}M4_PORT_TypeDef;
+} M4_PORT_TypeDef;
 
+/**
+ * @brief QSPI
+ */
 typedef struct
 {
     union
@@ -9426,20 +9501,23 @@ typedef struct
         __IO uint32_t XCMD;
         stc_qspi_xcmd_field_t XCMD_f;
     };
-    uint8_t RESERVED7[8];
+    uint8_t RESERVED0[8];
     union
     {
         __IO uint32_t SR2;
         stc_qspi_sr2_field_t SR2_f;
     };
-    uint8_t RESERVED8[2012];
+    uint8_t RESERVED1[2012];
     union
     {
         __IO uint32_t EXAR;
         stc_qspi_exar_field_t EXAR_f;
     };
-}M4_QSPI_TypeDef;
+} M4_QSPI_TypeDef;
 
+/**
+ * @brief RTC
+ */
 typedef struct
 {
     union
@@ -9522,8 +9600,11 @@ typedef struct
         __IO uint32_t ERRCRL;
         stc_rtc_errcrl_field_t ERRCRL_f;
     };
-}M4_RTC_TypeDef;
+} M4_RTC_TypeDef;
 
+/**
+ * @brief SDIOC
+ */
 typedef struct
 {
     uint8_t RESERVED0[4];
@@ -9575,7 +9656,7 @@ typedef struct
         __IO uint8_t BLKGPCON;
         stc_sdioc_blkgpcon_field_t BLKGPCON_f;
     };
-    uint8_t RESERVED20[1];
+    uint8_t RESERVED1[1];
     union
     {
         __IO uint16_t CLKCON;
@@ -9626,7 +9707,7 @@ typedef struct
         __IO uint16_t ATCERRST;
         stc_sdioc_atcerrst_field_t ATCERRST_f;
     };
-    uint8_t RESERVED30[18];
+    uint8_t RESERVED2[18];
     union
     {
         __IO uint16_t FEA;
@@ -9637,8 +9718,11 @@ typedef struct
         __IO uint16_t FEE;
         stc_sdioc_fee_field_t FEE_f;
     };
-}M4_SDIOC_TypeDef;
+} M4_SDIOC_TypeDef;
 
+/**
+ * @brief SPI
+ */
 typedef struct
 {
     __IO uint32_t DR;
@@ -9647,13 +9731,13 @@ typedef struct
         __IO uint32_t CR1;
         stc_spi_cr1_field_t CR1_f;
     };
-    uint8_t RESERVED2[4];
+    uint8_t RESERVED0[4];
     union
     {
         __IO uint32_t CFG1;
         stc_spi_cfg1_field_t CFG1_f;
     };
-    uint8_t RESERVED3[4];
+    uint8_t RESERVED1[4];
     union
     {
         __IO uint32_t SR;
@@ -9664,8 +9748,11 @@ typedef struct
         __IO uint32_t CFG2;
         stc_spi_cfg2_field_t CFG2_f;
     };
-}M4_SPI_TypeDef;
+} M4_SPI_TypeDef;
 
+/**
+ * @brief SRAMC
+ */
 typedef struct
 {
     union
@@ -9693,8 +9780,11 @@ typedef struct
         __IO uint32_t CKSR;
         stc_sramc_cksr_field_t CKSR_f;
     };
-}M4_SRAMC_TypeDef;
+} M4_SRAMC_TypeDef;
 
+/**
+ * @brief SWDT
+ */
 typedef struct
 {
     uint8_t RESERVED0[4];
@@ -9708,8 +9798,11 @@ typedef struct
         __IO uint32_t RR;
         stc_swdt_rr_field_t RR_f;
     };
-}M4_SWDT_TypeDef;
+} M4_SWDT_TypeDef;
 
+/**
+ * @brief SYSREG
+ */
 typedef struct
 {
     uint8_t RESERVED0[12];
@@ -9735,7 +9828,7 @@ typedef struct
         stc_sysreg_pwr_rampc0_field_t PWR_RAMPC0_f;
     };
     __IO uint16_t PWR_RAMOPM;
-    uint8_t RESERVED5[2];
+    uint8_t RESERVED2[2];
     union
     {
         __IO uint32_t MPU_IPPR;
@@ -9751,43 +9844,43 @@ typedef struct
         __IO uint8_t CMU_UFSCKCFGR;
         stc_sysreg_cmu_ufsckcfgr_field_t CMU_UFSCKCFGR_f;
     };
-    uint8_t RESERVED8[1];
+    uint8_t RESERVED3[1];
     union
     {
         __IO uint8_t CMU_CKSWR;
         stc_sysreg_cmu_ckswr_field_t CMU_CKSWR_f;
     };
-    uint8_t RESERVED9[3];
+    uint8_t RESERVED4[3];
     union
     {
         __IO uint8_t CMU_PLLCR;
         stc_sysreg_cmu_pllcr_field_t CMU_PLLCR_f;
     };
-    uint8_t RESERVED10[3];
+    uint8_t RESERVED5[3];
     union
     {
         __IO uint8_t CMU_UPLLCR;
         stc_sysreg_cmu_upllcr_field_t CMU_UPLLCR_f;
     };
-    uint8_t RESERVED11[3];
+    uint8_t RESERVED6[3];
     union
     {
         __IO uint8_t CMU_XTALCR;
         stc_sysreg_cmu_xtalcr_field_t CMU_XTALCR_f;
     };
-    uint8_t RESERVED12[3];
+    uint8_t RESERVED7[3];
     union
     {
         __IO uint8_t CMU_HRCCR;
         stc_sysreg_cmu_hrccr_field_t CMU_HRCCR_f;
     };
-    uint8_t RESERVED13[1];
+    uint8_t RESERVED8[1];
     union
     {
         __IO uint8_t CMU_MRCCR;
         stc_sysreg_cmu_mrccr_field_t CMU_MRCCR_f;
     };
-    uint8_t RESERVED14[3];
+    uint8_t RESERVED9[3];
     union
     {
         __IO uint8_t CMU_OSCSTBSR;
@@ -9818,22 +9911,22 @@ typedef struct
         __IO uint8_t CMU_XTALSTDSR;
         stc_sysreg_cmu_xtalstdsr_field_t CMU_XTALSTDSR_f;
     };
-    uint8_t RESERVED20[31];
+    uint8_t RESERVED10[31];
     __IO uint8_t CMU_MRCTRM;
     __IO uint8_t CMU_HRCTRM;
-    uint8_t RESERVED22[63];
+    uint8_t RESERVED11[63];
     union
     {
         __IO uint8_t CMU_XTALSTBCR;
         stc_sysreg_cmu_xtalstbcr_field_t CMU_XTALSTBCR_f;
     };
-    uint8_t RESERVED23[29];
+    uint8_t RESERVED12[29];
     union
     {
         __IO uint16_t RMU_RSTF0;
         stc_sysreg_rmu_rstf0_field_t RMU_RSTF0_f;
     };
-    uint8_t RESERVED24[30];
+    uint8_t RESERVED13[30];
     union
     {
         __IO uint8_t PWR_PVDICR;
@@ -9844,7 +9937,7 @@ typedef struct
         __IO uint8_t PWR_PVDDSR;
         stc_sysreg_pwr_pvddsr_field_t PWR_PVDDSR_f;
     };
-    uint8_t RESERVED26[30];
+    uint8_t RESERVED14[30];
     union
     {
         __IO uint32_t CMU_PLLCFGR;
@@ -9855,7 +9948,7 @@ typedef struct
         __IO uint32_t CMU_UPLLCFGR;
         stc_sysreg_cmu_upllcfgr_field_t CMU_UPLLCFGR_f;
     };
-    uint8_t RESERVED28[758];
+    uint8_t RESERVED15[758];
     union
     {
         __IO uint16_t PWR_FPRC;
@@ -9916,14 +10009,14 @@ typedef struct
         __IO uint8_t PWR_PWCMR;
         stc_sysreg_pwr_pwcmr_field_t PWR_PWCMR_f;
     };
-    uint8_t RESERVED40[4];
+    uint8_t RESERVED16[4];
     __IO uint8_t PWR_MDSWCR;
     union
     {
         __IO uint8_t CMU_XTALCFGR;
         stc_sysreg_cmu_xtalcfgr_field_t CMU_XTALCFGR_f;
     };
-    uint8_t RESERVED42[1];
+    uint8_t RESERVED17[1];
     union
     {
         __IO uint8_t PWR_PVDCR0;
@@ -9944,7 +10037,7 @@ typedef struct
         __IO uint8_t PWR_PVDLCR;
         stc_sysreg_pwr_pvdlcr_field_t PWR_PVDLCR_f;
     };
-    uint8_t RESERVED46[10];
+    uint8_t RESERVED18[10];
     union
     {
         __IO uint8_t CMU_XTAL32CR;
@@ -9955,28 +10048,31 @@ typedef struct
         __IO uint8_t CMU_XTAL32CFGR;
         stc_sysreg_cmu_xtal32cfgr_field_t CMU_XTAL32CFGR_f;
     };
-    uint8_t RESERVED48[3];
+    uint8_t RESERVED19[3];
     union
     {
         __IO uint8_t CMU_XTAL32NFR;
         stc_sysreg_cmu_xtal32nfr_field_t CMU_XTAL32NFR_f;
     };
-    uint8_t RESERVED49[1];
+    uint8_t RESERVED20[1];
     union
     {
         __IO uint8_t CMU_LRCCR;
         stc_sysreg_cmu_lrccr_field_t CMU_LRCCR_f;
     };
-    uint8_t RESERVED50[1];
+    uint8_t RESERVED21[1];
     __IO uint8_t CMU_LRCTRM;
-    uint8_t RESERVED51[1];
+    uint8_t RESERVED22[1];
     union
     {
         __IO uint8_t PWR_XTAL32CS;
         stc_sysreg_pwr_xtal32cs_field_t PWR_XTAL32CS_f;
     };
-}M4_SYSREG_TypeDef;
+} M4_SYSREG_TypeDef;
 
+/**
+ * @brief TMR0
+ */
 typedef struct
 {
     union
@@ -10009,8 +10105,11 @@ typedef struct
         __IO uint32_t STFLR;
         stc_tmr0_stflr_field_t STFLR_f;
     };
-}M4_TMR0_TypeDef;
+} M4_TMR0_TypeDef;
 
+/**
+ * @brief TMR4
+ */
 typedef struct
 {
     uint8_t RESERVED0[2];
@@ -10060,7 +10159,7 @@ typedef struct
         __IO uint16_t OCMRHUH;
         stc_tmr4_ocmrh_field_t OCMRHUH_f;
     };
-    uint8_t RESERVED13[2];
+    uint8_t RESERVED6[2];
     union
     {
         __IO uint32_t OCMRLUL;
@@ -10071,7 +10170,7 @@ typedef struct
         __IO uint16_t OCMRHVH;
         stc_tmr4_ocmrh_field_t OCMRHVH_f;
     };
-    uint8_t RESERVED15[2];
+    uint8_t RESERVED7[2];
     union
     {
         __IO uint32_t OCMRLVL;
@@ -10082,15 +10181,15 @@ typedef struct
         __IO uint16_t OCMRHWH;
         stc_tmr4_ocmrh_field_t OCMRHWH_f;
     };
-    uint8_t RESERVED17[2];
+    uint8_t RESERVED8[2];
     union
     {
         __IO uint32_t OCMRLWL;
         stc_tmr4_ocmrl_field_t OCMRLWL_f;
     };
-    uint8_t RESERVED18[6];
+    uint8_t RESERVED9[6];
     __IO uint16_t CPSR;
-    uint8_t RESERVED19[2];
+    uint8_t RESERVED10[2];
     __IO uint16_t CNTR;
     union
     {
@@ -10102,15 +10201,15 @@ typedef struct
         __IO uint16_t CVPR;
         stc_tmr4_cvpr_field_t CVPR_f;
     };
-    uint8_t RESERVED22[54];
+    uint8_t RESERVED11[54];
     __IO uint16_t PFSRU;
     __IO uint16_t PDARU;
     __IO uint16_t PDBRU;
-    uint8_t RESERVED25[2];
+    uint8_t RESERVED12[2];
     __IO uint16_t PFSRV;
     __IO uint16_t PDARV;
     __IO uint16_t PDBRV;
-    uint8_t RESERVED28[2];
+    uint8_t RESERVED13[2];
     __IO uint16_t PFSRW;
     __IO uint16_t PDARW;
     __IO uint16_t PDBRW;
@@ -10119,35 +10218,35 @@ typedef struct
         __IO uint16_t POCRU;
         stc_tmr4_pocr_field_t POCRU_f;
     };
-    uint8_t RESERVED32[2];
+    uint8_t RESERVED14[2];
     union
     {
         __IO uint16_t POCRV;
         stc_tmr4_pocr_field_t POCRV_f;
     };
-    uint8_t RESERVED33[2];
+    uint8_t RESERVED15[2];
     union
     {
         __IO uint16_t POCRW;
         stc_tmr4_pocr_field_t POCRW_f;
     };
-    uint8_t RESERVED34[2];
+    uint8_t RESERVED16[2];
     union
     {
         __IO uint16_t RCSR;
         stc_tmr4_rcsr_field_t RCSR_f;
     };
-    uint8_t RESERVED35[12];
+    uint8_t RESERVED17[12];
     __IO uint16_t SCCRUH;
-    uint8_t RESERVED36[2];
+    uint8_t RESERVED18[2];
     __IO uint16_t SCCRUL;
-    uint8_t RESERVED37[2];
+    uint8_t RESERVED19[2];
     __IO uint16_t SCCRVH;
-    uint8_t RESERVED38[2];
+    uint8_t RESERVED20[2];
     __IO uint16_t SCCRVL;
-    uint8_t RESERVED39[2];
+    uint8_t RESERVED21[2];
     __IO uint16_t SCCRWH;
-    uint8_t RESERVED40[2];
+    uint8_t RESERVED22[2];
     __IO uint16_t SCCRWL;
     union
     {
@@ -10209,14 +10308,17 @@ typedef struct
         __IO uint16_t SCMRWL;
         stc_tmr4_scmr_field_t SCMRWL_f;
     };
-    uint8_t RESERVED53[16];
+    uint8_t RESERVED23[16];
     union
     {
         __IO uint16_t ECSR;
         stc_tmr4_ecsr_field_t ECSR_f;
     };
-}M4_TMR4_TypeDef;
+} M4_TMR4_TypeDef;
 
+/**
+ * @brief TMR4_CR
+ */
 typedef struct
 {
     union
@@ -10224,20 +10326,23 @@ typedef struct
         __IO uint16_t ECER1;
         stc_tmr4_cr_ecer1_field_t ECER1_f;
     };
-    uint8_t RESERVED1[2];
+    uint8_t RESERVED0[2];
     union
     {
         __IO uint16_t ECER2;
         stc_tmr4_cr_ecer2_field_t ECER2_f;
     };
-    uint8_t RESERVED2[2];
+    uint8_t RESERVED1[2];
     union
     {
         __IO uint16_t ECER3;
         stc_tmr4_cr_ecer3_field_t ECER3_f;
     };
-}M4_TMR4_CR_TypeDef;
+} M4_TMR4_CR_TypeDef;
 
+/**
+ * @brief TMR6
+ */
 typedef struct
 {
     union
@@ -10365,7 +10470,7 @@ typedef struct
         __IO uint32_t DCONR;
         stc_tmr6_dconr_field_t DCONR_f;
     };
-    uint8_t RESERVED25[4];
+    uint8_t RESERVED0[4];
     union
     {
         __IO uint32_t FCONR;
@@ -10416,8 +10521,11 @@ typedef struct
         __IO uint32_t HCDOR;
         stc_tmr6_hcdor_field_t HCDOR_f;
     };
-}M4_TMR6_TypeDef;
+} M4_TMR6_TypeDef;
 
+/**
+ * @brief TMR6_CR
+ */
 typedef struct
 {
     uint8_t RESERVED0[1012];
@@ -10436,8 +10544,11 @@ typedef struct
         __IO uint32_t SCLRR;
         stc_tmr6_cr_sclrr_field_t SCLRR_f;
     };
-}M4_TMR6_CR_TypeDef;
+} M4_TMR6_CR_TypeDef;
 
+/**
+ * @brief TMRA
+ */
 typedef struct
 {
     union
@@ -10450,7 +10561,7 @@ typedef struct
         __IO uint32_t PERAR;
         stc_tmra_perar_field_t PERAR_f;
     };
-    uint8_t RESERVED2[56];
+    uint8_t RESERVED0[56];
     union
     {
         __IO uint32_t CMPAR1;
@@ -10491,7 +10602,7 @@ typedef struct
         __IO uint32_t CMPAR8;
         stc_tmra_cmpar_field_t CMPAR8_f;
     };
-    uint8_t RESERVED10[32];
+    uint8_t RESERVED1[32];
     union
     {
         __IO uint32_t BCSTR;
@@ -10532,31 +10643,31 @@ typedef struct
         __IO uint32_t STFLR;
         stc_tmra_stflr_field_t STFLR_f;
     };
-    uint8_t RESERVED18[32];
+    uint8_t RESERVED2[32];
     union
     {
         __IO uint32_t BCONR1;
         stc_tmra_bconr_field_t BCONR1_f;
     };
-    uint8_t RESERVED19[4];
+    uint8_t RESERVED3[4];
     union
     {
         __IO uint32_t BCONR2;
         stc_tmra_bconr_field_t BCONR2_f;
     };
-    uint8_t RESERVED20[4];
+    uint8_t RESERVED4[4];
     union
     {
         __IO uint32_t BCONR3;
         stc_tmra_bconr_field_t BCONR3_f;
     };
-    uint8_t RESERVED21[4];
+    uint8_t RESERVED5[4];
     union
     {
         __IO uint32_t BCONR4;
         stc_tmra_bconr_field_t BCONR4_f;
     };
-    uint8_t RESERVED22[36];
+    uint8_t RESERVED6[36];
     union
     {
         __IO uint32_t CCONR1;
@@ -10597,7 +10708,7 @@ typedef struct
         __IO uint32_t CCONR8;
         stc_tmra_cconr_field_t CCONR8_f;
     };
-    uint8_t RESERVED30[32];
+    uint8_t RESERVED7[32];
     union
     {
         __IO uint32_t PCONR1;
@@ -10638,8 +10749,11 @@ typedef struct
         __IO uint32_t PCONR8;
         stc_tmra_pconr_field_t PCONR8_f;
     };
-}M4_TMRA_TypeDef;
+} M4_TMRA_TypeDef;
 
+/**
+ * @brief TRNG
+ */
 typedef struct
 {
     union
@@ -10652,11 +10766,14 @@ typedef struct
         __IO uint32_t MR;
         stc_trng_mr_field_t MR_f;
     };
-    uint8_t RESERVED2[4];
+    uint8_t RESERVED0[4];
     __IO uint32_t DR0;
     __IO uint32_t DR1;
-}M4_TRNG_TypeDef;
+} M4_TRNG_TypeDef;
 
+/**
+ * @brief USART
+ */
 typedef struct
 {
     union
@@ -10694,16 +10811,19 @@ typedef struct
         __IO uint32_t PR;
         stc_usart_pr_field_t PR_f;
     };
-}M4_USART_TypeDef;
+} M4_USART_TypeDef;
 
+/**
+ * @brief USBFS
+ */
 typedef struct
 {
     union
     {
-        __IO uint32_t USBFS_GVBUSCFG;
-        stc_usbfs_usbfs_gvbuscfg_field_t USBFS_GVBUSCFG_f;
+        __IO uint32_t GVBUSCFG;
+        stc_usbfs_gvbuscfg_field_t GVBUSCFG_f;
     };
-    uint8_t RESERVED1[4];
+    uint8_t RESERVED0[4];
     union
     {
         __IO uint32_t GAHBCFG;
@@ -10754,9 +10874,9 @@ typedef struct
         __IO uint32_t HNPTXSTS;
         stc_usbfs_hnptxsts_field_t HNPTXSTS_f;
     };
-    uint8_t RESERVED11[12];
+    uint8_t RESERVED1[12];
     __IO uint32_t CID;
-    uint8_t RESERVED12[192];
+    uint8_t RESERVED2[192];
     union
     {
         __IO uint32_t HPTXFSIZ;
@@ -10787,7 +10907,7 @@ typedef struct
         __IO uint32_t DIEPTXF5;
         stc_usbfs_dieptxf_field_t DIEPTXF5_f;
     };
-    uint8_t RESERVED18[744];
+    uint8_t RESERVED3[744];
     union
     {
         __IO uint32_t HCFG;
@@ -10803,7 +10923,7 @@ typedef struct
         __IO uint32_t HFNUM;
         stc_usbfs_hfnum_field_t HFNUM_f;
     };
-    uint8_t RESERVED21[4];
+    uint8_t RESERVED4[4];
     union
     {
         __IO uint32_t HPTXSTS;
@@ -10819,19 +10939,19 @@ typedef struct
         __IO uint32_t HAINTMSK;
         stc_usbfs_haintmsk_field_t HAINTMSK_f;
     };
-    uint8_t RESERVED24[36];
+    uint8_t RESERVED5[36];
     union
     {
         __IO uint32_t HPRT;
         stc_usbfs_hprt_field_t HPRT_f;
     };
-    uint8_t RESERVED25[188];
+    uint8_t RESERVED6[188];
     union
     {
         __IO uint32_t HCCHAR0;
         stc_usbfs_hcchar_field_t HCCHAR0_f;
     };
-    uint8_t RESERVED26[4];
+    uint8_t RESERVED7[4];
     union
     {
         __IO uint32_t HCINT0;
@@ -10848,13 +10968,13 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ0_f;
     };
     __IO uint32_t HCDMA0;
-    uint8_t RESERVED30[8];
+    uint8_t RESERVED8[8];
     union
     {
         __IO uint32_t HCCHAR1;
         stc_usbfs_hcchar_field_t HCCHAR1_f;
     };
-    uint8_t RESERVED31[4];
+    uint8_t RESERVED9[4];
     union
     {
         __IO uint32_t HCINT1;
@@ -10871,13 +10991,13 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ1_f;
     };
     __IO uint32_t HCDMA1;
-    uint8_t RESERVED35[8];
+    uint8_t RESERVED10[8];
     union
     {
         __IO uint32_t HCCHAR2;
         stc_usbfs_hcchar_field_t HCCHAR2_f;
     };
-    uint8_t RESERVED36[4];
+    uint8_t RESERVED11[4];
     union
     {
         __IO uint32_t HCINT2;
@@ -10894,13 +11014,13 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ2_f;
     };
     __IO uint32_t HCDMA2;
-    uint8_t RESERVED40[8];
+    uint8_t RESERVED12[8];
     union
     {
         __IO uint32_t HCCHAR3;
         stc_usbfs_hcchar_field_t HCCHAR3_f;
     };
-    uint8_t RESERVED41[4];
+    uint8_t RESERVED13[4];
     union
     {
         __IO uint32_t HCINT3;
@@ -10917,13 +11037,13 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ3_f;
     };
     __IO uint32_t HCDMA3;
-    uint8_t RESERVED45[8];
+    uint8_t RESERVED14[8];
     union
     {
         __IO uint32_t HCCHAR4;
         stc_usbfs_hcchar_field_t HCCHAR4_f;
     };
-    uint8_t RESERVED46[4];
+    uint8_t RESERVED15[4];
     union
     {
         __IO uint32_t HCINT4;
@@ -10940,13 +11060,13 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ4_f;
     };
     __IO uint32_t HCDMA4;
-    uint8_t RESERVED50[8];
+    uint8_t RESERVED16[8];
     union
     {
         __IO uint32_t HCCHAR5;
         stc_usbfs_hcchar_field_t HCCHAR5_f;
     };
-    uint8_t RESERVED51[4];
+    uint8_t RESERVED17[4];
     union
     {
         __IO uint32_t HCINT5;
@@ -10963,13 +11083,13 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ5_f;
     };
     __IO uint32_t HCDMA5;
-    uint8_t RESERVED55[8];
+    uint8_t RESERVED18[8];
     union
     {
         __IO uint32_t HCCHAR6;
         stc_usbfs_hcchar_field_t HCCHAR6_f;
     };
-    uint8_t RESERVED56[4];
+    uint8_t RESERVED19[4];
     union
     {
         __IO uint32_t HCINT6;
@@ -10986,13 +11106,13 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ6_f;
     };
     __IO uint32_t HCDMA6;
-    uint8_t RESERVED60[8];
+    uint8_t RESERVED20[8];
     union
     {
         __IO uint32_t HCCHAR7;
         stc_usbfs_hcchar_field_t HCCHAR7_f;
     };
-    uint8_t RESERVED61[4];
+    uint8_t RESERVED21[4];
     union
     {
         __IO uint32_t HCINT7;
@@ -11009,13 +11129,13 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ7_f;
     };
     __IO uint32_t HCDMA7;
-    uint8_t RESERVED65[8];
+    uint8_t RESERVED22[8];
     union
     {
         __IO uint32_t HCCHAR8;
         stc_usbfs_hcchar_field_t HCCHAR8_f;
     };
-    uint8_t RESERVED66[4];
+    uint8_t RESERVED23[4];
     union
     {
         __IO uint32_t HCINT8;
@@ -11032,13 +11152,13 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ8_f;
     };
     __IO uint32_t HCDMA8;
-    uint8_t RESERVED70[8];
+    uint8_t RESERVED24[8];
     union
     {
         __IO uint32_t HCCHAR9;
         stc_usbfs_hcchar_field_t HCCHAR9_f;
     };
-    uint8_t RESERVED71[4];
+    uint8_t RESERVED25[4];
     union
     {
         __IO uint32_t HCINT9;
@@ -11055,13 +11175,13 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ9_f;
     };
     __IO uint32_t HCDMA9;
-    uint8_t RESERVED75[8];
+    uint8_t RESERVED26[8];
     union
     {
         __IO uint32_t HCCHAR10;
         stc_usbfs_hcchar_field_t HCCHAR10_f;
     };
-    uint8_t RESERVED76[4];
+    uint8_t RESERVED27[4];
     union
     {
         __IO uint32_t HCINT10;
@@ -11078,13 +11198,13 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ10_f;
     };
     __IO uint32_t HCDMA10;
-    uint8_t RESERVED80[8];
+    uint8_t RESERVED28[8];
     union
     {
         __IO uint32_t HCCHAR11;
         stc_usbfs_hcchar_field_t HCCHAR11_f;
     };
-    uint8_t RESERVED81[4];
+    uint8_t RESERVED29[4];
     union
     {
         __IO uint32_t HCINT11;
@@ -11101,7 +11221,7 @@ typedef struct
         stc_usbfs_hctsiz_field_t HCTSIZ11_f;
     };
     __IO uint32_t HCDMA11;
-    uint8_t RESERVED85[392];
+    uint8_t RESERVED30[392];
     union
     {
         __IO uint32_t DCFG;
@@ -11117,7 +11237,7 @@ typedef struct
         __IO uint32_t DSTS;
         stc_usbfs_dsts_field_t DSTS_f;
     };
-    uint8_t RESERVED88[4];
+    uint8_t RESERVED31[4];
     union
     {
         __IO uint32_t DIEPMSK;
@@ -11138,25 +11258,25 @@ typedef struct
         __IO uint32_t DAINTMSK;
         stc_usbfs_daintmsk_field_t DAINTMSK_f;
     };
-    uint8_t RESERVED92[20];
+    uint8_t RESERVED32[20];
     union
     {
         __IO uint32_t DIEPEMPMSK;
         stc_usbfs_diepempmsk_field_t DIEPEMPMSK_f;
     };
-    uint8_t RESERVED93[200];
+    uint8_t RESERVED33[200];
     union
     {
         __IO uint32_t DIEPCTL0;
         stc_usbfs_diepctl0_field_t DIEPCTL0_f;
     };
-    uint8_t RESERVED94[4];
+    uint8_t RESERVED34[4];
     union
     {
         __IO uint32_t DIEPINT0;
         stc_usbfs_diepint0_field_t DIEPINT0_f;
     };
-    uint8_t RESERVED95[4];
+    uint8_t RESERVED35[4];
     union
     {
         __IO uint32_t DIEPTSIZ0;
@@ -11168,19 +11288,19 @@ typedef struct
         __IO uint32_t DTXFSTS0;
         stc_usbfs_dtxfsts0_field_t DTXFSTS0_f;
     };
-    uint8_t RESERVED98[4];
+    uint8_t RESERVED36[4];
     union
     {
         __IO uint32_t DIEPCTL1;
         stc_usbfs_diepctl_field_t DIEPCTL1_f;
     };
-    uint8_t RESERVED99[4];
+    uint8_t RESERVED37[4];
     union
     {
         __IO uint32_t DIEPINT1;
         stc_usbfs_diepint_field_t DIEPINT1_f;
     };
-    uint8_t RESERVED100[4];
+    uint8_t RESERVED38[4];
     union
     {
         __IO uint32_t DIEPTSIZ1;
@@ -11192,19 +11312,19 @@ typedef struct
         __IO uint32_t DTXFSTS1;
         stc_usbfs_dtxfsts_field_t DTXFSTS1_f;
     };
-    uint8_t RESERVED103[4];
+    uint8_t RESERVED39[4];
     union
     {
         __IO uint32_t DIEPCTL2;
         stc_usbfs_diepctl_field_t DIEPCTL2_f;
     };
-    uint8_t RESERVED104[4];
+    uint8_t RESERVED40[4];
     union
     {
         __IO uint32_t DIEPINT2;
         stc_usbfs_diepint_field_t DIEPINT2_f;
     };
-    uint8_t RESERVED105[4];
+    uint8_t RESERVED41[4];
     union
     {
         __IO uint32_t DIEPTSIZ2;
@@ -11216,19 +11336,19 @@ typedef struct
         __IO uint32_t DTXFSTS2;
         stc_usbfs_dtxfsts_field_t DTXFSTS2_f;
     };
-    uint8_t RESERVED108[4];
+    uint8_t RESERVED42[4];
     union
     {
         __IO uint32_t DIEPCTL3;
         stc_usbfs_diepctl_field_t DIEPCTL3_f;
     };
-    uint8_t RESERVED109[4];
+    uint8_t RESERVED43[4];
     union
     {
         __IO uint32_t DIEPINT3;
         stc_usbfs_diepint_field_t DIEPINT3_f;
     };
-    uint8_t RESERVED110[4];
+    uint8_t RESERVED44[4];
     union
     {
         __IO uint32_t DIEPTSIZ3;
@@ -11240,19 +11360,19 @@ typedef struct
         __IO uint32_t DTXFSTS3;
         stc_usbfs_dtxfsts_field_t DTXFSTS3_f;
     };
-    uint8_t RESERVED113[4];
+    uint8_t RESERVED45[4];
     union
     {
         __IO uint32_t DIEPCTL4;
         stc_usbfs_diepctl_field_t DIEPCTL4_f;
     };
-    uint8_t RESERVED114[4];
+    uint8_t RESERVED46[4];
     union
     {
         __IO uint32_t DIEPINT4;
         stc_usbfs_diepint_field_t DIEPINT4_f;
     };
-    uint8_t RESERVED115[4];
+    uint8_t RESERVED47[4];
     union
     {
         __IO uint32_t DIEPTSIZ4;
@@ -11264,19 +11384,19 @@ typedef struct
         __IO uint32_t DTXFSTS4;
         stc_usbfs_dtxfsts_field_t DTXFSTS4_f;
     };
-    uint8_t RESERVED118[4];
+    uint8_t RESERVED48[4];
     union
     {
         __IO uint32_t DIEPCTL5;
         stc_usbfs_diepctl_field_t DIEPCTL5_f;
     };
-    uint8_t RESERVED119[4];
+    uint8_t RESERVED49[4];
     union
     {
         __IO uint32_t DIEPINT5;
         stc_usbfs_diepint_field_t DIEPINT5_f;
     };
-    uint8_t RESERVED120[4];
+    uint8_t RESERVED50[4];
     union
     {
         __IO uint32_t DIEPTSIZ5;
@@ -11288,128 +11408,131 @@ typedef struct
         __IO uint32_t DTXFSTS5;
         stc_usbfs_dtxfsts_field_t DTXFSTS5_f;
     };
-    uint8_t RESERVED123[324];
+    uint8_t RESERVED51[324];
     union
     {
         __IO uint32_t DOEPCTL0;
         stc_usbfs_doepctl0_field_t DOEPCTL0_f;
     };
-    uint8_t RESERVED124[4];
+    uint8_t RESERVED52[4];
     union
     {
         __IO uint32_t DOEPINT0;
         stc_usbfs_doepint_field_t DOEPINT0_f;
     };
-    uint8_t RESERVED125[4];
+    uint8_t RESERVED53[4];
     union
     {
         __IO uint32_t DOEPTSIZ0;
         stc_usbfs_doeptsiz0_field_t DOEPTSIZ0_f;
     };
     __IO uint32_t DOEPDMA0;
-    uint8_t RESERVED127[8];
+    uint8_t RESERVED54[8];
     union
     {
         __IO uint32_t DOEPCTL1;
         stc_usbfs_doepctl_field_t DOEPCTL1_f;
     };
-    uint8_t RESERVED128[4];
+    uint8_t RESERVED55[4];
     union
     {
         __IO uint32_t DOEPINT1;
         stc_usbfs_doepint_field_t DOEPINT1_f;
     };
-    uint8_t RESERVED129[4];
+    uint8_t RESERVED56[4];
     union
     {
         __IO uint32_t DOEPTSIZ1;
         stc_usbfs_doeptsiz_field_t DOEPTSIZ1_f;
     };
     __IO uint32_t DOEPDMA1;
-    uint8_t RESERVED131[8];
+    uint8_t RESERVED57[8];
     union
     {
         __IO uint32_t DOEPCTL2;
         stc_usbfs_doepctl_field_t DOEPCTL2_f;
     };
-    uint8_t RESERVED132[4];
+    uint8_t RESERVED58[4];
     union
     {
         __IO uint32_t DOEPINT2;
         stc_usbfs_doepint_field_t DOEPINT2_f;
     };
-    uint8_t RESERVED133[4];
+    uint8_t RESERVED59[4];
     union
     {
         __IO uint32_t DOEPTSIZ2;
         stc_usbfs_doeptsiz_field_t DOEPTSIZ2_f;
     };
     __IO uint32_t DOEPDMA2;
-    uint8_t RESERVED135[8];
+    uint8_t RESERVED60[8];
     union
     {
         __IO uint32_t DOEPCTL3;
         stc_usbfs_doepctl_field_t DOEPCTL3_f;
     };
-    uint8_t RESERVED136[4];
+    uint8_t RESERVED61[4];
     union
     {
         __IO uint32_t DOEPINT3;
         stc_usbfs_doepint_field_t DOEPINT3_f;
     };
-    uint8_t RESERVED137[4];
+    uint8_t RESERVED62[4];
     union
     {
         __IO uint32_t DOEPTSIZ3;
         stc_usbfs_doeptsiz_field_t DOEPTSIZ3_f;
     };
     __IO uint32_t DOEPDMA3;
-    uint8_t RESERVED139[8];
+    uint8_t RESERVED63[8];
     union
     {
         __IO uint32_t DOEPCTL4;
         stc_usbfs_doepctl_field_t DOEPCTL4_f;
     };
-    uint8_t RESERVED140[4];
+    uint8_t RESERVED64[4];
     union
     {
         __IO uint32_t DOEPINT4;
         stc_usbfs_doepint_field_t DOEPINT4_f;
     };
-    uint8_t RESERVED141[4];
+    uint8_t RESERVED65[4];
     union
     {
         __IO uint32_t DOEPTSIZ4;
         stc_usbfs_doeptsiz_field_t DOEPTSIZ4_f;
     };
     __IO uint32_t DOEPDMA4;
-    uint8_t RESERVED143[8];
+    uint8_t RESERVED66[8];
     union
     {
         __IO uint32_t DOEPCTL5;
         stc_usbfs_doepctl_field_t DOEPCTL5_f;
     };
-    uint8_t RESERVED144[4];
+    uint8_t RESERVED67[4];
     union
     {
         __IO uint32_t DOEPINT5;
         stc_usbfs_doepint_field_t DOEPINT5_f;
     };
-    uint8_t RESERVED145[4];
+    uint8_t RESERVED68[4];
     union
     {
         __IO uint32_t DOEPTSIZ5;
         stc_usbfs_doeptsiz_field_t DOEPTSIZ5_f;
     };
     __IO uint32_t DOEPDMA5;
-    uint8_t RESERVED147[584];
+    uint8_t RESERVED69[584];
     union
     {
         __IO uint32_t PCGCCTL;
         stc_usbfs_pcgcctl_field_t PCGCCTL_f;
     };
-}M4_USBFS_TypeDef;
+} M4_USBFS_TypeDef;
 
+/**
+ * @brief WDT
+ */
 typedef struct
 {
     union
@@ -11427,8 +11550,11 @@ typedef struct
         __IO uint32_t RR;
         stc_wdt_rr_field_t RR_f;
     };
-}M4_WDT_TypeDef;
+} M4_WDT_TypeDef;
 
+/**
+ * @brief WKTM
+ */
 typedef struct
 {
     union
@@ -11436,85 +11562,93 @@ typedef struct
         __IO uint16_t CR;
         stc_wktm_cr_field_t CR_f;
     };
-}M4_WKTM_TypeDef;
+} M4_WKTM_TypeDef;
 
 
 
-#define M4_ADC1                                 ((M4_ADC_TypeDef *)0x40040000UL)
-#define M4_ADC2                                 ((M4_ADC_TypeDef *)0x40040400UL)
-#define M4_AES                                  ((M4_AES_TypeDef *)0x40008000UL)
-#define M4_AOS                                  ((M4_AOS_TypeDef *)0x40010800UL)
-#define M4_CAN                                  ((M4_CAN_TypeDef *)0x40070400UL)
-#define M4_CMP1                                 ((M4_CMP_TypeDef *)0x4004A000UL)
-#define M4_CMP2                                 ((M4_CMP_TypeDef *)0x4004A010UL)
-#define M4_CMP3                                 ((M4_CMP_TypeDef *)0x4004A020UL)
-#define M4_CMP_CR                               ((M4_CMP_CR_TypeDef *)0x4004A000UL)
-#define M4_CRC                                  ((M4_CRC_TypeDef *)0x40008C00UL)
-#define M4_DBGC                                 ((M4_DBGC_TypeDef *)0xE0042000UL)
-#define M4_DCU1                                 ((M4_DCU_TypeDef *)0x40052000UL)
-#define M4_DCU2                                 ((M4_DCU_TypeDef *)0x40052400UL)
-#define M4_DCU3                                 ((M4_DCU_TypeDef *)0x40052800UL)
-#define M4_DCU4                                 ((M4_DCU_TypeDef *)0x40052C00UL)
-#define M4_DMA1                                 ((M4_DMA_TypeDef *)0x40053000UL)
-#define M4_DMA2                                 ((M4_DMA_TypeDef *)0x40053400UL)
-#define M4_EFM                                  ((M4_EFM_TypeDef *)0x40010400UL)
-#define M4_EMB1                                 ((M4_EMB_TypeDef *)0x40017C00UL)
-#define M4_EMB2                                 ((M4_EMB_TypeDef *)0x40017C20UL)
-#define M4_EMB3                                 ((M4_EMB_TypeDef *)0x40017C40UL)
-#define M4_EMB4                                 ((M4_EMB_TypeDef *)0x40017C60UL)
-#define M4_FCM                                  ((M4_FCM_TypeDef *)0x40048400UL)
-#define M4_HASH                                 ((M4_HASH_TypeDef *)0x40008400UL)
-#define M4_I2C1                                 ((M4_I2C_TypeDef *)0x4004E000UL)
-#define M4_I2C2                                 ((M4_I2C_TypeDef *)0x4004E400UL)
-#define M4_I2C3                                 ((M4_I2C_TypeDef *)0x4004E800UL)
-#define M4_I2S1                                 ((M4_I2S_TypeDef *)0x4001E000UL)
-#define M4_I2S2                                 ((M4_I2S_TypeDef *)0x4001E400UL)
-#define M4_I2S3                                 ((M4_I2S_TypeDef *)0x40022000UL)
-#define M4_I2S4                                 ((M4_I2S_TypeDef *)0x40022400UL)
-#define M4_ICG                                  ((M4_ICG_TypeDef *)0x00000400UL)
-#define M4_INTC                                 ((M4_INTC_TypeDef *)0x40051000UL)
-#define M4_KEYSCAN                              ((M4_KEYSCAN_TypeDef *)0x40050C00UL)
-#define M4_MPU                                  ((M4_MPU_TypeDef *)0x40050000UL)
-#define M4_MSTP                                 ((M4_MSTP_TypeDef *)0x40048000UL)
-#define M4_OTS                                  ((M4_OTS_TypeDef *)0x4004A400UL)
-#define M4_PERIC                                ((M4_PERIC_TypeDef *)0x40055400UL)
-#define M4_PORT                                 ((M4_PORT_TypeDef *)0x40053800UL)
-#define M4_QSPI                                 ((M4_QSPI_TypeDef *)0x9C000000UL)
-#define M4_RTC                                  ((M4_RTC_TypeDef *)0x4004C000UL)
-#define M4_SDIOC1                               ((M4_SDIOC_TypeDef *)0x4006FC00UL)
-#define M4_SDIOC2                               ((M4_SDIOC_TypeDef *)0x40070000UL)
-#define M4_SPI1                                 ((M4_SPI_TypeDef *)0x4001C000UL)
-#define M4_SPI2                                 ((M4_SPI_TypeDef *)0x4001C400UL)
-#define M4_SPI3                                 ((M4_SPI_TypeDef *)0x40020000UL)
-#define M4_SPI4                                 ((M4_SPI_TypeDef *)0x40020400UL)
-#define M4_SRAMC                                ((M4_SRAMC_TypeDef *)0x40050800UL)
-#define M4_SWDT                                 ((M4_SWDT_TypeDef *)0x40049400UL)
-#define M4_SYSREG                               ((M4_SYSREG_TypeDef *)0x40054000UL)
-#define M4_TMR01                                ((M4_TMR0_TypeDef *)0x40024000UL)
-#define M4_TMR02                                ((M4_TMR0_TypeDef *)0x40024400UL)
-#define M4_TMR41                                ((M4_TMR4_TypeDef *)0x40017000UL)
-#define M4_TMR42                                ((M4_TMR4_TypeDef *)0x40024800UL)
-#define M4_TMR43                                ((M4_TMR4_TypeDef *)0x40024C00UL)
-#define M4_TMR4_CR                              ((M4_TMR4_CR_TypeDef *)0x40055408UL)
-#define M4_TMR61                                ((M4_TMR6_TypeDef *)0x40018000UL)
-#define M4_TMR62                                ((M4_TMR6_TypeDef *)0x40018400UL)
-#define M4_TMR63                                ((M4_TMR6_TypeDef *)0x40018800UL)
-#define M4_TMR6_CR                              ((M4_TMR6_CR_TypeDef *)0x40018000UL)
-#define M4_TMRA1                                ((M4_TMRA_TypeDef *)0x40015000UL)
-#define M4_TMRA2                                ((M4_TMRA_TypeDef *)0x40015400UL)
-#define M4_TMRA3                                ((M4_TMRA_TypeDef *)0x40015800UL)
-#define M4_TMRA4                                ((M4_TMRA_TypeDef *)0x40015C00UL)
-#define M4_TMRA5                                ((M4_TMRA_TypeDef *)0x40016000UL)
-#define M4_TMRA6                                ((M4_TMRA_TypeDef *)0x40016400UL)
-#define M4_TRNG                                 ((M4_TRNG_TypeDef *)0x40041000UL)
-#define M4_USART1                               ((M4_USART_TypeDef *)0x4001D000UL)
-#define M4_USART2                               ((M4_USART_TypeDef *)0x4001D400UL)
-#define M4_USART3                               ((M4_USART_TypeDef *)0x40021000UL)
-#define M4_USART4                               ((M4_USART_TypeDef *)0x40021400UL)
-#define M4_USBFS                                ((M4_USBFS_TypeDef *)0x400C0000UL)
-#define M4_WDT                                  ((M4_WDT_TypeDef *)0x40049000UL)
-#define M4_WKTM                                 ((M4_WKTM_TypeDef *)0x4004C400UL)
+/******************************************************************************/
+/*           Device Specific Peripheral declaration & memory map              */
+/******************************************************************************/
 
+#define M4_ADC1                              ((M4_ADC_TypeDef *)0x40040000UL)
+#define M4_ADC2                              ((M4_ADC_TypeDef *)0x40040400UL)
+#define M4_AES                               ((M4_AES_TypeDef *)0x40008000UL)
+#define M4_AOS                               ((M4_AOS_TypeDef *)0x40010800UL)
+#define M4_CAN                               ((M4_CAN_TypeDef *)0x40070400UL)
+#define M4_CMP1                              ((M4_CMP_TypeDef *)0x4004A000UL)
+#define M4_CMP2                              ((M4_CMP_TypeDef *)0x4004A010UL)
+#define M4_CMP3                              ((M4_CMP_TypeDef *)0x4004A020UL)
+#define M4_CMP_CR                            ((M4_CMP_CR_TypeDef *)0x4004A000UL)
+#define M4_CRC                               ((M4_CRC_TypeDef *)0x40008C00UL)
+#define M4_DBGC                              ((M4_DBGC_TypeDef *)0xE0042000UL)
+#define M4_DCU1                              ((M4_DCU_TypeDef *)0x40052000UL)
+#define M4_DCU2                              ((M4_DCU_TypeDef *)0x40052400UL)
+#define M4_DCU3                              ((M4_DCU_TypeDef *)0x40052800UL)
+#define M4_DCU4                              ((M4_DCU_TypeDef *)0x40052C00UL)
+#define M4_DMA1                              ((M4_DMA_TypeDef *)0x40053000UL)
+#define M4_DMA2                              ((M4_DMA_TypeDef *)0x40053400UL)
+#define M4_EFM                               ((M4_EFM_TypeDef *)0x40010400UL)
+#define M4_EMB1                              ((M4_EMB_TypeDef *)0x40017C00UL)
+#define M4_EMB2                              ((M4_EMB_TypeDef *)0x40017C20UL)
+#define M4_EMB3                              ((M4_EMB_TypeDef *)0x40017C40UL)
+#define M4_EMB4                              ((M4_EMB_TypeDef *)0x40017C60UL)
+#define M4_FCM                               ((M4_FCM_TypeDef *)0x40048400UL)
+#define M4_HASH                              ((M4_HASH_TypeDef *)0x40008400UL)
+#define M4_I2C1                              ((M4_I2C_TypeDef *)0x4004E000UL)
+#define M4_I2C2                              ((M4_I2C_TypeDef *)0x4004E400UL)
+#define M4_I2C3                              ((M4_I2C_TypeDef *)0x4004E800UL)
+#define M4_I2S1                              ((M4_I2S_TypeDef *)0x4001E000UL)
+#define M4_I2S2                              ((M4_I2S_TypeDef *)0x4001E400UL)
+#define M4_I2S3                              ((M4_I2S_TypeDef *)0x40022000UL)
+#define M4_I2S4                              ((M4_I2S_TypeDef *)0x40022400UL)
+#define M4_ICG                               ((M4_ICG_TypeDef *)0x00000400UL)
+#define M4_INTC                              ((M4_INTC_TypeDef *)0x40051000UL)
+#define M4_KEYSCAN                           ((M4_KEYSCAN_TypeDef *)0x40050C00UL)
+#define M4_MPU                               ((M4_MPU_TypeDef *)0x40050000UL)
+#define M4_MSTP                              ((M4_MSTP_TypeDef *)0x40048000UL)
+#define M4_OTS                               ((M4_OTS_TypeDef *)0x4004A400UL)
+#define M4_PERIC                             ((M4_PERIC_TypeDef *)0x40055400UL)
+#define M4_PORT                              ((M4_PORT_TypeDef *)0x40053800UL)
+#define M4_QSPI                              ((M4_QSPI_TypeDef *)0x9C000000UL)
+#define M4_RTC                               ((M4_RTC_TypeDef *)0x4004C000UL)
+#define M4_SDIOC1                            ((M4_SDIOC_TypeDef *)0x4006FC00UL)
+#define M4_SDIOC2                            ((M4_SDIOC_TypeDef *)0x40070000UL)
+#define M4_SPI1                              ((M4_SPI_TypeDef *)0x4001C000UL)
+#define M4_SPI2                              ((M4_SPI_TypeDef *)0x4001C400UL)
+#define M4_SPI3                              ((M4_SPI_TypeDef *)0x40020000UL)
+#define M4_SPI4                              ((M4_SPI_TypeDef *)0x40020400UL)
+#define M4_SRAMC                             ((M4_SRAMC_TypeDef *)0x40050800UL)
+#define M4_SWDT                              ((M4_SWDT_TypeDef *)0x40049400UL)
+#define M4_SYSREG                            ((M4_SYSREG_TypeDef *)0x40054000UL)
+#define M4_TMR01                             ((M4_TMR0_TypeDef *)0x40024000UL)
+#define M4_TMR02                             ((M4_TMR0_TypeDef *)0x40024400UL)
+#define M4_TMR41                             ((M4_TMR4_TypeDef *)0x40017000UL)
+#define M4_TMR42                             ((M4_TMR4_TypeDef *)0x40024800UL)
+#define M4_TMR43                             ((M4_TMR4_TypeDef *)0x40024C00UL)
+#define M4_TMR4_CR                           ((M4_TMR4_CR_TypeDef *)0x40055408UL)
+#define M4_TMR61                             ((M4_TMR6_TypeDef *)0x40018000UL)
+#define M4_TMR62                             ((M4_TMR6_TypeDef *)0x40018400UL)
+#define M4_TMR63                             ((M4_TMR6_TypeDef *)0x40018800UL)
+#define M4_TMR6_CR                           ((M4_TMR6_CR_TypeDef *)0x40018000UL)
+#define M4_TMRA1                             ((M4_TMRA_TypeDef *)0x40015000UL)
+#define M4_TMRA2                             ((M4_TMRA_TypeDef *)0x40015400UL)
+#define M4_TMRA3                             ((M4_TMRA_TypeDef *)0x40015800UL)
+#define M4_TMRA4                             ((M4_TMRA_TypeDef *)0x40015C00UL)
+#define M4_TMRA5                             ((M4_TMRA_TypeDef *)0x40016000UL)
+#define M4_TMRA6                             ((M4_TMRA_TypeDef *)0x40016400UL)
+#define M4_TRNG                              ((M4_TRNG_TypeDef *)0x40041000UL)
+#define M4_USART1                            ((M4_USART_TypeDef *)0x4001D000UL)
+#define M4_USART2                            ((M4_USART_TypeDef *)0x4001D400UL)
+#define M4_USART3                            ((M4_USART_TypeDef *)0x40021000UL)
+#define M4_USART4                            ((M4_USART_TypeDef *)0x40021400UL)
+#define M4_USBFS                             ((M4_USBFS_TypeDef *)0x400C0000UL)
+#define M4_WDT                               ((M4_WDT_TypeDef *)0x40049000UL)
+#define M4_WKTM                              ((M4_WKTM_TypeDef *)0x4004C400UL)
+
+
+/******************************************************************************/
+/*      Device Specific Peripheral bit_band declaration & memory map          */
+/******************************************************************************/
 
 #define bM4_ADC1_STR_STRT                         (*((volatile unsigned int*)(0x42800000UL)))
 #define bM4_ADC1_CR0_MS0                          (*((volatile unsigned int*)(0x42800040UL)))
@@ -16063,21 +16197,21 @@ typedef struct
 #define bM4_EFM_MMF_REMCR1_RM1TADDR15             (*((volatile unsigned int*)(0x4220A16CUL)))
 #define bM4_EFM_MMF_REMCR1_RM1TADDR16             (*((volatile unsigned int*)(0x4220A170UL)))
 #define bM4_EFM_MMF_REMCR1_EN1                    (*((volatile unsigned int*)(0x4220A17CUL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS0                (*((volatile unsigned int*)(0x4220C084UL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS1                (*((volatile unsigned int*)(0x4220C088UL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS2                (*((volatile unsigned int*)(0x4220C08CUL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS3                (*((volatile unsigned int*)(0x4220C090UL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS4                (*((volatile unsigned int*)(0x4220C094UL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS5                (*((volatile unsigned int*)(0x4220C098UL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS6                (*((volatile unsigned int*)(0x4220C09CUL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS7                (*((volatile unsigned int*)(0x4220C0A0UL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS8                (*((volatile unsigned int*)(0x4220C0A4UL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS9                (*((volatile unsigned int*)(0x4220C0A8UL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS10               (*((volatile unsigned int*)(0x4220C0ACUL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS11               (*((volatile unsigned int*)(0x4220C0B0UL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS12               (*((volatile unsigned int*)(0x4220C0B4UL)))
-#define bM4_EFM_EFM_FRANDS_FRANDS13               (*((volatile unsigned int*)(0x4220C0B8UL)))
-#define bM4_EFM_EFM_FRANDS_FRANDFG                (*((volatile unsigned int*)(0x4220C0C0UL)))
+#define bM4_EFM_FRANDS_FRANDS0                    (*((volatile unsigned int*)(0x4220C084UL)))
+#define bM4_EFM_FRANDS_FRANDS1                    (*((volatile unsigned int*)(0x4220C088UL)))
+#define bM4_EFM_FRANDS_FRANDS2                    (*((volatile unsigned int*)(0x4220C08CUL)))
+#define bM4_EFM_FRANDS_FRANDS3                    (*((volatile unsigned int*)(0x4220C090UL)))
+#define bM4_EFM_FRANDS_FRANDS4                    (*((volatile unsigned int*)(0x4220C094UL)))
+#define bM4_EFM_FRANDS_FRANDS5                    (*((volatile unsigned int*)(0x4220C098UL)))
+#define bM4_EFM_FRANDS_FRANDS6                    (*((volatile unsigned int*)(0x4220C09CUL)))
+#define bM4_EFM_FRANDS_FRANDS7                    (*((volatile unsigned int*)(0x4220C0A0UL)))
+#define bM4_EFM_FRANDS_FRANDS8                    (*((volatile unsigned int*)(0x4220C0A4UL)))
+#define bM4_EFM_FRANDS_FRANDS9                    (*((volatile unsigned int*)(0x4220C0A8UL)))
+#define bM4_EFM_FRANDS_FRANDS10                   (*((volatile unsigned int*)(0x4220C0ACUL)))
+#define bM4_EFM_FRANDS_FRANDS11                   (*((volatile unsigned int*)(0x4220C0B0UL)))
+#define bM4_EFM_FRANDS_FRANDS12                   (*((volatile unsigned int*)(0x4220C0B4UL)))
+#define bM4_EFM_FRANDS_FRANDS13                   (*((volatile unsigned int*)(0x4220C0B8UL)))
+#define bM4_EFM_FRANDS_FRANDFG                    (*((volatile unsigned int*)(0x4220C0C0UL)))
 #define bM4_EMB1_CTL_PORTINEN                     (*((volatile unsigned int*)(0x422F8000UL)))
 #define bM4_EMB1_CTL_CMPEN0                       (*((volatile unsigned int*)(0x422F8004UL)))
 #define bM4_EMB1_CTL_CMPEN1                       (*((volatile unsigned int*)(0x422F8008UL)))
@@ -28311,8 +28445,8 @@ typedef struct
 #define bM4_USART4_CR3_BCN2                       (*((volatile unsigned int*)(0x424282DCUL)))
 #define bM4_USART4_PR_PSC0                        (*((volatile unsigned int*)(0x42428300UL)))
 #define bM4_USART4_PR_PSC1                        (*((volatile unsigned int*)(0x42428304UL)))
-#define bM4_USBFS_USBFS_GVBUSCFG_VBUSOVEN         (*((volatile unsigned int*)(0x43800018UL)))
-#define bM4_USBFS_USBFS_GVBUSCFG_VBUSVAL          (*((volatile unsigned int*)(0x4380001CUL)))
+#define bM4_USBFS_GVBUSCFG_VBUSOVEN               (*((volatile unsigned int*)(0x43800018UL)))
+#define bM4_USBFS_GVBUSCFG_VBUSVAL                (*((volatile unsigned int*)(0x4380001CUL)))
 #define bM4_USBFS_GAHBCFG_GINTMSK                 (*((volatile unsigned int*)(0x43800100UL)))
 #define bM4_USBFS_GAHBCFG_HBSTLEN0                (*((volatile unsigned int*)(0x43800104UL)))
 #define bM4_USBFS_GAHBCFG_HBSTLEN1                (*((volatile unsigned int*)(0x43800108UL)))
@@ -30594,9 +30728,10 @@ typedef struct
 #define bM4_WKTM_CR_WKTCE                         (*((volatile unsigned int*)(0x4298803CUL)))
 
 
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __HC32F460PETB_H__ */
+#endif /* __HC32F460_H__ */
 
