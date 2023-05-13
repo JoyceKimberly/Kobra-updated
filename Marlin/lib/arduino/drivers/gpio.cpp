@@ -1,13 +1,9 @@
-#define _BOARD_GPIO_C_
-
 #include "startup.h"
 #include "fastio.h"
-#include "board_gpio.h"
-#include "bsp_init.h"
+#include "gpio.h"
+#include "init.h"
 
-
-extern const cfg_pin_info PIN_MAP[BOARD_NR_GPIO_PINS] = {
-
+extern const pin_info_t PIN_MAP[BOARD_NR_GPIO_PINS] = {
     {0,  PortA, Pin00, &adc1,  ADC1_IN0,         Func_Gpio},
     {1,  PortA, Pin01, &adc1,  ADC1_IN1,         Func_Gpio},
     {2,  PortA, Pin02, &adc1,  ADC1_IN2,         Func_Usart2_Tx},
@@ -98,9 +94,8 @@ extern const cfg_pin_info PIN_MAP[BOARD_NR_GPIO_PINS] = {
     {2,  PortH, Pin02, NULL,   ADC_PIN_INVALID,  Func_Usart3_Rx},
 };
 
-
 /*  Basically everything that is defined having ADC */
-extern const uint8_t boardADCPins[BOARD_NR_ADC_PINS] = {
+extern const uint8_t ADC_PINS[BOARD_NR_ADC_PINS] = {
     PA0,PA1,PA2,PA3,PA4,PA5,PA6,PA7,PB0,PB1,PC0,PC1,PC2,PC3,PC4,PC5
 };
 
@@ -116,7 +111,7 @@ extern void setup_gpio(void )
     stcPortInit.enExInt = Disable;
     stcPortInit.enPullUp = Disable;
     /* LED0 and LED1 Port/Pin initialization */
-    //PORT_InitMapp(LED, &stcPortInit);
+    //PORT_InitGPIO(LED, &stcPortInit);
 }
 
 HardwareSerial Serial1(USART1_CH);
@@ -135,6 +130,3 @@ struct adc_dev *ADC1;
 //HardwareSerial MotorUart2(LPUART2);
 //HardwareSerial MotorUart8(LPUART8);
 //DEFINE_HWSERIAL(Serial4, 4);
-
-#undef _BOARD_GPIO_C_
-/************end of file********************/

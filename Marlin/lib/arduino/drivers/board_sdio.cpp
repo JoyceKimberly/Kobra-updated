@@ -1,5 +1,5 @@
 #include "board_sdio.h"
-#include "bsp_sdio.h"
+#include "sdio.h"
 
 
 en_result_t sdio_main(void)

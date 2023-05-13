@@ -1,5 +1,5 @@
 #include "io.h"
-#include "board_gpio.h"
+#include "gpio.h"
 
 
 void gpio_set_mode(uint8 pin, WiringPinMode mode)
@@ -30,7 +30,7 @@ void gpio_set_mode(uint8 pin, WiringPinMode mode)
         break;
     }
 
-    PORT_InitMapp(pin, &stcPortInit);
+    PORT_InitGPIO(pin, &stcPortInit);
 }
 
 void pinMode(uint8 pin, WiringPinMode mode)

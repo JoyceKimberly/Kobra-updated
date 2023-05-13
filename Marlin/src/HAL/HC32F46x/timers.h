@@ -26,12 +26,12 @@
  */
 
 #include <stdint.h>
-#include "../board/startup.h"
+#include "startup.h"
 #include "../../core/boards.h"
 #include "../../inc/MarlinConfig.h"
 #include "HAL.h"
 
-#include "bsp_timer.h"
+#include "timer.h"
 #include "hc32f460_timer0.h"
 
 // ------------------------

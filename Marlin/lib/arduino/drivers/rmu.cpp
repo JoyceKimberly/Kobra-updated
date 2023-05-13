@@ -1,4 +1,4 @@
-#include "bsp_rmu.h"
+#include "rmu.h"
 
 
 uint8_t rmu_get_reset_cause(void)

@@ -1,5 +1,5 @@
 #include "iwdg.h"
-#include "bsp_wdt.h"
+#include "wdt.h"
 
 
 void iwdg_init(void)

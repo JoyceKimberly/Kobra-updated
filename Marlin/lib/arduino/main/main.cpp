@@ -1,11 +1,11 @@
 #include "hc32_ddl.h"
-#include "bsp_init.h"
-#include "bsp_irq.h"
-#include "bsp_adc.h"
-#include "bsp_pwm.h"
-#include "bsp_sdio.h"
-#include "bsp_timer.h"
-#include "bsp_ots.h"
+#include "init.h"
+#include "irq.h"
+#include "adc.h"
+#include "pwm.h"
+#include "sdio.h"
+#include "timer.h"
+#include "ots.h"
 
 #include "diskio.h"
 

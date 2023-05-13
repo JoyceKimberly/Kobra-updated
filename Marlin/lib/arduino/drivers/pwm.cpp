@@ -1,4 +1,4 @@
-#include "bsp_pwm.h"
+#include "pwm.h"
 
 
 void fan_pwm_init(void)

@@ -4,7 +4,7 @@
 
 #include "hc32_ddl.h"
 
-#include "bsp_init.h"
+#include "init.h"
 
 
 #ifdef __cplusplus

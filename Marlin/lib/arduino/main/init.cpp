@@ -1,5 +1,5 @@
-#include "bsp_init.h"
-#include "bsp_irq.h"
+#include "init.h"
+#include "irq.h"
 #include "startup.h"
 
 

@@ -19,9 +19,9 @@
 #include "../core/macros.h"
 #include "../core/boards.h"
 
-#include "board_tim0.h"
-#include "board_cfg.h" 
-#include "board_gpio.h" 
+#include "systick.h"
+#include "cfg.h" 
+#include "gpio.h" 
 #include "board_adc.h"
 #include "../pins/pins.h"
 #include "board_sdio.h"

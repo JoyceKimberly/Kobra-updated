@@ -1,4 +1,4 @@
-#include "bsp_wdt.h"
+#include "wdt.h"
 
 
 // pclk = system_clock/div4 = 50M

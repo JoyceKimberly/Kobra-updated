@@ -24,7 +24,7 @@
 #include "../../inc/MarlinConfig.h"
 #include "../shared/Delay.h"
 #include "HAL.h"
-#include "bsp_rmu.h"
+#include "rmu.h"
 
 // ------------------------
 // Public Variables

@@ -33,7 +33,7 @@
 #define _WIRISH_IO_H_
 
 #include <libmaple_types.h>
-#include "../board/startup.h"
+#include "startup.h"
 
 /**
  * Specifies a GPIO pin behavior.

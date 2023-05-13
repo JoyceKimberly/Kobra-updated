@@ -1,5 +1,5 @@
 #include "hc32_ddl.h"
-#include "bsp_adc.h"
+#include "adc.h"
 
 #include "diskio.h"
 

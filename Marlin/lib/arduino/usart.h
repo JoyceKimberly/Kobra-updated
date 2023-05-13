@@ -38,7 +38,7 @@
 extern "C"{
 #endif
 
-#include "../drivers/board/startup.h"
+#include "startup.h"
 #include <libmaple_types.h>
 #include <util.h>
 #include <ring_buffer.h>

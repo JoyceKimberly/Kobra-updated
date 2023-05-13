@@ -1,5 +1,5 @@
-#include "bsp_adc.h"
-#include "bsp_irq.h"
+#include "adc.h"
+#include "irq.h"
 
 
 #define ADC_CH_COUNT    3
