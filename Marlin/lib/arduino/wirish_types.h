@@ -33,7 +33,7 @@
 #ifndef _WIRISH_WIRISH_TYPES_H_
 #define _WIRISH_WIRISH_TYPES_H_
 
-#include <libmaple/libmaple_types.h>
+#include "libmaple_types.h"
 
 /**
  * Variable attribute, instructs the linker to place the marked

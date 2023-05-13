@@ -22,7 +22,7 @@
 #pragma once
 
 #include <HardwareSerial.h>
-#include <libmaple/usart.h>
+#include <usart.h>
 #include <WString.h>
 
 #include "../../inc/MarlinConfigPre.h"

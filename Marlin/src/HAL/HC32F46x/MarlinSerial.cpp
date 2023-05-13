@@ -24,7 +24,7 @@
 
 #include "../../inc/MarlinConfig.h"
 #include "MarlinSerial.h"
-#include <libmaple/usart.h>
+#include <usart.h>
 
 // Copied from ~/.platformio/packages/framework-arduinoststm32-maple/STM32F1/system/libmaple/usart_private.h
 // Changed to handle Emergency Parser

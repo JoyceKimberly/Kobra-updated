@@ -39,7 +39,7 @@
 extern "C"{
 #endif
 
-#include <libmaple/libmaple_types.h>
+#include <libmaple_types.h>
 
 /**
  * Ring buffer type.

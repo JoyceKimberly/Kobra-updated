@@ -1,7 +1,7 @@
 /******************************************************************************
  * The MIT License
  *
- * Copyright (c) 2010 LeafLabs, LLC.
+ * Copyright (c) 2010 Perry Hung.
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -24,12 +24,53 @@
  * SOFTWARE.
  *****************************************************************************/
 
-/* Note: Use of this header file is deprecated.  Use bit_constants.h
-   instead. */
+/**
+ *  @file libmaple/include/libmaple/libmaple_types.h
+ *
+ *  @brief libmaple's types, and operations on types.
+ */
+#pragma once
+#include <stdint.h>
+#include "wirish_types.h"
 
-#ifndef _WIRISH_BITS_H_
-#define _WIRISH_BITS_H_
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-#include <bit_constants.h>
+    typedef unsigned char uint8;
+    typedef unsigned short uint16;
+    typedef uint32_t uint32;
+    typedef unsigned long long uint64;
 
+    typedef signed char int8;
+    typedef short int16;
+    typedef int int32;
+    typedef long long int64;
+
+    typedef void (*voidFuncPtr)(void);
+    typedef void (*voidArgumentFuncPtr)(void *);
+
+#define __IO volatile
+#define __attr_flash __attribute__((section (".USER_FLASH")))
+#define __packed __attribute__((__packed__))
+#define __deprecated __attribute__((__deprecated__))
+#define __weak __attribute__((weak))
+#ifndef __always_inline
+#define __always_inline __attribute__((always_inline))
+#endif
+#ifndef __unused
+#define __unused __attribute__((unused))
+#endif
+
+#ifndef NULL
+#define NULL 0
+#endif
+
+#ifndef offsetof
+#define offsetof(type, member) __builtin_offsetof(type, member)
+#endif
+
+#ifdef __cplusplus
+}
 #endif

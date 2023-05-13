@@ -79,12 +79,12 @@ long random(long min, long max);
  * @param toEnd the end of the value's mapped range.
  * @return the mapped value.
  */
- // Fix by Pito 9/2017
-  static inline int32_t map(int32_t value, int32_t fromStart, int32_t fromEnd,
-     int32_t toStart, int32_t toEnd) {
-     return ((int64_t)(value - fromStart) * (toEnd - toStart)) / (fromEnd - fromStart) +
-         toStart;
- }
+
+static inline int map(int value, int fromStart, int fromEnd,
+                      int toStart, int toEnd)
+{
+  return ((value - fromStart) * (toEnd - toStart)) / (fromEnd - fromStart) + toStart;
+}
 
 #define PI          3.1415926535897932384626433832795
 #define HALF_PI     1.5707963267948966192313216916398
@@ -103,32 +103,16 @@ long random(long min, long max);
  
 #define EULER 2.718281828459045235360287471352
 #define SERIAL  0x0
-#define DISPLAY 0x1 
+#define DISPLAY 0x1
 
-#if (__GNUC__ > 4) && defined(__cplusplus)
-	#include <algorithm>
-	using namespace std;
-#else // C
-	#include <stdlib.h>
-	#ifndef min
-		#define min(a,b) ((a)<(b)?(a):(b))
-	#endif // min
-
-	#ifndef max
-		#define max(a,b) ((a)>(b)?(a):(b))
-	#endif // max
-#endif // __cplusplus
-
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
 #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 #define round(x)                ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
 #define radians(deg)            ((deg)*DEG_TO_RAD)
 #define degrees(rad)            ((rad)*RAD_TO_DEG)
 #define sq(x)                   ((x)*(x))
 
-/* undefine stdlib's abs if encountered */
-#ifdef abs
-#undef abs
-#endif
 #define abs(x) (((x) > 0) ? (x) : -(x))
 
 /* Following are duplicate declarations (with Doxygen comments) for
@@ -176,9 +160,8 @@ double sqrt(double x);
  */
 double pow(double x, double y);
 #endif
-
-extern uint16_t makeWord( uint16_t w ) ;
-extern uint16_t makeWord( uint8_t h, uint8_t l ) ;
+extern uint16_t makeWord(uint16_t w);
+extern uint16_t makeWord(uint8_t h, uint8_t l);
 
 #define word(...) makeWord(__VA_ARGS__)
 

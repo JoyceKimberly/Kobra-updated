@@ -20,7 +20,8 @@
 #include <string.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif // __cplusplus
 
 #if 0
@@ -65,7 +66,7 @@ extern void itoa(int n, char s[])
 
 extern char *itoa(int value, char *string, int radix)
 {
-  return ltoa(value, string, radix) ;
+  return ltoa(value, string, radix);
 }
 
 extern char *ltoa(long value, char *string, int radix)
@@ -77,37 +78,48 @@ extern char *ltoa(long value, char *string, int radix)
   int sign;
   char *sp;
 
-  if (string == NULL) {
-    return 0 ;
+  if (string == NULL)
+  {
+    return 0;
   }
 
-  if (radix > 36 || radix <= 1) {
-    return 0 ;
+  if (radix > 36 || radix <= 1)
+  {
+    return 0;
   }
 
   sign = (radix == 10 && value < 0);
-  if (sign) {
+  if (sign)
+  {
     v = -value;
-  } else {
+  }
+  else
+  {
     v = (unsigned long)value;
   }
 
-  while (v || tp == tmp) {
+  while (v || tp == tmp)
+  {
     i = v % radix;
     v = v / radix;
-    if (i < 10) {
+    if (i < 10)
+    {
       *tp++ = i + '0';
-    } else {
+    }
+    else
+    {
       *tp++ = i + 'a' - 10;
     }
   }
 
   sp = string;
 
-  if (sign) {
+  if (sign)
+  {
     *sp++ = '-';
   }
-  while (tp > tmp) {
+  while (tp > tmp)
+  {
     *sp++ = *--tp;
   }
   *sp = 0;
@@ -115,13 +127,13 @@ extern char *ltoa(long value, char *string, int radix)
   return string;
 }
 #if __GNUC__ > 4 || (__GNUC__ == 4 && (__GNUC_MINOR__ > 9 || \
-   (__GNUC_MINOR__ == 9 && __GNUC_PATCHLEVEL__ > 2)))
+                                       (__GNUC_MINOR__ == 9 && __GNUC_PATCHLEVEL__ > 2)))
 extern char *utoa(unsigned value, char *string, int radix)
 #else
 extern char *utoa(unsigned long value, char *string, int radix)
 #endif
 {
-  return ultoa(value, string, radix) ;
+  return ultoa(value, string, radix);
 }
 
 extern char *ultoa(unsigned long value, char *string, int radix)
@@ -132,28 +144,34 @@ extern char *ultoa(unsigned long value, char *string, int radix)
   unsigned long v = value;
   char *sp;
 
-  if (string == NULL) {
+  if (string == NULL)
+  {
     return 0;
   }
 
-  if (radix > 36 || radix <= 1) {
+  if (radix > 36 || radix <= 1)
+  {
     return 0;
   }
 
-  while (v || tp == tmp) {
+  while (v || tp == tmp)
+  {
     i = v % radix;
     v = v / radix;
-    if (i < 10) {
+    if (i < 10)
+    {
       *tp++ = i + '0';
-    } else {
+    }
+    else
+    {
       *tp++ = i + 'a' - 10;
     }
   }
 
   sp = string;
 
-
-  while (tp > tmp) {
+  while (tp > tmp)
+  {
     *sp++ = *--tp;
   }
   *sp = 0;

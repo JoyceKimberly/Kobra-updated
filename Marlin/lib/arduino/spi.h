@@ -43,7 +43,7 @@ extern "C" {
 
 #ifdef USE_SPI
 
-#include <libmaple/libmaple_types.h>
+#include <libmaple_types.h>
  /* Roger clark. Replaced with line below #include <series/spi.h>*/
 #include "spi1.h"
 

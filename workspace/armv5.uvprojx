@@ -735,9 +735,9 @@
               <FilePath>..\Marlin\lib\arduino\Printable.h</FilePath>
             </File>
             <File>
-              <FileName>itoa.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\arduino\itoa.c</FilePath>
+              <FileName>itoa.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\itoa.cpp</FilePath>
             </File>
             <File>
               <FileName>main.cpp</FileName>
@@ -752,7 +752,12 @@
             <File>
               <FileName>usart.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\arduino\libmaple\usart.h</FilePath>
+              <FilePath>..\Marlin\lib\arduino\usart.h</FilePath>
+            </File>
+            <File>
+              <FileName>dtostrf.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\dtostrf.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1207,12 +1212,12 @@
             <File>
               <FileName>flash.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\arduino/libmaple\flash.cpp</FilePath>
+              <FilePath>..\Marlin\lib\arduino\flash.cpp</FilePath>
             </File>
             <File>
               <FileName>iwdg.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\arduino/libmaple\iwdg.cpp</FilePath>
+              <FilePath>..\Marlin\lib\arduino\iwdg.cpp</FilePath>
             </File>
             <File>
               <FileName>Tone.cpp</FileName>
@@ -2388,16 +2393,6 @@
               <FileName>vector_3.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\libs\vector_3.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>dtostrf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\arduino\avr\dtostrf.c</FilePath>
-            </File>
-            <File>
-              <FileName>pgmspace.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\arduino\avr\pgmspace.h</FilePath>
             </File>
           </Files>
         </Group>

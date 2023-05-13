@@ -39,12 +39,9 @@ extern "C"{
 #endif
 
 #include "../drivers/board/startup.h"
-#include <libmaple/libmaple_types.h>
-#include <libmaple/util.h>
-#include <libmaple/ring_buffer.h>
-
- /* Roger clark. Replaced with line below #include <series/usart.h>*/
-#include <series/usart.h>
+#include <libmaple_types.h>
+#include <util.h>
+#include <ring_buffer.h>
 
 /*
  * Register map (common across supported STM32 series).
