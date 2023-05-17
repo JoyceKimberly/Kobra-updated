@@ -66,17 +66,25 @@ extern HardwareSerial Serial4;
 	//
 	// GPIO wrappers for PORT_*
 	//
-extern inline en_result_t PORT_SetFuncGPIO(uint8_t pin,en_functional_state_t enSubFunc){
-	if(pin>BOARD_NR_GPIO_PINS)return(Error);
+	extern inline en_result_t PORT_SetFuncGPIO(uint8_t pin, en_functional_state_t subFunction)
+	{
+		if (pin > BOARD_NR_GPIO_PINS)
+		{
+			return Error;
+		}
 
-	return (PORT_SetFunc(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin, PIN_MAP[pin].function, enSubFunc));
-}
+		return PORT_SetFunc(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin, PIN_MAP[pin].function, subFunction);
+	}
 
-extern inline en_result_t PORT_InitGPIO(uint8_t pin,const stc_port_init_t *pstcPortInit){
-	if(pin>BOARD_NR_GPIO_PINS)return(Error);
+	extern inline en_result_t PORT_InitGPIO(uint8_t pin, const stc_port_init_t *portConf)
+	{
+		if (pin > BOARD_NR_GPIO_PINS)
+		{
+			return Error;
+		}
 
-	return (PORT_Init(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin,pstcPortInit));
-}
+		return PORT_Init(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin, portConf);
+	}
 
 	extern inline en_result_t PORT_GetConfigGPIO(uint8_t pin, stc_port_init_t *portConf)
 	{
@@ -88,23 +96,35 @@ extern inline en_result_t PORT_InitGPIO(uint8_t pin,const stc_port_init_t *pstcP
 		return PORT_GetConfig(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin, portConf);
 	}
 
-extern inline en_result_t PORT_ToggleGPIO(uint8_t pin){
-	if(pin>BOARD_NR_GPIO_PINS)return(Error);
+	extern inline en_result_t PORT_ToggleGPIO(uint8_t pin)
+	{
+		if (pin > BOARD_NR_GPIO_PINS)
+		{
+			return Error;
+		}
 
-	return (PORT_Toggle(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin));
-}
+		return PORT_Toggle(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin);
+	}
 
-extern inline en_result_t PORT_SetBitsGPIO(uint8_t pin){
-	if(pin>BOARD_NR_GPIO_PINS)return(Error);
+	extern inline en_result_t PORT_SetBitsGPIO(uint8_t pin)
+	{
+		if (pin > BOARD_NR_GPIO_PINS)
+		{
+			return Error;
+		}
 
-	return (PORT_SetBits(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin));
-}
+		return PORT_SetBits(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin);
+	}
 
-extern inline en_result_t PORT_ResetBitsGPIO(uint8_t pin){
-	if(pin>BOARD_NR_GPIO_PINS)return(Error);
+	extern inline en_result_t PORT_ResetBitsGPIO(uint8_t pin)
+	{
+		if (pin > BOARD_NR_GPIO_PINS)
+		{
+			return Error;
+		}
 
-	return (PORT_ResetBits(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin));
-}
+		return PORT_ResetBits(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin);
+	}
 
 extern inline uint8_t PORT_GetBitGPIO(uint8_t pin){
 	en_flag_status_t getbit = Reset;

@@ -15,7 +15,7 @@ void clock_init(void)
     MEM_ZERO_STRUCT(stcXtalCfg);
     MEM_ZERO_STRUCT(stcMpllCfg);
 
-    /* Set bus clk div. */
+    // setup divisors for the different bus clocks
     stcSysClkCfg.enHclkDiv  = ClkSysclkDiv1;
     stcSysClkCfg.enExclkDiv = ClkSysclkDiv4;
     stcSysClkCfg.enPclk0Div = ClkSysclkDiv1;
@@ -27,8 +27,7 @@ void clock_init(void)
 
     CLK_SetPeriClkSource(ClkPeriSrcPclk);
 
-    /* Switch system clock source to MPLL. */
-    /* Use Xtal as MPLL source. */
+    // configure and enable XTAL clock source
     stcXtalCfg.enMode = ClkXtalModeOsc;
     stcXtalCfg.enDrv = ClkXtalLowDrv;
     stcXtalCfg.enFastStartup = Enable;
@@ -43,7 +42,7 @@ void clock_init(void)
     /* Switch driver ability */
     PWC_HS2HP();
 
-    /* MPLL config. */
+    // configure PLL using XTAL clock as source
     stcMpllCfg.pllmDiv = 1u; /* XTAL 8M / 1 */
     stcMpllCfg.plln = 42u;   /* 8M*42 = 336M */
     stcMpllCfg.PllpDiv = 2u; /* MLLP = 168M */
@@ -52,16 +51,15 @@ void clock_init(void)
     CLK_SetPllSource(ClkPllSrcXTAL);
     CLK_MpllConfig(&stcMpllCfg);
 
-    /* Enable MPLL. */
+    // enable MPLL and wait until ready
     CLK_MpllCmd(Enable);
-
-    /* Wait MPLL ready. */
     while (Set != CLK_GetFlagStatus(ClkFlagMPLLRdy))
     {
     }
 
-    /* Switch system clock source to MPLL. */
+    // switch the system clock to MPLL
     CLK_SetSysClkSource(CLKSysSrcMPLL);
+
 }
 
 void get_all_clock(void)
