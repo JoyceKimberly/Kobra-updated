@@ -29,19 +29,16 @@
  * @brief Timing and delay functions.
  */
 
-#ifndef _WIRISH_WIRISH_TIME_H_
-#define _WIRISH_WIRISH_TIME_H_
-
-#include <libmaple/libmaple_types.h>
-
+#pragma once
+#include "libmaple_types.h"
+#include <hc32_ddl.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 void yield(void);
 #ifdef __cplusplus
 }
-#endif
-
 #endif

@@ -63,11 +63,28 @@ applet/
 *.out
 *.app
 
+# Listing files
+*.cod
+*.htm
+*.i
+*.lst
+*.map
+*.m51
+*.m66
+
 # Compiled C Object files
+*.axf
+*.b[0-3][0-9]
+*.hex
+*.d
+*.crf
+*.h86
 *.o
 *.ko
 *.obj
 *.elf
+*.sbr
+*.bin
 
 # Precompiled Headers
 *.gch
@@ -162,8 +179,21 @@ __pycache__
 *.swp
 tags
 *.logs
-*.bak
+*.build_log.htm
+*.cdb
+*.dep
+*.ic
+*.lin
+*.lnp
+*.orc
+*.pack
+*.pdsc
+*.plg
+*.sct
+*.sfd
+*.sfr
 
+# User-specific uVision files
 *.opt
 *.uvopt
 *.uvoptx
@@ -171,8 +201,3 @@ tags
 *.uvgui.*
 *.uvguix.*
 *.scvd
-*/obj/*
-*.bin
-
-.vscode/c_cpp_properties.json
-.vscode/

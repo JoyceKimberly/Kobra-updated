@@ -1,56 +1,23 @@
 /*******************************************************************************
-* Copyright (C) 2016, Huada Semiconductor Co., Ltd. All rights reserved.
-*
-* This software is owned and published by:
-* Huada Semiconductor Co., Ltd. ("HDSC").
-*
-* BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
-* BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
-*
-* This software contains source code for use with HDSC
-* components. This software is licensed by HDSC to be adapted only
-* for use in systems utilizing HDSC components. HDSC shall not be
-* responsible for misuse or illegal use of this software for devices not
-* supported herein. HDSC is providing this software "AS IS" and will
-* not be responsible for issues arising from incorrect user implementation
-* of the software.
-*
-* Disclaimer:
-* HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
-* REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
-* ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
-* WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
-* WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
-* WARRANTY OF NONINFRINGEMENT.
-* HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
-* NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
-* LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
-* LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
-* INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
-* INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
-* SAVINGS OR PROFITS,
-* EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-* YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
-* INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
-* FROM, THE SOFTWARE.
-*
-* This software may be replicated in part or whole for the licensed use,
-* with the restriction that this Disclaimer and Copyright notice must be
-* included with each copy of this software, whether used in part or whole,
-* at all times.
-*/
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
+ *
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
+ */
 /******************************************************************************/
 /** \file hc32f460_i2c.h
  **
  ** A detailed description is available at
  ** @link I2cGroup Inter-Integrated Circuit(I2C) description @endlink
  **
- **   - 2018-10-16  1.0  Wangmin  First version for Device Driver Library of I2C.
+ **   - 2018-10-16  CDT  First version for Device Driver Library of I2C.
  **
  ******************************************************************************/
 
-#ifndef __HC32F46X_I2C_H__
-#define __HC32F46X_I2C_H__
+#ifndef __HC32F460_I2C_H__
+#define __HC32F460_I2C_H__
 
 /*******************************************************************************
  * Include files
@@ -83,9 +50,9 @@ extern "C"
  ******************************************************************************/
 typedef struct stc_i2c_init
 {
-    uint32_t u32Pclk3;       ///< Plck3 frequency
+    uint32_t u32ClockDiv;    ///< I2C clock division for i2c source clock
     uint32_t u32Baudrate;    ///< I2C baudrate config
-    uint32_t u32SclTime;     ///< The SCL rising and falling time, count of T(pclk3)
+    uint32_t u32SclTime;     ///< The SCL rising and falling time, count of T(i2c source clock after frequency divider)
 }stc_i2c_init_t;
 
 /**
@@ -211,21 +178,35 @@ typedef enum en_i2c_ack_config
 #define I2C_SR_SMBALRTF         (0x00800000ul)
 
 /* define status clear bit for I2C_CLR register*/
-#define I2C_CLR_STARTFCLR           (0x00000001ul)
-#define I2C_CLR_SLADDR0FCLR         (0x00000002ul)
-#define I2C_CLR_SLADDR1FCLR         (0x00000004ul)
-#define I2C_CLR_TENDFCLR            (0x00000008ul)
-#define I2C_CLR_STOPFCLR            (0x00000010ul)
-#define I2C_CLR_RFULLFCLR           (0x00000040ul)
-#define I2C_CLR_TEMPTYFCLR          (0x00000080ul)
-#define I2C_CLR_ARLOFCLR            (0x00000200ul)
-#define I2C_CLR_NACKFCLR            (0x00001000ul)
-#define I2C_CLR_TMOUTFCLR           (0x00004000ul)
-#define I2C_CLR_GENCALLFCLR         (0x00100000ul)
-#define I2C_CLR_SMBDEFAULTFCLR      (0x00200000ul)
-#define I2C_CLR_SMBHOSTFCLR         (0x00400000ul)
-#define I2C_CLR_SMBALRTFCLR         (0x00800000ul)
-#define I2C_CLR_MASK                (0x00F056DFul)
+#define I2C_CLR_STARTFCLR       (0x00000001ul)
+#define I2C_CLR_SLADDR0FCLR     (0x00000002ul)
+#define I2C_CLR_SLADDR1FCLR     (0x00000004ul)
+#define I2C_CLR_TENDFCLR        (0x00000008ul)
+#define I2C_CLR_STOPFCLR        (0x00000010ul)
+#define I2C_CLR_RFULLFCLR       (0x00000040ul)
+#define I2C_CLR_TEMPTYFCLR      (0x00000080ul)
+#define I2C_CLR_ARLOFCLR        (0x00000200ul)
+#define I2C_CLR_NACKFCLR        (0x00001000ul)
+#define I2C_CLR_TMOUTFCLR       (0x00004000ul)
+#define I2C_CLR_GENCALLFCLR     (0x00100000ul)
+#define I2C_CLR_SMBDEFAULTFCLR  (0x00200000ul)
+#define I2C_CLR_SMBHOSTFCLR     (0x00400000ul)
+#define I2C_CLR_SMBALRTFCLR     (0x00800000ul)
+#define I2C_CLR_MASK            (0x00F056DFul)
+
+/* I2C_Clock_Division I2C clock division */
+#define I2C_CLK_DIV1            (0ul)  /* I2c source clock/1 */
+#define I2C_CLK_DIV2            (1ul)  /* I2c source clock/2 */
+#define I2C_CLK_DIV4            (2ul)  /* I2c source clock/4 */
+#define I2C_CLK_DIV8            (3ul)  /* I2c source clock/8 */
+#define I2C_CLK_DIV16           (4ul)  /* I2c source clock/16 */
+#define I2C_CLK_DIV32           (5ul)  /* I2c source clock/32 */
+#define I2C_CLK_DIV64           (6ul)  /* I2c source clock/64 */
+#define I2C_CLK_DIV128          (7ul)  /* I2c source clock/128 */
+/**
+ * @}
+ */
+
 /*******************************************************************************
  * Global variable definitions ('extern')
  ******************************************************************************/
@@ -233,9 +214,9 @@ typedef enum en_i2c_ack_config
 /*******************************************************************************
   Global function prototypes (definition in C source)
  ******************************************************************************/
-void I2C_BaudrateConfig(M4_I2C_TypeDef* pstcI2Cx, uint32_t u32Baudrate, uint32_t u32SclTime, uint32_t u32Pclk3);
+en_result_t I2C_BaudrateConfig(M4_I2C_TypeDef* pstcI2Cx, const stc_i2c_init_t* pstcI2cInit, float32_t *pf32Error);
 en_result_t I2C_DeInit(M4_I2C_TypeDef* pstcI2Cx);
-en_result_t I2C_Init(M4_I2C_TypeDef* pstcI2Cx, const stc_i2c_init_t* pstcI2C_InitStruct);
+en_result_t I2C_Init(M4_I2C_TypeDef* pstcI2Cx, const stc_i2c_init_t* pstcI2cInit, float32_t *pf32Error);
 void I2C_Cmd(M4_I2C_TypeDef* pstcI2Cx, en_functional_state_t enNewState);
 en_result_t I2C_SmbusConfig(M4_I2C_TypeDef* pstcI2Cx, const stc_i2c_smbus_init_t* pstcI2C_SmbusInitStruct);
 void I2C_SmBusCmd(M4_I2C_TypeDef* pstcI2Cx, en_functional_state_t enNewState);
@@ -282,7 +263,7 @@ en_result_t I2C_MasterDataReceiveAndStop(M4_I2C_TypeDef* pstcI2Cx, uint8_t au8Rx
 
 #endif /* DDL_I2C_ENABLE */
 
-#endif /* __HC32F46X_I2C_H__ */
+#endif /* __HC32F460_I2C_H__ */
 
 /*******************************************************************************
  * EOF (not truncated)

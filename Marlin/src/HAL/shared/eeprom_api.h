@@ -26,7 +26,7 @@
 #include <stdint.h>
 
 #include "../../libs/crc16.h"
-#include "../../../lib/arduino/libmaple/flash.h" // changed
+#include "../../../lib/arduino/flash.h" // changed
 
 enum  // changed
 { // changed

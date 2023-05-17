@@ -1,43 +1,10 @@
 /*******************************************************************************
- * Copyright (C) 2016, Huada Semiconductor Co., Ltd. All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co., Ltd. ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
 /** \file hc32f460_adc.c
@@ -45,7 +12,7 @@
  ** A detailed description is available at
  ** @link AdcGroup Adc description @endlink
  **
- **   - 2018-11-30  1.0 Wuze First version for Device Driver Library of Adc.
+ **   - 2018-11-30  CDT First version for Device Driver Library of Adc.
  **
  ******************************************************************************/
 
@@ -304,6 +271,9 @@ en_result_t ADC_Init(M4_ADC_TypeDef *ADCx, const stc_adc_init_t *pstcInit)
  ******************************************************************************/
 en_result_t ADC_DeInit(M4_ADC_TypeDef *ADCx)
 {
+    uint8_t i;
+    uint8_t u8SstrNum;
+    uint32_t u32SSTRAddr;
     en_result_t enRet = ErrorInvalidParameter;
 
     if (NULL != ADCx)
@@ -318,16 +288,6 @@ en_result_t ADC_DeInit(M4_ADC_TypeDef *ADCx)
         ADCx->CHSELRA0  = 0u;
         ADCx->CHSELRB0  = 0u;
         ADCx->AVCHSELR0 = 0u;
-        ADCx->AWDCHSR0  = 0u;
-        ADCx->SSTR0     = (uint8_t)0x0B;
-        ADCx->SSTR1     = (uint8_t)0x0B;
-        ADCx->SSTR2     = (uint8_t)0x0B;
-        ADCx->SSTR3     = (uint8_t)0x0B;
-        ADCx->SSTR4     = (uint8_t)0x0B;
-        ADCx->SSTR5     = (uint8_t)0x0B;
-        ADCx->SSTR6     = (uint8_t)0x0B;
-        ADCx->SSTR7     = (uint8_t)0x0B;
-        ADCx->SSTR8     = (uint8_t)0x0B;
         ADCx->CHMUXR0   = (uint16_t)0x3210;
         ADCx->CHMUXR1   = (uint16_t)0x7654;
         ADCx->ISR       = 0u;
@@ -338,6 +298,7 @@ en_result_t ADC_DeInit(M4_ADC_TypeDef *ADCx)
         ADCx->AWDCHSR0  = 0u;
         ADCx->AWDSR0    = 0u;
 
+        u32SSTRAddr = (uint32_t)&ADCx->SSTR0;
         if (M4_ADC1 == ADCx)
         {
             ADCx->CHSELRA1  = 0u;
@@ -352,6 +313,18 @@ en_result_t ADC_DeInit(M4_ADC_TypeDef *ADCx)
             ADCx->PGAGSR    = 0u;
             ADCx->PGAINSR0  = 0u;
             ADCx->PGAINSR1  = 0u;
+            ADCx->SSTRL     = 0x0Bu;
+            u8SstrNum = 16u;
+        }
+        else
+        {
+            u8SstrNum = 9u;
+        }
+
+        for (i=0u; i<u8SstrNum; i++)
+        {
+            *(__IO uint8_t *)u32SSTRAddr = 0x0Bu;
+            u32SSTRAddr++;
         }
 
         enRet = Ok;
@@ -670,10 +643,9 @@ en_result_t ADC_AddAdcChannel(M4_ADC_TypeDef *ADCx, const stc_adc_ch_cfg_t *pstc
  ** \arg M4_ADC1                        ADC unit 1 instance register base.
  ** \arg M4_ADC2                        ADC unit 2 instance register base.
  **
- ** \param [in] pstcChCfg               Pointer to ADC channel configuration structure.
- ** \arg u32Channel                     The channel(s) you want to delete.
- ** \arg u8Sequence                     (Ignore)
- ** \arg pu8SampTime                    (Ignore)
+ ** \param [in] u32Channel              The channel(s) you want to delete.
+ ** \arg ADC1_CH0 ~ ADC1_CH16           Channels of ADC unit 1.
+ ** \arg ADC2_CH0 ~ ADC2_CH8            Channels of ADC unit 2.
  **
  ** \retval ErrorInvalidParameter       Parameter error.
  ** \retval Ok                          No error occurred.
@@ -683,20 +655,18 @@ en_result_t ADC_AddAdcChannel(M4_ADC_TypeDef *ADCx, const stc_adc_ch_cfg_t *pstc
  **                                     to the other mode you need in your application.
  **
  ******************************************************************************/
-en_result_t ADC_DelAdcChannel(M4_ADC_TypeDef *ADCx, const stc_adc_ch_cfg_t *pstcChCfg)
+en_result_t ADC_DelAdcChannel(M4_ADC_TypeDef *ADCx, uint32_t u32Channel)
 {
     en_result_t enRet = ErrorInvalidParameter;
     uint16_t    u16ChSelR0;
     uint16_t    u16ChSelR1;
 
-    if ((NULL != ADCx)      &&
-        (NULL != pstcChCfg) &&
-        (pstcChCfg->u8Sequence <= ADC_SEQ_B))
+    if (NULL != ADCx)
     {
         DDL_ASSERT(IS_ADC_PERIPH(ADCx));
 
-        u16ChSelR0 = (uint16_t)(pstcChCfg->u32Channel);
-        u16ChSelR1 = (uint16_t)(pstcChCfg->u32Channel >> 16u);
+        u16ChSelR0 = (uint16_t)u32Channel;
+        u16ChSelR1 = (uint16_t)(u32Channel >> 16u);
 
         ADCx->CHSELRA0 &= (uint16_t)(~u16ChSelR0);
         ADCx->CHSELRB0 &= (uint16_t)(~u16ChSelR0);
@@ -1325,7 +1295,7 @@ void ADC_ClrEocFlag(M4_ADC_TypeDef *ADCx, uint8_t u8Seq)
  **
  ** \param [in] u8Length                The length of the ADC data to be read.
  **
- ** \param [in] u32Timeout              Timeout(millisecond).
+ ** \param [in] u32Timeout              Timeout value.
  **
  ** \retval ErrorInvalidParameter       Parameter error.
  ** \retval ErrorTimeout                Timeout.
@@ -1670,7 +1640,7 @@ en_result_t ADC_ChannelRemap(M4_ADC_TypeDef *ADCx,
         }
         else
         {
-            if ((u16AdcPin > ADC12_IN4) && (u16AdcPin < ADC12_IN11))
+            if ((u16AdcPin >= ADC12_IN4) && (u16AdcPin <= ADC12_IN11))
             {
                 u16AdcPin -= 4u;
                 u32DestChannel &= ADC2_PIN_MASK_ALL;

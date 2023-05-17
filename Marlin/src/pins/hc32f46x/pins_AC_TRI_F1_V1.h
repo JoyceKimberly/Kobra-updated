@@ -21,16 +21,15 @@
  */
 #pragma once
 
-#ifndef HC32F46x
+#ifndef TARGET_HC32F46x
   #error "Oops! Select an HC32F46x board in 'options > c/c++->defines.'"
 #endif
 
 
 #define BOARD_INFO_NAME      "AC_TRI_F1"
-#define DEFAULT_MACHINE_NAME "HC32F460KCTA"
+#define DEFAULT_MACHINE_NAME "HC32F460PETB"
 
 #define BOARD_NO_NATIVE_USB
-
 
 //
 // EEPROM
@@ -142,6 +141,7 @@
 //
 // Misc
 //
+#undef LCD_SERIAL_PORT
 #define LCD_SERIAL_PORT                     4
 #define BEEPER_PIN                          PB5
 #define FIL_RUNOUT_PIN                      PC13
@@ -189,9 +189,9 @@
 #define BOARD_SDIO_CMD       PD2
 #define BOARD_SDIO_DET       SD_DETECT_PIN
 
-
+//
 // USARTS
-
+//
 #define BOARD_USART1_TX_PIN     PA9     // MOTO
 #define BOARD_USART1_RX_PIN     PA15
 
@@ -203,5 +203,4 @@
 
 #define BOARD_USART4_TX_PIN     PB10    // LCD
 #define BOARD_USART4_RX_PIN     PH2
-
 

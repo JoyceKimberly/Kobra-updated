@@ -1,43 +1,10 @@
 /*******************************************************************************
- * Copyright (C) 2016, Huada Semiconductor Co., Ltd. All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co., Ltd. ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
 /** \file hc32f460_clk.c
@@ -45,7 +12,7 @@
  ** A detailed description is available at
  ** @link CmuGroup Clock description @endlink
  **
- **   - 2018-10-13  1.0  Chengy First version for Device Driver Library of CMU.
+ **   - 2018-10-13  CDT  First version for Device Driver Library of CMU.
  **
  ******************************************************************************/
 
@@ -412,8 +379,7 @@ void CLK_XtalStpConfig(const stc_clk_xtal_stp_cfg_t *pstcXtalStpCfg)
  ******************************************************************************/
 en_result_t CLK_XtalCmd(en_functional_state_t enNewState)
 {
-    __IO uint32_t timeout = 0u;
-    en_flag_status_t status;
+    __IO uint32_t timeout = 0ul;
     en_result_t enRet = Ok;
 
     DDL_ASSERT(IS_FUNCTIONAL_STATE(enNewState));
@@ -446,12 +412,17 @@ en_result_t CLK_XtalCmd(en_functional_state_t enNewState)
     }
     else
     {
-         M4_SYSREG->CMU_XTALCR_f.XTALSTP = 0u;
-         do
+        M4_SYSREG->CMU_XTALCR_f.XTALSTP = 0u;
+        enRet = ErrorTimeout;
+        while (timeout < CLK_XTAL_TIMEOUT)
         {
-            status = CLK_GetFlagStatus(ClkFlagXTALRdy);
+            if (Set == CLK_GetFlagStatus(ClkFlagXTALRdy))
+            {
+                enRet = Ok;
+                break;
+            }
             timeout++;
-        }while((timeout < CLK_XTAL_TIMEOUT) && (status != Set));
+        }
     }
 
     DISABLE_CLOCK_REG_WRITE();
@@ -571,7 +542,6 @@ void CLK_HrcTrim(int8_t trimValue)
 en_result_t CLK_HrcCmd(en_functional_state_t enNewState)
 {
     __IO uint32_t timeout = 0ul;
-    en_flag_status_t status;
     en_result_t enRet = Ok;
 
     ENABLE_CLOCK_REG_WRITE();
@@ -602,11 +572,16 @@ en_result_t CLK_HrcCmd(en_functional_state_t enNewState)
     else
     {
         M4_SYSREG->CMU_HRCCR_f.HRCSTP = 0u;
-        do
+        enRet = ErrorTimeout;
+        while (timeout < CLK_HRC_TIMEOUT)
         {
-            status = CLK_GetFlagStatus(ClkFlagHRCRdy);
+            if (Set == CLK_GetFlagStatus(ClkFlagHRCRdy))
+            {
+                enRet = Ok;
+                break;
+            }
             timeout++;
-        }while((timeout < CLK_HRC_TIMEOUT) && (status != Set));
+        }
     }
 
     DISABLE_CLOCK_REG_WRITE();
@@ -841,7 +816,6 @@ void CLK_MpllConfig(const stc_clk_mpll_cfg_t *pstcMpllCfg)
 en_result_t CLK_MpllCmd(en_functional_state_t enNewState)
 {
     __IO uint32_t timeout = 0ul;
-    en_flag_status_t status;
     en_result_t enRet = Ok;
 
     DDL_ASSERT(IS_FUNCTIONAL_STATE(enNewState));
@@ -862,11 +836,16 @@ en_result_t CLK_MpllCmd(en_functional_state_t enNewState)
     else
     {
         M4_SYSREG->CMU_PLLCR_f.MPLLOFF = 0u;
-        do
+        enRet = ErrorTimeout;
+        while (timeout < CLK_MPLL_TIMEOUT)
         {
-            status = CLK_GetFlagStatus(ClkFlagMPLLRdy);
+            if (Set == CLK_GetFlagStatus(ClkFlagMPLLRdy))
+            {
+                enRet = Ok;
+                break;
+            }
             timeout++;
-        }while((timeout < CLK_MPLL_TIMEOUT) && (status != Set));
+        }
     }
 
     DISABLE_CLOCK_REG_WRITE();
@@ -942,8 +921,7 @@ void CLK_UpllConfig(const stc_clk_upll_cfg_t *pstcUpllCfg)
  ******************************************************************************/
 en_result_t CLK_UpllCmd(en_functional_state_t enNewState)
 {
-    __IO uint32_t timeout = 0ul;
-    en_flag_status_t status;
+    __IO uint32_t timeout;
 
     DDL_ASSERT(IS_FUNCTIONAL_STATE(enNewState));
 
@@ -953,11 +931,30 @@ en_result_t CLK_UpllCmd(en_functional_state_t enNewState)
 
     DISABLE_CLOCK_REG_WRITE();
 
-    do
+    if (Disable == enNewState)
     {
-        status = CLK_GetFlagStatus(ClkFlagUPLLRdy);
-        timeout++;
-    }while((timeout < CLK_UPLL_TIMEOUT) && (status != ((Enable == enNewState) ? Set : Reset)));
+        timeout = 0ul;
+        while (Reset != CLK_GetFlagStatus(ClkFlagUPLLRdy))
+        {
+            timeout++;
+            if (timeout > CLK_UPLL_TIMEOUT)
+            {
+                return ErrorTimeout;
+            }
+        }
+    }
+    else
+    {
+        timeout = 0ul;
+        while (Set != CLK_GetFlagStatus(ClkFlagUPLLRdy))
+        {
+            timeout++;
+            if (timeout > CLK_UPLL_TIMEOUT)
+            {
+                return ErrorTimeout;
+            }
+        }
+    }
 
     return Ok;
 }

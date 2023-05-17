@@ -34,7 +34,7 @@
 //#include "MarlinSerial.h"
 
 #include "../../inc/MarlinConfigPre.h"
-#include "../inc/MarlinConfig.h"
+#include "../../inc/MarlinConfig.h"
 
 #include <stdint.h>
 

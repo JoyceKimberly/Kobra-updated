@@ -1,43 +1,10 @@
 /*******************************************************************************
- * Copyright (C) 2016, Huada Semiconductor Co., Ltd. All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co., Ltd. ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
 /** \file hc32f460_utility.c
@@ -45,7 +12,7 @@
  ** A detailed description is available at
  ** @link DdlUtilityGroup Ddl Utility description @endlink
  **
- **   - 2018-11-02  1.0  Zhangxl First version for Device Driver Library Utility.
+ **   - 2018-11-02 CDT First version for Device Driver Library Utility.
  **
  ******************************************************************************/
 
@@ -69,6 +36,34 @@
 /*******************************************************************************
  * Local pre-processor symbols/macros ('#define')
  ******************************************************************************/
+#if (DDL_PRINT_ENABLE == DDL_ON)
+/*!< Parameter valid check for USART Instances. */
+#define IS_VALID_UART(x)                                                       \
+(   (M4_USART1 == (x))                      ||                                 \
+    (M4_USART2 == (x))                      ||                                 \
+    (M4_USART3 == (x))                      ||                                 \
+    (M4_USART4 == (x)))
+
+#define UART_EnableClk(x)                                                      \
+do {                                                                           \
+    if (M4_USART1 == (x))                                                      \
+    {                                                                          \
+        M4_MSTP->FCG1_f.USART1 = 0ul;                                          \
+    }                                                                          \
+    else if (M4_USART2 == (x))                                                 \
+    {                                                                          \
+        M4_MSTP->FCG1_f.USART2 = 0ul;                                          \
+    }                                                                          \
+    else if (M4_USART3 == (x))                                                 \
+    {                                                                          \
+        M4_MSTP->FCG1_f.USART3 = 0ul;                                          \
+    }                                                                          \
+    else                                                                       \
+    {                                                                          \
+        M4_MSTP->FCG1_f.USART4 = 0ul;                                          \
+    }                                                                          \
+} while (0)
+#endif
 
 /*******************************************************************************
  * Global variable definitions (declared in header file with 'extern')
@@ -84,84 +79,101 @@
 static uint32_t m_u32TickStep = 0UL;
 static __IO uint32_t m_u32TickCount = 0UL;
 
+#if (DDL_PRINT_ENABLE == DDL_ON)
+static M4_USART_TypeDef *m_PrintfDevice;
+static uint32_t m_u32PrintfTimeout;
+#endif
+
 /*******************************************************************************
  * Function implementation - global ('extern') and local ('static')
  ******************************************************************************/
-#ifdef UART_DEBUG_PRINTF
+#if (DDL_PRINT_ENABLE == DDL_ON)
 /**
  *******************************************************************************
- ** \brief Data printf via Uart Ch.3
+ ** \brief  UART transmit.
  **
- ** \param [in]  u8Data                 Data to be sent
+ ** \param  [in] USARTx                  Pointer to USART instance register base
+ **         This parameter can be one of the following values:
+ **           @arg M4_USART1:            USART unit 1 instance register base
+ **           @arg M4_USART2:            USART unit 2 instance register base
+ **           @arg M4_USART3:            USART unit 3 instance register base
+ **           @arg M4_USART4:            USART unit 4 instance register base
+ ** \param  [in] cData                   The data for transmitting
+ **
+ ** \retval An en_result_t enumeration value:
+ **           - Ok: Send successfully
+ **           - ErrorTimeout: Send timeout
+ **           - ErrorInvalidParameter: The parameter USARTx is invalid
  **
  ******************************************************************************/
-void DebugOutput(uint8_t u8Data)
+static en_result_t UartPutChar(M4_USART_TypeDef *USARTx, char cData)
 {
-    while(Reset == M4_USART2->SR_f.TXE);
-    while(Reset == M4_USART2->SR_f.TC);
-    M4_USART2->DR = u8Data;
-}
+    uint32_t u32TxEmpty;
+    en_result_t enRet = ErrorInvalidParameter;
+    __IO uint32_t u32Timeout = m_u32PrintfTimeout;
 
-/**
- *******************************************************************************
- ** \brief Re-target putchar function
- **
- ******************************************************************************/
-#if defined ( __GNUC__ ) && !defined (__CC_ARM)
-int _write(int fd, char *pBuffer, int size)
-{
-    for (int i = 0; i < size; i++)
+    if (NULL != USARTx)
     {
-        DebugOutput((uint8_t)pBuffer[i]);
-    }
-    return size;
-}
-#else
-extern "C" int32_t fputc(int32_t ch, FILE *f)
-{
-    DebugOutput((uint8_t)ch);
+        /* Wait TX data register empty */
+        do
+        {
+            u32Timeout--;
+            u32TxEmpty = USARTx->SR_f.TXE;
+        } while ((u32Timeout > 0ul) && (0ul == u32TxEmpty));
 
-    return (ch);
+        if (u32TxEmpty > 0ul)
+        {
+            USARTx->DR = (uint32_t)cData;
+            enRet = Ok;
+        }
+        else
+        {
+            enRet = ErrorTimeout;
+        }
+    }
+
+    return enRet;
 }
-#endif
 
 /**
  *******************************************************************************
  ** \brief Set synchronous clock mode baudrate
  **
+ ** \param  [in] USARTx                  Pointer to USART instance register base
+ **         This parameter can be one of the following values:
+ **           @arg M4_USART1:            USART unit 1 instance register base
+ **           @arg M4_USART2:            USART unit 2 instance register base
+ **           @arg M4_USART3:            USART unit 3 instance register base
+ **           @arg M4_USART4:            USART unit 4 instance register base
  ** \param [in] u32Baudrate             Baudrate
  **
  ** \retval Ok                          Configure successfully.
  ** \retval ErrorInvalidParameter       USARTx is invalid
  **
  ******************************************************************************/
-static en_result_t SetUartBaudrate(uint32_t u32Baudrate)
+static en_result_t SetUartBaudrate(M4_USART_TypeDef *USARTx, uint32_t u32Baudrate)
 {
-    en_result_t enRet = Ok;
     uint32_t B;
     uint32_t C;
     uint32_t OVER8;
-    float32_t DIV = 0.0f;
-    uint64_t u64Tmp = 0u;
-    uint32_t DIV_Integer = 0u;
-    uint32_t DIV_Fraction = 0xFFFFFFFFul;
-
-    uint32_t u32PClk1 = 0u;
-    uint32_t u32UartClk = 0u;
+    float32_t DIV;
+    uint64_t u64Tmp;
+    uint32_t DIV_Integer;
+    uint32_t DIV_Fraction;
+    uint32_t u32PClk1;
+    uint32_t u32UartClk;
+    en_result_t enRet = ErrorInvalidParameter;
 
     u32PClk1 = SystemCoreClock / (1ul << (M4_SYSREG->CMU_SCFGR_f.PCLK1S));
-    u32UartClk = u32PClk1 / (1ul << (2ul * (M4_USART3->PR_f.PSC)));
+    u32UartClk = u32PClk1 / (1ul << (2ul * (USARTx->PR_f.PSC)));
 
     B = u32Baudrate;
     C = u32UartClk;
+    DIV_Fraction = 0ul;
 
-    if (0ul == C)
+    if ((0ul != C) && (0ul != B))
     {
-        enRet = ErrorInvalidParameter;
-    }
-    else
-    {
-        OVER8 = M4_USART3->CR1_f.OVER8;
+        OVER8 = USARTx->CR1_f.OVER8;
 
         /* FBME = 0 Calculation formula */
         /* B = C / (8 * (2 - OVER8) * (DIV_Integer + 1)) */
@@ -185,65 +197,107 @@ static en_result_t SetUartBaudrate(uint32_t u32Baudrate)
                 u64Tmp = (2u - (uint64_t)OVER8) * ((uint64_t)DIV_Integer + 1u) * (uint64_t)B;
                 DIV_Fraction = (uint32_t)(2048ul * u64Tmp/C - 128ul);
             }
-            else
-            {
-            }
 
-            M4_USART3->CR1_f.FBME = (0xFFFFFFFFul == DIV_Fraction) ? 0ul : 1ul;
-            M4_USART3->BRR_f.DIV_FRACTION = DIV_Fraction;
-            M4_USART3->BRR_f.DIV_INTEGER = DIV_Integer;
+            USARTx->CR1_f.FBME = (DIV_Fraction > 0UL) ? 1ul : 0ul;
+            USARTx->BRR_f.DIV_FRACTION = DIV_Fraction;
+            USARTx->BRR_f.DIV_INTEGER = DIV_Integer;
             enRet = Ok;
         }
     }
+
     return enRet;
 }
+
+#if defined ( __GNUC__ ) && !defined (__CC_ARM)
+/**
+ *******************************************************************************
+ ** \brief  Re-target _write function.
+ **
+ ** \param  [in] fd
+ ** \param  [in] data
+ ** \param  [in] size
+ **
+ ** \retval int32_t
+ **
+ ******************************************************************************/
+int32_t _write(int fd, char data[], int32_t size)
+{
+    int32_t i = -1;
+
+    if (NULL != data)
+    {
+        (void)fd;  /* Prevent unused argument compilation warning */
+
+        for (i = 0; i < size; i++)
+        {
+            if (Ok != UartPutChar(m_PrintfDevice, data[i]))
+            {
+                break;
+            }
+        }
+    }
+
+    return i ? i : -1;
+}
+
+#endif
 
 /**
  *******************************************************************************
  ** \brief Debug printf initialization function
  **
+ ** \param  [in] UARTx                  Pointer to USART instance register base
+ **         This parameter can be one of the following values:
+ **           @arg M4_USART1:           USART unit 1 instance register base
+ **           @arg M4_USART2:           USART unit 2 instance register base
+ **           @arg M4_USART3:           USART unit 3 instance register base
+ **           @arg M4_USART4:           USART unit 4 instance register base
+ ** \param [in] u32Baudrate             Baudrate
+ ** \param [in] PortInit                The pointer of printf port initialization function
+ **
  ** \retval Ok                          Process successfully done
  **
  ******************************************************************************/
-en_result_t Ddl_UartInit(void)
+en_result_t UART_PrintfInit(M4_USART_TypeDef *UARTx,
+                            uint32_t u32Baudrate,
+                            void (*PortInit)(void))
 {
-    en_result_t enRet = Ok;
+    en_result_t enRet = ErrorInvalidParameter;
 
-    /* unlock */
-    M4_PORT->PWPR = 0xA501u;
-    /* usart3_tx gpio  PE5 */
-    M4_PORT->PFSRE5_f.FSEL  = 32u;
-    /* lock */
-    M4_PORT->PWPR = 0xA500u;
-    /* enable usart3 */
-    M4_MSTP->FCG1_f.USART3 = 0ul;
-    /* usart3 init */
-
-    M4_USART3->CR1_f.ML = 0ul;    // LSB
-    M4_USART3->CR1_f.MS = 0ul;    // UART mode
-    M4_USART3->CR1_f.OVER8 = 1ul; // 8bit sampling mode
-    M4_USART3->CR1_f.M = 0ul;     // 8 bit data length
-    M4_USART3->CR1_f.PCE = 0ul;   // no parity bit
-
-    /* baudrate set */
-    if( Ok != SetUartBaudrate(115200ul))
+    if (IS_VALID_UART(UARTx) && (0ul != u32Baudrate) && (NULL != PortInit))
     {
-        enRet = Error;
-    }
-    else
-    {
-        /* 1 stop bit, single uart mode */
-        M4_USART3->CR2 = 0ul;
+        /* Initialize port */
+        PortInit();
 
-        /* CTS disable, Smart Card mode disable */
-        M4_USART3->CR3 = 0ul;
+        /* Enable clock */
+        UART_EnableClk(UARTx);
 
-        M4_USART3->CR1_f.TE = 1ul;    // TX enable
+        /* Initialize USART */
+        UARTx->CR1_f.ML = 0ul;      /* LSB */
+        UARTx->CR1_f.MS = 0ul;      /* UART mode */
+        UARTx->CR1_f.OVER8 = 1ul;   /* 8bit sampling mode */
+        UARTx->CR1_f.M = 0ul;       /* 8 bit data length */
+        UARTx->CR1_f.PCE = 0ul;     /* no parity bit */
+
+        /* Set baudrate */
+        if(Ok != SetUartBaudrate(UARTx, u32Baudrate))
+        {
+            enRet = Error;
+        }
+        else
+        {
+            UARTx->CR2 = 0ul;       /* 1 stop bit, single uart mode */
+            UARTx->CR3 = 0ul;       /* CTS disable, Smart Card mode disable */
+            UARTx->CR1_f.TE = 1ul;  /* TX enable */
+
+            m_PrintfDevice = UARTx;
+            m_u32PrintfTimeout = (SystemCoreClock / u32Baudrate);
+        }
     }
 
     return enRet;
 }
-#endif /* UART_DEBUG_PRINTF_ENABLE */
+#endif /* DDL_PRINT_ENABLE */
 
 /**
  *******************************************************************************
@@ -256,8 +310,8 @@ en_result_t Ddl_UartInit(void)
  ******************************************************************************/
 void Ddl_Delay1ms(uint32_t u32Cnt)
 {
-    volatile uint32_t i = 0ul;
-    uint32_t u32Cyc = 0ul;
+    volatile uint32_t i;
+    uint32_t u32Cyc;
 
     u32Cyc = SystemCoreClock;
     u32Cyc = u32Cyc / 10000ul;
@@ -282,8 +336,8 @@ void Ddl_Delay1ms(uint32_t u32Cnt)
  ******************************************************************************/
 void Ddl_Delay1us(uint32_t u32Cnt)
 {
-    uint32_t u32Cyc = 1ul;
-    volatile uint32_t i = 0ul;
+    uint32_t u32Cyc;
+    volatile uint32_t i;
 
     if(SystemCoreClock > 10000000ul)
     {
@@ -350,7 +404,7 @@ __WEAKDEF void SysTick_Delay(uint32_t u32Delay)
 
     if (m_u32TickStep != 0UL)
     {
-        tickMax = 0xFFFFFFFFUL;
+        tickMax = 0xFFFFFFFFUL / m_u32TickStep * m_u32TickStep;
         /* Add a freq to guarantee minimum wait */
         if ((u32Delay >= tickMax) || ((tickMax - u32Delay) < m_u32TickStep))
         {
@@ -361,7 +415,7 @@ __WEAKDEF void SysTick_Delay(uint32_t u32Delay)
             tickEnd = u32Delay + m_u32TickStep;
         }
 
-        while ((SysTick_GetTick() - tickStart) < (tickEnd - 1))
+        while ((SysTick_GetTick() - tickStart) < tickEnd)
         {
         }
     }
@@ -437,8 +491,14 @@ __WEAKDEF void SysTick_Resume(void)
 #ifdef __DEBUG
 __WEAKDEF void Ddl_AssertHandler(uint8_t *file, int16_t line)
 {
+    /* Users can re-implement this function to print information */
+#if (DDL_PRINT_ENABLE == DDL_ON)
     printf("Wrong parameters value: file %s on line %d\r\n", file, line);
-    while (1)
+#else
+    (void)file;
+    (void)line;
+#endif
+    for (;;)
     {
         ;
     }

@@ -82,7 +82,7 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>$K\ARM\ARMCC\bin\fromelf.exe --bin --output=@L.bin !L</UserProg1Name>
+            <UserProg1Name>$K\ARM\ARMCLANG\bin\fromelf.exe --bin --output=@L.bin !L</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -141,7 +141,7 @@
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
-          <pFcarmGrp></pFcarmGrp>
+          <pFcarmGrp>arduino</pFcarmGrp>
           <pFcArmRoot></pFcArmRoot>
           <FcArmLst>0</FcArmLst>
         </Utilities>
@@ -163,7 +163,7 @@
             <AdsACrf>1</AdsACrf>
             <AdsANop>0</AdsANop>
             <AdsANot>0</AdsANot>
-            <AdsLLst>1</AdsLLst>
+            <AdsLLst>0</AdsLLst>
             <AdsLmap>1</AdsLmap>
             <AdsLcgr>1</AdsLcgr>
             <AdsLsym>1</AdsLsym>
@@ -329,18 +329,18 @@
             <uC99>1</uC99>
             <uGnu>1</uGnu>
             <useXO>0</useXO>
-            <v6Lang>4</v6Lang>
+            <v6Lang>3</v6Lang>
             <v6LangP>3</v6LangP>
-            <vShortEn>0</vShortEn>
-            <vShortWch>0</vShortWch>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls>--gnu --diag_suppress=186,66 --cpp11 --multifile -DBOARD_F_CPU=84000000 -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS</MiscControls>
-              <Define>HC32F46x,HC32F460,TARGET_HC32F46x,STM32F4xx,USE_DEVICE_DRIVER_LIB,__TARGET_FPU_VFP,__FPU_PRESENT=1,ARM_MATH_CM4,__CC_ARM,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING,__MPU_PRESENT=1,STM32_HIGH_DENSITY,ARDUINO_ARCH_STM32F1,ARDUINO_ARCH_STM32,REDIRECT_PRINTF_TO_SERIAL,ARDUINO=100</Define>
+              <MiscControls>--gnu --diag_suppress=186,66 --cpp11 --multifile -DBOARD_F_CPU=84000000</MiscControls>
+              <Define>HC32F460,TARGET_HC32F46x,STM32F4xx,USE_DEVICE_DRIVER_LIB,__TARGET_FPU_VFP,__FPU_PRESENT=1,__CC_ARM,ARM_MATH_CM4,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING,__MPU_PRESENT=1,STM32_HIGH_DENSITY,ARDUINO_ARCH_STM32F1,ARDUINO_ARCH_STM32,REDIRECT_PRINTF_TO_SERIAL,ARDUINO=100,__STDC_CONSTANT_MACROS,__STDC_LIMIT_MACROS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Marlin;..\Marlin\lib\component\adc;..\Marlin\lib\component\i2c;..\Marlin\lib\component\sdio;..\Marlin\lib\component\sdio\sd_card\inc;..\Marlin\lib\component\spi;..\Marlin\lib\component\uart;..\Marlin\lib\component\Utility;..\Marlin\lib\drivers\board;..\Marlin\lib\HDSC\library;..\Marlin\lib\HDSC\library\inc;..\Marlin\lib\arduino;..\Marlin\lib\framework\usb;..\Marlin\lib\framework\variants;..\Marlin\lib\main;..\Marlin\lib\HDSC;..\Marlin\lib\framework\SoftwareSerial;..\Marlin\lib\framework\TMCStepper;..\Marlin\lib\framework\TMCStepper\source;..\Marlin\lib\board;..\Marlin\lib\FatFs;..\Marlin\src;..\Marlin\src\pins;..\Marlin\src\core;..\Marlin\src\lcd;..\Marlin\src\feature;..\Marlin\src\feature\bedlevel;..\Marlin\src\feature\bedlevel\abl;..\Marlin\src\feature\bedlevel\mbl;..\Marlin\src\feature\bedlevel\ubl;..\Marlin\src\gcode;..\Marlin\src\HAL;..\Marlin\src\HAL\shared;..\Marlin\src\HAL\shared\backtrace;..\Marlin\src\HAL\HC32F46x;..\Marlin\src\HAL\HC32F46x\tft;..\Marlin\src\HAL\HC32F46x\inc;..\Marlin\src\inc;..\Marlin\src\lcd\language;..\Marlin\src\libs;..\Marlin\src\pins;..\Marlin\src\pins\hc32f46x;..\Marlin\src\lcd\extui;..\Marlin\src\lcd\extui\anycubic_kobra;..\Marlin\src\module;..\Marlin\src\module\stepper;..\Marlin\src\module\stepper\source;..\Marlin\src\module\thermistor;..\Marlin\src\sd;..\Marlin\lib\arduino\avr;..\Marlin\lib\arduino\stm32;..\Marlin\lib\arduino\stm32\LL;..\Marlin\lib\arduino\stm32\STM32F4xx_HAL_Driver\inc;..\Marlin\lib\arduino\stm32\STM32F4xx_HAL_Driver\src;..\Marlin\lib\arduino\libmaple;..\Marlin\lib\CMSIS;..\Marlin\lib\arduino\series</IncludePath>
+              <IncludePath>..\Marlin;..\Marlin\lib\component\adc;..\Marlin\lib\component\i2c;..\Marlin\lib\component\sdio;..\Marlin\lib\component\sdio\sd_card\inc;..\Marlin\lib\component\spi;..\Marlin\lib\component\uart;..\Marlin\lib\component\Utility;..\Marlin\lib\drivers\board;..\Marlin\lib\hdsc\library;..\Marlin\lib\hdsc\library\inc;..\Marlin\lib\arduino;..\Marlin\lib\framework\usb;..\Marlin\lib\framework\variants;..\Marlin\lib\main;..\Marlin\lib\hdsc;..\Marlin\lib\framework\SoftwareSerial;..\Marlin\lib\framework\TMCStepper;..\Marlin\lib\framework\TMCStepper\source;..\Marlin\lib\board;..\Marlin\lib\FatFs;..\Marlin\src;..\Marlin\src\core;..\Marlin\src\lcd;..\Marlin\src\feature;..\Marlin\src\feature\bedlevel;..\Marlin\src\feature\bedlevel\abl;..\Marlin\src\feature\bedlevel\mbl;..\Marlin\src\feature\bedlevel\ubl;..\Marlin\src\gcode;..\Marlin\src\HAL;..\Marlin\src\HAL\shared;..\Marlin\src\HAL\shared\backtrace;..\Marlin\src\HAL\HC32F46x;..\Marlin\src\HAL\HC32F46x\tft;..\Marlin\src\HAL\HC32F46x\inc;..\Marlin\src\inc;..\Marlin\src\lcd\language;..\Marlin\src\libs;..\Marlin\src\pins;..\Marlin\src\pins\hc32f46x;..\Marlin\src\lcd\extui;..\Marlin\src\lcd\extui\anycubic_kobra;..\Marlin\src\module;..\Marlin\src\module\stepper;..\Marlin\src\module\stepper\source;..\Marlin\src\module\thermistor;..\Marlin\src\sd;..\Marlin\lib\cmsis;..\Marlin\lib\arduino\drivers;..\Marlin\lib\arduino\drivers\adc;..\Marlin\lib\arduino\drivers\gpio;..\Marlin\lib\arduino\drivers\ots;..\Marlin\lib\arduino\drivers\usart;..\Marlin\lib\arduino\main;..\Marlin\lib\hdsc\addon</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -353,7 +353,7 @@
             <NoWarn>1</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <ClangAsOpt>4</ClangAsOpt>
+            <ClangAsOpt>1</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -382,307 +382,302 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>HDSC</GroupName>
+          <GroupName>hdsc</GroupName>
           <Files>
             <File>
               <FileName>startup_hc32f460.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\Marlin\lib\HDSC\startup_hc32f460.s</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\startup_hc32f460.s</FilePath>
             </File>
             <File>
               <FileName>system_hc32f460.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\system_hc32f460.c</FilePath>
-            </File>
-            <File>
-              <FileName>board_gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\drivers\board\board_gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>board_tim0.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\drivers\board\board_tim0.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>board_adc.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\drivers\board\board_adc.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>board_adc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\drivers\board\board_adc.h</FilePath>
-            </File>
-            <File>
-              <FileName>board_sdio.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\drivers\board\board_sdio.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>board_sdio.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\drivers\board\board_sdio.h</FilePath>
-            </File>
-            <File>
-              <FileName>startup.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\drivers\board\startup.cpp</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\system_hc32f460.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>HDSC_Library</GroupName>
+          <GroupName>hdsc_library</GroupName>
           <Files>
             <File>
               <FileName>hc32f460_adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_adc.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_adc.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_aes.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_aes.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_aes.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_can.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_can.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_can.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_clk.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_clk.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_clk.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_cmp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_cmp.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_cmp.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_crc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_crc.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_crc.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_dcu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_dcu.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_dcu.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_dmac.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_dmac.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_dmac.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_efm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_efm.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_efm.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_emb.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_emb.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_emb.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_event_port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_event_port.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_event_port.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_exint_nmi_swi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_exint_nmi_swi.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_exint_nmi_swi.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_gpio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_gpio.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_gpio.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_hash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_hash.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_hash.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_i2c.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_i2c.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_i2c.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_i2s.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_i2s.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_i2s.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_icg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_icg.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_icg.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_interrupts.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_interrupts.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_interrupts.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_keyscan.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_keyscan.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_keyscan.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_mpu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_mpu.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_mpu.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_ots.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_ots.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_ots.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_pwc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_pwc.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_pwc.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_qspi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_qspi.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_qspi.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_rmu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_rmu.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_rmu.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_rtc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_rtc.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_rtc.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_sdioc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_sdioc.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_sdioc.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_spi.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_spi.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_sram.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_sram.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_sram.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_swdt.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_swdt.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_swdt.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer0.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_timer0.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_timer0.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer4_cnt.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_timer4_cnt.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_timer4_cnt.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer4_emb.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_timer4_emb.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_timer4_emb.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer4_oco.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_timer4_oco.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_timer4_oco.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer4_pwm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_timer4_pwm.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_timer4_pwm.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer4_sevt.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_timer4_sevt.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_timer4_sevt.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer6.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_timer6.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_timer6.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timera.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_timera.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_timera.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_trng.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_trng.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_trng.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_usart.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_usart.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_wdt.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_wdt.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_wdt.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_utility.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\HDSC\library\src\hc32f460_utility.c</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\library\src\hc32f460_utility.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>CMSIS</GroupName>
+          <GroupName>cmsis</GroupName>
           <Files>
             <File>
               <FileName>cmsis_armcc.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\CMSIS\cmsis_armcc.h</FilePath>
+              <FilePath>..\Marlin\lib\cmsis\cmsis_armcc.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_armclang.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\CMSIS\cmsis_armclang.h</FilePath>
-            </File>
-            <File>
-              <FileName>cmsis_armclang_ltm.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\CMSIS\cmsis_armclang_ltm.h</FilePath>
+              <FilePath>..\Marlin\lib\cmsis\cmsis_armclang.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_compiler.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\CMSIS\cmsis_compiler.h</FilePath>
+              <FilePath>..\Marlin\lib\cmsis\cmsis_compiler.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_gcc.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\CMSIS\cmsis_gcc.h</FilePath>
+              <FilePath>..\Marlin\lib\cmsis\cmsis_gcc.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_version.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\CMSIS\cmsis_version.h</FilePath>
+              <FilePath>..\Marlin\lib\cmsis\cmsis_version.h</FilePath>
             </File>
             <File>
               <FileName>core_cm4.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\CMSIS\core_cm4.h</FilePath>
+              <FilePath>..\Marlin\lib\cmsis\core_cm4.h</FilePath>
             </File>
             <File>
               <FileName>mpu_armv7.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\CMSIS\mpu_armv7.h</FilePath>
+              <FilePath>..\Marlin\lib\cmsis\mpu_armv7.h</FilePath>
+            </File>
+            <File>
+              <FileName>cmsis_iccarm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\lib\cmsis\cmsis_iccarm.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm0.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\lib\cmsis\core_cm0.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm0plus.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\lib\cmsis\core_cm0plus.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\lib\cmsis\core_cm3.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm7.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\lib\cmsis\core_cm7.h</FilePath>
+            </File>
+            <File>
+              <FileName>mpu_armv8.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\lib\cmsis\mpu_armv8.h</FilePath>
+            </File>
+            <File>
+              <FileName>tz_context.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\lib\cmsis\tz_context.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -710,44 +705,19 @@
               <FilePath>..\Marlin\lib\arduino\WString.cpp</FilePath>
             </File>
             <File>
-              <FileName>HardwareSerial.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\arduino\HardwareSerial.h</FilePath>
-            </File>
-            <File>
-              <FileName>Print.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\arduino\Print.h</FilePath>
-            </File>
-            <File>
               <FileName>Printable.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Marlin\lib\arduino\Printable.h</FilePath>
             </File>
             <File>
-              <FileName>Stream.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\arduino\Stream.h</FilePath>
-            </File>
-            <File>
-              <FileName>WString.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\arduino\WString.h</FilePath>
-            </File>
-            <File>
-              <FileName>itoa.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\arduino\itoa.c</FilePath>
-            </File>
-            <File>
-              <FileName>itoa.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\arduino\itoa.h</FilePath>
+              <FileName>itoa.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\itoa.cpp</FilePath>
             </File>
             <File>
               <FileName>main.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\arduino\main.cpp</FilePath>
+              <FilePath>..\Marlin\lib\arduino\main\main.cpp</FilePath>
             </File>
             <File>
               <FileName>wirish_math.cpp</FileName>
@@ -757,109 +727,92 @@
             <File>
               <FileName>usart.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\arduino\libmaple\usart.h</FilePath>
+              <FilePath>..\Marlin\lib\arduino\usart.h</FilePath>
+            </File>
+            <File>
+              <FileName>dtostrf.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\dtostrf.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>init.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\main\init.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>adc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\adc.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>irq.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\irq.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>ots.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\ots.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pwm.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\pwm.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>rmu.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\rmu.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>sdio.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\sdio.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>timer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\timer.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>wdt.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\wdt.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>board_adc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\board_adc.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>board_sdio.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\board_sdio.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>gpio.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\gpio.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>systick.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\systick.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>startup.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\arduino\main\startup.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>gpio_pindefs.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Marlin\lib\arduino\drivers\gpio_pindefs.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>board</GroupName>
-          <Files>
-            <File>
-              <FileName>bsp_init.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_init.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_init.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_init.h</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_irq.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_irq.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_irq.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_irq.h</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_adc.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_adc.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_adc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_adc.h</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_pwm.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_pwm.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_pwm.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_pwm.h</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_sdio.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_sdio.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_sdio.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_sdio.h</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_timer.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_timer.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_timer.h</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_ots.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_ots.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_ots.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_ots.h</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_flash.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_flash.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_flash.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_flash.h</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_wdt.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_wdt.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_wdt.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_wdt.h</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_rmu.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\board\bsp_rmu.cpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>SoftwareSerial</GroupName>
@@ -868,11 +821,6 @@
               <FileName>SoftwareSerial.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\lib\framework\SoftwareSerial\SoftwareSerial.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SoftwareSerial.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\framework\SoftwareSerial\SoftwareSerial.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1020,19 +968,9 @@
               <FilePath>..\Marlin\lib\FatFs\diskio.c</FilePath>
             </File>
             <File>
-              <FileName>diskio.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\FatFs\diskio.h</FilePath>
-            </File>
-            <File>
               <FileName>ff.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Marlin\lib\FatFs\ff.c</FilePath>
-            </File>
-            <File>
-              <FileName>ff.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\FatFs\ff.h</FilePath>
             </File>
             <File>
               <FileName>ffconf.h</FileName>
@@ -1087,17 +1025,12 @@
             <File>
               <FileName>Version.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\Version.h</FilePath>
+              <FilePath>..\Marlin\src\inc\Version.h</FilePath>
             </File>
             <File>
               <FileName>MarlinCore.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\MarlinCore.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>MarlinCore.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\MarlinCore.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1210,11 +1143,6 @@
               <FilePath>..\Marlin\src\core\utility.cpp</FilePath>
             </File>
             <File>
-              <FileName>utility.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\utility.h</FilePath>
-            </File>
-            <File>
               <FileName>serial.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\core\serial.cpp</FilePath>
@@ -1282,12 +1210,12 @@
             <File>
               <FileName>flash.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\arduino/libmaple\flash.cpp</FilePath>
+              <FilePath>..\Marlin\lib\arduino\flash.cpp</FilePath>
             </File>
             <File>
               <FileName>iwdg.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\arduino/libmaple\iwdg.cpp</FilePath>
+              <FilePath>..\Marlin\lib\arduino\iwdg.cpp</FilePath>
             </File>
             <File>
               <FileName>Tone.cpp</FileName>
@@ -1305,19 +1233,9 @@
               <FilePath>..\Marlin\src\feature\bedlevel\bedlevel.cpp</FilePath>
             </File>
             <File>
-              <FileName>bedlevel.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\bedlevel\bedlevel.h</FilePath>
-            </File>
-            <File>
               <FileName>babystep.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\feature\babystep.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>babystep.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\babystep.h</FilePath>
             </File>
             <File>
               <FileName>controllerfan.cpp</FileName>
@@ -1325,19 +1243,9 @@
               <FilePath>..\Marlin\src\feature\controllerfan.cpp</FilePath>
             </File>
             <File>
-              <FileName>controllerfan.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\controllerfan.h</FilePath>
-            </File>
-            <File>
               <FileName>e_parser.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\feature\e_parser.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>e_parser.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\e_parser.h</FilePath>
             </File>
             <File>
               <FileName>fwretract.cpp</FileName>
@@ -1345,19 +1253,9 @@
               <FilePath>..\Marlin\src\feature\fwretract.cpp</FilePath>
             </File>
             <File>
-              <FileName>fwretract.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\fwretract.h</FilePath>
-            </File>
-            <File>
               <FileName>pause.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\feature\pause.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>pause.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\pause.h</FilePath>
             </File>
             <File>
               <FileName>power_monitor.cpp</FileName>
@@ -1365,19 +1263,9 @@
               <FilePath>..\Marlin\src\feature\power_monitor.cpp</FilePath>
             </File>
             <File>
-              <FileName>power_monitor.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\power_monitor.h</FilePath>
-            </File>
-            <File>
               <FileName>repeat.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\feature\repeat.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>repeat.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\repeat.h</FilePath>
             </File>
             <File>
               <FileName>tmc_util.cpp</FileName>
@@ -1385,19 +1273,9 @@
               <FilePath>..\Marlin\src\feature\tmc_util.cpp</FilePath>
             </File>
             <File>
-              <FileName>tmc_util.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\tmc_util.h</FilePath>
-            </File>
-            <File>
               <FileName>z_stepper_align.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\feature\z_stepper_align.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>z_stepper_align.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\z_stepper_align.h</FilePath>
             </File>
             <File>
               <FileName>bbl.cpp</FileName>
@@ -1405,29 +1283,14 @@
               <FilePath>..\Marlin\src\feature\bedlevel\abl\bbl.cpp</FilePath>
             </File>
             <File>
-              <FileName>bbl.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\bedlevel\abl\bbl.h</FilePath>
-            </File>
-            <File>
               <FileName>backlash.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\feature\backlash.cpp</FilePath>
             </File>
             <File>
-              <FileName>backlash.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\backlash.h</FilePath>
-            </File>
-            <File>
               <FileName>host_actions.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\feature\host_actions.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>host_actions.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\feature\host_actions.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2065,11 +1928,6 @@
               <FilePath>..\Marlin\src\gcode\gcode.cpp</FilePath>
             </File>
             <File>
-              <FileName>gcode.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\gcode\gcode.h</FilePath>
-            </File>
-            <File>
               <FileName>gcode_d.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\gcode\gcode_d.cpp</FilePath>
@@ -2080,19 +1938,9 @@
               <FilePath>..\Marlin\src\gcode\parser.cpp</FilePath>
             </File>
             <File>
-              <FileName>parser.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\gcode\parser.h</FilePath>
-            </File>
-            <File>
               <FileName>queue.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\gcode\queue.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>queue.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\gcode\queue.h</FilePath>
             </File>
             <File>
               <FileName>M710.cpp</FileName>
@@ -2325,11 +2173,6 @@
               <FilePath>..\Marlin\src\HAL\shared\eeprom_api.cpp</FilePath>
             </File>
             <File>
-              <FileName>eeprom_api.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\shared\eeprom_api.h</FilePath>
-            </File>
-            <File>
               <FileName>HAL_SPI.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Marlin\src\HAL\shared\HAL_SPI.h</FilePath>
@@ -2385,11 +2228,6 @@
               <FilePath>..\Marlin\src\HAL\HC32F46x\timers.cpp</FilePath>
             </File>
             <File>
-              <FileName>timers.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\timers.h</FilePath>
-            </File>
-            <File>
               <FileName>Conditionals_adv.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Marlin\src\HAL\HC32F46x\inc\Conditionals_adv.h</FilePath>
@@ -2443,11 +2281,6 @@
               <FileName>MinSerial.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\HAL\shared\MinSerial.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>MinSerial.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\shared\MinSerial.h</FilePath>
             </File>
             <File>
               <FileName>HAL_SPI.cpp</FileName>
@@ -2510,11 +2343,6 @@
               <FilePath>..\Marlin\src\libs\buzzer.cpp</FilePath>
             </File>
             <File>
-              <FileName>buzzer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\buzzer.h</FilePath>
-            </File>
-            <File>
               <FileName>circularqueue.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Marlin\src\libs\circularqueue.h</FilePath>
@@ -2523,11 +2351,6 @@
               <FileName>crc16.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\libs\crc16.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>crc16.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\crc16.h</FilePath>
             </File>
             <File>
               <FileName>duration_t.h</FileName>
@@ -2540,29 +2363,14 @@
               <FilePath>..\Marlin\src\libs\hex_print.cpp</FilePath>
             </File>
             <File>
-              <FileName>hex_print.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\hex_print.h</FilePath>
-            </File>
-            <File>
               <FileName>nozzle.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\libs\nozzle.cpp</FilePath>
             </File>
             <File>
-              <FileName>nozzle.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\nozzle.h</FilePath>
-            </File>
-            <File>
               <FileName>numtostr.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\libs\numtostr.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>numtostr.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\numtostr.h</FilePath>
             </File>
             <File>
               <FileName>private_spi.h</FileName>
@@ -2580,34 +2388,9 @@
               <FilePath>..\Marlin\src\libs\stopwatch.cpp</FilePath>
             </File>
             <File>
-              <FileName>stopwatch.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\stopwatch.h</FilePath>
-            </File>
-            <File>
               <FileName>vector_3.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\libs\vector_3.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>vector_3.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\vector_3.h</FilePath>
-            </File>
-            <File>
-              <FileName>dtostrf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\arduino\avr\dtostrf.c</FilePath>
-            </File>
-            <File>
-              <FileName>dtostrf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\arduino\avr\dtostrf.h</FilePath>
-            </File>
-            <File>
-              <FileName>pgmspace.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\arduino\avr\pgmspace.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2620,19 +2403,9 @@
               <FilePath>..\Marlin\src\module\stepper\indirection.cpp</FilePath>
             </File>
             <File>
-              <FileName>indirection.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\stepper\indirection.h</FilePath>
-            </File>
-            <File>
               <FileName>trinamic.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\module\stepper\trinamic.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>trinamic.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\stepper\trinamic.h</FilePath>
             </File>
             <File>
               <FileName>endstops.cpp</FileName>
@@ -2640,19 +2413,9 @@
               <FilePath>..\Marlin\src\module\endstops.cpp</FilePath>
             </File>
             <File>
-              <FileName>endstops.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\endstops.h</FilePath>
-            </File>
-            <File>
               <FileName>motion.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\module\motion.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>motion.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\motion.h</FilePath>
             </File>
             <File>
               <FileName>planner.cpp</FileName>
@@ -2660,19 +2423,9 @@
               <FilePath>..\Marlin\src\module\planner.cpp</FilePath>
             </File>
             <File>
-              <FileName>planner.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\planner.h</FilePath>
-            </File>
-            <File>
               <FileName>printcounter.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\module\printcounter.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>printcounter.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\printcounter.h</FilePath>
             </File>
             <File>
               <FileName>probe.cpp</FileName>
@@ -2680,19 +2433,9 @@
               <FilePath>..\Marlin\src\module\probe.cpp</FilePath>
             </File>
             <File>
-              <FileName>probe.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\probe.h</FilePath>
-            </File>
-            <File>
               <FileName>settings.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\module\settings.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>settings.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\settings.h</FilePath>
             </File>
             <File>
               <FileName>stepper.cpp</FileName>
@@ -2700,29 +2443,14 @@
               <FilePath>..\Marlin\src\module\stepper.cpp</FilePath>
             </File>
             <File>
-              <FileName>stepper.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\stepper.h</FilePath>
-            </File>
-            <File>
               <FileName>temperature.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\module\temperature.cpp</FilePath>
             </File>
             <File>
-              <FileName>temperature.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\temperature.h</FilePath>
-            </File>
-            <File>
               <FileName>tool_change.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\module\tool_change.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>tool_change.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\tool_change.h</FilePath>
             </File>
             <File>
               <FileName>speed_lookuptable.h</FileName>
@@ -2738,11 +2466,6 @@
               <FileName>ft_motion.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\module\ft_motion.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>ft_motion.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\ft_motion.h</FilePath>
             </File>
             <File>
               <FileName>ft_types.h</FileName>
@@ -2795,19 +2518,9 @@
               <FilePath>..\Marlin\src\sd\cardreader.cpp</FilePath>
             </File>
             <File>
-              <FileName>cardreader.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\sd\cardreader.h</FilePath>
-            </File>
-            <File>
               <FileName>SdBaseFile.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\sd\SdBaseFile.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SdBaseFile.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\sd\SdBaseFile.h</FilePath>
             </File>
             <File>
               <FileName>SdFatConfig.h</FileName>
@@ -2825,19 +2538,9 @@
               <FilePath>..\Marlin\src\sd\SdFatUtil.cpp</FilePath>
             </File>
             <File>
-              <FileName>SdFatUtil.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\sd\SdFatUtil.h</FilePath>
-            </File>
-            <File>
               <FileName>SdFile.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\sd\SdFile.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SdFile.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\sd\SdFile.h</FilePath>
             </File>
             <File>
               <FileName>SdInfo.h</FileName>
@@ -2849,11 +2552,6 @@
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\sd\SdVolume.cpp</FilePath>
             </File>
-            <File>
-              <FileName>SdVolume.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\sd\SdVolume.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2863,11 +2561,6 @@
               <FileName>marlin_tests.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\src\tests\marlin_tests.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>marlin_tests.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\src\tests\marlin_tests.h</FilePath>
             </File>
           </Files>
         </Group>

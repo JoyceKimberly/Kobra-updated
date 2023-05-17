@@ -1,43 +1,10 @@
 /*******************************************************************************
- * Copyright (C) 2016, Huada Semiconductor Co.,Ltd All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co.,Ltd ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
 /** \file hc32f460_timer0.c
@@ -45,7 +12,7 @@
  ** A detailed description is available at
  ** @link Timer0Group description @endlink
  **
- **   - 2018-10-11  1.0  Wangmin  First version for Device Driver Library of TIMER0.
+ **   - 2018-10-11  CDT  First version for Device Driver Library of TIMER0.
  **
  ******************************************************************************/
 
@@ -125,7 +92,7 @@
 
 /* Parameter validity check for external trigger event. */
 #define IS_VALID_TRIG_SRC_EVENT(x)                                             \
-(   (((x) >= EVT_PORT_EIRQ0) && ((x) <= EVT_PORT_EIRQ15))              ||      \
+(   ((x) <= EVT_PORT_EIRQ15)                                           ||      \
     (((x) >= EVT_DMA1_TC0) && ((x) <= EVT_DMA2_BTC3))                  ||      \
     (((x) >= EVT_EFM_OPTEND) && ((x) <= EVT_USBFS_SOF))                ||      \
     (((x) >= EVT_DCU1) && ((x) <= EVT_DCU4))                           ||      \
@@ -681,6 +648,7 @@ en_result_t TIMER0_BaseInit(M4_TMR0_TypeDef* pstcTim0Reg,en_tim0_channel_t enCh,
                        const stc_tim0_base_init_t* pstcBaseInit)
 {
     stc_tmr0_bconr_field_t stcBconrTmp;
+    uint32_t stcBconrTmpRaw;
     en_result_t enRet = Ok;
     uint32_t u32TimeOut = 0ul;
 
@@ -699,19 +667,19 @@ en_result_t TIMER0_BaseInit(M4_TMR0_TypeDef* pstcTim0Reg,en_tim0_channel_t enCh,
         }
 
         /*Read current BCONR register */
-        stcBconrTmp = pstcTim0Reg->BCONR_f;
+        stcBconrTmpRaw = pstcTim0Reg->BCONR;
         /* Clear current configurate CH */
         if(Tim0_ChannelA == enCh)
         {
-            *(uint32_t *)&stcBconrTmp &= 0xFFFF0000ul;
+            stcBconrTmpRaw &= 0xFFFF0000ul;
         }
         else
         {
-            *(uint32_t *)&stcBconrTmp &= 0x0000FFFFul;
+            stcBconrTmpRaw &= 0x0000FFFFul;
         }
-        pstcTim0Reg->BCONR_f = stcBconrTmp;
+        pstcTim0Reg->BCONR = stcBconrTmpRaw;
         AsyncDelay(pstcTim0Reg, enCh, Enable);
-        while(*(uint32_t *)&stcBconrTmp != *(uint32_t *)&(pstcTim0Reg->BCONR_f))
+        while(stcBconrTmpRaw != pstcTim0Reg->BCONR)
         {
             if(u32TimeOut++ > TIMER0_TMOUT)
             {
@@ -719,6 +687,7 @@ en_result_t TIMER0_BaseInit(M4_TMR0_TypeDef* pstcTim0Reg,en_tim0_channel_t enCh,
                 break;
             }
         }
+        stcBconrTmp = pstcTim0Reg->BCONR_f;
 
         switch(enCh)
         {

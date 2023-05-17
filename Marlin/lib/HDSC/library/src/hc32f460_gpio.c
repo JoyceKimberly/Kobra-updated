@@ -1,43 +1,10 @@
 /******************************************************************************
- * Copyright (C) 2016, Huada Semiconductor Co.,Ltd All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co.,Ltd ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
 /** \file hc32f460_gpio.c
@@ -45,7 +12,7 @@
  ** A detailed description is available at
  ** @link GpioGroup Gpio description @endlink
  **
- **   - 2018-10-12  1.0  Zhangxl First version for Device Driver Library of Gpio.
+ **   - 2018-10-12 CDT First version for Device Driver Library of Gpio.
  **
  ******************************************************************************/
 
@@ -136,82 +103,12 @@
 /*! Parameter validity check for pin function */
 #define IS_VALID_FUNC(x)                                                        \
 (   ((x) == Func_Gpio)                          ||                              \
-    ((x) == Func_Fcmref)                        ||                              \
-    ((x) == Func_Rtcout)                        ||                              \
-    ((x) == Func_Vcout)                         ||                              \
-    ((x) == Func_Adtrg)                         ||                              \
-    ((x) == Func_Mclkout)                       ||                              \
-    ((x) == Func_Tim4)                          ||                              \
-    ((x) == Func_Tim6)                          ||                              \
-    ((x) == Func_Tima0)                         ||                              \
-    ((x) == Func_Tima1)                         ||                              \
-    ((x) == Func_Tima2)                         ||                              \
-    ((x) == Func_Emb)                           ||                              \
-    ((x) == Func_Usart_Ck)                      ||                              \
-    ((x) == Func_Spi_Nss)                       ||                              \
-    ((x) == Func_Qspi)                          ||                              \
-    ((x) == Func_Key)                           ||                              \
-    ((x) == Func_Sdio)                          ||                              \
-    ((x) == Func_I2s)                           ||                              \
-    ((x) == Func_UsbF)                          ||                              \
+    (((x) >= Func_Fcmref)                       &&                              \
+    ((x) <= Func_I2s))                          ||                              \
     ((x) == Func_Evnpt)                         ||                              \
     ((x) == Func_Eventout)                      ||                              \
-    ((x) == Func_Usart1_Tx)                     ||                              \
-    ((x) == Func_Usart3_Tx)                     ||                              \
-    ((x) == Func_Usart1_Rx)                     ||                              \
-    ((x) == Func_Usart3_Rx)                     ||                              \
-    ((x) == Func_Usart1_Rts)                    ||                              \
-    ((x) == Func_Usart3_Rts)                    ||                              \
-    ((x) == Func_Usart1_Cts)                    ||                              \
-    ((x) == Func_Usart3_Cts)                    ||                              \
-    ((x) == Func_Usart2_Tx)                     ||                              \
-    ((x) == Func_Usart4_Tx)                     ||                              \
-    ((x) == Func_Usart2_Rx)                     ||                              \
-    ((x) == Func_Usart4_Rx)                     ||                              \
-    ((x) == Func_Usart2_Rts)                    ||                              \
-    ((x) == Func_Usart4_Rts)                    ||                              \
-    ((x) == Func_Usart2_Cts)                    ||                              \
-    ((x) == Func_Usart4_Cts)                    ||                              \
-    ((x) == Func_Spi1_Mosi)                     ||                              \
-    ((x) == Func_Spi3_Mosi)                     ||                              \
-    ((x) == Func_Spi1_Miso)                     ||                              \
-    ((x) == Func_Spi3_Miso)                     ||                              \
-    ((x) == Func_Spi1_Nss0)                     ||                              \
-    ((x) == Func_Spi3_Nss0)                     ||                              \
-    ((x) == Func_Spi1_Sck)                      ||                              \
-    ((x) == Func_Spi3_Sck)                      ||                              \
-    ((x) == Func_Spi2_Mosi)                     ||                              \
-    ((x) == Func_Spi4_Mosi)                     ||                              \
-    ((x) == Func_Spi2_Miso)                     ||                              \
-    ((x) == Func_Spi4_Miso)                     ||                              \
-    ((x) == Func_Spi2_Nss0)                     ||                              \
-    ((x) == Func_Spi4_Nss0)                     ||                              \
-    ((x) == Func_Spi2_Sck)                      ||                              \
-    ((x) == Func_Spi4_Sck)                      ||                              \
-    ((x) == Func_I2c1_Sda)                      ||                              \
-    ((x) == Func_I2c3_Sda)                      ||                              \
-    ((x) == Func_I2c1_Scl)                      ||                              \
-    ((x) == Func_I2c3_Scl)                      ||                              \
-    ((x) == Func_I2c2_Sda)                      ||                              \
-    ((x) == Func_Can1_Tx)                       ||                              \
-    ((x) == Func_I2c2_Scl)                      ||                              \
-    ((x) == Func_Can1_Rx)                       ||                              \
-    ((x) == Func_I2s1_Sd)                       ||                              \
-    ((x) == Func_I2s3_Sd)                       ||                              \
-    ((x) == Func_I2s1_Sdin)                     ||                              \
-    ((x) == Func_I2s3_Sdin)                     ||                              \
-    ((x) == Func_I2s1_Ws)                       ||                              \
-    ((x) == Func_I2s3_Ws)                       ||                              \
-    ((x) == Func_I2s1_Ck)                       ||                              \
-    ((x) == Func_I2s3_Ck)                       ||                              \
-    ((x) == Func_I2s2_Sd)                       ||                              \
-    ((x) == Func_I2s4_Sd)                       ||                              \
-    ((x) == Func_I2s2_Sdin)                     ||                              \
-    ((x) == Func_I2s4_Sdin)                     ||                              \
-    ((x) == Func_I2s2_Ws)                       ||                              \
-    ((x) == Func_I2s4_Ws)                       ||                              \
-    ((x) == Func_I2s2_Ck)                       ||                              \
-    ((x) == Func_I2s4_Ck))
+    (((x) >= Func_Usart1_Tx)                    &&                              \
+    ((x) <= Func_I2s2_Ck)))
 
 /*! Parameter validity check for pin sub-function */
 #define IS_VALID_SUBFUNC(x)                                                     \
@@ -605,9 +502,10 @@ en_result_t PORT_SetBits(en_port_t enPort, uint16_t u16Pin)
     /* parameter check */
     DDL_ASSERT(IS_VALID_PORT(enPort));
 
-    POSRx = (uint16_t *)((uint32_t)(&M4_PORT->POSRA) + ((uint32_t)enPort<<4));
+    POSRx = (uint16_t *)((uint32_t)(&M4_PORT->POSRA) + 0x10u * enPort);
     *POSRx |= u16Pin;
     return Ok;
+
 }
 
 /**
