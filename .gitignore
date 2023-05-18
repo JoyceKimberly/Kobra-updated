@@ -179,6 +179,7 @@ __pycache__
 *.swp
 tags
 *.logs
+*/.vscode/*
 *.build_log.htm
 *.cdb
 *.dep
