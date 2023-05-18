@@ -340,7 +340,7 @@
               <MiscControls>--gnu --diag_suppress=186,66 --cpp11 --multifile -DBOARD_F_CPU=84000000</MiscControls>
               <Define>HC32F460,TARGET_HC32F46x,STM32F4xx,USE_DEVICE_DRIVER_LIB,__TARGET_FPU_VFP,__FPU_PRESENT=1,__CC_ARM,ARM_MATH_CM4,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING,__MPU_PRESENT=1,STM32_HIGH_DENSITY,ARDUINO_ARCH_STM32F1,ARDUINO_ARCH_STM32,REDIRECT_PRINTF_TO_SERIAL,ARDUINO=100,__STDC_CONSTANT_MACROS,__STDC_LIMIT_MACROS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Marlin;..\Marlin\lib\component\adc;..\Marlin\lib\component\i2c;..\Marlin\lib\component\sdio;..\Marlin\lib\component\sdio\sd_card\inc;..\Marlin\lib\component\spi;..\Marlin\lib\component\uart;..\Marlin\lib\component\Utility;..\Marlin\lib\drivers\board;..\Marlin\lib\hdsc\library;..\Marlin\lib\hdsc\library\inc;..\Marlin\lib\arduino;..\Marlin\lib\framework\usb;..\Marlin\lib\framework\variants;..\Marlin\lib\main;..\Marlin\lib\hdsc;..\Marlin\lib\framework\SoftwareSerial;..\Marlin\lib\framework\TMCStepper;..\Marlin\lib\framework\TMCStepper\source;..\Marlin\lib\board;..\Marlin\lib\FatFs;..\Marlin\src;..\Marlin\src\core;..\Marlin\src\lcd;..\Marlin\src\feature;..\Marlin\src\feature\bedlevel;..\Marlin\src\feature\bedlevel\abl;..\Marlin\src\feature\bedlevel\mbl;..\Marlin\src\feature\bedlevel\ubl;..\Marlin\src\gcode;..\Marlin\src\HAL;..\Marlin\src\HAL\shared;..\Marlin\src\HAL\shared\backtrace;..\Marlin\src\HAL\HC32F46x;..\Marlin\src\HAL\HC32F46x\tft;..\Marlin\src\HAL\HC32F46x\inc;..\Marlin\src\inc;..\Marlin\src\lcd\language;..\Marlin\src\libs;..\Marlin\src\pins;..\Marlin\src\pins\hc32f46x;..\Marlin\src\lcd\extui;..\Marlin\src\lcd\extui\anycubic_kobra;..\Marlin\src\module;..\Marlin\src\module\stepper;..\Marlin\src\module\stepper\source;..\Marlin\src\module\thermistor;..\Marlin\src\sd;..\Marlin\lib\arduino\avr;..\Marlin\lib\arduino\stm32;..\Marlin\lib\arduino\stm32\LL;..\Marlin\lib\arduino\stm32\STM32F4xx_HAL_Driver\inc;..\Marlin\lib\arduino\stm32\STM32F4xx_HAL_Driver\src;..\Marlin\lib\arduino\libmaple;..\Marlin\lib\cmsis;..\Marlin\lib\arduino\series;..\Marlin\lib\arduino\drivers;..\Marlin\lib\arduino\drivers\adc;..\Marlin\lib\arduino\drivers\gpio;..\Marlin\lib\addon;..\Marlin\lib\arduino\drivers\ots;..\Marlin\lib\arduino\drivers\usart</IncludePath>
+              <IncludePath>..\Marlin;..\Marlin\lib\component\adc;..\Marlin\lib\component\i2c;..\Marlin\lib\component\sdio;..\Marlin\lib\component\sdio\sd_card\inc;..\Marlin\lib\component\spi;..\Marlin\lib\component\uart;..\Marlin\lib\component\Utility;..\Marlin\lib\drivers\board;..\Marlin\lib\hdsc\library;..\Marlin\lib\hdsc\library\inc;..\Marlin\lib\arduino;..\Marlin\lib\usb;..\Marlin\lib\variants;..\Marlin\lib\main;..\Marlin\lib\hdsc;..\Marlin\lib\SoftwareSerial;..\Marlin\lib\TMCStepper;..\Marlin\lib\TMCStepper\source;..\Marlin\lib\board;..\Marlin\lib\FatFs;..\Marlin\src;..\Marlin\src\core;..\Marlin\src\lcd;..\Marlin\src\feature;..\Marlin\src\feature\bedlevel;..\Marlin\src\feature\bedlevel\abl;..\Marlin\src\feature\bedlevel\mbl;..\Marlin\src\feature\bedlevel\ubl;..\Marlin\src\gcode;..\Marlin\src\HAL;..\Marlin\src\HAL\shared;..\Marlin\src\HAL\shared\backtrace;..\Marlin\src\HAL\HC32F46x;..\Marlin\src\HAL\HC32F46x\tft;..\Marlin\src\HAL\HC32F46x\inc;..\Marlin\src\inc;..\Marlin\src\lcd\language;..\Marlin\src\libs;..\Marlin\src\pins;..\Marlin\src\pins\hc32f46x;..\Marlin\src\lcd\extui;..\Marlin\src\lcd\extui\anycubic_kobra;..\Marlin\src\module;..\Marlin\src\module\stepper;..\Marlin\src\module\stepper\source;..\Marlin\src\module\thermistor;..\Marlin\src\sd;..\Marlin\lib\arduino\avr;..\Marlin\lib\arduino\libmaple;..\Marlin\lib\hdsc\cmsis;..\Marlin\lib\arduino\series;..\Marlin\lib\arduino\drivers;..\Marlin\lib\arduino\drivers\adc;..\Marlin\lib\arduino\drivers\gpio;..\Marlin\lib\addon;..\Marlin\lib\arduino\drivers\ots;..\Marlin\lib\arduino\drivers\usart</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -637,72 +637,72 @@
             <File>
               <FileName>cmsis_armcc.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\cmsis_armcc.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\cmsis_armcc.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_armclang.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\cmsis_armclang.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\cmsis_armclang.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_compiler.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\cmsis_compiler.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\cmsis_compiler.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_gcc.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\cmsis_gcc.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\cmsis_gcc.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_version.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\cmsis_version.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\cmsis_version.h</FilePath>
             </File>
             <File>
               <FileName>core_cm4.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\core_cm4.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\core_cm4.h</FilePath>
             </File>
             <File>
               <FileName>mpu_armv7.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\mpu_armv7.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\mpu_armv7.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_iccarm.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\cmsis_iccarm.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\cmsis_iccarm.h</FilePath>
             </File>
             <File>
               <FileName>core_cm0.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\core_cm0.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\core_cm0.h</FilePath>
             </File>
             <File>
               <FileName>core_cm0plus.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\core_cm0plus.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\core_cm0plus.h</FilePath>
             </File>
             <File>
               <FileName>core_cm3.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\core_cm3.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\core_cm3.h</FilePath>
             </File>
             <File>
               <FileName>core_cm7.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\core_cm7.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\core_cm7.h</FilePath>
             </File>
             <File>
               <FileName>mpu_armv8.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\mpu_armv8.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\mpu_armv8.h</FilePath>
             </File>
             <File>
               <FileName>tz_context.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cmsis\tz_context.h</FilePath>
+              <FilePath>..\Marlin\lib\hdsc\cmsis\tz_context.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -817,7 +817,7 @@
             <File>
               <FileName>SoftwareSerial.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\SoftwareSerial\SoftwareSerial.cpp</FilePath>
+              <FilePath>..\Marlin\lib\SoftwareSerial\SoftwareSerial.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -827,132 +827,132 @@
             <File>
               <FileName>CHOPCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\CHOPCONF.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\CHOPCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>COOLCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\COOLCONF.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\COOLCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>DRV_CONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\DRV_CONF.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\DRV_CONF.cpp</FilePath>
             </File>
             <File>
               <FileName>DRV_STATUS.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\DRV_STATUS.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\DRV_STATUS.cpp</FilePath>
             </File>
             <File>
               <FileName>DRVCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\DRVCONF.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\DRVCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>DRVCTRL.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\DRVCTRL.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\DRVCTRL.cpp</FilePath>
             </File>
             <File>
               <FileName>DRVSTATUS.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\DRVSTATUS.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\DRVSTATUS.cpp</FilePath>
             </File>
             <File>
               <FileName>ENCMODE.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\ENCMODE.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\ENCMODE.cpp</FilePath>
             </File>
             <File>
               <FileName>GCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\GCONF.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\GCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>IHOLD_IRUN.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\IHOLD_IRUN.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\IHOLD_IRUN.cpp</FilePath>
             </File>
             <File>
               <FileName>PWMCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\PWMCONF.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\PWMCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>RAMP_STAT.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\RAMP_STAT.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\RAMP_STAT.cpp</FilePath>
             </File>
             <File>
               <FileName>SERIAL_SWITCH.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\SERIAL_SWITCH.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\SERIAL_SWITCH.cpp</FilePath>
             </File>
             <File>
               <FileName>SERIAL_SWITCH.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\SERIAL_SWITCH.h</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\SERIAL_SWITCH.h</FilePath>
             </File>
             <File>
               <FileName>SGCSCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\SGCSCONF.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\SGCSCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>SHORT_CONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\SHORT_CONF.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\SHORT_CONF.cpp</FilePath>
             </File>
             <File>
               <FileName>SMARTEN.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\SMARTEN.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\SMARTEN.cpp</FilePath>
             </File>
             <File>
               <FileName>SW_MODE.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\SW_MODE.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\SW_MODE.cpp</FilePath>
             </File>
             <File>
               <FileName>SW_SPI.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\SW_SPI.h</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\SW_SPI.h</FilePath>
             </File>
             <File>
               <FileName>TMC_MACROS.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\TMC_MACROS.h</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\TMC_MACROS.h</FilePath>
             </File>
             <File>
               <FileName>TMC_platforms.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\TMC_platforms.h</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\TMC_platforms.h</FilePath>
             </File>
             <File>
               <FileName>TMC2208_bitfields.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\TMC2208_bitfields.h</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\TMC2208_bitfields.h</FilePath>
             </File>
             <File>
               <FileName>TMC2208Stepper.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\TMC2208Stepper.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\TMC2208Stepper.cpp</FilePath>
             </File>
             <File>
               <FileName>TMC2209_bitfields.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\TMC2209_bitfields.h</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\TMC2209_bitfields.h</FilePath>
             </File>
             <File>
               <FileName>TMC2209Stepper.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\TMC2209Stepper.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\TMC2209Stepper.cpp</FilePath>
             </File>
             <File>
               <FileName>TMCStepper.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\framework\TMCStepper\source\TMCStepper.cpp</FilePath>
+              <FilePath>..\Marlin\lib\TMCStepper\source\TMCStepper.cpp</FilePath>
             </File>
           </Files>
         </Group>

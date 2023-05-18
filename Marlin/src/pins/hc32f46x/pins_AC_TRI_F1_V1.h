@@ -83,39 +83,6 @@
 #define E1_DIR_PIN                          PB0
 //#define E1_STALL_PIN                        PB2
 
-
-/**
- * TMC2208/TMC2209 stepper drivers
- *
- * Hardware serial communication ports.
- * If undefined software serial is used according to the pins below
- */
-
-#define X_HARDWARE_SERIAL  Serial1
-#define Y_HARDWARE_SERIAL  Serial1
-#define Z_HARDWARE_SERIAL  Serial1
-#define E0_HARDWARE_SERIAL Serial1
-
-//#define E1_HARDWARE_SERIAL Serial3
-
-//
-// Software serial
-//
-//  #define X_SERIAL_TX_PIN                   PA9
-//  #define X_SERIAL_RX_PIN                   PA15
-
-//  #define Y_SERIAL_TX_PIN                   PA9
-//  #define Y_SERIAL_RX_PIN                   PA15
-
-//  #define Z_SERIAL_TX_PIN                   PA9
-//  #define Z_SERIAL_RX_PIN                   PA15
-
-//  #define E0_SERIAL_TX_PIN                  PA9
-//  #define E0_SERIAL_RX_PIN                  PA15
-
-// Reduce baud rate to improve software serial reliability
-#define TMC_BAUD_RATE                     115200
-
 //
 // Temperature Sensors
 //
@@ -203,4 +170,36 @@
 
 #define BOARD_USART4_TX_PIN     PB10    // LCD
 #define BOARD_USART4_RX_PIN     PH2
+
+/**
+ * TMC2208/TMC2209 stepper drivers
+ *
+ * Hardware serial communication ports.
+ * If undefined software serial is used according to the pins below
+ */
+
+#define X_HARDWARE_SERIAL  Serial1
+#define Y_HARDWARE_SERIAL  Serial1
+#define Z_HARDWARE_SERIAL  Serial1
+#define E0_HARDWARE_SERIAL Serial1
+
+//#define E1_HARDWARE_SERIAL Serial3
+
+//
+// Software serial
+//
+//  #define X_SERIAL_TX_PIN                   PA9
+//  #define X_SERIAL_RX_PIN                   PA15
+
+//  #define Y_SERIAL_TX_PIN                   PA9
+//  #define Y_SERIAL_RX_PIN                   PA15
+
+//  #define Z_SERIAL_TX_PIN                   PA9
+//  #define Z_SERIAL_RX_PIN                   PA15
+
+//  #define E0_SERIAL_TX_PIN                  PA9
+//  #define E0_SERIAL_RX_PIN                  PA15
+
+// Reduce baud rate to improve software serial reliability
+#define TMC_BAUD_RATE                     115200
 

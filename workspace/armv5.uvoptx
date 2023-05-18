@@ -781,7 +781,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\cmsis_armcc.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\cmsis_armcc.h</PathWithFileName>
       <FilenameWithoutPath>cmsis_armcc.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -793,7 +793,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\cmsis_armclang.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\cmsis_armclang.h</PathWithFileName>
       <FilenameWithoutPath>cmsis_armclang.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -805,7 +805,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\cmsis_compiler.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\cmsis_compiler.h</PathWithFileName>
       <FilenameWithoutPath>cmsis_compiler.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -817,7 +817,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\cmsis_gcc.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\cmsis_gcc.h</PathWithFileName>
       <FilenameWithoutPath>cmsis_gcc.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -829,7 +829,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\cmsis_version.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\cmsis_version.h</PathWithFileName>
       <FilenameWithoutPath>cmsis_version.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -841,7 +841,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\core_cm4.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\core_cm4.h</PathWithFileName>
       <FilenameWithoutPath>core_cm4.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -853,7 +853,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\mpu_armv7.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\mpu_armv7.h</PathWithFileName>
       <FilenameWithoutPath>mpu_armv7.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -865,7 +865,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\cmsis_iccarm.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\cmsis_iccarm.h</PathWithFileName>
       <FilenameWithoutPath>cmsis_iccarm.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -877,7 +877,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\core_cm0.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\core_cm0.h</PathWithFileName>
       <FilenameWithoutPath>core_cm0.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -889,7 +889,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\core_cm0plus.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\core_cm0plus.h</PathWithFileName>
       <FilenameWithoutPath>core_cm0plus.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -901,7 +901,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\core_cm3.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\core_cm3.h</PathWithFileName>
       <FilenameWithoutPath>core_cm3.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -913,7 +913,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\core_cm7.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\core_cm7.h</PathWithFileName>
       <FilenameWithoutPath>core_cm7.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -925,7 +925,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\mpu_armv8.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\mpu_armv8.h</PathWithFileName>
       <FilenameWithoutPath>mpu_armv8.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -937,7 +937,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\cmsis\tz_context.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\hdsc\cmsis\tz_context.h</PathWithFileName>
       <FilenameWithoutPath>tz_context.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1201,7 +1201,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\SoftwareSerial\SoftwareSerial.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\SoftwareSerial\SoftwareSerial.cpp</PathWithFileName>
       <FilenameWithoutPath>SoftwareSerial.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1221,7 +1221,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\CHOPCONF.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\CHOPCONF.cpp</PathWithFileName>
       <FilenameWithoutPath>CHOPCONF.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1233,7 +1233,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\COOLCONF.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\COOLCONF.cpp</PathWithFileName>
       <FilenameWithoutPath>COOLCONF.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1245,7 +1245,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\DRV_CONF.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\DRV_CONF.cpp</PathWithFileName>
       <FilenameWithoutPath>DRV_CONF.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1257,7 +1257,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\DRV_STATUS.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\DRV_STATUS.cpp</PathWithFileName>
       <FilenameWithoutPath>DRV_STATUS.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1269,7 +1269,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\DRVCONF.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\DRVCONF.cpp</PathWithFileName>
       <FilenameWithoutPath>DRVCONF.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1281,7 +1281,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\DRVCTRL.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\DRVCTRL.cpp</PathWithFileName>
       <FilenameWithoutPath>DRVCTRL.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1293,7 +1293,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\DRVSTATUS.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\DRVSTATUS.cpp</PathWithFileName>
       <FilenameWithoutPath>DRVSTATUS.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1305,7 +1305,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\ENCMODE.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\ENCMODE.cpp</PathWithFileName>
       <FilenameWithoutPath>ENCMODE.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1317,7 +1317,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\GCONF.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\GCONF.cpp</PathWithFileName>
       <FilenameWithoutPath>GCONF.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1329,7 +1329,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\IHOLD_IRUN.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\IHOLD_IRUN.cpp</PathWithFileName>
       <FilenameWithoutPath>IHOLD_IRUN.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1341,7 +1341,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\PWMCONF.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\PWMCONF.cpp</PathWithFileName>
       <FilenameWithoutPath>PWMCONF.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1353,7 +1353,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\RAMP_STAT.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\RAMP_STAT.cpp</PathWithFileName>
       <FilenameWithoutPath>RAMP_STAT.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1365,7 +1365,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\SERIAL_SWITCH.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\SERIAL_SWITCH.cpp</PathWithFileName>
       <FilenameWithoutPath>SERIAL_SWITCH.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1377,7 +1377,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\SERIAL_SWITCH.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\SERIAL_SWITCH.h</PathWithFileName>
       <FilenameWithoutPath>SERIAL_SWITCH.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1389,7 +1389,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\SGCSCONF.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\SGCSCONF.cpp</PathWithFileName>
       <FilenameWithoutPath>SGCSCONF.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1401,7 +1401,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\SHORT_CONF.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\SHORT_CONF.cpp</PathWithFileName>
       <FilenameWithoutPath>SHORT_CONF.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1413,7 +1413,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\SMARTEN.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\SMARTEN.cpp</PathWithFileName>
       <FilenameWithoutPath>SMARTEN.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1425,7 +1425,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\SW_MODE.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\SW_MODE.cpp</PathWithFileName>
       <FilenameWithoutPath>SW_MODE.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1437,7 +1437,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\SW_SPI.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\SW_SPI.h</PathWithFileName>
       <FilenameWithoutPath>SW_SPI.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1449,7 +1449,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\TMC_MACROS.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\TMC_MACROS.h</PathWithFileName>
       <FilenameWithoutPath>TMC_MACROS.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1461,7 +1461,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\TMC_platforms.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\TMC_platforms.h</PathWithFileName>
       <FilenameWithoutPath>TMC_platforms.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1473,7 +1473,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\TMC2208_bitfields.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\TMC2208_bitfields.h</PathWithFileName>
       <FilenameWithoutPath>TMC2208_bitfields.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1485,7 +1485,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\TMC2208Stepper.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\TMC2208Stepper.cpp</PathWithFileName>
       <FilenameWithoutPath>TMC2208Stepper.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1497,7 +1497,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\TMC2209_bitfields.h</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\TMC2209_bitfields.h</PathWithFileName>
       <FilenameWithoutPath>TMC2209_bitfields.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1509,7 +1509,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\TMC2209Stepper.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\TMC2209Stepper.cpp</PathWithFileName>
       <FilenameWithoutPath>TMC2209Stepper.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1521,7 +1521,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Marlin\lib\framework\TMCStepper\source\TMCStepper.cpp</PathWithFileName>
+      <PathWithFileName>..\Marlin\lib\TMCStepper\source\TMCStepper.cpp</PathWithFileName>
       <FilenameWithoutPath>TMCStepper.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
