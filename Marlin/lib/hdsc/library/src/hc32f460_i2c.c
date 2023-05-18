@@ -1,18 +1,51 @@
 /******************************************************************************
- * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
+ * Copyright (C) 2016, Huada Semiconductor Co.,Ltd. All rights reserved.
  *
- * This software component is licensed by HDSC under BSD 3-Clause license
- * (the "License"); You may not use this file except in compliance with the
- * License. You may obtain a copy of the License at:
- *                    opensource.org/licenses/BSD-3-Clause
+ * This software is owned and published by:
+ * Huada Semiconductor Co.,Ltd ("HDSC").
+ *
+ * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
+ * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
+ *
+ * This software contains source code for use with HDSC
+ * components. This software is licensed by HDSC to be adapted only
+ * for use in systems utilizing HDSC components. HDSC shall not be
+ * responsible for misuse or illegal use of this software for devices not
+ * supported herein. HDSC is providing this software "AS IS" and will
+ * not be responsible for issues arising from incorrect user implementation
+ * of the software.
+ *
+ * Disclaimer:
+ * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
+ * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
+ * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
+ * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
+ * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
+ * WARRANTY OF NONINFRINGEMENT.
+ * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
+ * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
+ * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
+ * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
+ * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
+ * SAVINGS OR PROFITS,
+ * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
+ * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
+ * FROM, THE SOFTWARE.
+ *
+ * This software may be replicated in part or whole for the licensed use,
+ * with the restriction that this Disclaimer and Copyright notice must be
+ * included with each copy of this software, whether used in part or whole,
+ * at all times.
  */
 /******************************************************************************/
-/** \file hc32f460_i2c.c
+/** \file hc32f46x_i2c.c
  **
  ** A detailed description is available at
  ** @link I2cGroup Inter-Integrated Circuit(I2C) description @endlink
  **
- **   - 2018-10-16  CDT  First version for Device Driver Library of I2C.
+ **   - 2018-10-16  1.0  Wangmin  First version for Device Driver Library of I2C.
  **
  ******************************************************************************/
 
@@ -37,11 +70,6 @@
 /*******************************************************************************
  * Local pre-processor symbols/macros ('#define')
  ******************************************************************************/
-/* Config I2C peripheral */
-#define I2C_SRC_CLK                     (SystemCoreClock >> M4_SYSREG->CMU_SCFGR_f.PCLK3S)
-#define I2C_ANA_FILTER_VALID            (1U)
-#define I2C_CLK_TIMEOUT_VALID           (1U)
-
 #define I2C_BAUDRATE_MAX                (400000ul)
 
 /*! Parameter validity check for unit. */
@@ -54,16 +82,7 @@
 #define IS_VALID_SPEED(speed)           ((speed) <= (I2C_BAUDRATE_MAX))
 
 /*! Parameter check for I2C baudrate calculate prccess !*/
-#define IS_VALID_FDIV(x)                                                       \
-(   ((x) == I2C_CLK_DIV1)                           ||                         \
-    ((x) == I2C_CLK_DIV2)                           ||                         \
-    ((x) == I2C_CLK_DIV4)                           ||                         \
-    ((x) == I2C_CLK_DIV8)                           ||                         \
-    ((x) == I2C_CLK_DIV16)                          ||                         \
-    ((x) == I2C_CLK_DIV32)                          ||                         \
-    ((x) == I2C_CLK_DIV64)                          ||                         \
-    ((x) == I2C_CLK_DIV128))
-
+#define IS_VALID_FDIV(fdiv)             ((fdiv) <= 128.0f)
 #define IS_VALID_BAUDWIDTH(result)      ((result) == true)
 
 /*! Parameter check for Digital filter config !*/
@@ -121,8 +140,6 @@
 (   ((x) == I2c_ACK)                                ||                         \
     ((x) == I2c_NACK))
 
-#define I2C_SCL_HIGHT_LOW_LVL_SUM_MAX   ((float32_t)0x1F * (float32_t)2)
-
 /*******************************************************************************
  * Global variable definitions (declared in header file with 'extern')
  ******************************************************************************/
@@ -134,10 +151,34 @@
 /*******************************************************************************
  * Local variable definitions ('static')
  ******************************************************************************/
+static uint8_t u8FreqDiv[8] = {1,2,4,8,16,32,64,128};
 
 /*******************************************************************************
  * Function implementation - global ('extern') and local ('static')
  ******************************************************************************/
+
+/**
+ *******************************************************************************
+ ** \brief  static function for baudrate calculating
+ ** \param  [in] fDiv      Divisor value input in float type
+ ** \retval uint8_t        Divisor value output
+ ******************************************************************************/
+static uint8_t GetFreqReg(float fDiv)
+{
+    uint8_t u8Reg = 0u;
+
+    for(uint8_t i=7u; i>0u; i--)
+    {
+        if(fDiv >= (float)u8FreqDiv[i-1u])
+        {
+            u8Reg = i;
+            break;
+        }
+    }
+
+    return u8Reg;
+}
+
 /**
  *******************************************************************************
  ** \brief Try to wait a status of specified flags
@@ -256,114 +297,62 @@ void I2C_GenerateStop(M4_I2C_TypeDef* pstcI2Cx, en_functional_state_t enNewState
  ** \brief Set the baudrate for I2C peripheral.
  ** \param [in] pstcI2Cx           Pointer to the I2C peripheral register, can
  **                                be M4_I2C1,M4_I2C2 or M4_I2C3.
- ** \param [in] pstcI2cInit        Pointer to I2C config structure  @ref stc_i2c_init_t
- **           1. pstcI2cInit->u32ClockDiv: Division of i2c source clock, reference as:
- **              step1: calculate div = (I2cSrcClk/Baudrate/(68+2*dnfsum+SclTime)
- **                     I2cSrcClk -- I2c source clock
- **                     Baudrate -- baudrate of i2c
- **                     SclTime  -- =(SCL rising time + SCL falling time)/period of i2c clock
- **                                 according to i2c bus hardware parameter.
- **                     dnfsum   -- 0 if digital filter off;
- **                                 Filter capacity if digital filter on(1 ~ 4)
- **              step2: chose a division item which is similar and bigger than div
- **                     from @ref I2C_Clock_Division.
- **           2. pstcI2cInit->u32Baudrate : Baudrate configuration
- **           3. pstcI2cInit->u32SclTime : Indicate SCL pin rising and falling
- **              time, should be number of T(i2c clock period time)
- ** @param  [out] pf32Error          Baudrate error
- ** @retval en_result_t              Enumeration value:
- **         @arg Ok:                 Configurate success
- **         @arg ErrorInvalidParameter:  Invalid parameter
+ ** \param [in] u32Baudrate        The value of baudrate.
+ ** \param [in] u32SclTime         The SCL Rise and Falling timer(Number of period of pclk3)
+ ** \param [in] u32Pclk3           Frequency of pclk3
+ ** \retval None
  ******************************************************************************/
-en_result_t I2C_BaudrateConfig(M4_I2C_TypeDef* pstcI2Cx, const stc_i2c_init_t* pstcI2cInit, float32_t *pf32Error)
+void I2C_BaudrateConfig(M4_I2C_TypeDef* pstcI2Cx, uint32_t u32Baudrate, uint32_t u32SclTime, uint32_t u32Pclk3)
 {
-    en_result_t enRet = Ok;
-    uint32_t I2cSrcClk;
-    uint32_t I2cDivClk;
-    uint32_t SclCnt;
-    uint32_t Baudrate;
-    uint32_t dnfsum = 0UL;
-    uint32_t divsum = 2UL;
-    uint32_t TheoryBaudrate;
-    float32_t WidthTotal;
-    float32_t SumTotal;
-    float32_t WidthHL;
-    float32_t fErr = 0.0F;
+    float fDivIndex = 0.0f;
+    uint8_t u8DivIndex;
+    uint32_t width = 0ul;
+    uint32_t dnfsum = 0ul, divsum = 0ul;
+    uint32_t tmp = 0ul;
 
-    if ((NULL == pstcI2cInit) || (NULL == pf32Error))
+    /* Check parameters */
+    DDL_ASSERT(IS_VALID_UNIT(pstcI2Cx));
+    DDL_ASSERT(IS_VALID_SPEED(u32Baudrate));
+
+    /* Judge digitial filter status*/
+    if(1u == pstcI2Cx->FLTR_f.DNFEN)
     {
-        enRet = ErrorInvalidParameter;
+        dnfsum = pstcI2Cx->FLTR_f.DNF+1ul;
     }
     else
     {
-        /* Check parameters */
-        DDL_ASSERT(IS_VALID_UNIT(pstcI2Cx));
-        DDL_ASSERT(IS_VALID_SPEED(pstcI2cInit->u32Baudrate));
-        DDL_ASSERT(IS_VALID_FDIV(pstcI2cInit->u32ClockDiv));
-
-        /* Get configuration for i2c */
-        I2cSrcClk = I2C_SRC_CLK;
-        I2cDivClk = 1ul << pstcI2cInit->u32ClockDiv;
-        SclCnt = pstcI2cInit->u32SclTime;
-        Baudrate = pstcI2cInit->u32Baudrate;
-
-        /* Judge digital filter status */
-        if(1u == pstcI2Cx->FLTR_f.DNFEN)
-        {
-            dnfsum = pstcI2Cx->FLTR_f.DNF+1ul;
-        }
-
-        /* Judge if clock divider on*/
-        if(I2C_CLK_DIV1 == pstcI2cInit->u32ClockDiv)
-        {
-            divsum = 3ul;
-        }
-
-        WidthTotal = (float32_t)I2cSrcClk / (float32_t)Baudrate / (float32_t)I2cDivClk;
-        SumTotal = (2.0F*(float32_t)divsum) + (2.0F*(float32_t)dnfsum) + (float32_t)SclCnt;
-        WidthHL = WidthTotal - SumTotal;
-
-        /* Integer for WidthTotal, rounding off */
-        if ((WidthTotal - (float32_t)((uint32_t)WidthTotal)) >= 0.5F)
-        {
-            WidthTotal = (float32_t)((uint32_t)WidthTotal) + 1.0F;
-        }
-        else
-        {
-            WidthTotal = (float32_t)((uint32_t)WidthTotal);
-        }
-
-        if(WidthTotal <= SumTotal)
-        {
-            /* Err, Should set a smaller division value for pstcI2cInit->u32ClockDiv */
-            enRet = ErrorInvalidParameter;
-        }
-        else
-        {
-            if(WidthHL > I2C_SCL_HIGHT_LOW_LVL_SUM_MAX)
-            {
-                /* Err, Should set a bigger division value for pstcI2cInit->u32ClockDiv */
-                enRet = ErrorInvalidParameter;
-            }
-            else
-            {
-                TheoryBaudrate = I2cSrcClk / (uint32_t)WidthTotal / I2cDivClk;
-                fErr = ((float32_t)Baudrate - (float32_t)TheoryBaudrate) / (float32_t)TheoryBaudrate;
-
-                /* Write register */
-                pstcI2Cx->CCR_f.FREQ = pstcI2cInit->u32ClockDiv;
-                pstcI2Cx->CCR_f.SLOWW = (uint32_t)WidthHL/2u;
-                pstcI2Cx->CCR_f.SHIGHW = (uint32_t)WidthHL - ((uint32_t)WidthHL)/2u;
-            }
-        }
+        dnfsum = 0ul;
     }
+    divsum = 2ul;  //default
 
-    if((NULL != pf32Error) && (Ok == enRet))
+    if (0ul != u32Baudrate)
     {
-        *pf32Error = fErr;
+        tmp = u32Pclk3/u32Baudrate - u32SclTime;
     }
 
-    return enRet;
+    /* Calculate the pclk3 div */
+    fDivIndex = (float)tmp / ((32.0f + (float)dnfsum + (float)divsum) * 2.0f);
+
+    DDL_ASSERT(IS_VALID_FDIV(fDivIndex));
+
+    u8DivIndex = GetFreqReg(fDivIndex);
+
+    /* Judge if clock divider on*/
+    if(0u == u8DivIndex)
+    {
+        divsum = 3ul;
+    }
+    else
+    {
+        divsum = 2ul;
+    }
+    width =  tmp / u8FreqDiv[u8DivIndex];
+    DDL_ASSERT(IS_VALID_BAUDWIDTH((width/2ul) >= (dnfsum + divsum)));
+
+    /* Write register */
+    pstcI2Cx->CCR_f.FREQ = u8DivIndex;
+    pstcI2Cx->CCR_f.SLOWW = width / 2ul - dnfsum - divsum;
+    pstcI2Cx->CCR_f.SHIGHW = width - width / 2ul - dnfsum - divsum;
 }
 
 /**
@@ -388,37 +377,21 @@ en_result_t I2C_DeInit(M4_I2C_TypeDef* pstcI2Cx)
  ** \brief Initialize I2C peripheral according to the structure
  ** \param [in] pstcI2Cx            Pointer to the I2C peripheral register, can
  **                                 be M4_I2C1,M4_I2C2 or M4_I2C3.
- ** \param [in] pstcI2cInit        Pointer to I2C config structure  @ref stc_i2c_init_t
- **           1. pstcI2cInit->u32ClockDiv: Division of i2c source clock, reference as:
- **              step1: calculate div = (I2cSrcClk/Baudrate/(68+2*dnfsum+SclTime)
- **                     I2cSrcClk -- I2c source clock
- **                     Baudrate -- baudrate of i2c
- **                     SclTime  -- =(SCL rising time + SCL falling time)/period of i2c clock
- **                                 according to i2c bus hardware parameter.
- **                     dnfsum   -- 0 if digital filter off;
- **                                 Filter capacity if digital filter on(1 ~ 4)
- **              step2: chose a division item which is similar and bigger than div
- **                     from @ref I2C_Clock_Division.
- **           2. pstcI2cInit->u32Baudrate : Baudrate configuration
- **           3. pstcI2cInit->u32SclTime : Indicate SCL pin rising and falling
- **              time, should be number of T(i2c clock period time)
- ** @param  [out] pf32Error          Baudrate error
- ** @retval en_result_t              Enumeration value:
- **         @arg Ok:                 Configurate success
- **         @arg ErrorInvalidParameter:  Invalid parameter
+ ** \param [in] pstcI2C_InitStruct  Pointer to I2C configuration structure
+ ** \retval Ok                      Process finished.
+ ** \retval ErrorInvalidParameter   Parameter error.
  ******************************************************************************/
-en_result_t I2C_Init(M4_I2C_TypeDef* pstcI2Cx, const stc_i2c_init_t* pstcI2cInit, float32_t *pf32Error)
+en_result_t I2C_Init(M4_I2C_TypeDef* pstcI2Cx, const stc_i2c_init_t* pstcI2C_InitStruct)
 {
     en_result_t enRes = Ok;
-    if((NULL == pstcI2cInit) || (NULL == pstcI2Cx))
+    if((NULL == pstcI2C_InitStruct) || (NULL == pstcI2Cx))
     {
         enRes = ErrorInvalidParameter;
     }
     else
     {
         DDL_ASSERT(IS_VALID_UNIT(pstcI2Cx));
-        DDL_ASSERT(IS_VALID_SPEED(pstcI2cInit->u32Baudrate));
-        DDL_ASSERT(IS_VALID_FDIV(pstcI2cInit->u32ClockDiv));
+        DDL_ASSERT(IS_VALID_SPEED(pstcI2C_InitStruct->u32Baudrate));
 
         /* Register and internal status reset */
         pstcI2Cx->CR1_f.PE = 0u;
@@ -426,7 +399,10 @@ en_result_t I2C_Init(M4_I2C_TypeDef* pstcI2Cx, const stc_i2c_init_t* pstcI2cInit
 
         pstcI2Cx->CR1_f.PE = 1u;
 
-        enRes = I2C_BaudrateConfig(pstcI2Cx, pstcI2cInit, pf32Error);
+        I2C_BaudrateConfig(pstcI2Cx,
+                           pstcI2C_InitStruct->u32Baudrate,
+                           pstcI2C_InitStruct->u32SclTime,
+                           pstcI2C_InitStruct->u32Pclk3);
 
         pstcI2Cx->CR1_f.ENGC = 0u;
         pstcI2Cx->CR1_f.SWRST = 0u;

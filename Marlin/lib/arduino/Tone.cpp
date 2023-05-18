@@ -1,7 +1,7 @@
 #include "tone.h"
 #include "timers.h"
-#include "timer.h"
-#include "pwm.h"
+#include "bsp_timer.h"
+#include "bsp_pwm.h"
 
 
 #define TIMRE_MAX_DURATION_MS   671

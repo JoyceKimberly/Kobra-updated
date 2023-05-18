@@ -32,8 +32,8 @@
 #ifndef _WIRISH_IO_H_
 #define _WIRISH_IO_H_
 
-#include <libmaple_types.h>
-#include "startup.h"
+#include <libmaple/libmaple_types.h>
+#include "../board/startup.h"
 
 /**
  * Specifies a GPIO pin behavior.

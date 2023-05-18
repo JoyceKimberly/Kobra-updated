@@ -102,12 +102,10 @@ void print_xyz(const_float_t x, const_float_t y, const_float_t z, PGM_P const pr
   if (suffix) serial_print_P(suffix); else SERIAL_EOL(); // changed
 } // changed
 
-void print_pos(NUM_AXIS_ARGS_(const_float_t) FSTR_P const prefix/*=nullptr*/, FSTR_P const suffix/*=nullptr*/) {
+void print_pos(NUM_AXIS_ARGS(const_float_t), FSTR_P const prefix/*=nullptr*/, FSTR_P const suffix/*=nullptr*/) {
   if (prefix) serial_print(prefix);
-  #if NUM_AXES
-    SERIAL_ECHOPGM_P(
-      LIST_N(DOUBLE(NUM_AXES), SP_X_STR, x, SP_Y_STR, y, SP_Z_STR, z, SP_I_STR, i, SP_J_STR, j, SP_K_STR, k, SP_U_STR, u, SP_V_STR, v, SP_W_STR, w)
-    );
-  #endif
+  SERIAL_ECHOPGM_P(
+    LIST_N(DOUBLE(NUM_AXES), SP_X_STR, x, SP_Y_STR, y, SP_Z_STR, z, SP_I_STR, i, SP_J_STR, j, SP_K_STR, k, SP_U_STR, u, SP_V_STR, v, SP_W_STR, w)
+  );
   if (suffix) serial_print(suffix); else SERIAL_EOL();
 }

@@ -21,7 +21,7 @@
  */
 #pragma once
 
-#include <startup.h>
+#include "../../lib/drivers/board/startup.h"
 #include "../core/boards.h"
 #include "../../Configuration.h"
 /**

@@ -70,12 +70,14 @@ void GcodeSuite::G30() {
 
     remember_feedrate_scaling_off();
 
-    TERN_(DWIN_CREALITY_LCD_JYERSUI, process_subcommands_now(F("G28O")));
+    #if EITHER(DWIN_LCD_PROUI, DWIN_CREALITY_LCD_JYERSUI)
+      process_subcommands_now(F("G28O"));
+    #endif
 
     const ProbePtRaise raise_after = parser.boolval('E', true) ? PROBE_PT_STOW : PROBE_PT_NONE;
 
     TERN_(HAS_PTC, ptc.set_enabled(!parser.seen('C') || parser.value_bool()));
-    const float measured_z = probe.probe_at_point(probepos, raise_after);
+    const float measured_z = probe.probe_at_point(probepos, raise_after, 1);
     TERN_(HAS_PTC, ptc.set_enabled(true));
     if (!isnan(measured_z)) {
       SERIAL_ECHOLNPGM("Bed X: ", probepos.x, " Y: ", probepos.y, " Z: ", measured_z); // changed

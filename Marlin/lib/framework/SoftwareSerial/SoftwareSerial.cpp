@@ -36,7 +36,7 @@
 //
 #include <stdint.h>
 #include "SoftwareSerial.h"
-#include "timer.h"
+#include "bsp_timer.h"
 #include "hc32_ddl.h"
 #include "fastio.h"
 
@@ -139,11 +139,11 @@ inline void SoftwareSerial::setTX()
   if (_inverse_logic) {
 //    LL_GPIO_ResetOutputPin(_transmitPinPort, _transmitPinNumber);
 //    PORT_ResetBits(_transmitPinPort,   _transmitPinNumber);
-    PORT_ResetBitsGPIO(_transmitPin);
+    PORT_ResetBitsMapp(_transmitPin);
   } else {
 //    LL_GPIO_SetOutputPin(_transmitPinPort, _transmitPinNumber);
 //    PORT_SetBits(_transmitPinPort,   _transmitPinNumber);
-    PORT_SetBitsGPIO(_transmitPin);
+    PORT_SetBitsMapp(_transmitPin);
   }
   pinMode(_transmitPin, OUTPUT);
 }
@@ -181,11 +181,11 @@ inline void SoftwareSerial::send()
       if (tx_buffer & 1) {
 //        LL_GPIO_SetOutputPin(_transmitPinPort, _transmitPinNumber);
 //        PORT_SetBits(_transmitPinPort,   _transmitPinNumber);
-          PORT_SetBitsGPIO(_transmitPin);
+          PORT_SetBitsMapp(_transmitPin);
       } else {
 //        LL_GPIO_ResetOutputPin(_transmitPinPort, _transmitPinNumber);
 //        PORT_ResetBits(_transmitPinPort,   _transmitPinNumber);
-          PORT_ResetBitsGPIO(_transmitPin);
+          PORT_ResetBitsMapp(_transmitPin);
       }
       tx_buffer >>= 1;
       tx_tick_cnt = OVERSAMPLE; // Wait OVERSAMPLE tick to send next bit

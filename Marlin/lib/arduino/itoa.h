@@ -20,8 +20,7 @@
 #define _ITOA_
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif // __cplusplus
 
 #if 0
@@ -30,15 +29,15 @@ extern void itoa(int n, char s[]) ;
 
 #else
 
-extern char *itoa(int value, char *string, int radix);
-extern char *ltoa(long value, char *string, int radix);
+extern char *itoa(int value, char *string, int radix) ;
+extern char *ltoa(long value, char *string, int radix) ;
 #if __GNUC__ > 4 || (__GNUC__ == 4 && (__GNUC_MINOR__ > 9 || \
-                                       (__GNUC_MINOR__ == 9 && __GNUC_PATCHLEVEL__ > 2)))
-extern char *utoa(unsigned value, char *string, int radix);
+   (__GNUC_MINOR__ == 9 && __GNUC_PATCHLEVEL__ > 2)))
+extern char *utoa(unsigned value, char *string, int radix) ;
 #else
-extern char *utoa(unsigned long value, char *string, int radix);
+extern char *utoa(unsigned long value, char *string, int radix) ;
 #endif
-extern char *ultoa(unsigned long value, char *string, int radix);
+extern char *ultoa(unsigned long value, char *string, int radix) ;
 #endif /* 0 */
 
 #ifdef __cplusplus

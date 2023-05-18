@@ -11,7 +11,7 @@
 #include "diskio.h"		/* Declarations of disk functions */
 
 #include "hc32_common.h"
-#include "sdio.h"
+#include "bsp_sdio.h"
 
 
 /* Definitions of physical drive number for each drive */

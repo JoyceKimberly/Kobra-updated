@@ -27,7 +27,7 @@
  * These use GPIO register access for fast port manipulation.
  */
 #include "io.h"
-#include "gpio.h"
+#include "../../../lib/drivers/board/board_gpio.h"
 
 // ------------------------
 // Public Variables
@@ -57,9 +57,9 @@ void FastIO_init(); // Must be called before using fast io macros
 #define _SET_MODE(IO,M)         gpio_set_mode(IO,M)
 #define _SET_OUTPUT(IO)         _SET_MODE(IO, OUTPUT)                             //!< Output Push Pull Mode & GPIO_NOPULL
 
-#define WRITE(IO,V)             (V>0? PORT_SetBitsGPIO(IO) : PORT_ResetBitsGPIO(IO))
-#define READ(IO)                (PORT_GetBitGPIO(IO) ? HIGH : LOW)
-#define TOGGLE(IO)              (PORT_ToggleGPIO(IO))
+#define WRITE(IO,V)             (V>0? PORT_SetBitsMapp(IO) : PORT_ResetBitsMapp(IO))
+#define READ(IO)                (PORT_GetBitMapp(IO) ? HIGH : LOW)
+#define TOGGLE(IO)              (PORT_ToggleMapp(IO))
 
 #define OUT_WRITE(IO,V)         do{ _SET_OUTPUT(IO); WRITE(IO,V); }while(0)
 

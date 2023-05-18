@@ -77,7 +77,7 @@
   #define TMC_CLASS_E(N) TMC_CLASS(E##N, E)
 #endif
 
-#if HAS_X_AXIS && !defined(CHOPPER_TIMING_X)
+#ifndef CHOPPER_TIMING_X
   #define CHOPPER_TIMING_X CHOPPER_TIMING
 #endif
 #if HAS_Y_AXIS && !defined(CHOPPER_TIMING_Y)

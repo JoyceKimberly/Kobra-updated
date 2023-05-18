@@ -201,3 +201,5 @@ tags
 *.uvgui.*
 *.uvguix.*
 *.scvd
+*.__i
+*._ia

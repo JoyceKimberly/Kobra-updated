@@ -19,5 +19,5 @@
 //#define _PINS_ARDUINO_H_
 //#include <stdbool.h>
 //#include <stdlib.h> /* Required for static_assert */
-#include "init.h"
+#include "bsp_init.h"
 #include "variant.h"

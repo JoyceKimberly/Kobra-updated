@@ -524,7 +524,7 @@ PGMSTR(str_t_heating_failed, STR_T_HEATING_FAILED);
 #if HAS_TEMP_CHAMBER
   chamber_info_t Temperature::temp_chamber; // = { 0 }
   #if HAS_HEATED_CHAMBER
-    millis_t next_cool_check_ms = 0;
+    millis_t next_cool_check_ms_2 = 0;
     celsius_float_t old_temp = 9999;
     raw_adc_t Temperature::mintemp_raw_CHAMBER = TEMP_SENSOR_CHAMBER_RAW_LO_TEMP,
               Temperature::maxtemp_raw_CHAMBER = TEMP_SENSOR_CHAMBER_RAW_HI_TEMP;
@@ -546,7 +546,7 @@ PGMSTR(str_t_heating_failed, STR_T_HEATING_FAILED);
     raw_adc_t Temperature::mintemp_raw_COOLER = TEMP_SENSOR_COOLER_RAW_LO_TEMP,
               Temperature::maxtemp_raw_COOLER = TEMP_SENSOR_COOLER_RAW_HI_TEMP;
     #if WATCH_COOLER
-      cooler_watch_t Temperature::watch_cooler; // = { 0 }
+      cooler_watch_t Temperature::watch_cooler{0};
     #endif
     millis_t Temperature::next_cooler_check_ms, Temperature::cooler_fan_flush_ms;
   #endif
@@ -610,11 +610,11 @@ volatile bool Temperature::raw_temps_ready = false;
 
 #if MAX_CONSECUTIVE_LOW_TEMPERATURE_ERROR_ALLOWED > 1
   #define MULTI_MAX_CONSECUTIVE_LOW_TEMP_ERR 1
-  uint8_t Temperature::consecutive_low_temperature_error[HOTENDS]; // = { 0 }
+  uint8_t Temperature::consecutive_low_temperature_error[HOTENDS] = { 0 };
 #endif
 
 #if PREHEAT_TIME_HOTEND_MS > 0
-  millis_t Temperature::preheat_end_ms_hotend[HOTENDS]; // = { 0 };
+  millis_t Temperature::preheat_end_ms_hotend[HOTENDS] { 0 };
 #endif
 #if HAS_HEATED_BED && PREHEAT_TIME_BED_MS > 0
   millis_t Temperature::preheat_end_ms_bed = 0;
@@ -1774,15 +1774,15 @@ void Temperature::mintemp_error(const heater_id_t heater_id) {
           if (!flag_chamber_excess_heat && temp_chamber.is_above_target((HIGH_EXCESS_HEAT_LIMIT) - 1)) {
             // Open vent after MIN_COOLING_SLOPE_TIME_CHAMBER_VENT seconds if the
             // temperature didn't drop at least MIN_COOLING_SLOPE_DEG_CHAMBER_VENT
-            if (next_cool_check_ms == 0 || ELAPSED(ms, next_cool_check_ms)) {
+            if (next_cool_check_ms_2 == 0 || ELAPSED(ms, next_cool_check_ms_2)) {
               if (temp_chamber.celsius - old_temp > MIN_COOLING_SLOPE_DEG_CHAMBER_VENT)
                 flag_chamber_excess_heat = true; // the bed is heating the chamber too much
-              next_cool_check_ms = ms + SEC_TO_MS(MIN_COOLING_SLOPE_TIME_CHAMBER_VENT);
+              next_cool_check_ms_2 = ms + SEC_TO_MS(MIN_COOLING_SLOPE_TIME_CHAMBER_VENT);
               old_temp = temp_chamber.celsius;
             }
           }
           else {
-            next_cool_check_ms = 0;
+            next_cool_check_ms_2 = 0;
             old_temp = 9999;
           }
           if (flag_chamber_excess_heat && temp_chamber.is_above_target((LOW_EXCESS_HEAT_LIMIT) - 1))
@@ -2485,7 +2485,7 @@ void Temperature::updateTemperaturesFromRawValues() {
       /**
       // DEBUG PREHEATING TIME
       SERIAL_ECHOLNPGM("\nExtruder = ", e, " Preheat On/Off = ", is_preheating(e));
-      const float test_is_preheating = (preheat_end_ms_hotend[HOTEND_INDEX] - millis()) * 0.001f;
+      const float test_is_preheating = (preheat_end_time[HOTEND_INDEX] - millis()) * 0.001f;
       if (test_is_preheating < 31) SERIAL_ECHOLNPGM("Extruder = ", e, " Preheat remaining time = ", test_is_preheating, "s", "\n");
       //*/
 
@@ -3472,10 +3472,6 @@ void Temperature::isr() {
 
   static int8_t temp_count = -1;
   static ADCSensorState adc_sensor_state = StartupDelay;
-
-  #ifndef SOFT_PWM_SCALE
-    #define SOFT_PWM_SCALE 0
-  #endif
   static uint8_t pwm_count = _BV(SOFT_PWM_SCALE);
 
   // Avoid multiple loads of pwm_count
@@ -3544,7 +3540,7 @@ void Temperature::isr() {
       #if ENABLED(FAN_SOFT_PWM)
 
         #if ENABLED(USE_CONTROLLER_FAN)
-          WRITE(CONTROLLER_FAN_PIN, soft_pwm_controller.add(pwm_mask, controllerFan.soft_pwm_speed));
+          WRITE(CONTROLLER_FAN_PIN, soft_pwm_controller.add(pwm_mask, soft_pwm_controller_speed));
         #endif
 
         #define _FAN_PWM(N) do{                                     \
@@ -4176,7 +4172,7 @@ void Temperature::isr() {
 
       bool wants_to_cool = false;
       celsius_float_t target_temp = -1.0, old_temp = 9999.0;
-      millis_t now, next_temp_ms = 0, cool_check_ms = 0;
+      millis_t now, next_temp_ms = 0, next_cool_check_ms = 0;
       wait_for_heatup = true;
       do {
         // Target temperature might be changed during the loop
@@ -4234,9 +4230,9 @@ void Temperature::isr() {
         if (wants_to_cool) {
           // Break after MIN_COOLING_SLOPE_TIME seconds
           // if the temperature did not drop at least MIN_COOLING_SLOPE_DEG
-          if (!cool_check_ms || ELAPSED(now, cool_check_ms)) {
+          if (!next_cool_check_ms || ELAPSED(now, next_cool_check_ms)) {
             if (old_temp - temp < float(MIN_COOLING_SLOPE_DEG)) break;
-            cool_check_ms = now + SEC_TO_MS(MIN_COOLING_SLOPE_TIME);
+            next_cool_check_ms = now + SEC_TO_MS(MIN_COOLING_SLOPE_TIME);
             old_temp = temp;
           }
         }
@@ -4313,7 +4309,7 @@ void Temperature::isr() {
 
       bool wants_to_cool = false;
       celsius_float_t target_temp = -1, old_temp = 9999;
-      millis_t now, next_temp_ms = 0, cool_check_ms = 0;
+      millis_t now, next_temp_ms = 0, next_cool_check_ms = 0;
       wait_for_heatup = true;
       do {
         // Target temperature might be changed during the loop
@@ -4369,9 +4365,9 @@ void Temperature::isr() {
         if (wants_to_cool) {
           // Break after MIN_COOLING_SLOPE_TIME_BED seconds
           // if the temperature did not drop at least MIN_COOLING_SLOPE_DEG_BED
-          if (!cool_check_ms || ELAPSED(now, cool_check_ms)) {
+          if (!next_cool_check_ms || ELAPSED(now, next_cool_check_ms)) {
             if (old_temp - temp < float(MIN_COOLING_SLOPE_DEG_BED)) break;
-            cool_check_ms = now + SEC_TO_MS(MIN_COOLING_SLOPE_TIME_BED);
+            next_cool_check_ms = now + SEC_TO_MS(MIN_COOLING_SLOPE_TIME_BED);
             old_temp = temp;
           }
         }
@@ -4508,7 +4504,7 @@ void Temperature::isr() {
 
       bool wants_to_cool = false;
       float target_temp = -1, old_temp = 9999;
-      millis_t now, next_temp_ms = 0, cool_check_ms = 0;
+      millis_t now, next_temp_ms = 0, next_cool_check_ms = 0;
       wait_for_heatup = true;
       do {
         // Target temperature might be changed during the loop
@@ -4560,9 +4556,9 @@ void Temperature::isr() {
         if (wants_to_cool) {
           // Break after MIN_COOLING_SLOPE_TIME_CHAMBER seconds
           // if the temperature did not drop at least MIN_COOLING_SLOPE_DEG_CHAMBER
-          if (!cool_check_ms || ELAPSED(now, cool_check_ms)) {
+          if (!next_cool_check_ms || ELAPSED(now, next_cool_check_ms)) {
             if (old_temp - temp < float(MIN_COOLING_SLOPE_DEG_CHAMBER)) break;
-            cool_check_ms = now + SEC_TO_MS(MIN_COOLING_SLOPE_TIME_CHAMBER);
+            next_cool_check_ms = now + SEC_TO_MS(MIN_COOLING_SLOPE_TIME_CHAMBER);
             old_temp = temp;
           }
         }

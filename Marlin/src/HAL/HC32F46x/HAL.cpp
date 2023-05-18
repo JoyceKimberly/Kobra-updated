@@ -24,7 +24,7 @@
 #include "../../inc/MarlinConfig.h"
 #include "../shared/Delay.h"
 #include "HAL.h"
-#include "rmu.h"
+#include "bsp_rmu.h"
 
 // ------------------------
 // Public Variables
@@ -123,7 +123,7 @@ void MarlinHAL::clear_reset_source() { rmu_clear_reset_cause(); }
 
 #if ENABLED(USE_WATCHDOG)
 
-  #include <iwdg.h>
+  #include <libmaple/iwdg.h>
 
   void watchdogSetup() {
     // do whatever. don't remove this function.

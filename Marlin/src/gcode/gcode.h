@@ -300,7 +300,6 @@
  * M913 - Set HYBRID_THRESHOLD speed. (Requires HYBRID_THRESHOLD)
  * M914 - Set StallGuard sensitivity. (Requires SENSORLESS_HOMING or SENSORLESS_PROBING)
  * M919 - Get or Set motor Chopper Times (time_off, hysteresis_end, hysteresis_start) using axis codes XYZE, etc. If no parameters are given, report. (Requires at least one _DRIVER_TYPE defined as TMC2130/2160/5130/5160/2208/2209/2660)
- * M936 - OTA update firmware. (Requires OTA_FIRMWARE_UPDATE)
  * M951 - Set Magnetic Parking Extruder parameters. (Requires MAGNETIC_PARKING_EXTRUDER)
  * M3426 - Read MCP3426 ADC over I2C. (Requires HAS_MCP3426_ADC)
  * M7219 - Control Max7219 Matrix LEDs. (Requires MAX7219_GCODE)
@@ -345,20 +344,14 @@ enum AxisRelative : uint8_t {
   #if HAS_EXTRUDERS
     , E_MODE_ABS, E_MODE_REL
   #endif
-  , NUM_REL_MODES
 };
-typedef bits_t(NUM_REL_MODES) relative_t;
 
 extern const char G28_STR[];
 
 class GcodeSuite {
 public:
 
-  static relative_t axis_relative;
-
-  GcodeSuite() { // Relative motion mode for each logical axis
-    axis_relative = AxisBits(AXIS_RELATIVE_MODES).bits;
-  }
+  static axis_bits_t axis_relative;
 
   static bool axis_is_relative(const AxisEnum a) {
     #if HAS_EXTRUDERS
@@ -1204,10 +1197,6 @@ private:
 
   #if HAS_MEDIA
     static void M928();
-  #endif
-
-  #if ENABLED(OTA_FIRMWARE_UPDATE)
-    static void M936();
   #endif
 
   #if ENABLED(MAGNETIC_PARKING_EXTRUDER)

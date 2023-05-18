@@ -1,5 +1,5 @@
 #include "hc32_ddl.h"
-#include "timer.h"
+#include "bsp_timer.h"
 #include "SoftwareSerial.h"
 
 
