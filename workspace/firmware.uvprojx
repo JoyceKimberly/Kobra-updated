@@ -742,7 +742,7 @@
             <File>
               <FileName>main.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\main.cpp</FilePath>
+              <FilePath>..\Marlin\lib\cores\arduino\main\main.cpp</FilePath>
             </File>
             <File>
               <FileName>wirish_math.cpp</FileName>
@@ -752,7 +752,7 @@
             <File>
               <FileName>usart.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\libmaple\usart.h</FilePath>
+              <FilePath>..\Marlin\lib\cores\arduino\usart.h</FilePath>
             </File>
           </Files>
         </Group>
