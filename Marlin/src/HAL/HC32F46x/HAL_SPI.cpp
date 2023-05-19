@@ -24,6 +24,9 @@
 /**
  * Software SPI functions originally from Arduino Sd2Card Library
  * Copyright (c) 2009 by William Greiman
+ */
+
+/**
  * Adapted to the STM32F1 HAL
  */
 
@@ -41,10 +44,10 @@
 
 #if ENABLED(SOFTWARE_SPI)
 
-  // ------------------------
-  // Software SPI
-  // ------------------------
-  #error "Software SPI not supported for HC32F46x. Use hardware SPI."
+// ------------------------
+// Software SPI
+// ------------------------
+#error "Software SPI not supported for HC32F46x. Use hardware SPI."
 
 #else
 
@@ -63,10 +66,11 @@
  *
  * @details Only configures SS pin since libmaple creates and initialize the SPI object
  */
-void spiBegin() {
-  #if PIN_EXISTS(SD_SS)
-    OUT_WRITE(SD_SS_PIN, HIGH);
-  #endif
+void spiBegin()
+{
+#if PIN_EXISTS(SS)
+  OUT_WRITE(SS_PIN, HIGH);
+#endif
 }
 
 /**
@@ -77,26 +81,41 @@ void spiBegin() {
  *
  * @details
  */
-void spiInit(uint8_t spiRate) {
-  /**
-   * STM32F1 APB2 = 72MHz, APB1 = 36MHz, max SPI speed of this MCU if 18Mhz
-   * STM32F1 has 3 SPI ports, SPI1 in APB2, SPI2/SPI3 in APB1
-   * so the minimum prescale of SPI1 is DIV4, SPI2/SPI3 is DIV2
-   */
-  #if SPI_DEVICE == 1
-    #define SPI_CLOCK_MAX SPI_CLOCK_DIV4
-  #else
-    #define SPI_CLOCK_MAX SPI_CLOCK_DIV2
-  #endif
-  uint8_t  clock;
-  switch (spiRate) {
-    case SPI_FULL_SPEED:    clock = SPI_CLOCK_MAX ;  break;
-    case SPI_HALF_SPEED:    clock = SPI_CLOCK_DIV4 ; break;
-    case SPI_QUARTER_SPEED: clock = SPI_CLOCK_DIV8 ; break;
-    case SPI_EIGHTH_SPEED:  clock = SPI_CLOCK_DIV16; break;
-    case SPI_SPEED_5:       clock = SPI_CLOCK_DIV32; break;
-    case SPI_SPEED_6:       clock = SPI_CLOCK_DIV64; break;
-    default:                clock = SPI_CLOCK_DIV2;  // Default from the SPI library
+void spiInit(uint8_t spiRate)
+{
+/**
+ * STM32F1 APB2 = 72MHz, APB1 = 36MHz, max SPI speed of this MCU if 18Mhz
+ * STM32F1 has 3 SPI ports, SPI1 in APB2, SPI2/SPI3 in APB1
+ * so the minimum prescale of SPI1 is DIV4, SPI2/SPI3 is DIV2
+ */
+#if SPI_DEVICE == 1
+#define SPI_CLOCK_MAX SPI_CLOCK_DIV4
+#else
+#define SPI_CLOCK_MAX SPI_CLOCK_DIV2
+#endif
+  uint8_t clock;
+  switch (spiRate)
+  {
+  case SPI_FULL_SPEED:
+    clock = SPI_CLOCK_MAX;
+    break;
+  case SPI_HALF_SPEED:
+    clock = SPI_CLOCK_DIV4;
+    break;
+  case SPI_QUARTER_SPEED:
+    clock = SPI_CLOCK_DIV8;
+    break;
+  case SPI_EIGHTH_SPEED:
+    clock = SPI_CLOCK_DIV16;
+    break;
+  case SPI_SPEED_5:
+    clock = SPI_CLOCK_DIV32;
+    break;
+  case SPI_SPEED_6:
+    clock = SPI_CLOCK_DIV64;
+    break;
+  default:
+    clock = SPI_CLOCK_DIV2; // Default from the SPI library
   }
   SPI.setModule(SPI_DEVICE);
   SPI.begin();
@@ -112,8 +131,9 @@ void spiInit(uint8_t spiRate) {
  *
  * @details
  */
-uint8_t spiRec() {
-  uint8_t returnByte = SPI.transfer(0xFF);
+uint8_t spiRec()
+{
+  uint8_t returnByte = SPI.transfer(ff);
   return returnByte;
 }
 
@@ -126,8 +146,9 @@ uint8_t spiRec() {
  *
  * @details Uses DMA
  */
-void spiRead(uint8_t *buf, uint16_t nbyte) {
-  SPI.dmaTransfer(0, const_cast<uint8_t*>(buf), nbyte);
+void spiRead(uint8_t *buf, uint16_t nbyte)
+{
+  SPI.dmaTransfer(0, const_cast<uint8_t *>(buf), nbyte);
 }
 
 /**
@@ -137,7 +158,8 @@ void spiRead(uint8_t *buf, uint16_t nbyte) {
  *
  * @details
  */
-void spiSend(uint8_t b) {
+void spiSend(uint8_t b)
+{
   SPI.send(b);
 }
 
@@ -149,22 +171,25 @@ void spiSend(uint8_t b) {
  *
  * @details Use DMA
  */
-void spiSendBlock(uint8_t token, const uint8_t *buf) {
+void spiSendBlock(uint8_t token, const uint8_t *buf)
+{
   SPI.send(token);
-  SPI.dmaSend(const_cast<uint8_t*>(buf), 512);
+  SPI.dmaSend(const_cast<uint8_t *>(buf), 512);
 }
 
 #if ENABLED(SPI_EEPROM)
 
 // Read single byte from specified SPI channel
-uint8_t spiRec(uint32_t chan) { return SPI.transfer(0xFF); }
+uint8_t spiRec(uint32_t chan) { return SPI.transfer(ff); }
 
 // Write single byte to specified SPI channel
 void spiSend(uint32_t chan, byte b) { SPI.send(b); }
 
 // Write buffer to specified SPI channel
-void spiSend(uint32_t chan, const uint8_t *buf, size_t n) {
-  for (size_t p = 0; p < n; p++) spiSend(chan, buf[p]);
+void spiSend(uint32_t chan, const uint8_t *buf, size_t n)
+{
+  for (size_t p = 0; p < n; p++)
+    spiSend(chan, buf[p]);
 }
 
 #endif // SPI_EEPROM

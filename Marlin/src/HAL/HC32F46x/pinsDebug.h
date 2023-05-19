@@ -2,9 +2,6 @@
  * Marlin 3D Printer Firmware
  * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
- * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -30,7 +27,7 @@
 // Translation of routines & variables used by pinsDebug.h
 //
 #ifndef BOARD_NR_GPIO_PINS
-  #error "Expected BOARD_NR_GPIO_PINS not found"
+#error "Expected BOARD_NR_GPIO_PINS not found"
 #endif
 
 #define NUM_DIGITAL_PINS BOARD_NR_GPIO_PINS
