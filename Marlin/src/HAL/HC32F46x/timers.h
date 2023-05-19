@@ -26,7 +26,7 @@
  */
 
 #include <stdint.h>
-#include "../board/startup.h"
+#include <startup.h>
 #include "../../core/boards.h"
 #include "../../inc/MarlinConfig.h"
 #include "HAL.h"
