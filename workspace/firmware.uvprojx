@@ -397,17 +397,17 @@
             <File>
               <FileName>board_gpio.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\board_gpio.cpp</FilePath>
+              <FilePath>..\Marlin\lib\cores\arduino\drivers\gpio\board_gpio.cpp</FilePath>
             </File>
             <File>
               <FileName>board_tim0.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\board_tim0.cpp</FilePath>
+              <FilePath>..\Marlin\lib\cores\arduino\drivers\sysclock\board_tim0.cpp</FilePath>
             </File>
             <File>
               <FileName>board_adc.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\board_adc.cpp</FilePath>
+              <FilePath>..\Marlin\lib\cores\arduino\drivers\adc\board_adc.cpp</FilePath>
             </File>
             <File>
               <FileName>board_sdio.cpp</FileName>
@@ -752,7 +752,7 @@
             <File>
               <FileName>usart.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\usart.h</FilePath>
+              <FilePath>..\Marlin\lib\cores\arduino\drivers\usart\usart.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -772,7 +772,7 @@
             <File>
               <FileName>bsp_adc.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\bsp_adc.cpp</FilePath>
+              <FilePath>..\Marlin\lib\cores\arduino\drivers\adc\bsp_adc.cpp</FilePath>
             </File>
             <File>
               <FileName>bsp_pwm.cpp</FileName>
