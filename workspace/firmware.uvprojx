@@ -395,9 +395,9 @@
               <FilePath>..\Marlin\lib\cores\ddl\common\system_hc32f460.c</FilePath>
             </File>
             <File>
-              <FileName>board_gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\board_gpio.c</FilePath>
+              <FileName>board_gpio.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\cores\arduino\drivers\board_gpio.cpp</FilePath>
             </File>
             <File>
               <FileName>board_tim0.cpp</FileName>
