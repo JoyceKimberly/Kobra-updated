@@ -34,7 +34,7 @@
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile>..\Marlin\lib\cores\ddl\common\HDSC_HC32F460PETB.SFR</SFDFile>
-          <bCustSvd>0</bCustSvd>
+          <bCustSvd>1</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
