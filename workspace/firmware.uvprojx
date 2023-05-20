@@ -790,9 +790,9 @@
               <FilePath>..\Marlin\lib\cores\arduino\drivers\bsp_timer.cpp</FilePath>
             </File>
             <File>
-              <FileName>bsp_ots.cpp</FileName>
+              <FileName>ots.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\bsp_ots.cpp</FilePath>
+              <FilePath>..\Marlin\lib\cores\arduino\drivers\ots\ots.cpp</FilePath>
             </File>
             <File>
               <FileName>bsp_flash.cpp</FileName>

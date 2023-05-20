@@ -5,7 +5,7 @@
 #include "bsp_pwm.h"
 #include "bsp_sdio.h"
 #include "bsp_timer.h"
-#include "bsp_ots.h"
+#include "ots.h"
 
 #include "diskio.h"
 
