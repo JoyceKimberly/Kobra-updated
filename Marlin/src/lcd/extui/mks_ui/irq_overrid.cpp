@@ -30,11 +30,11 @@
 #include "draw_ui.h"
 #include "wifiSerial.h"
 
-#include <libmaple/libmaple.h>
-#include <libmaple/gpio.h>
-#include <libmaple/timer.h>
-#include <libmaple/usart.h>
-#include <libmaple/ring_buffer.h>
+#include <libmaple.h>
+#include <gpio.h>
+#include <timer.h>
+#include <usart.h>
+#include <ring_buffer.h>
 
 #include "../../../inc/MarlinConfig.h"
 

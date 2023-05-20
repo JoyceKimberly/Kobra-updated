@@ -31,7 +31,7 @@
 
 #include "BL24CXX.h"
 #ifdef __STM32F1__
-  #include <libmaple/gpio.h>
+  #include <gpio.h>
 #else
   #include "../HAL/shared/Delay.h"
   #define delay_us(n) DELAY_US(n)

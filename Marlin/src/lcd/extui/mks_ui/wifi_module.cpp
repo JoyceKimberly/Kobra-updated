@@ -176,20 +176,20 @@ static bool longName2DosName(const char *longName, char *dosName) {
 
 #ifdef __STM32F1__
 
-  #include <libmaple/timer.h>
-  #include <libmaple/util.h>
-  #include <libmaple/rcc.h>
+  #include <timer.h>
+  #include <util.h>
+  #include <rcc.h>
 
   #include <boards.h>
   #include <wirish.h>
 
-  #include <libmaple/dma.h>
-  #include <libmaple/bitband.h>
+  #include <dma.h>
+  #include <bitband.h>
 
-  #include <libmaple/libmaple.h>
-  #include <libmaple/gpio.h>
-  #include <libmaple/usart.h>
-  #include <libmaple/ring_buffer.h>
+  #include <libmaple.h>
+  #include <gpio.h>
+  #include <usart.h>
+  #include <ring_buffer.h>
 
   void changeFlashMode(const bool dmaMode) {
     if (flash_dma_mode != dmaMode) {

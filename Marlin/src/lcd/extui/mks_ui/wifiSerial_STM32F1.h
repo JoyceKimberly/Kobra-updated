@@ -21,12 +21,12 @@
  */
 #pragma once
 
-#include <libmaple/libmaple_types.h>
-#include <libmaple/usart.h>
-#include <libmaple/libmaple.h>
-#include <libmaple/gpio.h>
-#include <libmaple/timer.h>
-#include <libmaple/ring_buffer.h>
+#include <libmaple_types.h>
+#include <usart.h>
+#include <libmaple.h>
+#include <gpio.h>
+#include <timer.h>
+#include <ring_buffer.h>
 
 #define DEFINE_WFSERIAL(name, n) WifiSerial name(USART##n, BOARD_USART##n##_TX_PIN, BOARD_USART##n##_RX_PIN)
 
