@@ -531,7 +531,7 @@ static inline void usart_reset_tx(usart_dev *dev) {
     rb_reset(dev->wb);
 }
 
-static inline __always_inline void usart_tx_irq(ring_buffer *wb,M4_USART_TypeDef *regs) {
+static __always_inline void usart_tx_irq(ring_buffer *wb,M4_USART_TypeDef *regs) {
         if (!rb_is_empty(wb))
         {
 		USART_SendData(regs,rb_remove(wb)); 
@@ -542,7 +542,7 @@ static inline __always_inline void usart_tx_irq(ring_buffer *wb,M4_USART_TypeDef
 		USART_FuncCmd(regs, UsartTxCmpltInt, Enable);
         }            
 }
-static inline __always_inline void usart_rx_irq(ring_buffer *rb,M4_USART_TypeDef *regs) {
+static __always_inline void usart_rx_irq(ring_buffer *rb,M4_USART_TypeDef *regs) {
         rb_push_insert(rb, (uint8)USART_RecData(regs));
 }
 
