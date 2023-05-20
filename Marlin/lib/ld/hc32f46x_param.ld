@@ -7,8 +7,8 @@
  * this was removed to simplify the linker script (all HC32F460 have the same ram anyway)
  */
 
-/* FLASH_START = 0x00000000; */
-/* FLASH_SIZE = 256K; */
+FLASH_START = 0x00008000;
+FLASH_SIZE = 0x00078000;
 
 /*
 ;*******************************************************************************

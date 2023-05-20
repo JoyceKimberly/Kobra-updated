@@ -218,7 +218,7 @@ void uart1_init(void)
         UsartDataLsbFirst,
         UsartOneStopBit,
         UsartParityNone,
-        UsartSamleBit8,
+        UsartSampleBit8,
         UsartStartBitFallEdge,
         UsartRtsEnable,
     };
@@ -288,7 +288,7 @@ void uart2_init(void)
         UsartDataLsbFirst,
         UsartOneStopBit,
         UsartParityNone,
-        UsartSamleBit8,
+        UsartSampleBit8,
         UsartStartBitFallEdge,
         UsartRtsEnable,
     };
@@ -358,7 +358,7 @@ void uart3_init(void)
         UsartDataLsbFirst,
         UsartOneStopBit,
         UsartParityNone,
-        UsartSamleBit8,
+        UsartSampleBit8,
         UsartStartBitFallEdge,
         UsartRtsEnable,
     };
@@ -428,7 +428,7 @@ void uart4_init(void)
         UsartDataLsbFirst,
         UsartOneStopBit,
         UsartParityNone,
-        UsartSamleBit8,
+        UsartSampleBit8,
         UsartStartBitFallEdge,
         UsartRtsEnable,
     };
