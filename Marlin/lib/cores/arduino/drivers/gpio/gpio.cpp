@@ -2,12 +2,11 @@
 
 #include "startup.h"
 #include "fastio.h"
-#include "board_gpio.h"
+#include "gpio.h"
 #include <init.h>
 
-
 extern const cfg_pin_info PIN_MAP[BOARD_NR_GPIO_PINS] = {
-
+	// PA
     {0,  PortA, Pin00, &adc1,  ADC1_IN0,         Func_Gpio},
     {1,  PortA, Pin01, &adc1,  ADC1_IN1,         Func_Gpio},
     {2,  PortA, Pin02, &adc1,  ADC1_IN2,         Func_Usart2_Tx},
@@ -25,6 +24,7 @@ extern const cfg_pin_info PIN_MAP[BOARD_NR_GPIO_PINS] = {
     {14, PortA, Pin14, NULL,   ADC_PIN_INVALID,  Func_Gpio},
     {15, PortA, Pin15, NULL,   ADC_PIN_INVALID,  Func_Usart1_Rx},
 
+	// PB
     {0,  PortB, Pin00, &adc1,  ADC12_IN8,        Func_Gpio},
     {1,  PortB, Pin01, &adc1,  ADC12_IN9,        Func_Gpio},
     {2,  PortB, Pin02, NULL,   ADC_PIN_INVALID,  Func_Gpio},

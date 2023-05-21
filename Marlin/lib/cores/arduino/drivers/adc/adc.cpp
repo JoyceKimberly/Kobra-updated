@@ -1,4 +1,4 @@
-#include "board_adc.h"
+#include "adc.h"
 
 
 void setup_adcs(void)

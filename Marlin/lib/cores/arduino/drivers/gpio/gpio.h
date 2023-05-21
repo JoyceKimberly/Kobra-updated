@@ -1,28 +1,19 @@
 #ifndef _BOARD_GPIO_H
 #define  _BOARD_GPIO_H
 
-
 #include "hc32_common.h"
-#include "board_adc.h"
+#include <addon_gpio.h>
+#include "adc.h"
 #include "HardwareSerial.h"
 
-
 #ifdef __cplusplus
-extern "C"{
+extern "C"
+{
 #endif
 
-typedef struct hdsc_pin_info{
-	uint8_t gpio_bit;			 /**< Pin's GPIO port bit. */
-	__IO en_port_t gpio_port;
-	__IO en_pin_t gpio_pin;
-	adc_dev *adc_device;  
-	__IO uint8_t adc_channel;
-	__IO en_port_func_t FuncSel;
-}cfg_pin_info;
-
-extern const cfg_pin_info PIN_MAP[];
-extern const uint8_t boardPWMPins[];
-
+	//
+	// GPIO defines
+	//
 
 #define BOARD_NR_GPIO_PINS      83
 #define BOARD_NR_ADC_PINS       16
@@ -43,6 +34,21 @@ extern const uint8_t boardPWMPins[];
 #define BOARD_SPI3_MISO_PIN     PB4
 #define BOARD_SPI3_MOSI_PIN     PB5
 
+	//
+	// GPIO pin map
+	//
+typedef struct hdsc_pin_info
+{
+	uint8_t gpio_bit;			 /**< Pin's GPIO port bit. */
+	__IO en_port_t gpio_port;
+	__IO en_pin_t gpio_pin;
+	adc_dev *adc_device;  
+	__IO uint8_t adc_channel;
+	__IO en_port_func_t FuncSel;
+} cfg_pin_info;
+
+extern const cfg_pin_info PIN_MAP[];
+extern const uint8_t boardPWMPins[];
 
 /**
  * @brief Feature test: nonzero iff the board has SerialUSB.
@@ -162,43 +168,64 @@ extern HardwareSerial Serial2;
 extern HardwareSerial Serial3;
 extern HardwareSerial Serial4;
 
+	//
+	// GPIO wrappers for PORT_*
+	//
+	extern inline en_result_t PORT_SetFuncMapp(uint8_t PinNum,en_functional_state_t enSubFunc)
+	{
+		if(PinNum>BOARD_NR_GPIO_PINS)return(Error);
 
-extern inline en_result_t PORT_SetFuncMapp(uint8_t PinNum,en_functional_state_t enSubFunc){
-	if(PinNum>BOARD_NR_GPIO_PINS)return(Error);
-	return (PORT_SetFunc(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin, PIN_MAP[PinNum].FuncSel, enSubFunc));
-}
+		return (PORT_SetFunc(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin, PIN_MAP[PinNum].FuncSel, enSubFunc));
+	}
 
-extern inline en_result_t PORT_InitMapp(uint8_t PinNum,const stc_port_init_t *pstcPortInit){
-	if(PinNum>BOARD_NR_GPIO_PINS)return(Error);
-	return (PORT_Init(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin,pstcPortInit));
-}
+	extern inline en_result_t PORT_InitMapp(uint8_t PinNum,const stc_port_init_t *pstcPortInit)
+	{
+		if(PinNum>BOARD_NR_GPIO_PINS)return(Error);
 
-extern inline en_result_t PORT_ToggleMapp(uint8_t PinNum){
-	if(PinNum>BOARD_NR_GPIO_PINS)return(Error);
-	return (PORT_Toggle(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin));
-}
+		return (PORT_Init(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin,pstcPortInit));
+	}
 
-extern inline en_result_t PORT_SetBitsMapp(uint8_t PinNum){
-	if(PinNum>BOARD_NR_GPIO_PINS)return(Error);
-	return (PORT_SetBits(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin));
-}
+	extern inline en_result_t PORT_GetConfigGPIO(uint8_t pin, stc_port_init_t *portConf)
+	{
+		if (pin > BOARD_NR_GPIO_PINS)
+		{
+			return Error;
+		}
 
-extern inline en_result_t PORT_ResetBitsMapp(uint8_t PinNum){
-	if(PinNum>BOARD_NR_GPIO_PINS)return(Error);
-	return (PORT_ResetBits(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin));
-}
+		return PORT_GetConfig(PIN_MAP[pin].gpio_port, PIN_MAP[pin].gpio_pin, portConf);
+	}
 
-extern inline uint8_t PORT_GetBitMapp(uint8_t PinNum){
-	en_flag_status_t getbit = Reset;
-	if(PinNum>BOARD_NR_GPIO_PINS)return(false);
-	getbit  = PORT_GetBit(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin);
-	return (getbit==Reset?false:true);
-}
+	extern inline en_result_t PORT_ToggleMapp(uint8_t PinNum)
+	{
+		if(PinNum>BOARD_NR_GPIO_PINS)return(Error);
 
+		return (PORT_Toggle(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin));
+	}
+
+	extern inline en_result_t PORT_SetBitsMapp(uint8_t PinNum)
+	{
+		if(PinNum>BOARD_NR_GPIO_PINS)return(Error);
+
+		return (PORT_SetBits(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin));
+	}
+
+	extern inline en_result_t PORT_ResetBitsMapp(uint8_t PinNum)
+	{
+		if(PinNum>BOARD_NR_GPIO_PINS)return(Error);
+
+		return (PORT_ResetBits(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin));
+	}
+
+	extern inline uint8_t PORT_GetBitMapp(uint8_t PinNum)
+	{
+		en_flag_status_t getbit = Reset;
+		if(PinNum>BOARD_NR_GPIO_PINS)return(false);
+
+		getbit  = PORT_GetBit(PIN_MAP[PinNum].gpio_port, PIN_MAP[PinNum].gpio_pin);
+		return (getbit==Reset?false:true);
+	}
 extern void setup_gpio(void);
-
 #ifdef __cplusplus
 } // extern "C"
 #endif
 #endif
-

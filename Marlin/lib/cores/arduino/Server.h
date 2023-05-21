@@ -1,6 +1,6 @@
 /*
-  dtostrf - Emulation for dtostrf function from avr-libc
-  Copyright (c) 2015 Arduino LLC.  All rights reserved.
+  Server.h - Base class that provides Server
+  Copyright (c) 2011 Adrian McEwen.  All right reserved.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -17,14 +17,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#pragma once
+#ifndef server_h
+#define server_h
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "Print.h"
 
-char *dtostrf(double val, signed char width, unsigned char prec, char *sout);
+class Server : public Print {
+public:
+  virtual void begin() =0;
+};
 
-#ifdef __cplusplus
-}
 #endif

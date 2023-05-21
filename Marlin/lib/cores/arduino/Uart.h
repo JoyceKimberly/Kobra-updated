@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2015 Arduino LCC.  All right reserved.
+  Copyright (c) 2015 Arduino LLC.  All right reserved.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -16,8 +16,34 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/*
-  Empty file.
-  This file is here to allow compatibility with sketches (made for AVR)
-  that includes <AVR/interrupt.h>
-*/
+#pragma once
+
+#include "HardwareSerial.h"
+#include "RingBuffer.h"
+
+#include <stddef.h>
+
+class Uart : public HardwareSerial
+{
+  public:
+    // Use the constructor to pass hardware configurations
+    Uart();
+    void begin(unsigned long baudRate);
+    void begin(unsigned long baudrate, uint16_t config);
+    void end();
+    int available();
+    int availableForWrite();
+    int peek();
+    int read();
+    void flush();
+    size_t write(const uint8_t data);
+    using Print::write; // pull in write(str) and write(buf, size) from Print
+
+    void IrqHandler();
+
+    operator bool() { return true; }
+
+  private:
+    RingBuffer rxBuffer;
+    RingBuffer txBuffer;
+};

@@ -27,7 +27,7 @@
  * These use GPIO register access for fast port manipulation.
  */
 #include "io.h"
-#include "board_gpio.h"
+#include "gpio.h"
 
 // ------------------------
 // Public Variables

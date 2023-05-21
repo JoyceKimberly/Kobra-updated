@@ -19,10 +19,10 @@
 #include "../core/macros.h"
 #include "../core/boards.h"
 
-#include "board_tim0.h"
+#include "systick.h"
 #include "board_cfg.h" 
-#include "board_gpio.h" 
-#include "board_adc.h"
+#include "gpio.h" 
+#include "adc.h"
 #include "../pins/pins.h"
 #include "board_sdio.h"
 #include "usart.h"

@@ -1,6 +1,5 @@
 /*
-  dtostrf - Emulation for dtostrf function from avr-libc
-  Copyright (c) 2015 Arduino LLC.  All rights reserved.
+  Copyright (c) 2014 Arduino.  All right reserved.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -9,22 +8,26 @@
 
   This library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
 
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#pragma once
+#ifndef _WIRING_MATH_
+#define _WIRING_MATH_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+extern long random( long ) ;
+extern long random( long, long ) ;
+extern void randomSeed( uint32_t dwSeed ) ;
+extern long map( long, long, long, long, long ) ;
 
-char *dtostrf(double val, signed char width, unsigned char prec, char *sout);
+extern uint16_t makeWord( uint16_t w ) ;
+extern uint16_t makeWord( uint8_t h, uint8_t l ) ;
 
-#ifdef __cplusplus
-}
-#endif
+#define word(...) makeWord(__VA_ARGS__)
+
+
+#endif /* _WIRING_MATH_ */
