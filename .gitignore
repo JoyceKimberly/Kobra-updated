@@ -204,3 +204,7 @@ tags
 *.scvd
 *.__i
 *._ia
+workspace/.*
+
+!workspace/obj/marlinui.d
+!workspace/obj/marlinui.o
