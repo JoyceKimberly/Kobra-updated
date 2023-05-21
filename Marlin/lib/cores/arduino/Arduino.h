@@ -43,11 +43,12 @@ typedef unsigned int word;
 #ifdef __cplusplus
 extern "C"{
 #endif // __cplusplus
+
+#include "yield.h"
+
 // Weak empty variant initialization function.
 // May be redefined by variant files.
 extern void initVariant() __attribute__((weak));
-
-void yield( void ) ;
 
   /* sketch */
 extern void setup(void) ;
@@ -59,22 +60,31 @@ extern void loop(void) ;
 
 // The following headers are for C++ only compilation
 #ifdef __cplusplus
-#include <WCharacter.h>
-#include <WString.h>
-#include <tone.h>
-#include <wirish_math.h>
-#include <HardwareSerial.h>
+#include "WCharacter.h"
+#include "WString.h"
+#include "Tone.h"
+#include "WMath.h"
+#include "HardwareSerial.h"
 #endif
 
 // Include pins variant
 #include "pins_arduino.h"
 
-#include <wiring_digital.h>
-#include <wirish_types.h>
-#include <wirish_time.h>
-#include <libmaple.h>
+#include "wiring_digital.h"
 
-/* Wiring macros and bit defines */
+// undefine stdlib's abs if encountered
+#ifdef abs
+#undef abs
+#endif // abs
+
+#define min(a,b) ((a)<(b)?(a):(b))
+#define max(a,b) ((a)>(b)?(a):(b))
+#define abs(x) ((x)>0?(x):-(x))
+#define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
+#define round(x)     ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
+#define radians(deg) ((deg)*DEG_TO_RAD)
+#define degrees(rad) ((rad)*RAD_TO_DEG)
+#define sq(x) ((x)*(x))
 
 #define true 0x1
 #define false 0x0

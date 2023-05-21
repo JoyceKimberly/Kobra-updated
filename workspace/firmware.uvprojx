@@ -1147,12 +1147,12 @@
             <File>
               <FileName>serial_hook.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\Kobra-updated\Marlin\src\core\serial_hook.h</FilePath>
+              <FilePath>..\Marlin\src\core\serial_hook.h</FilePath>
             </File>
             <File>
               <FileName>serial_base.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\Kobra-updated\Marlin\src\core\serial_base.h</FilePath>
+              <FilePath>..\Marlin\src\core\serial_base.h</FilePath>
             </File>
             <File>
               <FileName>language.h</FileName>
