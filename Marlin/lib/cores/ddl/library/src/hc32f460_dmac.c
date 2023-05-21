@@ -1,51 +1,18 @@
 /******************************************************************************
- * Copyright (C) 2016, Huada Semiconductor Co.,Ltd All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co.,Ltd. ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
-/** \file hc32f46x_dmac.c
+/** \file hc32f460_dmac.c
  **
  ** A detailed description is available at
  ** @link DmacGroup DMAC description @endlink
  **
- **   - 2018-11-18  1.0  Chengy First version for Device Driver Library of DMAC.
+ **   - 2018-11-18  CDT  First version for Device Driver Library of DMAC.
  **
  ******************************************************************************/
 
@@ -1743,25 +1710,25 @@ void DMA_ChannelCfg(M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch,
     DDL_ASSERT(IS_FUNCTIONAL_STATE(pstcChCfg->enIntEn));
 
     /* Set the source address mode. */
-    MODIFY_DMA_CH_REG(&pstcDmaReg->CH0CTL, u8Ch, DMA_CHCTL_SINC, pstcChCfg->enSrcInc);
+    MODIFY_DMA_CH_REG(&pstcDmaReg->CHCTL0, u8Ch, DMA_CHCTL_SINC, pstcChCfg->enSrcInc);
     /* Set the destination address mode. */
-    MODIFY_DMA_CH_REG(&pstcDmaReg->CH0CTL, u8Ch, DMA_CHCTL_DINC, pstcChCfg->enDesInc);
+    MODIFY_DMA_CH_REG(&pstcDmaReg->CHCTL0, u8Ch, DMA_CHCTL_DINC, pstcChCfg->enDesInc);
     /* Enable or disable source repeat function. */
-    MODIFY_DMA_CH_REG(&pstcDmaReg->CH0CTL, u8Ch, DMA_CHCTL_SRPTEN, pstcChCfg->enSrcRptEn);
+    MODIFY_DMA_CH_REG(&pstcDmaReg->CHCTL0, u8Ch, DMA_CHCTL_SRPTEN, pstcChCfg->enSrcRptEn);
     /* Enable or disable destination repeat function. */
-    MODIFY_DMA_CH_REG(&pstcDmaReg->CH0CTL, u8Ch, DMA_CHCTL_DRPTEN, pstcChCfg->enDesRptEn);
+    MODIFY_DMA_CH_REG(&pstcDmaReg->CHCTL0, u8Ch, DMA_CHCTL_DRPTEN, pstcChCfg->enDesRptEn);
     /* Enable or disable source no_sequence function. */
-    MODIFY_DMA_CH_REG(&pstcDmaReg->CH0CTL, u8Ch, DMA_CHCTL_SNSEQEN, pstcChCfg->enSrcNseqEn);
+    MODIFY_DMA_CH_REG(&pstcDmaReg->CHCTL0, u8Ch, DMA_CHCTL_SNSEQEN, pstcChCfg->enSrcNseqEn);
     /* Enable or disable destination no_sequence function. */
-    MODIFY_DMA_CH_REG(&pstcDmaReg->CH0CTL, u8Ch, DMA_CHCTL_DNSEQEN, pstcChCfg->enDesNseqEn);
+    MODIFY_DMA_CH_REG(&pstcDmaReg->CHCTL0, u8Ch, DMA_CHCTL_DNSEQEN, pstcChCfg->enDesNseqEn);
     /* Set the transfer data width. */
-    MODIFY_DMA_CH_REG(&pstcDmaReg->CH0CTL, u8Ch, DMA_CHCTL_HSIZE, pstcChCfg->enTrnWidth);
+    MODIFY_DMA_CH_REG(&pstcDmaReg->CHCTL0, u8Ch, DMA_CHCTL_HSIZE, pstcChCfg->enTrnWidth);
     /* Enable or disable linked list pointer no_sequence function. */
-    MODIFY_DMA_CH_REG(&pstcDmaReg->CH0CTL, u8Ch, DMA_CHCTL_LLPEN, pstcChCfg->enLlpEn);
+    MODIFY_DMA_CH_REG(&pstcDmaReg->CHCTL0, u8Ch, DMA_CHCTL_LLPEN, pstcChCfg->enLlpEn);
     /* Set the linked list pointer mode. */
-    MODIFY_DMA_CH_REG(&pstcDmaReg->CH0CTL, u8Ch, DMA_CHCTL_LLPRUN, pstcChCfg->enLlpMd);
+    MODIFY_DMA_CH_REG(&pstcDmaReg->CHCTL0, u8Ch, DMA_CHCTL_LLPRUN, pstcChCfg->enLlpMd);
     /* Enable or disable channel interrupt function. */
-    MODIFY_DMA_CH_REG(&pstcDmaReg->CH0CTL, u8Ch, DMA_CHCTL_IE, pstcChCfg->enIntEn);
+    MODIFY_DMA_CH_REG(&pstcDmaReg->CHCTL0, u8Ch, DMA_CHCTL_IE, pstcChCfg->enIntEn);
 }
 
 /**
@@ -1804,7 +1771,7 @@ void DMA_InitChannel(M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch,
     /* Enable DMA. */
     DMA_Cmd(pstcDmaReg, Enable);
     /* Disable DMA interrupt */
-    CLR_DMA_CH_REG_BIT(&pstcDmaReg->CH0CTL , u8Ch, DMA_CHCTL_IE_Pos);
+    CLR_DMA_CH_REG_BIT(&pstcDmaReg->CHCTL0 , u8Ch, DMA_CHCTL_IE_Pos);
     /* Set DMA source address. */
     WRITE_DMA_CH_REG(&pstcDmaReg->SAR0, u8Ch,  pstcDmaCfg->u32SrcAddr);
     /* Set DMA destination address. */
@@ -1835,7 +1802,7 @@ void DMA_DeInit(M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch)
     DDL_ASSERT(IS_VALID_CH(u8Ch));
 
     /* reset dma channel */
-    WRITE_DMA_CH_REG(&pstcDmaReg->CH0CTL, u8Ch, DMA_CHCTL_DEFAULT);
+    WRITE_DMA_CH_REG(&pstcDmaReg->CHCTL0, u8Ch, DMA_CHCTL_DEFAULT);
     WRITE_DMA_CH_REG(&pstcDmaReg->DTCTL0, u8Ch, DMA_DTCTL_DEFAULT);
     WRITE_DMA_CH_REG(&pstcDmaReg->DAR0, u8Ch, DMA_DAR_DEFAULT);
     WRITE_DMA_CH_REG(&pstcDmaReg->SAR0, u8Ch, DMA_SAR_DEFAULT);

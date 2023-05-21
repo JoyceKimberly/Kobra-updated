@@ -27,8 +27,7 @@
 #include "usart.h"
 #include "HardwareSerial.h"
 
-#include "libmaple_types.h"
-#include "wirish_types.h"
+#include "Arduino.h"
 #include "flash.h"
 
 #ifdef __cplusplus
@@ -37,6 +36,9 @@ extern "C"{
 
 extern uint32_t F_CPU;
 #define CYCLES_PER_MICROSECOND  (F_CPU / 1000000UL)
+
+typedef void (*voidFuncPtr)(void);
+typedef void (*voidArgumentFuncPtr)(void *);
 
 typedef enum ExtIntTriggerMode {
     RISING, /**< To trigger an interrupt when the pin transitions LOW

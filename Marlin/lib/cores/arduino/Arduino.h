@@ -1,6 +1,6 @@
 /*
   Arduino.h - Main include file for the Arduino SDK
-  Copyright (c) 2005-2013 Arduino Team.  All right reserved.
+  Copyright (c) 2014 Arduino LLC.  All right reserved.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -26,8 +26,11 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
-typedef unsigned int word;
+typedef bool boolean;
+typedef uint8_t byte;
+typedef uint16_t word;
 
 // some libraries and sketches depend on this AVR stuff,
 // assuming Arduino.h or WProgram.h automatically includes it...
@@ -54,6 +57,8 @@ extern void initVariant() __attribute__((weak));
 extern void setup(void) ;
 extern void loop(void) ;
 
+#include "WVariant.h"
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
@@ -65,12 +70,18 @@ extern void loop(void) ;
 #include "Tone.h"
 #include "WMath.h"
 #include "HardwareSerial.h"
+#include "pulse.h"
+#endif
+#ifdef __cplusplus
+#include "Uart.h"
 #endif
 
-// Include pins variant
-#include "pins_arduino.h"
+// Include board variant
+#include "variant.h"
 
 #include "wiring_digital.h"
+#include "wiring_analog.h"
+#include "wiring_shift.h"
 
 // undefine stdlib's abs if encountered
 #ifdef abs

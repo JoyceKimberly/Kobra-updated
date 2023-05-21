@@ -2218,7 +2218,7 @@ void IRQ129_Handler(void)
     uint32_t u32Tmp1 = 0ul;
     uint32_t u32Tmp2 = 0ul;
 
-    if (1ul == bM4_DMA1_CH0CTL_IE)
+    if (1ul == bM4_DMA1_CHCTL0_IE)
     {
         /* DMA1 ch.0 Tx completed */
         if (0ul == bM4_DMA1_INTMASK1_MSKTC0)
@@ -2322,7 +2322,7 @@ void IRQ129_Handler(void)
             Dma1Err3_IrqHandler();
         }
     }
-    if (1ul == bM4_DMA2_CH0CTL_IE)
+    if (1ul == bM4_DMA2_CHCTL0_IE)
     {
         /* DMA2 ch.0 Tx completed */
         if (0ul == bM4_DMA2_INTMASK1_MSKTC0)
