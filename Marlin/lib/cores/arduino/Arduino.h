@@ -69,7 +69,7 @@ extern void loop(void) ;
 // Include pins variant
 #include "pins_arduino.h"
 
-#include <io.h>
+#include <wiring_digital.h>
 #include <wirish_types.h>
 #include <wirish_time.h>
 #include <libmaple.h>

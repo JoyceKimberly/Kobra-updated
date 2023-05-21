@@ -58,15 +58,15 @@ enum BitOrder {
 
 /** SPI register map type. */
 typedef struct spi_reg_map {
-    __IO uint32 CR1;            /**< Control register 1 */
-    __IO uint32 CR2;            /**< Control register 2 */
-    __IO uint32 SR;             /**< Status register */
-    __IO uint32 DR;             /**< Data register */
-    __IO uint32 CRCPR;          /**< CRC polynomial register */
-    __IO uint32 RXCRCR;         /**< RX CRC register */
-    __IO uint32 TXCRCR;         /**< TX CRC register */
-    __IO uint32 I2SCFGR;        /**< I2S configuration register */
-    __IO uint32 I2SPR;          /**< I2S prescaler register */
+    __IO uint32_t CR1;            /**< Control register 1 */
+    __IO uint32_t CR2;            /**< Control register 2 */
+    __IO uint32_t SR;             /**< Status register */
+    __IO uint32_t DR;             /**< Data register */
+    __IO uint32_t CRCPR;          /**< CRC polynomial register */
+    __IO uint32_t RXCRCR;         /**< RX CRC register */
+    __IO uint32_t TXCRCR;         /**< TX CRC register */
+    __IO uint32_t I2SCFGR;        /**< I2S configuration register */
+    __IO uint32_t I2SPR;          /**< I2S prescaler register */
 } spi_reg_map;
 
 /*
@@ -232,13 +232,13 @@ struct gpio_dev;
  * @param mosi_bit MOSI pin's GPIO bit on comm_dev
  */
 extern void spi_config_gpios(spi_dev *dev,
-                             uint8 as_master,
+                             uint8_t as_master,
                              struct gpio_dev *nss_dev,
-                             uint8 nss_bit,
+                             uint8_t nss_bit,
                              struct gpio_dev *comm_dev,
-                             uint8 sck_bit,
-                             uint8 miso_bit,
-                             uint8 mosi_bit);
+                             uint8_t sck_bit,
+                             uint8_t miso_bit,
+                             uint8_t mosi_bit);
 
 /**
  * @brief SPI mode configuration.
@@ -307,13 +307,13 @@ typedef enum spi_cfg_flag {
 void spi_master_enable(spi_dev *dev,
                        spi_baud_rate baud,
                        spi_mode mode,
-                       uint32 flags);
+                       uint32_t flags);
 
 void spi_slave_enable(spi_dev *dev,
                       spi_mode mode,
-                      uint32 flags);
+                      uint32_t flags);
 
-uint32 spi_tx(spi_dev *dev, const void *buf, uint32 len);
+uint32_t spi_tx(spi_dev *dev, const void *buf, uint32_t len);
 
 /**
  * @brief Call a function on each SPI port
@@ -335,7 +335,7 @@ void spi_rx_dma_disable(spi_dev *dev);
  * @param dev SPI device
  * @return True, if and only if dev's peripheral is enabled.
  */
-static inline uint8 spi_is_enabled(spi_dev *dev) {
+static inline uint8_t spi_is_enabled(spi_dev *dev) {
     return dev->regs->CR1 & SPI_CR1_SPE_BIT;
 }
 
@@ -371,7 +371,7 @@ typedef enum spi_interrupt {
  * @param interrupt_flags Bitwise OR of spi_interrupt values to enable
  * @see spi_interrupt
  */
-static inline void spi_irq_enable(spi_dev *dev, uint32 interrupt_flags) {
+static inline void spi_irq_enable(spi_dev *dev, uint32_t interrupt_flags) {
     dev->regs->CR2 |= interrupt_flags;
     nvic_irq_enable(dev->irq_num);
 }
@@ -382,7 +382,7 @@ static inline void spi_irq_enable(spi_dev *dev, uint32 interrupt_flags) {
  * @param interrupt_flags Bitwise OR of spi_interrupt values to disable
  * @see spi_interrupt
  */
-static inline void spi_irq_disable(spi_dev *dev, uint32 interrupt_flags) {
+static inline void spi_irq_disable(spi_dev *dev, uint32_t interrupt_flags) {
     dev->regs->CR2 &= ~interrupt_flags;
 }
 
@@ -405,7 +405,7 @@ static inline spi_cfg_flag spi_dff(spi_dev *dev) {
  * @param dev SPI device
  * @return true, iff dev's RX register is empty.
  */
-static inline uint8 spi_is_rx_nonempty(spi_dev *dev) {
+static inline uint8_t spi_is_rx_nonempty(spi_dev *dev) {
     return dev->regs->SR & SPI_SR_RXNE;
 }
 
@@ -420,7 +420,7 @@ static inline uint8 spi_is_rx_nonempty(spi_dev *dev) {
  * @return Contents of dev's peripheral RX register
  * @see spi_is_rx_reg_nonempty()
  */
-static inline uint16 spi_rx_reg(spi_dev *dev) {
+static inline uint16_t spi_rx_reg(spi_dev *dev) {
     return (uint16)dev->regs->DR;
 }
 
@@ -430,7 +430,7 @@ static inline uint16 spi_rx_reg(spi_dev *dev) {
  * @param dev SPI device
  * @return true, iff dev's TX register is empty.
  */
-static inline uint8 spi_is_tx_empty(spi_dev *dev) {
+static inline uint8_t spi_is_tx_empty(spi_dev *dev) {
     return dev->regs->SR & SPI_SR_TXE;
 }
 
@@ -451,7 +451,7 @@ static inline uint8 spi_is_tx_empty(spi_dev *dev) {
  * @see spi_master_enable()
  * @see spi_slave_enable()
  */
-static inline void spi_tx_reg(spi_dev *dev, uint16 val) {
+static inline void spi_tx_reg(spi_dev *dev, uint16_t val) {
     dev->regs->DR = val;
 }
 
@@ -461,7 +461,7 @@ static inline void spi_tx_reg(spi_dev *dev, uint16 val) {
  * @param dev SPI device
  * @return true, iff dev's BSY flag is set.
  */
-static inline uint8 spi_is_busy(spi_dev *dev) {
+static inline uint8_t spi_is_busy(spi_dev *dev) {
     return dev->regs->SR & SPI_SR_BSY;
 }
 

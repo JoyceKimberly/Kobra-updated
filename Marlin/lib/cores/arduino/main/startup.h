@@ -1,7 +1,6 @@
 #ifndef _BSP_H
 #define  _BSP_H
 
-
 #include "string.h"
 //#include <iostream>
 #include <stdint.h>
@@ -49,33 +48,30 @@ typedef enum ExtIntTriggerMode {
                 changes). */
 } ExtIntTriggerMode;
 
-static __always_inline void nvic_globalirq_enable() {
+static inline void nvic_globalirq_enable() {
     asm volatile("cpsie i");
 }
-static __always_inline void nvic_globalirq_disable() {
+static inline void nvic_globalirq_disable() {
     asm volatile("cpsid i");
 }
-static __always_inline void interrupts() {
+static inline void interrupts() {
     nvic_globalirq_enable();
 }
-static __always_inline void noInterrupts() {
+static inline void noInterrupts() {
     nvic_globalirq_disable();
 }
 void init(void);
 void f_cpu_init(uint32_t clock);
 extern void setup_Extinterrupt(void);
-extern void attachInterrupt(uint8 pin, voidFuncPtr handler, uint8 irqNum,ExtIntTriggerMode mode);
+extern void attachInterrupt(uint8_t pin, voidFuncPtr handler, uint8_t irqNum,ExtIntTriggerMode mode);
 extern void ExtInt_X_MIN_Callback(void);
 extern void ExtInt_Y_MIN_Callback(void);
 extern void ExtInt_Z_MIN_Callback(void);
 extern void ExtInt_Z2_MIN_Callback(void);
 extern void ExtInt_Z_MIN_PROBE_Callback(void);
 
-
-
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
 #endif
-

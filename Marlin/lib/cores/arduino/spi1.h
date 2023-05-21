@@ -74,13 +74,13 @@ extern void spi_config_gpios(struct spi_dev*, uint8,
  * @brief Deprecated. Use spi_config_gpios() instead.
  * @see spi_config_gpios()
  */
-static __always_inline void spi_gpio_cfg(uint8 as_master,
+static __always_inline void spi_gpio_cfg(uint8_t as_master,
                                          struct gpio_dev *nss_dev,
-                                         uint8 nss_bit,
+                                         uint8_t nss_bit,
                                          struct gpio_dev *comm_dev,
-                                         uint8 sck_bit,
-                                         uint8 miso_bit,
-                                         uint8 mosi_bit) {
+                                         uint8_t sck_bit,
+                                         uint8_t miso_bit,
+                                         uint8_t mosi_bit) {
     /* We switched style globally to foo_config_gpios() and always
      * taking a foo_dev* argument (that last bit is the important
      * part) after this function was written.

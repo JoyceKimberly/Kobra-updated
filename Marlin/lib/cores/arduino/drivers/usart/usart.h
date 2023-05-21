@@ -39,8 +39,6 @@ extern "C"{
 #endif
 
 #include <startup.h>
-#include <libmaple_types.h>
-#include <util.h>
 #include <ring_buffer.h>
 
 /*
@@ -49,13 +47,13 @@ extern "C"{
 
 /** USART register map type */
 typedef struct usart_reg_map {
-    __IO uint32 SR;             /**< Status register */
-    __IO uint32 DR;             /**< Data register */
-    __IO uint32 BRR;            /**< Baud rate register */
-    __IO uint32 CR1;            /**< Control register 1 */
-    __IO uint32 CR2;            /**< Control register 2 */
-    __IO uint32 CR3;            /**< Control register 3 */
-    __IO uint32 GTPR;           /**< Guard time and prescaler register */
+    __IO uint32_t SR;             /**< Status register */
+    __IO uint32_t DR;             /**< Data register */
+    __IO uint32_t BRR;            /**< Baud rate register */
+    __IO uint32_t CR1;            /**< Control register 1 */
+    __IO uint32_t CR2;            /**< Control register 2 */
+    __IO uint32_t CR3;            /**< Control register 3 */
+    __IO uint32_t GTPR;           /**< Guard time and prescaler register */
 } usart_reg_map;
 
 /*
@@ -381,14 +379,14 @@ typedef struct usart_dev {
     usart_reg_map *regs;             /**< Register map */
     ring_buffer *rb;                 /**< RX ring buffer */
     ring_buffer *wb;                 /**< TX ring buffer */
-    uint32 max_baud;                 /**< @brief Deprecated.
+    uint32_t max_baud;                 /**< @brief Deprecated.
                                       * Maximum baud rate. */
-    uint8 rx_buf[USART_RX_BUF_SIZE]; /**< @brief Deprecated.
+    uint8_t rx_buf[USART_RX_BUF_SIZE]; /**< @brief Deprecated.
                                       * Actual RX buffer used by rb.
                                       * This field will be removed in
                                       * a future release. */
-    uint8 tx_buf[USART_TX_BUF_SIZE]; /**< Actual TX buffer used by wb */
-    uint32 clk_id;
+    uint8_t tx_buf[USART_TX_BUF_SIZE]; /**< Actual TX buffer used by wb */
+    uint32_t clk_id;
     stc_usart_uart_init_t *pstcInitCfg;
     IRQn_Type RX_IRQ;
     IRQn_Type TX_IRQ;           
@@ -411,8 +409,8 @@ struct gpio_dev;                /* forward declaration */
  * @param flags  Currently ignored
  */
 extern void usart_config_gpios_async(usart_dev *udev,
-                                     struct gpio_dev *rx_dev, uint8 rx,
-                                     struct gpio_dev *tx_dev, uint8 tx,
+                                     struct gpio_dev *rx_dev, uint8_t rx,
+                                     struct gpio_dev *tx_dev, uint8_t tx,
                                      unsigned flags);
 
 
@@ -435,14 +433,14 @@ extern ring_buffer usart3_wb;
 extern ring_buffer usart4_rb;
 extern ring_buffer usart4_wb;
 
-void usart_set_baud_rate(usart_dev *dev, uint32 baud);
+void usart_set_baud_rate(usart_dev *dev, uint32_t baud);
 
 void usart_enable(usart_dev *dev);
 void usart_disable(usart_dev *dev);
 void usart_foreach(void (*fn)(usart_dev *dev));
-uint32 usart_tx(usart_dev *dev, const uint8 *buf, uint32 len);
-uint32 usart_rx(usart_dev *dev, uint8 *buf, uint32 len);
-void usart_putudec(usart_dev *dev, uint32 val);
+uint32_t usart_tx(usart_dev *dev, const uint8_t *buf, uint32_t len);
+uint32_t usart_rx(usart_dev *dev, uint8_t *buf, uint32_t len);
+void usart_putudec(usart_dev *dev, uint32_t val);
 
 /**
  * @brief Disable all serial ports.
@@ -460,7 +458,7 @@ static inline void usart_disable_all(void) {
  * @param dev Serial port to send on.
  * @param byte Byte to transmit.
  */
-static inline void usart_putc(usart_dev* dev, uint8 byte) {
+static inline void usart_putc(usart_dev* dev, uint8_t byte) {
     while (!usart_tx(dev, &byte, 1))
         ;
 }
@@ -474,7 +472,7 @@ static inline void usart_putc(usart_dev* dev, uint8 byte) {
  * @param str String to send
  */
 static inline void usart_putstr(usart_dev *dev, const char* str) {
-    uint32 i = 0;
+    uint32_t i = 0;
     while (str[i] != '\0') {
         usart_putc(dev, str[i++]);
     }
@@ -490,7 +488,7 @@ static inline void usart_putstr(usart_dev *dev, const char* str) {
  * @return byte read
  * @see usart_data_available()
  */
-static inline uint8 usart_getc(usart_dev *dev) {
+static inline uint8_t usart_getc(usart_dev *dev) {
     return rb_remove(dev->rb);
 }
 
@@ -511,7 +509,7 @@ static inline int usart_peek(usart_dev *dev)
  * @param dev Serial port to check
  * @return Number of bytes in dev's RX buffer.
  */
-static inline uint32 usart_data_available(usart_dev *dev) {
+static inline uint32_t usart_data_available(usart_dev *dev) {
     return rb_full_count(dev->rb);
 }
 
@@ -531,7 +529,7 @@ static inline void usart_reset_tx(usart_dev *dev) {
     rb_reset(dev->wb);
 }
 
-static __always_inline void usart_tx_irq(ring_buffer *wb,M4_USART_TypeDef *regs) {
+static inline void usart_tx_irq(ring_buffer *wb,M4_USART_TypeDef *regs) {
         if (!rb_is_empty(wb))
         {
 		USART_SendData(regs,rb_remove(wb)); 
@@ -542,8 +540,8 @@ static __always_inline void usart_tx_irq(ring_buffer *wb,M4_USART_TypeDef *regs)
 		USART_FuncCmd(regs, UsartTxCmpltInt, Enable);
         }            
 }
-static __always_inline void usart_rx_irq(ring_buffer *rb,M4_USART_TypeDef *regs) {
-        rb_push_insert(rb, (uint8)USART_RecData(regs));
+static inline void usart_rx_irq(ring_buffer *rb,M4_USART_TypeDef *regs) {
+        rb_push_insert(rb, (uint8_t)USART_RecData(regs));
 }
 
 #ifdef __cplusplus

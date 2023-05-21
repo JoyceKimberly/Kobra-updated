@@ -1,86 +1,40 @@
 #include "wiring_digital.h"
-#include "drivers/gpio/gpio.h"
-#include "wiring_constants.h"
+#include "gpio.h"
 
-void pinMode(uint32_t dwPin, uint32_t dwMode)
+
+void gpio_set_mode(uint8_t pin, WiringPinMode mode)
 {
-    if (dwPin >= BOARD_NR_GPIO_PINS)
-    {
-        return;
+    stc_port_init_t stcPortInit;
+
+    MEM_ZERO_STRUCT(stcPortInit);
+
+    switch(mode) {
+
+        case OUTPUT:
+            stcPortInit.enPinMode = Pin_Mode_Out;
+            stcPortInit.enPullUp  = Disable;
+        break;
+
+        case INPUT:
+        case INPUT_PULLDOWN:
+            stcPortInit.enPinMode = Pin_Mode_In;
+            stcPortInit.enPullUp  = Disable;
+        break;
+
+        case INPUT_PULLUP:
+            stcPortInit.enPinMode = Pin_Mode_In;
+            stcPortInit.enPullUp  = Enable;
+        break;
+
+        default:
+        break;
     }
 
-    // build pin configuration
-    stc_port_init_t pinConf;
-    MEM_ZERO_STRUCT(pinConf);
-    switch (dwMode)
-    {
-    case INPUT:
-        pinConf.enPinMode = Pin_Mode_In;
-        break;
-    case INPUT_PULLUP:
-        pinConf.enPinMode = Pin_Mode_In;
-        pinConf.enPullUp = Enable;
-        break;
-    case INPUT_ANALOG:
-        pinConf.enPinMode = Pin_Mode_Ana;
-        break;
-    case OUTPUT:
-        pinConf.enPinMode = Pin_Mode_Out;
-        break;
-    default:
-        return;
-    }
-
-    // set pind config
-    PORT_InitGPIO(dwPin, &pinConf);
+    PORT_InitGPIO(pin, &stcPortInit);
 }
 
-uint32_t getPinMode(uint32_t dwPin)
+void pinMode(uint8_t pin, WiringPinMode mode)
 {
-    if (dwPin >= BOARD_NR_GPIO_PINS)
-    {
-        return INPUT;
-    }
-
-    // read pin configuration
-    stc_port_init_t pinConf;
-    PORT_GetConfigGPIO(dwPin, &pinConf);
-    switch (pinConf.enPinMode)
-    {
-    case Pin_Mode_Out:
-        return OUTPUT;
-    case Pin_Mode_In:
-        return (pinConf.enPullUp == Enable) ? INPUT_PULLUP : INPUT;
-    case Pin_Mode_Ana:
-        return INPUT_ANALOG;
-    default:
-        return INPUT_FLOATING;
-    }
+    gpio_set_mode(pin, mode);
 }
 
-void digitalWrite(uint32_t dwPin, uint32_t dwVal)
-{
-    if (dwPin >= BOARD_NR_GPIO_PINS)
-    {
-        return;
-    }
-
-    if (dwVal == LOW)
-    {
-        PORT_ResetBitsGPIO(dwPin);
-    }
-    else
-    {
-        PORT_SetBitsGPIO(dwPin);
-    }
-}
-
-int digitalRead(uint32_t ulPin)
-{
-    if (ulPin >= BOARD_NR_GPIO_PINS)
-    {
-        return LOW;
-    }
-
-    return PORT_GetBitGPIO(ulPin) ? HIGH : LOW;
-}

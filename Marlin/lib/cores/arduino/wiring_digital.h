@@ -1,79 +1,141 @@
-/*
-  Copyright (c) 2014 Arduino.  All right reserved.
+/******************************************************************************
+ * The MIT License
+ *
+ * Copyright (c) 2010 Perry Hung.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *****************************************************************************/
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+/**
+ * @file wirish/include/wirish/io.h
+ * @brief Wiring-style pin I/O interface.
+ */
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the GNU Lesser General Public License for more details.
+#ifndef _WIRISH_IO_H_
+#define _WIRISH_IO_H_
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+#include <libmaple_types.h>
+#include "startup.h"
 
-#ifndef _WIRING_DIGITAL_
-#define _WIRING_DIGITAL_
+/**
+ * Specifies a GPIO pin behavior.
+ * @see pinMode()
+ */
+typedef enum WiringPinMode {
+    OUTPUT, /**< Basic digital output: when the pin is HIGH, the
+               voltage is held at +3.3v (Vcc) and when it is LOW, it
+               is pulled down to ground. */
 
-#ifdef __cplusplus
- extern "C" {
+    OUTPUT_OPEN_DRAIN, /**< In open drain mode, the pin indicates
+                          "low" by accepting current flow to ground
+                          and "high" by providing increased
+                          impedance. An example use would be to
+                          connect a pin to a bus line (which is pulled
+                          up to a positive voltage by a separate
+                          supply through a large resistor). When the
+                          pin is high, not much current flows through
+                          to ground and the line stays at positive
+                          voltage; when the pin is low, the bus
+                          "drains" to ground with a small amount of
+                          current constantly flowing through the large
+                          resistor from the external supply. In this
+                          mode, no current is ever actually sourced
+                          from the pin. */
+
+    INPUT, /**< Basic digital input. The pin voltage is sampled; when
+              it is closer to 3.3v (Vcc) the pin status is high, and
+              when it is closer to 0v (ground) it is low. If no
+              external circuit is pulling the pin voltage to high or
+              low, it will tend to randomly oscillate and be very
+              sensitive to noise (e.g., a breath of air across the pin
+              might cause the state to flip). */
+
+    INPUT_ANALOG, /**< This is a special mode for when the pin will be
+                     used for analog (not digital) reads.  Enables ADC
+                     conversion to be performed on the voltage at the
+                     pin. */
+
+    INPUT_PULLUP, /**< The state of the pin in this mode is reported
+                     the same way as with INPUT, but the pin voltage
+                     is gently "pulled up" towards +3.3v. This means
+                     the state will be high unless an external device
+                     is specifically pulling the pin down to ground,
+                     in which case the "gentle" pull up will not
+                     affect the state of the input. */
+
+    INPUT_PULLDOWN, /**< The state of the pin in this mode is reported
+                       the same way as with INPUT, but the pin voltage
+                       is gently "pulled down" towards 0v. This means
+                       the state will be low unless an external device
+                       is specifically pulling the pin up to 3.3v, in
+                       which case the "gentle" pull down will not
+                       affect the state of the input. */
+
+    INPUT_FLOATING, /**< Synonym for INPUT. */
+
+    PWM, /**< This is a special mode for when the pin will be used for
+            PWM output (a special case of digital output). */
+
+    PWM_OPEN_DRAIN, /**< Like PWM, except that instead of alternating
+                       cycles of LOW and HIGH, the voltage on the pin
+                       consists of alternating cycles of LOW and
+                       floating (disconnected). */
+} WiringPinMode;
+
+/**
+ * Configure behavior of a GPIO pin.
+ *
+ * @param pin Number of pin to configure.
+ * @param mode Mode corresponding to desired pin behavior.
+ * @see WiringPinMode
+ */
+void pinMode(uint8_t pin, WiringPinMode mode);
+
+#define HIGH 0x1
+#define LOW  0x0
+
+/**
+ * Writes a (digital) value to a pin.  The pin must have its
+ * mode set to OUTPUT or OUTPUT_OPEN_DRAIN.
+ *
+ * @param pin Pin to write to.
+ * @param value Either LOW (write a 0) or HIGH (write a 1).
+ * @see pinMode()
+ */
+void digitalWrite(uint8_t pin, uint8_t val);
+
+/**
+ * Read a digital value from a pin.  The pin must have its mode set to
+ * one of INPUT, INPUT_PULLUP, and INPUT_PULLDOWN.
+ *
+ * @param pin Pin to read from.
+ * @return LOW or HIGH.
+ * @see pinMode()
+ */
+uint32_t digitalRead(uint8_t pin);
+
+void pwmWrite(uint8_t pin, uint16_t duty_cycle16);
+void analogWrite(uint8_t pin, int duty_cycle8);
+uint16_t analogRead(uint8_t pin);
+void gpio_set_mode(uint8_t pin, WiringPinMode mode);
+WiringPinMode gpio_get_mode(uint8_t PinNum) ;
+
 #endif
-
-#include "WVariant.h"
-
-/**
- * \brief Configures the specified pin to behave either as an input or an output. See the description of digital pins for details.
- *
- * \param ulPin The number of the pin whose mode you wish to set
- * \param ulMode Can be INPUT, OUTPUT, INPUT_PULLUP or INPUT_PULLDOWN
- */
-extern void pinMode( uint32_t dwPin, uint32_t dwMode ) ;
-
-/**
- * \brief get the current pin mode
- * 
- * \param dwPin The number of the pin whose mode you wish to get
- * \return the current pin mode. Can be INPUT, OUTPUT, INPUT_PULLUP or INPUT_PULLDOWN
-*/
-extern uint32_t getPinMode( uint32_t dwPin) ;
-
-/**
- * \brief Write a HIGH or a LOW value to a digital pin.
- *
- * If the pin has been configured as an OUTPUT with pinMode(), its voltage will be set to the
- * corresponding value: 5V (or 3.3V on 3.3V boards) for HIGH, 0V (ground) for LOW.
- *
- * If the pin is configured as an INPUT, writing a HIGH value with digitalWrite() will enable an internal
- * 20K pullup resistor (see the tutorial on digital pins). Writing LOW will disable the pullup. The pullup
- * resistor is enough to light an LED dimly, so if LEDs appear to work, but very dimly, this is a likely
- * cause. The remedy is to set the pin to an output with the pinMode() function.
- *
- * \note Digital pin PIN_LED is harder to use as a digital input than the other digital pins because it has an LED
- * and resistor attached to it that's soldered to the board on most boards. If you enable its internal 20k pull-up
- * resistor, it will hang at around 1.7 V instead of the expected 5V because the onboard LED and series resistor
- * pull the voltage level down, meaning it always returns LOW. If you must use pin PIN_LED as a digital input, use an
- * external pull down resistor.
- *
- * \param dwPin the pin number
- * \param dwVal HIGH or LOW
- */
-extern void digitalWrite( uint32_t dwPin, uint32_t dwVal ) ;
-
-/**
- * \brief Reads the value from a specified digital pin, either HIGH or LOW.
- *
- * \param ulPin The number of the digital pin you want to read (int)
- *
- * \return HIGH or LOW
- */
-extern int digitalRead( uint32_t ulPin ) ;
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* _WIRING_DIGITAL_ */
