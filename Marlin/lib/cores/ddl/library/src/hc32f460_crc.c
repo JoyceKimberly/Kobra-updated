@@ -1,51 +1,18 @@
 /*******************************************************************************
- * Copyright (C) 2016, Huada Semiconductor Co., Ltd. All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co., Ltd. ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
-/** \file hc32f46x_crc.c
+/** \file hc32f460_crc.c
  **
  ** A detailed description is available at
  ** @link CrcGroup Crc description @endlink
  **
- **   - 2019-03-07  1.0 Wuze First version for Device Driver Library of Crc.
+ **   - 2019-03-07  CDT First version for Device Driver Library of Crc.
  **
  ******************************************************************************/
 
@@ -216,7 +183,7 @@ bool CRC_Check16B(uint16_t u16InitVal, uint16_t u16Checksum, const uint16_t *pu1
 
         M4_CRC16_DAT = u16CrcChecksum;
 
-        if (bM4_CRC_FLG_FLAG)
+        if (bM4_CRC_RESLT_CRCFLAG_16)
         {
             bRet = true;
         }

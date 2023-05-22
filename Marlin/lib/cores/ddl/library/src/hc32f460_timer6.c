@@ -1,51 +1,18 @@
 /*******************************************************************************
- * Copyright (C) 2016, Huada Semiconductor Co., Ltd. All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co., Ltd. ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
-/** \file hc32f46x_timer6.c
+/** \file hc32f460_timer6.c
  **
  ** A detailed description is available at
  ** @link Timer6Group Timer6 description @endlink
  **
- **   - 2018-11-23  1.0  Husj  First version for Device Driver Library of Timer6.
+ **   - 2018-11-23  CDT  First version for Device Driver Library of Timer6.
  **
  ******************************************************************************/
 
@@ -124,6 +91,11 @@
 #define IS_VALID_TIMER6_OUTPUT_PORT(x)                                         \
 (   (Timer6PWMA == (x))                         ||                             \
     (Timer6PWMB == (x)))
+
+/*!< Parameter valid check for timer6 port mode */
+#define IS_VALID_TIMER6_PORT_MODE(x)                                           \
+(   (Timer6ModeCompareOutput == (x))            ||                             \
+    (Timer6ModeCaptureInput == (x)))
 
 /*!< Parameter valid check for timer6 input port */
 #define IS_VALID_TIMER6_INPUT_PORT(x)                                          \
@@ -929,15 +901,16 @@ en_result_t Timer6_SetValidPeriod(M4_TMR6_TypeDef *TMR6x, const stc_timer6_valid
 /*******************************************************************************
  * \brief   Port input config(Trig)
  *
- *
  * \param   [in]  TMR6x             Timer6 unit
- * \param   [in]  pstcTimer6PortInputCfg   Point Input Config Pointer
+ * \param   [in]  enTimer6InputPort        Input port select @ref en_timer6_input_port_t
+ * \param   [in]  pstcTimer6PortInputCfg   port Input Config Pointer
  *
  * \retval  Ok:  Set successfully
  * \retval  ErrorInvalidParameter: Provided parameter is not valid
- *
+ * \note    Please make sure that peripheral clock of M4_TMR61 is valid if The
+ *          TRIGX pin is used.
  ******************************************************************************/
-en_result_t Timer6_PortInputConfig(M4_TMR6_TypeDef *TMR6x, const stc_timer6_port_input_cfg_t* pstcTimer6PortInputCfg)
+en_result_t Timer6_PortInputConfig(M4_TMR6_TypeDef *TMR6x, en_timer6_input_port_t enTimer6InputPort, const stc_timer6_port_input_cfg_t* pstcTimer6PortInputCfg)
 {
     en_result_t enRet = Ok;
 
@@ -949,28 +922,26 @@ en_result_t Timer6_PortInputConfig(M4_TMR6_TypeDef *TMR6x, const stc_timer6_port
     }
     else
     {
-        switch (pstcTimer6PortInputCfg->enPortSel)
+        switch (enTimer6InputPort)
         {
             case Timer6xCHA:
-                TMR6x->PCONR_f.CAPMDA   = pstcTimer6PortInputCfg->enPortMode;
                 TMR6x->FCONR_f.NOFIENGA = pstcTimer6PortInputCfg->bFltEn;
                 TMR6x->FCONR_f.NOFICKGA = pstcTimer6PortInputCfg->enFltClk;
                 break;
 
             case Timer6xCHB:
-                TMR6x->PCONR_f.CAPMDB   = pstcTimer6PortInputCfg->enPortMode;
                 TMR6x->FCONR_f.NOFIENGB = pstcTimer6PortInputCfg->bFltEn;
                 TMR6x->FCONR_f.NOFICKGB = pstcTimer6PortInputCfg->enFltClk;
                 break;
 
             case Timer6TrigA:
-                TMR6x->FCONR_f.NOFIENTA = pstcTimer6PortInputCfg->bFltEn;
-                TMR6x->FCONR_f.NOFICKTA = pstcTimer6PortInputCfg->enFltClk;
+                M4_TMR61->FCONR_f.NOFIENTA = pstcTimer6PortInputCfg->bFltEn;
+                M4_TMR61->FCONR_f.NOFICKTA = pstcTimer6PortInputCfg->enFltClk;
                 break;
 
             case Timer6TrigB:
-                TMR6x->FCONR_f.NOFIENTB = pstcTimer6PortInputCfg->bFltEn;
-                TMR6x->FCONR_f.NOFICKTB = pstcTimer6PortInputCfg->enFltClk;
+                M4_TMR61->FCONR_f.NOFIENTB = pstcTimer6PortInputCfg->bFltEn;
+                M4_TMR61->FCONR_f.NOFICKTB = pstcTimer6PortInputCfg->enFltClk;
                 break;
 
             default:
@@ -979,6 +950,35 @@ en_result_t Timer6_PortInputConfig(M4_TMR6_TypeDef *TMR6x, const stc_timer6_port
         }
     }
     return enRet;
+}
+
+
+/*******************************************************************************
+ * \brief  Set channel function
+ * \param  [in] TMR6x             Timer6 unit
+ * \param  [in] enTimer6PWMPort   Port to be configured @ref en_timer6_chx_port_t
+ * \param  [in] enMode            Channel mode @ref en_timer6_func_mode_t
+ * \retval None
+ ******************************************************************************/
+void Timer6_SetFunc(M4_TMR6_TypeDef *TMR6x, en_timer6_chx_port_t enTimer6PWMPort, en_timer6_func_mode_t enMode)
+{
+    DDL_ASSERT(IS_VALID_NORMAL_TIMER6_UNIT(TMR6x));
+    DDL_ASSERT(IS_VALID_TIMER6_OUTPUT_PORT(enTimer6PWMPort));
+    DDL_ASSERT(IS_VALID_TIMER6_PORT_MODE(enMode));
+
+    switch (enTimer6PWMPort)
+    {
+        case Timer6xCHA:
+            TMR6x->PCONR_f.CAPMDA = enMode;
+            break;
+
+        case Timer6xCHB:
+            TMR6x->PCONR_f.CAPMDB = enMode;
+            break;
+
+        default:
+            break;
+    }
 }
 
 /*******************************************************************************
@@ -1011,7 +1011,6 @@ en_result_t Timer6_PortOutputConfig(M4_TMR6_TypeDef *TMR6x,
         switch (enTimer6PWMPort)
         {
             case Timer6PWMA:
-                TMR6x->PCONR_f.CAPMDA = pstcTimer6PortOutCfg->enPortMode;
                 TMR6x->PCONR_f.STACA = pstcTimer6PortOutCfg->enStaOut;
                 TMR6x->PCONR_f.STPCA = pstcTimer6PortOutCfg->enStpOut;
                 TMR6x->PCONR_f.STASTPSA = pstcTimer6PortOutCfg->enStaStp;
@@ -1022,7 +1021,6 @@ en_result_t Timer6_PortOutputConfig(M4_TMR6_TypeDef *TMR6x,
                 break;
 
             case Timer6PWMB:
-                TMR6x->PCONR_f.CAPMDB = pstcTimer6PortOutCfg->enPortMode;
                 TMR6x->PCONR_f.STACB = pstcTimer6PortOutCfg->enStaOut;
                 TMR6x->PCONR_f.STPCB = pstcTimer6PortOutCfg->enStpOut;
                 TMR6x->PCONR_f.STASTPSB = pstcTimer6PortOutCfg->enStaStp;
@@ -1286,7 +1284,8 @@ en_result_t Timer6_GetSwSyncState(stc_timer6_sw_sync_t* pstcTimer6SwSyncState)
  * \param   [in]  enTimer6HwCntUp  Hardware UpCount Event
  *
  * \retval  Ok:  Set successfully
- *
+ * \note    Please make sure that peripheral clock of M4_TMR61 is valid if The
+ *          TRIGX pin is used.
  ******************************************************************************/
 en_result_t Timer6_ConfigHwCntUp(M4_TMR6_TypeDef *TMR6x, en_timer6_hw_cnt_t enTimer6HwCntUp)
 {
@@ -1325,7 +1324,8 @@ en_result_t Timer6_ClearHwCntUp(M4_TMR6_TypeDef *TMR6x)
  * \param   [in]  enTimer6HwCntDwn   Hardware DownCount Event
  *
  * \retval  Ok:  Set successfully
- *
+ * \note    Please make sure that peripheral clock of M4_TMR61 is valid if The
+ *          TRIGX pin is used.
  ******************************************************************************/
 en_result_t Timer6_ConfigHwCntDwn(M4_TMR6_TypeDef *TMR6x, en_timer6_hw_cnt_t enTimer6HwCntDwn)
 {
@@ -1366,7 +1366,8 @@ en_result_t Timer6_ClearHwCntDwn(M4_TMR6_TypeDef *TMR6x)
  * \param   [in]  enTimer6HwStart    Hardware Start Event
  *
  * \retval  Ok:  Set successfully
- *
+ * \note    Please make sure that peripheral clock of M4_TMR61 is valid if The
+ *          TRIGX pin is used.
  ******************************************************************************/
 en_result_t Timer6_ConfigHwStart(M4_TMR6_TypeDef *TMR6x, en_timer6_hw_trig_t enTimer6HwStart)
 {
@@ -1449,7 +1450,8 @@ en_result_t Timer6_DisableHwStart(M4_TMR6_TypeDef *TMR6x)
  * \param   [in]  enTimer6HwStop     Hardware Stop Event
  *
  * \retval  Ok:  Set successfully
- *
+ * \note    Please make sure that peripheral clock of M4_TMR61 is valid if The
+ *          TRIGX pin is used.
  ******************************************************************************/
 en_result_t Timer6_ConfigHwStop(M4_TMR6_TypeDef *TMR6x, en_timer6_hw_trig_t enTimer6HwStop)
 {
@@ -1530,7 +1532,8 @@ en_result_t Timer6_DisableHwStop(M4_TMR6_TypeDef *TMR6x)
  * \param   [in]  enTimer6HwClear    Hardware Clear Event
  *
  * \retval  Ok:  Set successfully
- *
+ * \note    Please make sure that peripheral clock of M4_TMR61 is valid if The
+ *          TRIGX pin is used.
  ******************************************************************************/
 en_result_t Timer6_ConfigHwClear(M4_TMR6_TypeDef *TMR6x, en_timer6_hw_trig_t enTimer6HwClear)
 {
@@ -1613,7 +1616,8 @@ en_result_t Timer6_DisableHwClear(M4_TMR6_TypeDef *TMR6x)
  * \param   [in]  enTimer6HwCaptureA   Hardware capture event A selection
  *
  * \retval  Ok:  Set successfully
- *
+ * \note    Please make sure that peripheral clock of M4_TMR61 is valid if The
+ *          TRIGX pin is used.
  ******************************************************************************/
 en_result_t Timer6_ConfigHwCaptureA(M4_TMR6_TypeDef *TMR6x, en_timer6_hw_trig_t enTimer6HwCaptureA)
 {
@@ -1655,7 +1659,8 @@ en_result_t Timer6_ClearHwCaptureA(M4_TMR6_TypeDef *TMR6x)
  * \param   [in]  enTimer6HwCaptureB   Hardware capture event B selection
  *
  * \retval  Ok:  Set successfully
- *
+ * \note    Please make sure that peripheral clock of M4_TMR61 is valid if The
+ *          TRIGX pin is used.
  ******************************************************************************/
 en_result_t Timer6_ConfigHwCaptureB(M4_TMR6_TypeDef *TMR6x, en_timer6_hw_trig_t enTimer6HwCaptureB)
 {
@@ -1706,7 +1711,7 @@ en_result_t Timer6_SetTriggerSrc0(en_event_src_t enTriggerSrc)
     /* Check parameters */
     DDL_ASSERT(IS_VALID_EVENT_SOURCE(enTriggerSrc));
 
-    M4_AOS->TMR6_HTSSR1_f.TRGSEL = enTriggerSrc;
+    M4_AOS->TMR6_HTSSR0_f.TRGSEL = enTriggerSrc;
 
     return enRet;
 }
@@ -1728,7 +1733,7 @@ en_result_t Timer6_SetTriggerSrc1(en_event_src_t enTriggerSrc)
     /* Check parameters */
     DDL_ASSERT(IS_VALID_EVENT_SOURCE(enTriggerSrc));
 
-    M4_AOS->TMR6_HTSSR2_f.TRGSEL = enTriggerSrc;
+    M4_AOS->TMR6_HTSSR1_f.TRGSEL = enTriggerSrc;
 
     return enRet;
 }
@@ -1752,11 +1757,11 @@ void TIMER6_ComTriggerCmd0(en_timer6_com_trigger_t enComTrigger, en_functional_s
 
     if (enState == Enable)
     {
-        M4_AOS->TMR6_HTSSR1 |= (u32ComTrig << 30u);
+        M4_AOS->TMR6_HTSSR0 |= (u32ComTrig << 30u);
     }
     else
     {
-        M4_AOS->TMR6_HTSSR1 &= ~(u32ComTrig << 30u);
+        M4_AOS->TMR6_HTSSR0 &= ~(u32ComTrig << 30u);
     }
 }
 
@@ -1779,11 +1784,11 @@ void TIMER6_ComTriggerCmd1(en_timer6_com_trigger_t enComTrigger, en_functional_s
 
     if (enState == Enable)
     {
-        M4_AOS->TMR6_HTSSR2 |= (u32ComTrig << 30u);
+        M4_AOS->TMR6_HTSSR1 |= (u32ComTrig << 30u);
     }
     else
     {
-        M4_AOS->TMR6_HTSSR2 &= ~(u32ComTrig << 30u);
+        M4_AOS->TMR6_HTSSR1 &= ~(u32ComTrig << 30u);
     }
 }
 
