@@ -48,7 +48,7 @@
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\board_cfg.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\gpio\gpio.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\ddl\addon\addon_gpio.h
-.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\adc\adc.h
+.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\gpio\../adc/adc.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\gpio\gpio_pindefs.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\HardwareSerial.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\Stream.h
@@ -64,8 +64,7 @@
 .\obj\marlinui.o: ..\Marlin\src\core\../pins/pins_postprocess.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\board_sdio.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\usart\usart.h
-.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\ring_buffer.h
-.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\libmaple_types.h
+.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\RingBuffer.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\usart\../../core_hooks.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\Arduino.h
 .\obj\marlinui.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
@@ -82,7 +81,6 @@
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\WMath.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\pulse.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\Uart.h
-.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\RingBuffer.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\variant.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\wiring_digital.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\wiring_analog.h

@@ -2,7 +2,7 @@
 
 #include <hc32_ddl.h>
 #include <addon_gpio.h>
-#include "adc.h"
+#include "../adc/adc.h"
 #include "gpio_pindefs.h"
 #include "HardwareSerial.h"
 

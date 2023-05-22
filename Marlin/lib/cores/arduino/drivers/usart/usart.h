@@ -34,7 +34,7 @@
 #pragma once
 #include <startup.h>
 #include <hc32_ddl.h>
-#include <ring_buffer.h>
+#include "RingBuffer.h"
 #include "../../core_hooks.h"
 
 #ifdef __cplusplus
@@ -111,8 +111,8 @@ void Usart4TxCmpltIrqCallback(void);
     typedef struct usart_dev
     {
         M4_USART_TypeDef *regs;             /**< Register map */
-        ring_buffer *rb;                 /**< RX ring buffer */
-        ring_buffer *wb;                 /**< TX ring buffer */
+        RingBuffer *rb;                 /**< RX ring buffer */
+        RingBuffer *wb;                 /**< TX ring buffer */
         uint32_t max_baud;                 /**< @brief Deprecated.
                                         * Maximum baud rate. */
         uint8_t rx_buf[USART_RX_BUF_SIZE]; /**< @brief Deprecated.
@@ -139,14 +139,14 @@ extern struct usart_dev *USART2;
 extern struct usart_dev *USART3;
 extern struct usart_dev *USART4;
 
-extern ring_buffer usart1_rb;
-extern ring_buffer usart1_wb;
-extern ring_buffer usart2_rb;
-extern ring_buffer usart2_wb;
-extern ring_buffer usart3_rb;
-extern ring_buffer usart3_wb;
-extern ring_buffer usart4_rb;
-extern ring_buffer usart4_wb;
+extern RingBuffer usart1_rb;
+extern RingBuffer usart1_wb;
+extern RingBuffer usart2_rb;
+extern RingBuffer usart2_wb;
+extern RingBuffer usart3_rb;
+extern RingBuffer usart3_wb;
+extern RingBuffer usart4_rb;
+extern RingBuffer usart4_wb;
 
     // public api
     void usart_init(usart_dev *dev);
@@ -209,7 +209,7 @@ extern ring_buffer usart4_wb;
      */
     static inline uint8_t usart_getc(usart_dev *dev)
     {
-        return rb_remove(dev->rb);
+        return dev->rb->_pop();
     }
 
     /*
@@ -220,7 +220,7 @@ extern ring_buffer usart4_wb;
      */
     static inline int usart_peek(usart_dev *dev)
     {
-        return rb_peek(dev->rb);
+        return dev->rb->peek();
     }
 
     /**
@@ -230,7 +230,7 @@ extern ring_buffer usart4_wb;
      */
     static inline uint32_t usart_data_available(usart_dev *dev)
     {
-        return rb_full_count(dev->rb);
+        return dev->rb->count();
     }
 
     /**
@@ -239,7 +239,7 @@ extern ring_buffer usart4_wb;
      */
     static inline void usart_reset_rx(usart_dev *dev)
     {
-        rb_reset(dev->rb);
+        dev->rb->clear();
     }
 
     /**
@@ -248,25 +248,46 @@ extern ring_buffer usart4_wb;
      */
     static inline void usart_reset_tx(usart_dev *dev)
     {
-        rb_reset(dev->wb);
+        dev->wb->clear();
     }
 
-    static inline void usart_tx_irq(ring_buffer *wb,M4_USART_TypeDef *regs)
+    /**
+     * map usart device registers to usart channel number
+     */
+    static inline uint8_t usart_dev_to_channel(M4_USART_TypeDef *dev_regs)
     {
-        if (!rb_is_empty(wb))
+        if (dev_regs == M4_USART1)
+            return 1;
+        if (dev_regs == M4_USART2)
+            return 2;
+        if (dev_regs == M4_USART3)
+            return 3;
+        if (dev_regs == M4_USART4)
+            return 4;
+
+        return 0xff;
+    }
+
+    static inline void usart_tx_irq(usart_dev *dev)
+    {
+        uint8_t ch;
+        if (dev->wb->pop(ch))
         {
-            USART_SendData(regs,rb_remove(wb)); 
+            core_hook_usart_tx_irq(ch, usart_dev_to_channel(dev->regs));
+            USART_SendData(dev->regs, ch);
         }
         else
         {
-            USART_FuncCmd(regs, UsartTxEmptyInt, Disable);
-            USART_FuncCmd(regs, UsartTxCmpltInt, Enable);
+            USART_FuncCmd(dev->regs, UsartTxEmptyInt, Disable);
+            USART_FuncCmd(dev->regs, UsartTxCmpltInt, Enable);
         }
     }
 
-    static inline void usart_rx_irq(ring_buffer *rb,M4_USART_TypeDef *regs)
+    static inline void usart_rx_irq(usart_dev *dev)
     {
-        rb_push_insert(rb, (uint8_t)USART_RecData(regs));
+        uint8_t ch = (uint8_t)USART_RecData(dev->regs);
+        core_hook_usart_rx_irq(ch, usart_dev_to_channel(dev->regs));
+        dev->rb->push(ch, true);
     }
 
 #ifdef __cplusplus

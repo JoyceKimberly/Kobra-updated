@@ -754,6 +754,11 @@
               <FileType>8</FileType>
               <FilePath>..\Marlin\lib\cores\arduino\drivers\usart\usart.cpp</FilePath>
             </File>
+            <File>
+              <FileName>RingBuffer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\cores\arduino\RingBuffer.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
