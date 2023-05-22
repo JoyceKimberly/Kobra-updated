@@ -66,6 +66,7 @@
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\usart\usart.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\ring_buffer.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\libmaple_types.h
+.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\usart\../../core_hooks.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\Arduino.h
 .\obj\marlinui.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\avr/interrupt.h

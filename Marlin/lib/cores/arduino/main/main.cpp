@@ -3,7 +3,7 @@
 #include "init.h"
 #include "../core_debug.h"
 #include "../core_hooks.h"
-#include "bsp_irq.h"
+#include "usart.h"
 #include "bsp_adc.h"
 #include "bsp_pwm.h"
 #include "bsp_sdio.h"

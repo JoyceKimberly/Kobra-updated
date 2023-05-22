@@ -750,9 +750,9 @@
               <FilePath>..\Marlin\lib\cores\arduino\WMath.cpp</FilePath>
             </File>
             <File>
-              <FileName>usart.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\usart\usart.h</FilePath>
+              <FileName>usart.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\cores\arduino\drivers\usart\usart.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -763,11 +763,6 @@
               <FileName>init.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\lib\cores\arduino\main\init.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_irq.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\usart\bsp_irq.cpp</FilePath>
             </File>
             <File>
               <FileName>bsp_adc.cpp</FileName>

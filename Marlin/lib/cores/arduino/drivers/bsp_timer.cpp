@@ -1,7 +1,7 @@
 #include "hc32f460.h"
 
 #include "bsp_timer.h"
-#include "bsp_irq.h"
+#include "usart.h"
 #include <init.h>
 #include "SoftwareSerial.h"
 
