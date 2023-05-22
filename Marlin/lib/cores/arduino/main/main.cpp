@@ -1,5 +1,8 @@
 #include "hc32_ddl.h"
-#include <init.h>
+#include "../Arduino.h"
+#include "init.h"
+#include "../core_debug.h"
+#include "../core_hooks.h"
 #include "bsp_irq.h"
 #include "bsp_adc.h"
 #include "bsp_pwm.h"
@@ -30,14 +33,21 @@ void soft_delay_ms(uint32_t ms)
     }
 }
 
-void scb_init(void)
+void core_init(void)
 {
 // bootloader vector startup addr
     SCB->VTOR = ((uint32_t) APP_START_ADDRESS & SCB_VTOR_TBLOFF_Msk);
 }
 
-int main(void) {
-    scb_init();
+int main(void)
+{
+	// initialize SoC, then CORE_DEBUG
+	core_init();
+	CORE_DEBUG_INIT();
+
+	// call setup()
+	core_hook_pre_setup();
+	CORE_DEBUG_PRINTF("core entering setup\n");
 
     PWC_HS2HP();
 
@@ -80,11 +90,16 @@ int main(void) {
 //SysTick configuration
     SysTick_Init(1000u);
 
-    setup();
-
-    while (1) {
-        loop();
-    }
-    return 0;
+	setup();
+	core_hook_post_setup();
+	
+	// call loop() forever
+	CORE_DEBUG_PRINTF("core entering main loop\n");
+	while (1)
+	{
+		core_hook_loop();
+		loop();
+	}
+	return 0;
 }
 
