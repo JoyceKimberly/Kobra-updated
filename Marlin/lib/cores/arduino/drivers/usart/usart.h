@@ -406,25 +406,25 @@ extern uint8_t g_uart2_rx_buf[128];
 extern uint8_t g_uart2_rx_index;
 
 
-void BSP_USART1_RIIrqHander(void);
-void BSP_USART1_EIIrqHander(void);
-void BSP_USART1_TIrqHander(void);
-void BSP_USART1_TCIIrqHander(void);
+void Usart1RxIrqCallback(void);
+void Usart1ErrIrqCallback(void);
+void Usart1TxIrqCallback(void);
+void Usart1TxCmpltIrqCallback(void);
 
-void BSP_USART2_RIIrqHander(void);
-void BSP_USART2_EIIrqHander(void);
-void BSP_USART2_TIrqHander(void);
-void BSP_USART2_TCIIrqHander(void);
+void Usart2RxIrqCallback(void);
+void Usart2ErrIrqCallback(void);
+void Usart2TxIrqCallback(void);
+void Usart2TxCmpltIrqCallback(void);
 
-void BSP_USART3_RIIrqHander(void);
-void BSP_USART3_EIIrqHander(void);
-void BSP_USART3_TIrqHander(void);
-void BSP_USART3_TCIIrqHander(void);
+void Usart3RxIrqCallback(void);
+void Usart3ErrIrqCallback(void);
+void Usart3TxIrqCallback(void);
+void Usart3TxCmpltIrqCallback(void);
 
-void BSP_USART4_RIIrqHander(void);
-void BSP_USART4_EIIrqHander(void);
-void BSP_USART4_TIrqHander(void);
-void BSP_USART4_TCIIrqHander(void);
+void Usart4RxIrqCallback(void);
+void Usart4ErrIrqCallback(void);
+void Usart4TxIrqCallback(void);
+void Usart4TxCmpltIrqCallback(void);
 
 /*
  * Devices

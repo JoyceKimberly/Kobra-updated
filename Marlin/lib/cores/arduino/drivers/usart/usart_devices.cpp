@@ -36,7 +36,7 @@ void uart1_init(void)
 
     stc_irq_regi_conf_t stcIrqRegiCfg;
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART1_INT_RI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART1_RIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart1RxIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART1_INT_RI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -44,7 +44,7 @@ void uart1_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART1_INT_EI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART1_EIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart1ErrIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART1_INT_EI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -52,7 +52,7 @@ void uart1_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART1_INT_TI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART1_TIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart1TxIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART1_INT_TI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -60,7 +60,7 @@ void uart1_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART1_INT_TCI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART1_TCIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart1TxCmpltIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART1_INT_TCI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -109,7 +109,7 @@ void uart2_init(void)
 
     stc_irq_regi_conf_t stcIrqRegiCfg;
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART2_INT_RI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART2_RIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart2RxIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART2_INT_RI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_08);
@@ -117,7 +117,7 @@ void uart2_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART2_INT_EI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART2_EIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart2ErrIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART2_INT_EI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -125,7 +125,7 @@ void uart2_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART2_INT_TI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART2_TIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart2TxIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART2_INT_TI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -133,7 +133,7 @@ void uart2_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART2_INT_TCI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART2_TCIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart2TxCmpltIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART2_INT_TCI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -182,7 +182,7 @@ void uart3_init(void)
 
     stc_irq_regi_conf_t stcIrqRegiCfg;
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART3_INT_RI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART3_RIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart3RxIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART3_INT_RI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -190,7 +190,7 @@ void uart3_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART3_INT_EI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART3_EIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart3ErrIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART3_INT_EI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -198,7 +198,7 @@ void uart3_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART3_INT_TI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART3_TIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart3TxIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART3_INT_TI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -206,7 +206,7 @@ void uart3_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART3_INT_TCI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART3_TCIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart3TxCmpltIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART3_INT_TCI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -255,7 +255,7 @@ void uart4_init(void)
 
     stc_irq_regi_conf_t stcIrqRegiCfg;
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART4_INT_RI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART4_RIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart4RxIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART4_INT_RI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -263,7 +263,7 @@ void uart4_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART4_INT_EI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART4_EIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart4ErrIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART4_INT_EI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -271,7 +271,7 @@ void uart4_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART4_INT_TI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART4_TIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart4TxIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART4_INT_TI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
@@ -279,7 +279,7 @@ void uart4_init(void)
     NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     stcIrqRegiCfg.enIRQn = IRQ_INDEX_USART4_INT_TCI;
-    stcIrqRegiCfg.pfnCallback = &BSP_USART4_TCIIrqHander;
+    stcIrqRegiCfg.pfnCallback = &Usart4TxCmpltIrqCallback;
     stcIrqRegiCfg.enIntSrc = USART4_INT_TCI;
     enIrqRegistration(&stcIrqRegiCfg);
     NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);

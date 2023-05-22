@@ -12,14 +12,14 @@ extern HardwareSerial Serial4;
 //
 // USART1 callbacks
 //
-void BSP_USART1_RIIrqHander(void)
+void Usart1RxIrqCallback(void)
 {
     uint8_t c = USART_RecData(M4_USART1);
     Serial1._rx_complete_callback(c);
 //  RingBuf_Write(&Usart1RingBuf,(uint8_t)tmp);
 }
 
-void BSP_USART1_EIIrqHander(void)
+void Usart1ErrIrqCallback(void)
 {
 	if (USART_GetStatus(M4_USART1, UsartFrameErr) == Set)
 	{
@@ -37,18 +37,18 @@ void BSP_USART1_EIIrqHander(void)
 	}
 }
 
-void BSP_USART1_TIrqHander(void)
+void Usart1TxIrqCallback(void)
 {
 }
 
-void BSP_USART1_TCIIrqHander(void)
+void Usart1TxCmpltIrqCallback(void)
 {
 }
 
 //
 // USART2 callbacks
 //
-void BSP_USART2_RIIrqHander(void)
+void Usart2RxIrqCallback(void)
 {
     uint8_t c = USART_RecData(M4_USART2);
     Serial2._rx_complete_callback(c);
@@ -56,7 +56,7 @@ void BSP_USART2_RIIrqHander(void)
 //  RingBuf_Write(&Usart2RingBuf,(uint8_t)tmp);
 }
 
-void BSP_USART2_EIIrqHander(void)
+void Usart2ErrIrqCallback(void)
 {
 	if (USART_GetStatus(M4_USART2, UsartFrameErr) == Set)
 	{
@@ -74,25 +74,25 @@ void BSP_USART2_EIIrqHander(void)
 	}
 }
 
-void BSP_USART2_TIrqHander(void)
+void Usart2TxIrqCallback(void)
 {
 }
 
-void BSP_USART2_TCIIrqHander(void)
+void Usart2TxCmpltIrqCallback(void)
 {
 }
 
 //
 // USART3 callbacks
 //
-void BSP_USART3_RIIrqHander(void)
+void Usart3RxIrqCallback(void)
 {
   uint8_t c = USART_RecData(M4_USART3);
   Serial3._rx_complete_callback(c);
 //  RingBuf_Write(&Usart3RingBuf,(uint8_t)tmp);
 }
 
-void BSP_USART3_EIIrqHander(void)
+void Usart3ErrIrqCallback(void)
 {
 	if (USART_GetStatus(M4_USART3, UsartFrameErr) == Set)
 	{
@@ -110,25 +110,25 @@ void BSP_USART3_EIIrqHander(void)
 	}
 }
 
-void BSP_USART3_TIrqHander(void)
+void Usart3TxIrqCallback(void)
 {
 }
 
-void BSP_USART3_TCIIrqHander(void)
+void Usart3TxCmpltIrqCallback(void)
 {
 }
 
 //
 // USART4 callbacks
 //
-void BSP_USART4_RIIrqHander(void)
+void Usart4RxIrqCallback(void)
 {
   uint8_t c = USART_RecData(M4_USART4);
   Serial4._rx_complete_callback(c);
 //  RingBuf_Write(&Usart3RingBuf,(uint8_t)tmp);
 }
 
-void BSP_USART4_EIIrqHander(void)
+void Usart4ErrIrqCallback(void)
 {
 	if (USART_GetStatus(M4_USART4, UsartFrameErr) == Set)
 	{
@@ -146,11 +146,11 @@ void BSP_USART4_EIIrqHander(void)
 	}
 }
 
-void BSP_USART4_TIrqHander(void)
+void Usart4TxIrqCallback(void)
 {
 }
 
-void BSP_USART4_TCIIrqHander(void)
+void Usart4TxCmpltIrqCallback(void)
 {
 }
 
