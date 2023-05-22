@@ -67,13 +67,13 @@
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\ring_buffer.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\libmaple_types.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\Arduino.h
-.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\wirish.h
 .\obj\marlinui.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\avr/interrupt.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\avr/io.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\avr/dtostrf.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\binary.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\itoa.h
+.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\wiring_constants.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\yield.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\WVariant.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\WCharacter.h
@@ -84,7 +84,6 @@
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\RingBuffer.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\variant.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\wiring_digital.h
-.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\libmaple_types.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\wiring_analog.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\wiring_shift.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\flash.h
@@ -124,4 +123,5 @@
 .\obj\marlinui.o: ..\Marlin\src\lcd\../inc/../core/../feature/e_parser.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\../inc/../core/../feature/host_actions.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\../MarlinCore.h
-.\obj\marlinui.o: ..\Marlin\src\lcd\
+.\obj\marlinui.o: ..\Marlin\src\lcd\marlinui.h
+.\obj\marlinui.o: ..\Marlin\src\lcd\../sd/

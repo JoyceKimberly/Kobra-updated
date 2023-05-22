@@ -20,7 +20,6 @@
 #ifndef Arduino_h
 #define Arduino_h
 
-#include "wirish.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -47,6 +46,7 @@ typedef uint16_t word;
 extern "C"{
 #endif // __cplusplus
 
+#include "wiring_constants.h"
 #include "yield.h"
 
 // Weak empty variant initialization function.

@@ -24,10 +24,10 @@
 
 /**
  * Fast I/O interfaces for HC32F46x
- * These use GPIO register access for fast port manipulation.
+ * These use GPIO functions instead of Direct Port Manipulation, as on AVR.
  */
-#include "wiring_digital.h"
-#include "gpio.h"
+#include <wiring_digital.h>
+#include <gpio/gpio.h>
 
 // ------------------------
 // Public Variables

@@ -1,40 +1,33 @@
 #include "wiring_digital.h"
-#include "gpio.h"
+#include "drivers/gpio/gpio.h"
+#include "wiring_constants.h"
 
-
-void gpio_set_mode(uint8_t pin, WiringPinMode mode)
+void pinMode(uint8_t pin, uint32_t mode)
 {
-    stc_port_init_t stcPortInit;
 
-    MEM_ZERO_STRUCT(stcPortInit);
-
-    switch(mode) {
-
-        case OUTPUT:
-            stcPortInit.enPinMode = Pin_Mode_Out;
-            stcPortInit.enPullUp  = Disable;
+    // build pin configuration
+    stc_port_init_t pinConf;
+    MEM_ZERO_STRUCT(pinConf);
+    switch (mode)
+    {
+    case INPUT:
+        pinConf.enPinMode = Pin_Mode_In;
         break;
-
-        case INPUT:
-        case INPUT_PULLDOWN:
-            stcPortInit.enPinMode = Pin_Mode_In;
-            stcPortInit.enPullUp  = Disable;
+    case INPUT_PULLUP:
+        pinConf.enPinMode = Pin_Mode_In;
+        pinConf.enPullUp = Enable;
         break;
-
-        case INPUT_PULLUP:
-            stcPortInit.enPinMode = Pin_Mode_In;
-            stcPortInit.enPullUp  = Enable;
+    case INPUT_ANALOG:
+        pinConf.enPinMode = Pin_Mode_Ana;
         break;
-
-        default:
+    case OUTPUT:
+        pinConf.enPinMode = Pin_Mode_Out;
         break;
+    default:
+        return;
     }
 
-    PORT_InitGPIO(pin, &stcPortInit);
-}
-
-void pinMode(uint8_t pin, WiringPinMode mode)
-{
-    gpio_set_mode(pin, mode);
+    // set pind config
+    PORT_InitGPIO(pin, &pinConf);
 }
 
