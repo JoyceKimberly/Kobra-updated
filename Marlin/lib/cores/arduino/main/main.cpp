@@ -47,7 +47,7 @@ int main(void) {
     uart2_init();
     uart4_init();
 
-    bsp_ots_init();
+    H32OTS::init();
 
     get_all_clock();
 
