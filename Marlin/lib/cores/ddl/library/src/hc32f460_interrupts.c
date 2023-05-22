@@ -2244,7 +2244,7 @@ void IRQ129_Handler(void)
             Dma1Err0_IrqHandler();
         }
     }
-    if (1ul == bM4_DMA1_CH1CTL_IE)
+    if (1ul == bM4_DMA1_CHCTL1_IE)
     {
         /* DMA1 ch.1 Tx completed */
         if (0ul == bM4_DMA1_INTMASK1_MSKTC1)
@@ -2270,7 +2270,7 @@ void IRQ129_Handler(void)
             Dma1Err1_IrqHandler();
         }
     }
-    if (1ul == bM4_DMA1_CH2CTL_IE)
+    if (1ul == bM4_DMA1_CHCTL2_IE)
     {
         /* DMA1 ch.2 Tx completed */
         if (0ul == bM4_DMA1_INTMASK1_MSKTC2)
@@ -2296,7 +2296,7 @@ void IRQ129_Handler(void)
             Dma1Err2_IrqHandler();
         }
     }
-    if (1ul == bM4_DMA1_CH3CTL_IE)
+    if (1ul == bM4_DMA1_CHCTL3_IE)
     {
         /* DMA1 ch.3 Tx completed */
         if (0ul == bM4_DMA1_INTMASK1_MSKTC3)
@@ -2348,7 +2348,7 @@ void IRQ129_Handler(void)
             Dma2Err0_IrqHandler();
         }
     }
-    if (1ul == bM4_DMA2_CH1CTL_IE)
+    if (1ul == bM4_DMA2_CHCTL1_IE)
     {
         /* DMA2 ch.1 Tx completed */
         if (0ul == bM4_DMA2_INTMASK1_MSKTC1)
@@ -2374,7 +2374,7 @@ void IRQ129_Handler(void)
             Dma2Err1_IrqHandler();
         }
     }
-    if (1ul == bM4_DMA2_CH2CTL_IE)
+    if (1ul == bM4_DMA2_CHCTL2_IE)
     {
         /* DMA2 ch.2 Tx completed */
         if (0ul == bM4_DMA2_INTMASK1_MSKTC2)
@@ -2400,7 +2400,7 @@ void IRQ129_Handler(void)
             Dma2Err2_IrqHandler();
         }
     }
-    if (1ul == bM4_DMA2_CH3CTL_IE)
+    if (1ul == bM4_DMA2_CHCTL3_IE)
     {
         /* DMA2 ch.3 Tx completed */
         if (0ul == bM4_DMA2_INTMASK1_MSKTC3)
@@ -3645,14 +3645,14 @@ void IRQ141_Handler(void)
         I2c3Err_IrqHandler();
     }
     /* PVD Ch.1 detected */
-    if (1ul == bM4_SYSREG_PWR_PVDCR1_PVD1IRE)
+    if (1ul == M4_SYSREG->PWR_PVDDSR_f.PVD1DETFLG)
     {
         if((1ul == bM4_SYSREG_PWR_PVDDSR_PVD1DETFLG) && (VSSEL141 & BIT_MASK_17))
         {
             Pvd1_IrqHandler();
         }
     }
-    if (1ul == bM4_SYSREG_PWR_PVDCR1_PVD2IRE)
+    if (1ul == M4_SYSREG->PWR_PVDDSR_f.PVD2DETFLG)
     {
         /* PVD Ch.2 detected */
         if((1ul == bM4_SYSREG_PWR_PVDDSR_PVD2DETFLG) && (VSSEL141 & BIT_MASK_18))

@@ -257,6 +257,14 @@
     (DmaCh2Sta == (x))                   ||                                    \
     (DmaCh3Sta == (x)))
 
+/*! Parameter valid check for Dmac status. */
+#define IS_VALID_DMA_REQ_STA(x)                                                \
+(   (ReCfgReqSta == (x))                    ||                                 \
+    (DmaCh0ReqSta == (x))                   ||                                 \
+    (DmaCh1ReqSta == (x))                   ||                                 \
+    (DmaCh2ReqSta == (x))                   ||                                 \
+    (DmaCh3ReqSta == (x)))
+
 /*! Parameter valid check for Dmac transfer data width. */
 #define IS_VALID_TRN_WIDTH(x)                                                  \
 (   (Dma8Bit == (x))                     ||                                    \
@@ -931,6 +939,56 @@ en_flag_status_t DMA_GetChFlag(M4_DMA_TypeDef* pstcDmaReg, en_dma_ch_flag_t enDm
 
 /**
  *******************************************************************************
+ ** \brief  Get the specified dma request status.
+ **
+ ** \param  [in] pstcDmaReg             The pointer to dma register
+ ** \arg    M4_DMA1                     DMAC unit 1 register
+ ** \arg    M4_DMA2                     DMAC unit 2 register
+ **
+ ** \param  [in] enDmaReqStatus         The specified dma requst status.
+ ** \arg    ReCfgReqSta                 The DMA re_config requst status.
+ ** \arg    DmaCh0ReqSta                The DMA channel 0 transfer requst status.
+ ** \arg    DmaCh1ReqSta                The DMA channel 1 transfer requst status.
+ ** \arg    DmaCh2ReqSta                The DMA channel 2 transfer requst status.
+ ** \arg    DmaCh3ReqSta                The DMA channel 3 transfer requst status.
+ **
+ ** \retval the specified dma requst status
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+en_flag_status_t DMA_GetReqStatus(M4_DMA_TypeDef* pstcDmaReg, en_dma_req_status_t enDmaReqStatus)
+{
+    uint32_t u32IntStat = 0ul;
+
+    DDL_ASSERT(IS_VALID_DMA_REG(pstcDmaReg));
+    DDL_ASSERT(IS_VALID_DMA_REQ_STA(enDmaReqStatus));
+
+    switch(enDmaReqStatus)
+    {
+        case ReCfgReqSta:
+            u32IntStat = pstcDmaReg->REQSTAT_f.RCFGREQ;
+            break;
+        case DmaCh0ReqSta:
+            u32IntStat = (pstcDmaReg->REQSTAT_f.CHREQ & DMACH0);
+            break;
+        case DmaCh1ReqSta:
+            u32IntStat = (pstcDmaReg->REQSTAT_f.CHREQ & DMACH1);
+            break;
+        case DmaCh2ReqSta:
+            u32IntStat = (pstcDmaReg->REQSTAT_f.CHREQ & DMACH2);
+            break;
+        case DmaCh3ReqSta:
+            u32IntStat = (pstcDmaReg->REQSTAT_f.CHREQ & DMACH3);
+            break;
+        default:
+            break;
+    }
+    return (u32IntStat ? Set:Reset);
+}
+
+/**
+ *******************************************************************************
  ** \brief  Set the source address of the specified dma channel.
  **
  ** \param  [in] pstcDmaReg             The pointer to dma register
@@ -970,6 +1028,29 @@ en_result_t DMA_SetSrcAddress(M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch, uint32_t
     }
 
     return enRet;
+}
+
+/**
+ *******************************************************************************
+ ** \brief  Get current source address of the specified dma channel.
+ **
+ ** \param  [in] pstcDmaReg             The pointer to dma register
+ ** \arg    M4_DMA1                     DMAC unit 1 registers
+ ** \arg    M4_DMA2                     DMAC unit 2 registers
+ **
+ ** \param  [in] u8Ch                   The specified dma channel.
+ **
+ ** \retval uint32_t                    The current source address.
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+uint32_t DMA_GetSrcAddr(const M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch)
+{
+    DDL_ASSERT(IS_VALID_DMA_REG(pstcDmaReg));
+    DDL_ASSERT(IS_VALID_CH(u8Ch));
+
+    return READ_DMA_CH_REG(&pstcDmaReg->MONSAR0, u8Ch);
 }
 
 /**
@@ -1016,6 +1097,28 @@ en_result_t DMA_SetDesAddress(M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch, uint32_t
 
 }
 
+/**
+ *******************************************************************************
+ ** \brief  Get current destination address of the specified dma channel.
+ **
+ ** \param  [in] pstcDmaReg             The pointer to dma register
+ ** \arg    M4_DMA1                     DMAC unit 1 registers
+ ** \arg    M4_DMA2                     DMAC unit 2 registers
+ **
+ ** \param  [in] u8Ch                   The specified dma channel.
+ **
+ ** \retval uint32_t                    The current destination address.
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+uint32_t DMA_GetDesAddr(const M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch)
+{
+    DDL_ASSERT(IS_VALID_DMA_REG(pstcDmaReg));
+    DDL_ASSERT(IS_VALID_CH(u8Ch));
+
+    return READ_DMA_CH_REG(&pstcDmaReg->MONDAR0, u8Ch);
+}
 
 /**
  *******************************************************************************
@@ -1059,6 +1162,29 @@ en_result_t DMA_SetBlockSize(M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch, uint16_t 
     }
 
     return enRet;
+}
+
+/**
+ *******************************************************************************
+ ** \brief  Get the block size of the specified dma channel.
+ **
+ ** \param  [in] pstcDmaReg             The pointer to dma register
+ ** \arg    M4_DMA1                     DMAC unit 1 registers
+ ** \arg    M4_DMA2
+ **
+ ** \param  [in] u8Ch                   The specified dma channel.
+ **
+ ** \retval uint32_t                    The current block size.
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+uint32_t DMA_GetBlockSize(const M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch)
+{
+    DDL_ASSERT(IS_VALID_DMA_REG(pstcDmaReg));
+    DDL_ASSERT(IS_VALID_CH(u8Ch));
+
+    return (READ_DMA_CH_REG(&pstcDmaReg->MONDTCTL0, u8Ch) & DMA_DTCTL_BLKSIZE);
 }
 
 /**
@@ -1107,6 +1233,33 @@ en_result_t DMA_SetTransferCnt(M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch, uint16_
 
 /**
  *******************************************************************************
+ ** \brief  Get the remain transfer count of the specified dma channel.
+ **
+ ** \param  [in] pstcDmaReg             The pointer to dma register
+ ** \arg    M4_DMA1                     DMAC unit 1 registers
+ ** \arg    M4_DMA2
+ **
+ ** \param  [in] u8Ch                   The specified dma channel.
+ **
+ ** \retval uint32_t                    The remain transfer count.
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+uint32_t DMA_GetTransferCnt(const M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch)
+{
+    uint32_t u32Count;
+
+    DDL_ASSERT(IS_VALID_DMA_REG(pstcDmaReg));
+    DDL_ASSERT(IS_VALID_CH(u8Ch));
+
+    u32Count = READ_DMA_CH_REG(&pstcDmaReg->MONDTCTL0, u8Ch) & DMA_DTCTL_CNT;
+
+    return (u32Count >> DMA_DTCTL_CNT_Pos);
+}
+
+/**
+ *******************************************************************************
  ** \brief  Set the source repeat size of the specified dma channel.
  **
  ** \param  [in] pstcDmaReg             The pointer to dma register
@@ -1147,6 +1300,29 @@ en_result_t DMA_SetSrcRptSize(M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch, uint16_t
     }
 
     return enRet;
+}
+
+/**
+ *******************************************************************************
+ ** \brief  Get the source repeat size of the specified dma channel.
+ **
+ ** \param  [in] pstcDmaReg             The pointer to dma register
+ ** \arg    M4_DMA1                     DMAC unit 1 registers
+ ** \arg    M4_DMA2
+ **
+ ** \param  [in] u8Ch                   The specified dma channel.
+ **
+ ** \retval uint32_t                    The source repeat size.
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+uint32_t DMA_GetSrcRptSize(const M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch)
+{
+    DDL_ASSERT(IS_VALID_DMA_REG(pstcDmaReg));
+    DDL_ASSERT(IS_VALID_CH(u8Ch));
+
+    return (READ_DMA_CH_REG(&pstcDmaReg->MONRPT0, u8Ch) & DMA_RPT_SRPT);
 }
 
 /**
@@ -1193,6 +1369,32 @@ en_result_t DMA_SetDesRptSize(M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch, uint16_t
     return enRet;
 }
 
+/**
+ *******************************************************************************
+ ** \brief  Get the destination repeat size of the specified dma channel.
+ **
+ ** \param  [in] pstcDmaReg             The pointer to dma register
+ ** \arg    M4_DMA1                     DMAC unit 1 registers
+ ** \arg    M4_DMA2
+ **
+ ** \param  [in] u8Ch                   The specified dma channel.
+ **
+ ** \retval uint32_t                    The destination repeat size.
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+uint32_t DMA_GetDesRptSize(const M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch)
+{
+    uint32_t u32Size;
+
+    DDL_ASSERT(IS_VALID_DMA_REG(pstcDmaReg));
+    DDL_ASSERT(IS_VALID_CH(u8Ch));
+
+    u32Size = READ_DMA_CH_REG(&pstcDmaReg->MONRPT0, u8Ch) & DMA_RPT_DRPT;
+
+    return (u32Size >> DMA_RPT_DRPT_Pos);
+}
 
 /**
  *******************************************************************************
@@ -1494,6 +1696,106 @@ en_result_t DMA_SetDesNseqBCfg(M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch,
     }
 
     return enRet;
+}
+
+/**
+ *******************************************************************************
+ ** \brief  Get the source no-sequence count of the specified dma channel.
+ **
+ ** \param  [in] pstcDmaReg             The pointer to dma register
+ ** \arg    M4_DMA1                     DMAC unit 1 registers
+ ** \arg    M4_DMA2
+ **
+ ** \param  [in] u8Ch                   The specified dma channel.
+ **
+ ** \retval uint32_t                    The source no-sequence count.
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+uint32_t DMA_GetSrcNSeqCount(const M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch)
+{
+    uint32_t u32Count;
+
+    DDL_ASSERT(IS_VALID_DMA_REG(pstcDmaReg));
+    DDL_ASSERT(IS_VALID_CH(u8Ch));
+
+    u32Count = READ_DMA_CH_REG(&pstcDmaReg->SNSEQCTL0, u8Ch) & DMA_SNSEQCTL_SNSCNT;
+
+    return (u32Count >> DMA_SNSEQCTL_SNSCNT_Pos);
+}
+
+/**
+ *******************************************************************************
+ ** \brief  Get the destination no-sequence count of the specified dma channel.
+ **
+ ** \param  [in] pstcDmaReg             The pointer to dma register
+ ** \arg    M4_DMA1                     DMAC unit 1 registers
+ ** \arg    M4_DMA2
+ **
+ ** \param  [in] u8Ch                   The specified dma channel.
+ **
+ ** \retval uint32_t                    The destination no-sequence count.
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+uint32_t DMA_GetDesNSeqCount(const M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch)
+{
+    uint32_t u32Count;
+
+    DDL_ASSERT(IS_VALID_DMA_REG(pstcDmaReg));
+    DDL_ASSERT(IS_VALID_CH(u8Ch));
+
+    u32Count = READ_DMA_CH_REG(&pstcDmaReg->DNSEQCTL0, u8Ch) & DMA_DNSEQCTL_DNSCNT;
+
+    return (u32Count >> DMA_DNSEQCTL_DNSCNT_Pos);
+}
+
+/**
+ *******************************************************************************
+ ** \brief  Get the source no-sequence offset of the specified dma channel.
+ **
+ ** \param  [in] pstcDmaReg             The pointer to dma register
+ ** \arg    M4_DMA1                     DMAC unit 1 registers
+ ** \arg    M4_DMA2
+ **
+ ** \param  [in] u8Ch                   The specified dma channel.
+ **
+ ** \retval uint32_t                    The source no-sequence offset.
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+uint32_t DMA_GetSrcNSeqOffset(const M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch)
+{
+    DDL_ASSERT(IS_VALID_DMA_REG(pstcDmaReg));
+    DDL_ASSERT(IS_VALID_CH(u8Ch));
+
+    return (READ_DMA_CH_REG(&pstcDmaReg->SNSEQCTL0, u8Ch) & DMA_SNSEQCTL_SOFFSET);
+}
+
+/**
+ *******************************************************************************
+ ** \brief  Get the destination no-sequence offset of the specified dma channel.
+ **
+ ** \param  [in] pstcDmaReg             The pointer to dma register
+ ** \arg    M4_DMA1                     DMAC unit 1 registers
+ ** \arg    M4_DMA2
+ **
+ ** \param  [in] u8Ch                   The specified dma channel.
+ **
+ ** \retval uint32_t                    The destination no-sequence offset.
+ **
+ ** \note   None
+ **
+ ******************************************************************************/
+uint32_t DMA_GetDesNSeqOffset(const M4_DMA_TypeDef* pstcDmaReg, uint8_t u8Ch)
+{
+    DDL_ASSERT(IS_VALID_DMA_REG(pstcDmaReg));
+    DDL_ASSERT(IS_VALID_CH(u8Ch));
+
+    return (READ_DMA_CH_REG(&pstcDmaReg->DNSEQCTL0, u8Ch) & DMA_DNSEQCTL_DOFFSET);
 }
 
 /**

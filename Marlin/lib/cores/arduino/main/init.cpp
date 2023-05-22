@@ -2,7 +2,6 @@
 #include "bsp_irq.h"
 #include "startup.h"
 
-
 void clock_init(void)
 {
     stc_clk_xtal_cfg_t   stcXtalCfg;
