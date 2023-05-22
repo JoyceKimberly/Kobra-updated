@@ -27,7 +27,7 @@
  * \param ulPin The number of the pin whose mode you wish to set
  * \param ulMode Can be INPUT, OUTPUT, INPUT_PULLUP or INPUT_PULLDOWN
  */
-void pinMode(uint8_t pin, uint32_t mode);
+extern void pinMode( uint32_t dwPin, uint32_t dwMode ) ;
 
 /**
  * \brief Write a HIGH or a LOW value to a digital pin.
