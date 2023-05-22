@@ -34,9 +34,6 @@
 extern "C"{
 #endif
 
-extern uint32_t F_CPU;
-#define CYCLES_PER_MICROSECOND  (F_CPU / 1000000UL)
-
 typedef void (*voidFuncPtr)(void);
 typedef void (*voidArgumentFuncPtr)(void *);
 
@@ -50,22 +47,10 @@ typedef enum ExtIntTriggerMode {
                 changes). */
 } ExtIntTriggerMode;
 
-static inline void nvic_globalirq_enable() {
-    asm volatile("cpsie i");
-}
-static inline void nvic_globalirq_disable() {
-    asm volatile("cpsid i");
-}
-static inline void interrupts() {
-    nvic_globalirq_enable();
-}
-static inline void noInterrupts() {
-    nvic_globalirq_disable();
-}
 void init(void);
 void f_cpu_init(uint32_t clock);
 extern void setup_Extinterrupt(void);
-extern void attachInterrupt(uint8_t pin, voidFuncPtr handler, uint8_t irqNum,ExtIntTriggerMode mode);
+extern void attachInterrupt(uint8_t pin, voidFuncPtr handler, uint8_t irqNum, ExtIntTriggerMode mode);
 extern void ExtInt_X_MIN_Callback(void);
 extern void ExtInt_Y_MIN_Callback(void);
 extern void ExtInt_Z_MIN_Callback(void);

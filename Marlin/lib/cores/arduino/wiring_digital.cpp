@@ -31,3 +31,29 @@ void pinMode(uint32_t dwPin, uint32_t dwMode)
     PORT_InitGPIO(dwPin, &pinConf);
 }
 
+void digitalWrite(uint32_t dwPin, uint32_t dwVal)
+{
+    if (dwPin >= BOARD_NR_GPIO_PINS)
+    {
+        return;
+    }
+
+    if (dwVal == LOW)
+    {
+        PORT_ResetBitsGPIO(dwPin);
+    }
+    else
+    {
+        PORT_SetBitsGPIO(dwPin);
+    }
+}
+
+int digitalRead(uint32_t ulPin)
+{
+    if (ulPin >= BOARD_NR_GPIO_PINS)
+    {
+        return LOW;
+    }
+
+    return PORT_GetBitGPIO(ulPin) ? HIGH : LOW;
+}

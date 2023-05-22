@@ -49,13 +49,12 @@ extern "C"{
 #include "wiring_constants.h"
 #include "yield.h"
 
-// Weak empty variant initialization function.
-// May be redefined by variant files.
-extern void initVariant() __attribute__((weak));
+  /* system functions */
+int main( void );
 
   /* sketch */
-extern void setup(void) ;
-extern void loop(void) ;
+void setup( void ) ;
+void loop( void ) ;
 
 #include "WVariant.h"
 
@@ -97,24 +96,32 @@ extern void loop(void) ;
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x))
 
-#define true 0x1
-#define false 0x0
+static inline void nvic_globalirq_enable() {
+    asm volatile("cpsie i");
+}
+static inline void nvic_globalirq_disable() {
+    asm volatile("cpsid i");
+}
+static inline void interrupts() {
+    nvic_globalirq_enable();
+}
+static inline void noInterrupts() {
+    nvic_globalirq_disable();
+}
 
-#define lowByte(w)                     ((w) & 0xFF)
-#define highByte(w)                    (((w) >> 8) & 0xFF)
+#define lowByte(w) ((uint8_t) ((w) & 0xff))
+#define highByte(w) ((uint8_t) ((w) >> 8))
 
-#define bitRead(value, bit)            (((value) >> (bit)) & 0x01)
-#define bitSet(value, bit)             ((value) |= (1UL << (bit)))
-#define bitClear(value, bit)           ((value) &= ~(1UL << (bit)))
-#define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : \
-                                                   bitClear(value, bit))
+#define bitRead(value, bit) (((value) >> (bit)) & 0x01)
+#define bitSet(value, bit) ((value) |= (1UL << (bit)))
+#define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
+#define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 
-#define bit(b)                         (1UL << (b))
+#define bit(b) (1UL << (b))
 
-// Roger Clark. Added _BV macro for AVR compatibility. As requested by @sweetlilmre and @stevestrong
-#ifndef _BV
-#define _BV(bit) (1 << (bit))
-#endif 
+// default F_CPU to cpu frequency getter if not defined yet
+extern uint32_t F_CPU;
+#define CYCLES_PER_MICROSECOND  (F_CPU / 1000000UL)
 
 #define clockCyclesPerMicrosecond() ( F_CPU / 1000000L )
 #define clockCyclesToMicroseconds(a) ( ((a) * 1000L) / (F_CPU / 1000L) )

@@ -19,6 +19,7 @@
 #ifndef _WIRING_DIGITAL_
 #define _WIRING_DIGITAL_
 
+#include "WVariant.h"
 #include "startup.h"
 
 /**
@@ -49,7 +50,7 @@ extern void pinMode( uint32_t dwPin, uint32_t dwMode ) ;
  * \param dwPin the pin number
  * \param dwVal HIGH or LOW
  */
-void digitalWrite(uint8_t pin, uint8_t val);
+extern void digitalWrite( uint32_t dwPin, uint32_t dwVal ) ;
 
 /**
  * \brief Reads the value from a specified digital pin, either HIGH or LOW.
@@ -58,11 +59,6 @@ void digitalWrite(uint8_t pin, uint8_t val);
  *
  * \return HIGH or LOW
  */
-uint32_t digitalRead(uint8_t pin);
-
-void pwmWrite(uint8_t pin, uint16_t duty_cycle16);
-void analogWrite(uint8_t pin, int duty_cycle8);
-uint16_t analogRead(uint8_t pin);
-uint32_t gpio_get_mode(uint8_t PinNum) ;
+extern int digitalRead( uint32_t ulPin ) ;
 
 #endif /* _WIRING_DIGITAL_ */

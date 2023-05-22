@@ -54,32 +54,46 @@
  
 struct usart_dev;
 
-/* Roger Clark
- *
- * Added config defines from AVR 
- * Note. The values will need to be changed to match STM32 USART config register values, these are just place holders.
- */
-// Define config for Serial.begin(baud, config);
-// Note. STM32 doesn't support as many different Serial modes as AVR or SAM cores.
-// The word legth bit M must be set when using parity bit.
+#define HARDSER_PARITY_EVEN (0x1ul)
+#define HARDSER_PARITY_ODD (0x2ul)
+#define HARDSER_PARITY_NONE (0x3ul)
+#define HARDSER_PARITY_MASK (0xFul)
 
-#define SERIAL_8N1	0B00000000
-#define SERIAL_8N2	0B00100000
-#define SERIAL_9N1	0B00001000
-#define SERIAL_9N2	0B00101000	
+#define HARDSER_STOP_BIT_1 (0x10ul)
+// #define HARDSER_STOP_BIT_1_5 (0x20ul)
+#define HARDSER_STOP_BIT_2 (0x30ul)
+#define HARDSER_STOP_BIT_MASK (0xF0ul)
 
-#define SERIAL_8E1	0B00001010
-#define SERIAL_8E2	0B00101010
-/* not supported:
-#define SERIAL_9E1	0B00001010
-#define SERIAL_9E2	0B00101010
-*/
-#define SERIAL_8O1	0B00001011
-#define SERIAL_8O2	0B00101011
-/* not supported:
-#define SERIAL_9O1	0B00001011
-#define SERIAL_9O2	0B00101011
-*/
+// #define HARDSER_DATA_5 (0x100ul)
+// #define HARDSER_DATA_6 (0x200ul)
+// #define HARDSER_DATA_7 (0x300ul)
+#define HARDSER_DATA_8 (0x400ul)
+#define HARDSER_DATA_MASK (0xF00ul)
+
+#define SERIAL_5N1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_NONE | HARDSER_DATA_5)
+#define SERIAL_6N1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_NONE | HARDSER_DATA_6)
+#define SERIAL_7N1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_NONE | HARDSER_DATA_7)
+#define SERIAL_8N1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_NONE | HARDSER_DATA_8)
+#define SERIAL_5N2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_NONE | HARDSER_DATA_5)
+#define SERIAL_6N2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_NONE | HARDSER_DATA_6)
+#define SERIAL_7N2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_NONE | HARDSER_DATA_7)
+#define SERIAL_8N2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_NONE | HARDSER_DATA_8)
+#define SERIAL_5E1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_EVEN | HARDSER_DATA_5)
+#define SERIAL_6E1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_EVEN | HARDSER_DATA_6)
+#define SERIAL_7E1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_EVEN | HARDSER_DATA_7)
+#define SERIAL_8E1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_EVEN | HARDSER_DATA_8)
+#define SERIAL_5E2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_EVEN | HARDSER_DATA_5)
+#define SERIAL_6E2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_EVEN | HARDSER_DATA_6)
+#define SERIAL_7E2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_EVEN | HARDSER_DATA_7)
+#define SERIAL_8E2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_EVEN | HARDSER_DATA_8)
+#define SERIAL_5O1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_ODD | HARDSER_DATA_5)
+#define SERIAL_6O1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_ODD | HARDSER_DATA_6)
+#define SERIAL_7O1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_ODD | HARDSER_DATA_7)
+#define SERIAL_8O1 (HARDSER_STOP_BIT_1 | HARDSER_PARITY_ODD | HARDSER_DATA_8)
+#define SERIAL_5O2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_ODD | HARDSER_DATA_5)
+#define SERIAL_6O2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_ODD | HARDSER_DATA_6)
+#define SERIAL_7O2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_ODD | HARDSER_DATA_7)
+#define SERIAL_8O2 (HARDSER_STOP_BIT_2 | HARDSER_PARITY_ODD | HARDSER_DATA_8)
 
 /* Roger Clark 
  * Moved macros from hardwareSerial.cpp
@@ -113,28 +127,27 @@ public:
     unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];
     unsigned char *g_rx_buffer;
 
-    /* Set up/tear down */
-    inline size_t begin(uint32_t baudrate) { return baudrate; }
-    void end();
-    virtual int available(void);
-    virtual int peek(void);
-    virtual int read(void);
-    virtual void flush(void);
-    virtual size_t write(uint8_t);
+  /* Set up/tear down */
+  inline size_t begin(uint32_t baudrate) { return baudrate; }
+  void end();
+  virtual int available(void);
+  int availableForWrite(void);
+  virtual int peek(void);
+  virtual int read(void);
+  virtual void flush(void);
+  virtual size_t write(uint8_t);
+  using Print::write; // pull in write(str) and write(buf, size) from Print
+  operator bool() { return true; };
     inline size_t write(unsigned long n) { return write((uint8_t)n); }
     inline size_t write(long n) { return write((uint8_t)n); }
     inline size_t write(unsigned int n) { return write((uint8_t)n); }
     inline size_t write(int n) { return write((uint8_t)n); }
-    using Print::write;
 
     /* Pin accessors */
     int txPin(void) { return this->tx_pin; }
     int rxPin(void) { return this->rx_pin; }
 
-  operator bool() { return true; }
-
-  /* Escape hatch into libmaple */
-  /* FIXME [0.0.13] documentation */
+  // escape hatch to underlying usart_dev
   struct usart_dev *c_dev(void) { return this->usart_device; }
 
     bool connected() {};

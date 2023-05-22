@@ -42,7 +42,8 @@ extern uint8_t g_rxBuffer8[128];
 
 HardwareSerial::HardwareSerial(usart_dev *usart_device,
                                uint8_t tx_pin,
-                               uint8_t rx_pin) {
+                               uint8_t rx_pin)
+{
     this->usart_device = usart_device;
     this->tx_pin = tx_pin;
     this->rx_pin = rx_pin;
@@ -54,9 +55,18 @@ HardwareSerial::HardwareSerial(M4_USART_TypeDef *base) :
 	uart_base = base;
 }
 
-/*
- * I/O
- */
+int HardwareSerial::available(void)
+{
+  return ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rx_buffer_head - _rx_buffer_tail)) % SERIAL_RX_BUFFER_SIZE;
+}
+
+int HardwareSerial::availableForWrite(void)
+{
+}
+
+int HardwareSerial::peek(void)
+{
+}
 
 int HardwareSerial::read(void)
 {
@@ -70,54 +80,14 @@ int HardwareSerial::read(void)
   }
 }
 
-int HardwareSerial::available(void)
+void HardwareSerial::flush(void)
 {
-  return ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rx_buffer_head - _rx_buffer_tail)) % SERIAL_RX_BUFFER_SIZE;
 }
 
-int HardwareSerial::peek(void)
+size_t HardwareSerial::write(uint8_t ch)
 {
-//	uint32_t head, tail;
-//
-//	head = rx_buffer_head_;
-//	tail = rx_buffer_tail_;
-//	if (head == tail) {
-//		__disable_irq();
-//		head = rx_buffer_head_;  // reread head to make sure no ISR happened
-//		if (head == tail) {
-//			// Still empty Now check for stuff in FIFO Queue.
-//			int c = -1;	// assume nothing to return
-//			if (port->WATER & 0x7000000) {
-//				c = port->DATA & 0x3ff;		// Use only up to 10 bits of data
-//				// But we don't want to throw it away...
-//				// since queue is empty, just going to reset to front of queue...
-//				rx_buffer_head_ = 1;
-//				rx_buffer_tail_ = 0;
-//				rx_buffer_[1] = c;
-//			}
-//			__enable_irq();
-//			return c;
-//		}
-//		__enable_irq();
-//
-//	}
-//	if (++tail >= rx_buffer_total_size_) tail = 0;
-//	if (tail < rx_buffer_size_) {
-//		return rx_buffer_[tail];
-//	} else {
-//		return rx_buffer_storage_[tail-rx_buffer_size_];
-//	}
-}
-
-size_t HardwareSerial::write(uint8_t c)
-{
-    USART_SendData(uart_base, c);
+    USART_SendData(uart_base, ch);
     return 1;
-}
-
-/* edogaldo: Waits for the transmission of outgoing serial data to complete (Arduino 1.0 api specs) */
-void HardwareSerial::flush(void) {
-
 }
 
 // Actual interrupt handlers //////////////////////////////////////////////////////////////
