@@ -2,13 +2,13 @@
 #include "drivers/gpio/gpio.h"
 #include "wiring_constants.h"
 
-void pinMode(uint8_t pin, uint32_t mode)
+void pinMode(uint32_t dwPin, uint32_t dwMode)
 {
 
     // build pin configuration
     stc_port_init_t pinConf;
     MEM_ZERO_STRUCT(pinConf);
-    switch (mode)
+    switch (dwMode)
     {
     case INPUT:
         pinConf.enPinMode = Pin_Mode_In;
@@ -28,6 +28,6 @@ void pinMode(uint8_t pin, uint32_t mode)
     }
 
     // set pind config
-    PORT_InitGPIO(pin, &pinConf);
+    PORT_InitGPIO(dwPin, &pinConf);
 }
 
