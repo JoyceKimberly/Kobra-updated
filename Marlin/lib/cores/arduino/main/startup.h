@@ -34,23 +34,9 @@
 extern "C"{
 #endif
 
-typedef void (*voidFuncPtr)(void);
-typedef void (*voidArgumentFuncPtr)(void *);
-
-typedef enum ExtIntTriggerMode {
-    RISING, /**< To trigger an interrupt when the pin transitions LOW
-                 to HIGH */
-    FALLING, /**< To trigger an interrupt when the pin transitions
-                  HIGH to LOW */
-    CHANGE /**< To trigger an interrupt when the pin transitions from
-                LOW to HIGH or HIGH to LOW (i.e., when the pin
-                changes). */
-} ExtIntTriggerMode;
-
 void init(void);
 void f_cpu_init(uint32_t clock);
 extern void setup_Extinterrupt(void);
-extern void attachInterrupt(uint8_t pin, voidFuncPtr handler, uint8_t irqNum, ExtIntTriggerMode mode);
 extern void ExtInt_X_MIN_Callback(void);
 extern void ExtInt_Y_MIN_Callback(void);
 extern void ExtInt_Z_MIN_Callback(void);

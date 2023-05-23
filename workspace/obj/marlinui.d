@@ -85,6 +85,7 @@
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\wiring_digital.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\wiring_analog.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\wiring_shift.h
+.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\WInterrupts.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\flash.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\../inc/../HAL/platforms.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\../inc/Version.h
@@ -123,4 +124,4 @@
 .\obj\marlinui.o: ..\Marlin\src\lcd\../inc/../core/../feature/host_actions.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\../MarlinCore.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\marlinui.h
-.\obj\marlinui.o: ..\Marlin\src\lcd\../sd/
+.\obj\marlinui.o: 

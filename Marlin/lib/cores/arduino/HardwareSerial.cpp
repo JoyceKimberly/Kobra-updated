@@ -31,6 +31,8 @@
  */
 
 #include "HardwareSerial.h"
+#include "drivers/gpio/gpio.h"
+#include "drivers/usart/usart.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -40,9 +42,9 @@
 extern uint8_t g_rxBuffer[128];
 extern uint8_t g_rxBuffer8[128];
 
-HardwareSerial::HardwareSerial(usart_dev *usart_device,
-                               uint8_t tx_pin,
-                               uint8_t rx_pin)
+HardwareSerial::HardwareSerial(struct usart_dev *usart_device,
+                               uint32_t tx_pin,
+                               uint32_t rx_pin)
 {
     this->usart_device = usart_device;
     this->tx_pin = tx_pin;
@@ -53,6 +55,19 @@ HardwareSerial::HardwareSerial(M4_USART_TypeDef *base) :
     _rx_buffer_head(0), _rx_buffer_tail(0)
 {
 	uart_base = base;
+}
+
+size_t HardwareSerial::begin(uint32_t baud)
+{
+    return baud;
+}
+
+void HardwareSerial::begin(uint32_t baud, uint16_t config)
+{
+}
+
+void HardwareSerial::end()
+{
 }
 
 int HardwareSerial::available(void)
