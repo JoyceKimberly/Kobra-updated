@@ -154,72 +154,40 @@ extern "C"
 
 
 // UART1
-#define USART1_PWC_PERIPH_CLK          PWC_FCG1_PERIPH_USART1
-#define USART1_CH                      (M4_USART1)
 #define USART1_BAUDRATE                (115200ul)
-#define USART1_INT_RI                  INT_USART1_RI
-#define USART1_INT_EI                  INT_USART1_EI
-#define USART1_INT_TI                  INT_USART1_TI
-#define USART1_INT_TCI                 INT_USART1_TCI
 
 #define USART1_TX_PORT                 (PortA)  // Func_Grp1
 #define USART1_TX_PIN                  (Pin09)
-#define USART1_TX_FUNC                 (Func_Usart1_Tx)
 
 #define USART1_RX_PORT                 (PortA)  // Func_Grp1
 #define USART1_RX_PIN                  (Pin15)
-#define USART1_RX_FUNC                 (Func_Usart1_Rx)
 
 // UART2
-#define USART2_PWC_PERIPH_CLK          PWC_FCG1_PERIPH_USART2
-#define USART2_CH                      (M4_USART2)
 #define USART2_BAUDRATE                (115200ul)
-#define USART2_INT_RI                  INT_USART2_RI
-#define USART2_INT_EI                  INT_USART2_EI
-#define USART2_INT_TI                  INT_USART2_TI
-#define USART2_INT_TCI                 INT_USART2_TCI
 
 #define USART2_TX_PORT                 (PortA)  // Func_Grp1
 #define USART2_TX_PIN                  (Pin02)
-#define USART2_TX_FUNC                 (Func_Usart2_Tx)
 
 #define USART2_RX_PORT                 (PortA)  // Func_Grp1
 #define USART2_RX_PIN                  (Pin03)
-#define USART2_RX_FUNC                 (Func_Usart2_Rx)
 
 // UART3
-#define USART3_PWC_PERIPH_CLK          PWC_FCG1_PERIPH_USART3
-#define USART3_CH                      (M4_USART3)
 #define USART3_BAUDRATE                (115200ul)
-#define USART3_INT_RI                  INT_USART3_RI
-#define USART3_INT_EI                  INT_USART3_EI
-#define USART3_INT_TI                  INT_USART3_TI
-#define USART3_INT_TCI                 INT_USART3_TCI
 
 #define USART3_TX_PORT                 (PortA)  // Func_Grp1
 #define USART3_TX_PIN                  (Pin11)
-#define USART3_TX_FUNC                 (Func_Usart3_Tx)
 
 #define USART3_RX_PORT                 (PortA)  // Func_Grp1
 #define USART3_RX_PIN                  (Pin12)
-#define USART3_RX_FUNC                 (Func_Usart3_Rx)
 
 // UART4
-#define USART4_PWC_PERIPH_CLK          PWC_FCG1_PERIPH_USART4
-#define USART4_CH                      (M4_USART4)
 #define USART4_BAUDRATE                (115200ul)
-#define USART4_INT_RI                  INT_USART4_RI
-#define USART4_INT_EI                  INT_USART4_EI
-#define USART4_INT_TI                  INT_USART4_TI
-#define USART4_INT_TCI                 INT_USART4_TCI
 
 #define USART4_TX_PORT                 (PortB)  // Func_Grp2
 #define USART4_TX_PIN                  (Pin10)
-#define USART4_TX_FUNC                 (Func_Usart4_Tx)
 
 #define USART4_RX_PORT                 (PortH)  // Func_Grp2
 #define USART4_RX_PIN                  (Pin02)
-#define USART4_RX_FUNC                 (Func_Usart4_Rx)
 
 
 

@@ -42,25 +42,25 @@ extern "C"
 {
 #endif
 
-#define IRQ_INDEX_USART1_INT_RI         Int000_IRQn
-#define IRQ_INDEX_USART1_INT_EI         Int001_IRQn
-#define IRQ_INDEX_USART1_INT_TI         Int002_IRQn
-#define IRQ_INDEX_USART1_INT_TCI        Int003_IRQn
+#define IRQ_INDEX_INT_USART1_RI         Int000_IRQn
+#define IRQ_INDEX_INT_USART1_EI         Int001_IRQn
+#define IRQ_INDEX_INT_USART1_TI         Int002_IRQn
+#define IRQ_INDEX_INT_USART1_TCI        Int003_IRQn
 
-#define IRQ_INDEX_USART2_INT_RI         Int004_IRQn
-#define IRQ_INDEX_USART2_INT_EI         Int005_IRQn
-#define IRQ_INDEX_USART2_INT_TI         Int006_IRQn
-#define IRQ_INDEX_USART2_INT_TCI        Int007_IRQn
+#define IRQ_INDEX_INT_USART2_RI         Int004_IRQn
+#define IRQ_INDEX_INT_USART2_EI         Int005_IRQn
+#define IRQ_INDEX_INT_USART2_TI         Int006_IRQn
+#define IRQ_INDEX_INT_USART2_TCI        Int007_IRQn
 
-#define IRQ_INDEX_USART3_INT_RI         Int008_IRQn
-#define IRQ_INDEX_USART3_INT_EI         Int009_IRQn
-#define IRQ_INDEX_USART3_INT_TI         Int010_IRQn
-#define IRQ_INDEX_USART3_INT_TCI        Int011_IRQn
+#define IRQ_INDEX_INT_USART3_RI         Int008_IRQn
+#define IRQ_INDEX_INT_USART3_EI         Int009_IRQn
+#define IRQ_INDEX_INT_USART3_TI         Int010_IRQn
+#define IRQ_INDEX_INT_USART3_TCI        Int011_IRQn
 
-#define IRQ_INDEX_USART4_INT_RI         Int012_IRQn
-#define IRQ_INDEX_USART4_INT_EI         Int013_IRQn
-#define IRQ_INDEX_USART4_INT_TI         Int014_IRQn
-#define IRQ_INDEX_USART4_INT_TCI        Int015_IRQn
+#define IRQ_INDEX_INT_USART4_RI         Int012_IRQn
+#define IRQ_INDEX_INT_USART4_EI         Int013_IRQn
+#define IRQ_INDEX_INT_USART4_TI         Int014_IRQn
+#define IRQ_INDEX_INT_USART4_TCI        Int015_IRQn
 
 #define IRQ_INDEX_INT_DMA2_TC0          Int016_IRQn
 #define IRQ_INDEX_INT_DMA2_TC1          Int017_IRQn
@@ -103,7 +103,6 @@ void Usart4TxCmpltIrqCallback(void);
 /*
  * Devices
  */
-
 #define USART_RX_BUF_SIZE               128
 #define USART_TX_BUF_SIZE               128
 
@@ -129,6 +128,16 @@ void Usart4TxCmpltIrqCallback(void);
         uint32_t IRQ_priority;
     } usart_dev;
 
+    // usart device variables
+#define USART_DEV_VARS(nr)      \
+    extern usart_dev usart##nr; \
+    extern struct usart_dev *USART##nr;
+
+    USART_DEV_VARS(1)
+    USART_DEV_VARS(2)
+    USART_DEV_VARS(3)
+    USART_DEV_VARS(4)
+
 struct usart_dev;
 extern usart_dev usart4;
 extern usart_dev usart3;
@@ -151,6 +160,9 @@ extern RingBuffer usart4_wb;
     // public api
     void usart_init(usart_dev *dev);
     void usart_set_baud_rate(usart_dev *dev, uint32_t baud);
+    void usart_set_stop_bits(usart_dev *dev, en_usart_stop_bit_t stop_bits);
+    void usart_set_parity(usart_dev *dev, en_usart_parity_t parity);
+    void usart_set_data_width(usart_dev *dev, en_usart_data_len_t data_width);
     void usart_enable(usart_dev *dev);
     void usart_disable(usart_dev *dev);
     void usart_foreach(void (*fn)(usart_dev *dev));
