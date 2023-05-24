@@ -1,6 +1,16 @@
 #include "usart.h"
 
 // initial usart config
+stc_usart_uart_init_t usartConf = {
+    .enClkMode = UsartIntClkCkNoOutput,
+    .enClkDiv = UsartClkDiv_16,
+    .enDataLength = UsartDataBits8,
+    .enDirection = UsartDataLsbFirst,
+    .enStopBit = UsartOneStopBit,
+    .enParity = UsartParityNone,
+    .enSampleMode = UsartSampleBit8,
+    .enDetectMode = UsartStartBitFallEdge,
+    .enHwFlow = UsartRtsEnable};
 
 // UART1
 #define USART1_BAUDRATE                (115200ul)

@@ -124,4 +124,3 @@
 .\obj\marlinui.o: ..\Marlin\src\lcd\../inc/../core/../feature/host_actions.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\../MarlinCore.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\marlinui.h
-.\obj\marlinui.o: 

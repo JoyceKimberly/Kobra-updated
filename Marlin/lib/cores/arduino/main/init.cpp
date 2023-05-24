@@ -3,7 +3,6 @@
 #include "../drivers/adc/adc.h"
 #include "startup.h"
 #include <hc32_ddl.h>
-#include "usart_devices.cpp"
 
 void clock_init(void)
 {

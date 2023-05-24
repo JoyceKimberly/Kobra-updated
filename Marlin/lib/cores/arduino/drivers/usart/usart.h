@@ -80,21 +80,25 @@ extern uint8_t g_uart2_rx_buf[128];
 extern uint8_t g_uart2_rx_index;
 
 
+void uart1_init(void);
 void Usart1RxIrqCallback(void);
 void Usart1ErrIrqCallback(void);
 void Usart1TxIrqCallback(void);
 void Usart1TxCmpltIrqCallback(void);
 
+void uart2_init(void);
 void Usart2RxIrqCallback(void);
 void Usart2ErrIrqCallback(void);
 void Usart2TxIrqCallback(void);
 void Usart2TxCmpltIrqCallback(void);
 
+void uart3_init(void);
 void Usart3RxIrqCallback(void);
 void Usart3ErrIrqCallback(void);
 void Usart3TxIrqCallback(void);
 void Usart3TxCmpltIrqCallback(void);
 
+void uart4_init(void);
 void Usart4RxIrqCallback(void);
 void Usart4ErrIrqCallback(void);
 void Usart4TxIrqCallback(void);
