@@ -26,6 +26,8 @@
 #include "HAL.h"
 #include "hc32_ddl.h"
 
+extern "C" char *_sbrk(int incr);
+
 uint16_t HAL_adc_result;
 
 uint16_t MarlinHAL::adc_result;
@@ -124,8 +126,14 @@ void HAL_adc_start_conversion(const uint8_t adc_pin) {
 uint16_t HAL_adc_get_result() { return 1000; } // { return HAL_adc_result; }
 
 void MarlinHAL::reboot()
-{ NVIC_SystemReset(); }
+{
+    NVIC_SystemReset();
+}
 
+bool MarlinHAL::isr_state()
+{
+    return !__get_PRIMASK();
+}
 
 
 

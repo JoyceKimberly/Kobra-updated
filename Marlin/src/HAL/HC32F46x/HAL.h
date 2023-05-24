@@ -118,12 +118,6 @@
 #define JTAG_DISABLE()    // afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY)
 #define JTAGSWD_DISABLE() // afio_cfg_debug_ports(AFIO_DEBUG_NONE)
 
-// ------------------------
-// Class Utilities
-// ------------------------
-
-extern "C" char* _sbrk(int incr);
-
 #pragma GCC diagnostic push
 #if GCC_VERSION <= 50000
   #pragma GCC diagnostic ignored "-Wunused-function"
@@ -167,7 +161,7 @@ public:
     static void reboot();        // Restart the firmware from 0x0
 
     // Interrupts
-    static bool isr_state() { return !__get_PRIMASK(); }
+    static bool isr_state();
     static void isr_on()  { sei(); }
     static void isr_off() { cli(); }
 
