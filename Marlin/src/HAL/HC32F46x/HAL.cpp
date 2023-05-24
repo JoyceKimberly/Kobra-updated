@@ -25,7 +25,6 @@
 #include "../shared/Delay.h"
 #include "HAL.h"
 #include "hc32_ddl.h"
-#include "bsp_rmu.h"
 
 uint16_t HAL_adc_result;
 
@@ -136,9 +135,33 @@ void _delay_ms(const int delay_ms) { delay(delay_ms); }
 
 uint8_t MarlinHAL::get_reset_source()
 {
-    uint8_t res;
-    res = rmu_get_reset_cause();
-    return res;
+    // query reset cause
+    stc_rmu_rstcause_t rstCause;
+    MEM_ZERO_STRUCT(rstCause);
+    RMU_GetResetCause(&rstCause);
+
+    // map reset causes to those expected by Marlin
+    uint8_t cause;
+
+    typedef enum {
+        RST_CAU_POWER_ON    = 0x01,
+        RST_CAU_EXTERNAL    = 0x02,
+        RST_CAU_BROWN_OUT   = 0x04,
+        RST_CAU_WATCHDOG    = 0x08,
+        RST_CAU_JTAG        = 0x10,
+        RST_CAU_SOFTWARE    = 0x20,
+        RST_CAU_BACKUP      = 0x40,
+    } rst_cause_t;
+
+    if(Set == rstCause.enSoftware) {
+        cause = RST_CAU_SOFTWARE;
+    } else if(Set == rstCause.enWdt) {
+        cause = RST_CAU_WATCHDOG;
+    } else if(Set == rstCause.enRstPin) {
+        cause = RST_CAU_EXTERNAL;
+    }
+
+    return cause;
 }
 
 void MarlinHAL::clear_reset_source()

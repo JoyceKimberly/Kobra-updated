@@ -794,11 +794,6 @@
               <FileType>8</FileType>
               <FilePath>..\Marlin\lib\cores\arduino\drivers\ots\ots.cpp</FilePath>
             </File>
-            <File>
-              <FileName>bsp_rmu.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\bsp_rmu.cpp</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
