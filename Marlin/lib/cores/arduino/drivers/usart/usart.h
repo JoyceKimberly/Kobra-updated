@@ -138,25 +138,6 @@ void Usart4TxCmpltIrqCallback(void);
     USART_DEV_VARS(3)
     USART_DEV_VARS(4)
 
-struct usart_dev;
-extern usart_dev usart4;
-extern usart_dev usart3;
-extern usart_dev usart2;
-extern usart_dev usart1;
-extern struct usart_dev *USART1;
-extern struct usart_dev *USART2;
-extern struct usart_dev *USART3;
-extern struct usart_dev *USART4;
-
-extern RingBuffer usart1_rb;
-extern RingBuffer usart1_wb;
-extern RingBuffer usart2_rb;
-extern RingBuffer usart2_wb;
-extern RingBuffer usart3_rb;
-extern RingBuffer usart3_wb;
-extern RingBuffer usart4_rb;
-extern RingBuffer usart4_wb;
-
     // public api
     void usart_init(usart_dev *dev);
     void usart_set_baud_rate(usart_dev *dev, uint32_t baud);

@@ -750,14 +750,19 @@
               <FilePath>..\Marlin\lib\cores\arduino\WMath.cpp</FilePath>
             </File>
             <File>
+              <FileName>RingBuffer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Marlin\lib\cores\arduino\RingBuffer.cpp</FilePath>
+            </File>
+            <File>
               <FileName>usart.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\lib\cores\arduino\drivers\usart\usart.cpp</FilePath>
             </File>
             <File>
-              <FileName>RingBuffer.cpp</FileName>
+              <FileName>usart_devices.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\RingBuffer.cpp</FilePath>
+              <FilePath>..\Marlin\lib\cores\arduino\drivers\usart\usart_devices.cpp</FilePath>
             </File>
           </Files>
         </Group>

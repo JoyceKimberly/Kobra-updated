@@ -1,5 +1,43 @@
 #include "usart.h"
 
+// initial usart config
+
+// UART1
+#define USART1_BAUDRATE                (115200ul)
+
+#define USART1_TX_PORT                 (PortA)  // Func_Grp1
+#define USART1_TX_PIN                  (Pin09)
+
+#define USART1_RX_PORT                 (PortA)  // Func_Grp1
+#define USART1_RX_PIN                  (Pin15)
+
+// UART2
+#define USART2_BAUDRATE                (115200ul)
+
+#define USART2_TX_PORT                 (PortA)  // Func_Grp1
+#define USART2_TX_PIN                  (Pin02)
+
+#define USART2_RX_PORT                 (PortA)  // Func_Grp1
+#define USART2_RX_PIN                  (Pin03)
+
+// UART3
+#define USART3_BAUDRATE                (115200ul)
+
+#define USART3_TX_PORT                 (PortA)  // Func_Grp1
+#define USART3_TX_PIN                  (Pin11)
+
+#define USART3_RX_PORT                 (PortA)  // Func_Grp1
+#define USART3_RX_PIN                  (Pin12)
+
+// UART4
+#define USART4_BAUDRATE                (115200ul)
+
+#define USART4_TX_PORT                 (PortB)  // Func_Grp2
+#define USART4_TX_PIN                  (Pin10)
+
+#define USART4_RX_PORT                 (PortH)  // Func_Grp2
+#define USART4_RX_PIN                  (Pin02)
+
 // PCLK1 max is 100Mhz
 // baudrate = clk/(8 �� (2 - over8 ) * (DIV_Integer + 1) )
 
@@ -74,8 +112,6 @@ void uart1_init(void)
     
     USART_FuncCmd(M4_USART1, UsartRxInt, Enable);
 //  USART_FuncCmd(M4_USART1, UsartTxCmpltInt, Enable);
-
-    usart_dev *USART1 = &usart1;
 }
 
 //
@@ -149,8 +185,6 @@ void uart2_init(void)
 
     USART_FuncCmd(M4_USART2, UsartRxInt, Enable);
 //  USART_FuncCmd(M4_USART2, UsartTxCmpltInt, Enable);
-
-    usart_dev *USART2 = &usart2;
 }
 
 //
@@ -224,8 +258,6 @@ void uart3_init(void)
 
     USART_FuncCmd(M4_USART3, UsartRxInt, Enable);
 //  USART_FuncCmd(M4_USART3, UsartTxCmpltInt, Enable);
-
-    usart_dev *USART3 = &usart3;
 }
 
 //
@@ -299,6 +331,4 @@ void uart4_init(void)
 
     USART_FuncCmd(M4_USART4, UsartRxInt, Enable);
 //  USART_FuncCmd(M4_USART3, UsartTxCmpltInt, Enable);
-
-    usart_dev *USART4 = &usart4;
 }
