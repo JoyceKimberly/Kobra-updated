@@ -101,7 +101,6 @@
 .\obj\marlinui.o: ..\Marlin\src\lcd\../inc/../HAL/../HAL/HC32F46x/../shared/progmem.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\../inc/../HAL/../HAL/HC32F46x/../shared/math_32bit.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\../inc/../HAL/../HAL/HC32F46x/../shared/HAL_SPI.h
-.\obj\marlinui.o: ..\Marlin\src\lcd\../inc/../HAL/../HAL/HC32F46x/temp_soc.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\../inc/../HAL/../HAL/HC32F46x/fastio.h
 .\obj\marlinui.o: ..\Marlin\src\lcd\../inc/../HAL/../HAL/HC32F46x/timers.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\bsp_timer.h

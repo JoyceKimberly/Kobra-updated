@@ -24,9 +24,10 @@
 
 #include "../../inc/MarlinConfig.h"
 
-  bool SDIO_Init() {
+bool SDIO_Init()
+{
     return (steup_sdio());
-  }
+}
 
 /**
  * @brief Read a block

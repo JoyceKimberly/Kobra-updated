@@ -20,6 +20,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
+
+/**
+ * HAL for stm32duino.com based on Libmaple and compatible (HC32F46x based on STM32F1)
+ */
 #pragma once
 
 #define CPU_32_BIT
@@ -28,15 +32,15 @@
 #include "../shared/Marduino.h"
 #include "../shared/math_32bit.h"
 #include "../shared/HAL_SPI.h"
-#include "temp_soc.h"
+
 #include "fastio.h"
 #include "timers.h"
-//#include "MarlinSerial.h"
-
-#include "../../inc/MarlinConfigPre.h"
-#include "../inc/MarlinConfig.h"
 
 #include <stdint.h>
+
+#include "../../inc/MarlinConfigPre.h"
+#include "../../inc/MarlinConfig.h"
+//#include "MarlinSerial.h"
 
 //
 // Default graphical display delays
@@ -45,12 +49,11 @@
 #define CPU_ST7920_DELAY_2  40
 #define CPU_ST7920_DELAY_3 340
 
-// ------------------------
-// Serial ports
-// ------------------------
+//
+// Serial Ports
+//
 #define _MSERIAL(X) Serial##X
 #define MSERIAL(X) _MSERIAL(X)
-
 #define NUM_UARTS 4
 
 #if WITHIN(SERIAL_PORT, 1, 6)
@@ -58,7 +61,6 @@
 #else
   #error "SERIAL_PORT must be from 1 to 6, or -1 for Native USB."
 #endif
-
 
 #ifdef LCD_SERIAL_PORT
   #if WITHIN(LCD_SERIAL_PORT, 1, 6)
@@ -71,9 +73,19 @@
   #endif
 #endif
 
-/**
- * TODO: review this to return 1 for pins that are not analog input
- */
+//
+// Misc. Defines
+//
+#define STM32_FLASH_SIZE 256
+#define square(x) ((x) * (x))
+
+#ifndef strncpy_P
+#define strncpy_P(dest, src, num) strncpy((dest), (src), (num))
+#endif
+
+//
+// Misc. Functions
+//
 #ifndef analogInputToDigitalPin
   #define analogInputToDigitalPin(p) (p)
 #endif
@@ -82,8 +94,13 @@
 // Interrupts
 //
 #define CRITICAL_SECTION_START()  const bool irqon = !__get_PRIMASK(); __disable_irq()
+
 #define CRITICAL_SECTION_END()    if (irqon) __enable_irq()
+
+// Disable interrupts
 #define cli() __disable_irq()
+
+// Enable interrupts
 #define sei() __enable_irq()
 
 // ------------------------
