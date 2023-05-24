@@ -2,7 +2,6 @@
 #include "bsp_timer.h"
 #include "timers.h"
 
-
 volatile uint32_t _millis = 0;
 
 uint32_t millis()
@@ -32,7 +31,6 @@ extern "C" void SysTick_IrqHandler(void)
 
 void setup_time2A(const uint32_t frequency)
 {
-
 }
 
 void setup_step_tim(const uint32_t frequency)
@@ -42,7 +40,6 @@ void setup_step_tim(const uint32_t frequency)
 
 void setup_temp_tim(const uint32_t frequency)
 {
-
 }
 
 void timer_enable_irq(const uint8_t timer_num,en_functional_state_t state)

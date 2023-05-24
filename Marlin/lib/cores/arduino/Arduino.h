@@ -71,6 +71,7 @@ void loop( void ) ;
 #include "HardwareSerial.h"
 #include "pulse.h"
 #endif
+#include "delay.h"
 #ifdef __cplusplus
 #include "Uart.h"
 #endif

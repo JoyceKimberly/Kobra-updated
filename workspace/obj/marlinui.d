@@ -51,12 +51,12 @@
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\gpio\../adc/adc.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\drivers\gpio\gpio_pindefs.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\HardwareSerial.h
-.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\Stream.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\Print.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\WString.h
 .\obj\marlinui.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\avr/pgmspace.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\Printable.h
+.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\Stream.h
 .\obj\marlinui.o: ..\Marlin\src\core\../pins/pins.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\main\startup.h
 .\obj\marlinui.o: ..\Marlin\src\core\../pins/../../Configuration.h
@@ -80,6 +80,7 @@
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\Tone.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\WMath.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\pulse.h
+.\obj\marlinui.o: ..\Marlin\lib\cores\arduino\delay.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\Uart.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\variant.h
 .\obj\marlinui.o: ..\Marlin\lib\cores\arduino\wiring_digital.h

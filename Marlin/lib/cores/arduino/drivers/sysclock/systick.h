@@ -1,7 +1,4 @@
-#ifndef _BSP_TIM0_H_
-#define _BSP_TIM0_H_
-
-
+#pragma once
 #include <stdint.h>
 
 #include "hc32_ddl.h"
@@ -11,7 +8,6 @@
 #include "hc32f460_sram.h"
 #include "hc32f460_interrupts.h"
 #include "hc32f460_pwc.h"
-
 
 #ifdef __cplusplus
 extern "C"{
@@ -25,7 +21,6 @@ extern "C"{
 
 #define TIMER4_UNIT                     (M4_TMR41)
 
-
 extern void setup_systick(void);
 extern void setup_time2A(const uint32_t frequency);
 extern void setup_time2B(const uint32_t frequency);
@@ -33,7 +28,6 @@ extern void setup_time4(const uint32_t frequency);
 extern void setup_time(void);
 void setup_step_tim(const uint32_t frequency);
 void setup_temp_tim(const uint32_t frequency);
-
 
 extern uint32_t millis(void);
 extern uint32_t micros(void);
@@ -47,20 +41,10 @@ extern bool timer_irq_enabled(M4_TMR0_TypeDef* pstcTim0Reg, const uint8_t timer_
 void delay(uint32_t ms);
 void delayMicroseconds(uint32_t us);
 
-
 #define os_get_timeslice(x,y)  ((uint32_t)(x>=y?(x-y):0))
 
-
 extern volatile uint32_t _millis;
-
-
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif
-
-
-
-
