@@ -141,8 +141,8 @@ public:
     MarlinHAL();
 
     // Watchdog
-    static void watchdog_init()    IF_DISABLED(USE_WATCHDOG, {});
-    static void watchdog_refresh() IF_DISABLED(USE_WATCHDOG, {});
+    static void watchdog_init();
+    static void watchdog_refresh();
 
     static void init();       // Called early in setup()
     static void init_board(); // Called less early in setup()
@@ -153,7 +153,7 @@ public:
     static void isr_on()  { sei(); }
     static void isr_off() { cli(); }
 
-    static void delay_ms(const int ms) { delay(ms); }
+    static void delay_ms(const int ms);
 
     // Tasks, called from idle()
     static void idletask();
@@ -191,7 +191,7 @@ public:
   }
 
     // Is the ADC ready for reading?
-    static bool adc_ready() { return true; }
+    static bool adc_ready();
 
     // The current value of the ADC register
     static uint16_t adc_value() { return g_adc_value[g_adc_idx]; }

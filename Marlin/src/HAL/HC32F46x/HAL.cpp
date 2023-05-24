@@ -142,7 +142,10 @@ void MarlinHAL::delay_ms(const int ms)
     delay(ms);
 }
 
-
+void MarlinHAL::idletask()
+{
+    MarlinHAL::watchdog_refresh();
+}
 
 uint8_t MarlinHAL::get_reset_source()
 {
@@ -187,6 +190,11 @@ int MarlinHAL::freeMemory()
 }
 
 void MarlinHAL::adc_init() {}
+
+bool MarlinHAL::adc_ready()
+{
+    return true;
+}
 
 void flashFirmware(const int16_t) { MarlinHAL::reboot(); }
 
