@@ -118,13 +118,6 @@
 #define JTAG_DISABLE()    // afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY)
 #define JTAGSWD_DISABLE() // afio_cfg_debug_ports(AFIO_DEBUG_NONE)
 
-// Maple Compatibility
-typedef void (*systickCallback_t)(void);
-void systick_attach_callback(systickCallback_t cb);
-void HAL_SYSTICK_Callback();
-
-extern volatile uint32_t systick_uptime_millis;
-
 // ------------------------
 // Class Utilities
 // ------------------------
