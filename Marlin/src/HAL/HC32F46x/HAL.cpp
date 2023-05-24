@@ -43,45 +43,45 @@ uint16_t MarlinHAL::adc_result;
 
 // HAL initialization task
 void MarlinHAL::init() {
-  // Ensure F_CPU is a constant expression.
-  // If the compiler breaks here, it means that delay code that should compute at compile time will not work.
-  // So better safe than sorry here.
-  constexpr int cpuFreq = F_CPU;
-  UNUSED(cpuFreq);
+    // Ensure F_CPU is a constant expression.
+    // If the compiler breaks here, it means that delay code that should compute at compile time will not work.
+    // So better safe than sorry here.
+    constexpr int cpuFreq = F_CPU;
+    UNUSED(cpuFreq);
 
-  NVIC_SetPriorityGrouping(0x3);
+    NVIC_SetPriorityGrouping(0x3);
 
-  #if HAS_MEDIA && DISABLED(ONBOARD_SDIO) && (defined(SDSS) && SDSS != -1)
-    OUT_WRITE(SDSS, HIGH); // Try to set SDSS inactive before any other SPI users start up
-  #endif
+    #if HAS_MEDIA && DISABLED(ONBOARD_SDIO) && (defined(SDSS) && SDSS != -1)
+      OUT_WRITE(SDSS, HIGH); // Try to set SDSS inactive before any other SPI users start up
+    #endif
 
-  #if PIN_EXISTS(LED)
-    OUT_WRITE(LED_PIN, LOW);
-  #endif
+    #if PIN_EXISTS(LED)
+      OUT_WRITE(LED_PIN, LOW);
+    #endif
 
-  #if PIN_EXISTS(AUTO_LEVEL_TX)
-    OUT_WRITE(AUTO_LEVEL_TX_PIN, HIGH);
-    delay(10);
-    OUT_WRITE(AUTO_LEVEL_TX_PIN, LOW);
-    delay(300);
-    OUT_WRITE(AUTO_LEVEL_TX_PIN, HIGH);
-  #endif
+    #if PIN_EXISTS(AUTO_LEVEL_TX)
+      OUT_WRITE(AUTO_LEVEL_TX_PIN, HIGH);
+      delay(10);
+      OUT_WRITE(AUTO_LEVEL_TX_PIN, LOW);
+      delay(300);
+      OUT_WRITE(AUTO_LEVEL_TX_PIN, HIGH);
+    #endif
 
-  #if ENABLED(SRAM_EEPROM_EMULATION)
-    __HAL_RCC_PWR_CLK_ENABLE();
-    HAL_PWR_EnableBkUpAccess();           // Enable access to backup SRAM
-    __HAL_RCC_BKPSRAM_CLK_ENABLE();
-    LL_PWR_EnableBkUpRegulator();         // Enable backup regulator
-    while (!LL_PWR_IsActiveFlag_BRR());   // Wait until backup regulator is initialized
-  #endif
+    #if ENABLED(SRAM_EEPROM_EMULATION)
+      __HAL_RCC_PWR_CLK_ENABLE();
+      HAL_PWR_EnableBkUpAccess();           // Enable access to backup SRAM
+      __HAL_RCC_BKPSRAM_CLK_ENABLE();
+      LL_PWR_EnableBkUpRegulator();         // Enable backup regulator
+      while (!LL_PWR_IsActiveFlag_BRR());   // Wait until backup regulator is initialized
+    #endif
 
-  //SetTimerInterruptPriorities();
+    //SetTimerInterruptPriorities();
 
-  #if ENABLED(EMERGENCY_PARSER) && (USBD_USE_CDC || USBD_USE_CDC_MSC)
-    USB_Hook_init();
-  #endif
+    #if ENABLED(EMERGENCY_PARSER) && (USBD_USE_CDC || USBD_USE_CDC_MSC)
+      USB_Hook_init();
+    #endif
 
-  TERN_(POSTMORTEM_DEBUGGING, install_min_serial());    // Install the min serial handler
+    TERN_(POSTMORTEM_DEBUGGING, install_min_serial());    // Install the min serial handler
 
 }
 
