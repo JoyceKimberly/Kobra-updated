@@ -118,14 +118,6 @@
 #define JTAG_DISABLE()    // afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY)
 #define JTAGSWD_DISABLE() // afio_cfg_debug_ports(AFIO_DEBUG_NONE)
 
-extern uint16_t HAL_adc_result;
-
-uint16_t HAL_adc_get_result();
-
-void HAL_adc_init();
-
-void HAL_adc_start_conversion(const uint8_t adc_pin);
-
 //
 // MarlinHAL implementation
 //
@@ -150,8 +142,8 @@ public:
 
     // Interrupts
     static bool isr_state();
-    static void isr_on()  { sei(); }
-    static void isr_off() { cli(); }
+    static void isr_on();
+    static void isr_off();
 
     static void delay_ms(const int ms);
 
@@ -175,26 +167,16 @@ public:
     static void adc_init();
 
     // Called by Temperature::init for each sensor at startup
-    static void adc_enable(const pin_t pin) { pinMode(pin, INPUT); }
+    static void adc_enable(const pin_t pin);
 
     // Begin ADC sampling on the given pin. Called from Temperature::isr!
-    static void adc_start(const pin_t pin) { 
-      if       (pin == TEMP_BED_PIN) {
-          g_adc_idx = 0;
-      } else if(pin == TEMP_0_PIN) {
-          g_adc_idx = 1;
-      } else if(pin == POWER_MONITOR_VOLTAGE_PIN) {
-          g_adc_idx = 2;
-      } else {
-          g_adc_idx = 0x0;
-      }
-  }
+    static void adc_start(const pin_t pin);
 
     // Is the ADC ready for reading?
     static bool adc_ready();
 
     // The current value of the ADC register
-    static uint16_t adc_value() { return g_adc_value[g_adc_idx]; }
+    static uint16_t adc_value();
 
     /**
      * Set the PWM duty cycle for the pin to the given value.
@@ -202,7 +184,7 @@ public:
      * Optionally change the maximum size of the provided value to enable finer PWM duty control [default = 255]
      * The timer must be pre-configured with set_pwm_frequency() if the default frequency is not desired.
      */
-    static void set_pwm_duty(const pin_t pin, const uint16_t v, const uint16_t v_size=255, const bool invert=false);
+    static void set_pwm_duty(const pin_t pin, const uint16_t v, const uint16_t = 255, const bool = false);
 
     /**
      * Set the frequency of the timer for the given pin.

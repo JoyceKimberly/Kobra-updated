@@ -28,8 +28,6 @@
 
 extern "C" char *_sbrk(int incr);
 
-uint16_t HAL_adc_result;
-
 uint16_t MarlinHAL::adc_result;
 
 MarlinHAL::MarlinHAL() {}
@@ -106,23 +104,6 @@ void MarlinHAL::init()
     #endif
 }
 
-uint32_t AD_DMA[3];
-//TODO: Make sure this doesn't cause any delay
-void HAL_adc_start_conversion(const uint8_t adc_pin) {
-        if(adc_pin>BOARD_NR_GPIO_PINS)return;
-        uint8_t channel = PIN_MAP[adc_pin].adc_channel;
-        DDL_ASSERT(channel!=ADC_PIN_INVALID);
-        HAL_adc_result = adc_read(ADC1,channel);
-        switch(adc_pin)
-        {
-            case TEMP_BED_PIN: AD_DMA[0] = HAL_adc_result;break;
-            case TEMP_0_PIN: AD_DMA[1] = HAL_adc_result;break;
-            case POWER_MONITOR_VOLTAGE_PIN: AD_DMA[2] = HAL_adc_result;break;
-            default:break;
-        }
-}
-uint16_t HAL_adc_get_result() { return 1000; } // { return HAL_adc_result; }
-
 void MarlinHAL::init_board() {}
 
 void MarlinHAL::reboot()
@@ -135,7 +116,15 @@ bool MarlinHAL::isr_state()
     return !__get_PRIMASK();
 }
 
+void MarlinHAL::isr_on()
+{
+    __enable_irq();
+}
 
+void MarlinHAL::isr_off()
+{
+    __disable_irq();
+}
 
 void MarlinHAL::delay_ms(const int ms)
 {
@@ -191,9 +180,44 @@ int MarlinHAL::freeMemory()
 
 void MarlinHAL::adc_init() {}
 
+void MarlinHAL::adc_enable(const pin_t pin)
+{
+    pinMode(pin, INPUT);
+}
+
+void MarlinHAL::adc_start(const pin_t pin)
+{
+    if       (pin == TEMP_BED_PIN) {
+        g_adc_idx = 0;
+    } else if(pin == TEMP_0_PIN) {
+        g_adc_idx = 1;
+    } else if(pin == POWER_MONITOR_VOLTAGE_PIN) {
+        g_adc_idx = 2;
+    } else {
+        g_adc_idx = 0x0;
+    }
+
+    MarlinHAL::adc_result = g_adc_value[g_adc_idx];
+}
+
 bool MarlinHAL::adc_ready()
 {
     return true;
+}
+
+uint16_t MarlinHAL::adc_value()
+{
+    return g_adc_value[g_adc_idx];
+}
+
+void MarlinHAL::set_pwm_duty(const pin_t pin, const uint16_t v, const uint16_t a, const bool b)
+{
+    // TODO stub
+}
+
+void MarlinHAL::set_pwm_frequency(const pin_t pin, const uint16_t f_desired)
+{
+    // TODO stub
 }
 
 void flashFirmware(const int16_t) { MarlinHAL::reboot(); }
