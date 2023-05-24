@@ -118,18 +118,6 @@
 #define JTAG_DISABLE()    // afio_cfg_debug_ports(AFIO_DEBUG_SW_ONLY)
 #define JTAGSWD_DISABLE() // afio_cfg_debug_ports(AFIO_DEBUG_NONE)
 
-#pragma GCC diagnostic push
-#if GCC_VERSION <= 50000
-  #pragma GCC diagnostic ignored "-Wunused-function"
-#endif
-
-static inline int freeMemory() {
-  volatile char top;
-  return top;
-}
-
-#pragma GCC diagnostic pop
-
 extern uint16_t HAL_adc_result;
 
 uint16_t HAL_adc_get_result();
@@ -175,7 +163,7 @@ public:
     static void clear_reset_source();
 
     // Free SRAM
-    static int freeMemory() { return ::freeMemory(); }
+    static int freeMemory();
 
     //
     // ADC Methods

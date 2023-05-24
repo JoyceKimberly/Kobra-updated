@@ -177,8 +177,10 @@ void MarlinHAL::clear_reset_source()
     RMU_ClrResetFlag();
 }
 
-extern "C" {
-  extern unsigned int _ebss; // end of bss section
+int MarlinHAL::freeMemory()
+{
+    volatile char top;
+    return top;
 }
 
 void MarlinHAL::adc_init() {}
