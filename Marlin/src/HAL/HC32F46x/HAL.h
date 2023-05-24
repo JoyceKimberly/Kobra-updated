@@ -138,15 +138,15 @@ class MarlinHAL
 {
 public:
     // Earliest possible init, before setup()
-    MarlinHAL() {}
+    MarlinHAL();
 
     // Watchdog
     static void watchdog_init()    IF_DISABLED(USE_WATCHDOG, {});
     static void watchdog_refresh() IF_DISABLED(USE_WATCHDOG, {});
 
-    static void init();          // Called early in setup()
-    static void init_board() {}  // Called less early in setup()
-    static void reboot();        // Restart the firmware from 0x0
+    static void init();       // Called early in setup()
+    static void init_board(); // Called less early in setup()
+    static void reboot();     // Restart the firmware from 0x0
 
     // Interrupts
     static bool isr_state();

@@ -32,9 +32,7 @@ uint16_t HAL_adc_result;
 
 uint16_t MarlinHAL::adc_result;
 
-// ------------------------
-// Watchdog Timer
-// ------------------------
+MarlinHAL::MarlinHAL() {}
 
 // pclk = system_clock/div4 = 50M
 // max cycle = 65536
@@ -125,6 +123,8 @@ void HAL_adc_start_conversion(const uint8_t adc_pin) {
 }
 uint16_t HAL_adc_get_result() { return 1000; } // { return HAL_adc_result; }
 
+void MarlinHAL::init_board() {}
+
 void MarlinHAL::reboot()
 {
     NVIC_SystemReset();
@@ -137,7 +137,10 @@ bool MarlinHAL::isr_state()
 
 
 
-void _delay_ms(const int delay_ms) { delay(delay_ms); }
+void MarlinHAL::delay_ms(const int ms)
+{
+    delay(ms);
+}
 
 
 
