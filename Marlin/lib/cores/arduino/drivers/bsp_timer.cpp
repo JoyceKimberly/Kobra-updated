@@ -220,11 +220,11 @@ void set_timer_clk_prescale(en_tim0_clock_div div)
 
 void timer41_init(void)
 {
-    stc_irq_regi_conf_t stcIrqRegiCfg;
+    stc_irq_regi_conf_t irqConf;
     stc_timer4_cnt_init_t stcCntInit;
 
     MEM_ZERO_STRUCT(stcCntInit);
-    MEM_ZERO_STRUCT(stcIrqRegiCfg);
+    MEM_ZERO_STRUCT(irqConf);
 
     PWC_Fcg2PeriphClockCmd(PWC_FCG2_PERIPH_TIM41, Enable);
 
@@ -242,13 +242,13 @@ void timer41_init(void)
     stcCntInit.enPeakIntMsk = Timer4CntIntMask0;
     TIMER4_CNT_Init(M4_TMR41, &stcCntInit);
 
-    stcIrqRegiCfg.enIRQn = IRQ_INDEX_INT_TMR41_GCMB;
-    stcIrqRegiCfg.pfnCallback = &timer41_zero_match_irq_cb;
-    stcIrqRegiCfg.enIntSrc = INT_TMR41_GUDF;
-    enIrqRegistration(&stcIrqRegiCfg);
-    NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
-    NVIC_ClearPendingIRQ(stcIrqRegiCfg.enIRQn);
-    NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
+    irqConf.enIRQn = IRQ_INDEX_INT_TMR41_GCMB;
+    irqConf.pfnCallback = &timer41_zero_match_irq_cb;
+    irqConf.enIntSrc = INT_TMR41_GUDF;
+    enIrqRegistration(&irqConf);
+    NVIC_SetPriority(irqConf.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
+    NVIC_ClearPendingIRQ(irqConf.enIRQn);
+    NVIC_EnableIRQ(irqConf.enIRQn);
 
     TIMER4_CNT_ClearCountVal(M4_TMR41);
     TIMER4_CNT_Start(M4_TMR41);
@@ -269,11 +269,11 @@ void timer41_init(void)
 
 void timer42_init(void)
 {
-    stc_irq_regi_conf_t stcIrqRegiCfg;
+    stc_irq_regi_conf_t irqConf;
     stc_timer4_cnt_init_t stcCntInit;
 
     MEM_ZERO_STRUCT(stcCntInit);
-    MEM_ZERO_STRUCT(stcIrqRegiCfg);
+    MEM_ZERO_STRUCT(irqConf);
 
     PWC_Fcg2PeriphClockCmd(PWC_FCG2_PERIPH_TIM42, Enable);
 
@@ -288,13 +288,13 @@ void timer42_init(void)
     stcCntInit.enPeakIntMsk = Timer4CntIntMask0;
     TIMER4_CNT_Init(M4_TMR42, &stcCntInit);
 
-    stcIrqRegiCfg.enIRQn = IRQ_INDEX_INT_TMR42_GCMB;
-    stcIrqRegiCfg.pfnCallback = &timer42_zero_match_irq_cb;
-    stcIrqRegiCfg.enIntSrc = INT_TMR42_GUDF;
-    enIrqRegistration(&stcIrqRegiCfg);
-    NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_00);
-    NVIC_ClearPendingIRQ(stcIrqRegiCfg.enIRQn);
-    NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
+    irqConf.enIRQn = IRQ_INDEX_INT_TMR42_GCMB;
+    irqConf.pfnCallback = &timer42_zero_match_irq_cb;
+    irqConf.enIntSrc = INT_TMR42_GUDF;
+    enIrqRegistration(&irqConf);
+    NVIC_SetPriority(irqConf.enIRQn, DDL_IRQ_PRIORITY_00);
+    NVIC_ClearPendingIRQ(irqConf.enIRQn);
+    NVIC_EnableIRQ(irqConf.enIRQn);
 
     TIMER4_CNT_ClearCountVal(M4_TMR42);
     TIMER4_CNT_Start(M4_TMR42);
