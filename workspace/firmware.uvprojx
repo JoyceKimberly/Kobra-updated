@@ -795,11 +795,6 @@
               <FilePath>..\Marlin\lib\cores\arduino\drivers\ots\ots.cpp</FilePath>
             </File>
             <File>
-              <FileName>bsp_wdt.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\bsp_wdt.cpp</FilePath>
-            </File>
-            <File>
               <FileName>bsp_rmu.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\lib\cores\arduino\drivers\bsp_rmu.cpp</FilePath>
@@ -1203,11 +1198,6 @@
               <FileName>flash.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\lib\cores\arduino\flash.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>iwdg.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\iwdg.cpp</FilePath>
             </File>
             <File>
               <FileName>Tone.cpp</FileName>
