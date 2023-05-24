@@ -4,10 +4,10 @@
 uint8_t g_uart2_rx_buf[128];
 uint8_t g_uart2_rx_index;
 
-extern HardwareSerial Serial1;
-extern HardwareSerial Serial2;
-extern HardwareSerial Serial3;
-extern HardwareSerial Serial4;
+extern HardwareSerial MSerial1;
+extern HardwareSerial MSerial2;
+extern HardwareSerial MSerial3;
+extern HardwareSerial MSerial4;
 
 //
 // USART1 callbacks
@@ -15,7 +15,7 @@ extern HardwareSerial Serial4;
 void Usart1RxIrqCallback(void)
 {
     uint8_t c = USART_RecData(M4_USART1);
-    Serial1._rx_complete_callback(c);
+    MSerial1._rx_complete_callback(c);
 //  RingBuf_Write(&Usart1RingBuf,(uint8_t)tmp);
 }
 
@@ -51,7 +51,7 @@ void Usart1TxCmpltIrqCallback(void)
 void Usart2RxIrqCallback(void)
 {
     uint8_t c = USART_RecData(M4_USART2);
-    Serial2._rx_complete_callback(c);
+    MSerial2._rx_complete_callback(c);
 
 //  RingBuf_Write(&Usart2RingBuf,(uint8_t)tmp);
 }
@@ -87,8 +87,8 @@ void Usart2TxCmpltIrqCallback(void)
 //
 void Usart3RxIrqCallback(void)
 {
-  uint8_t c = USART_RecData(M4_USART3);
-  Serial3._rx_complete_callback(c);
+    uint8_t c = USART_RecData(M4_USART3);
+    MSerial3._rx_complete_callback(c);
 //  RingBuf_Write(&Usart3RingBuf,(uint8_t)tmp);
 }
 
@@ -123,8 +123,8 @@ void Usart3TxCmpltIrqCallback(void)
 //
 void Usart4RxIrqCallback(void)
 {
-  uint8_t c = USART_RecData(M4_USART4);
-  Serial4._rx_complete_callback(c);
+    uint8_t c = USART_RecData(M4_USART4);
+    MSerial4._rx_complete_callback(c);
 //  RingBuf_Write(&Usart3RingBuf,(uint8_t)tmp);
 }
 

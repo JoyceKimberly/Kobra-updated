@@ -905,7 +905,7 @@ volatile bool Temperature::raw_temps_ready = false;
       }
 
       // Run HAL idle tasks
-      TERN_(HAL_IDLETASK, HAL_idletask()); // changed
+      hal.idletask();
 
       // Run UI update
       TERN(DWIN_CREALITY_LCD, DWIN_Update(), ui.update());

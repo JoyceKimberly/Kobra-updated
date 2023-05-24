@@ -4,7 +4,7 @@
 #include "../core_debug.h"
 #include "../core_hooks.h"
 #include "usart.h"
-#include "bsp_adc.h"
+#include "adc.h"
 #include "bsp_pwm.h"
 #include "bsp_sdio.h"
 #include "bsp_timer.h"

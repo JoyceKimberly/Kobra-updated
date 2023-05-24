@@ -183,7 +183,7 @@ void MarlinHAL::adc_init() {}
 
 void MarlinHAL::adc_enable(const pin_t pin)
 {
-    pinMode(pin, INPUT);
+    pinMode(pin, INPUT_ANALOG);
 }
 
 void MarlinHAL::adc_start(const pin_t pin)
@@ -208,7 +208,7 @@ bool MarlinHAL::adc_ready()
 
 uint16_t MarlinHAL::adc_value()
 {
-    return g_adc_value[g_adc_idx];
+    return MarlinHAL::adc_result;
 }
 
 void MarlinHAL::set_pwm_duty(const pin_t pin, const uint16_t v, const uint16_t a, const bool b)

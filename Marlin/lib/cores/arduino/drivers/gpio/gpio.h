@@ -58,10 +58,10 @@ extern "C"
 
 /*(defined(BOARD_USB_DISC_DEV) && defined(BOARD_USB_DISC_BIT))*/
 
-extern HardwareSerial Serial1;
-extern HardwareSerial Serial2;
-extern HardwareSerial Serial3;
-extern HardwareSerial Serial4;
+extern HardwareSerial MSerial1;
+extern HardwareSerial MSerial2;
+extern HardwareSerial MSerial3;
+extern HardwareSerial MSerial4;
 
 	//
 	// GPIO wrappers for PORT_*

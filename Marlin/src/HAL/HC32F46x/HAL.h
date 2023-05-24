@@ -52,7 +52,7 @@
 //
 // Serial Ports
 //
-#define _MSERIAL(X) Serial##X
+#define _MSERIAL(X) MSerial##X
 #define MSERIAL(X) _MSERIAL(X)
 #define NUM_UARTS 4
 

@@ -4,6 +4,10 @@
 
 void pinMode(uint32_t dwPin, uint32_t dwMode)
 {
+    if (dwPin >= BOARD_NR_GPIO_PINS)
+    {
+        return;
+    }
 
     // build pin configuration
     stc_port_init_t pinConf;

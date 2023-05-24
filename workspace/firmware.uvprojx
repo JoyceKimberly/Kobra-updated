@@ -775,11 +775,6 @@
               <FilePath>..\Marlin\lib\cores\arduino\main\init.cpp</FilePath>
             </File>
             <File>
-              <FileName>bsp_adc.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\adc\bsp_adc.cpp</FilePath>
-            </File>
-            <File>
               <FileName>bsp_pwm.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Marlin\lib\cores\arduino\drivers\bsp_pwm.cpp</FilePath>

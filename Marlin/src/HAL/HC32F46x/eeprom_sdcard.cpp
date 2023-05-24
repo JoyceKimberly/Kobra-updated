@@ -20,11 +20,12 @@
  *
  */
 
-#ifdef TARGET_HC32F46x
-
 /**
+ * HAL for stm32duino.com based on Libmaple and compatible (STM32F1)
  * Implementation of EEPROM settings in SD Card
  */
+
+#ifdef TARGET_HC32F46x
 
 #include "../../inc/MarlinConfig.h"
 
@@ -36,54 +37,85 @@
 #define EEPROM_FILENAME "eeprom.dat"
 
 #ifndef MARLIN_EEPROM_SIZE
-  #define MARLIN_EEPROM_SIZE 0x1000 // 4KB
+#define MARLIN_EEPROM_SIZE 0x1000 // 4KB
 #endif
-size_t PersistentStore::capacity() { return MARLIN_EEPROM_SIZE; }
 
-#define _ALIGN(x) __attribute__ ((aligned(x))) // SDIO uint32_t* compat.
+size_t PersistentStore::capacity()
+{
+  return MARLIN_EEPROM_SIZE;
+}
+
+#define _ALIGN(x) __attribute__((aligned(x)))
 static char _ALIGN(4) HAL_eeprom_data[MARLIN_EEPROM_SIZE];
 
-bool PersistentStore::access_start() {
-  if (!card.isMounted()) return false;
+bool PersistentStore::access_start()
+{
+  if (!card.isMounted())
+  {
+    return false;
+  }
 
-  MediaFile file, root = card.getroot();
+  SdFile file, root = card.getroot();
   if (!file.open(&root, EEPROM_FILENAME, O_RDONLY))
+  {
     return true; // false aborts the save
+  }
 
   int bytes_read = file.read(HAL_eeprom_data, MARLIN_EEPROM_SIZE);
-  if (bytes_read < 0) return false;
+  if (bytes_read < 0)
+  {
+    return false;
+  }
+
   for (; bytes_read < MARLIN_EEPROM_SIZE; bytes_read++)
+  {
     HAL_eeprom_data[bytes_read] = 0xFF;
+  }
+
   file.close();
   return true;
 }
 
-bool PersistentStore::access_finish() {
-  if (!card.isMounted()) return false;
+bool PersistentStore::access_finish()
+{
+  if (!card.isMounted())
+  {
+    return false;
+  }
 
-  MediaFile file, root = card.getroot();
+  SdFile file, root = card.getroot();
   int bytes_written = 0;
-  if (file.open(&root, EEPROM_FILENAME, O_CREAT | O_WRITE | O_TRUNC)) {
+  if (file.open(&root, EEPROM_FILENAME, O_CREAT | O_WRITE | O_TRUNC))
+  {
     bytes_written = file.write(HAL_eeprom_data, MARLIN_EEPROM_SIZE);
     file.close();
   }
+
   return (bytes_written == MARLIN_EEPROM_SIZE);
 }
 
-bool PersistentStore::write_data(int &pos, const uint8_t *value, size_t size, uint16_t *crc) {
+bool PersistentStore::write_data(int &pos, const uint8_t *value, size_t size, uint16_t *crc)
+{
   for (size_t i = 0; i < size; i++)
+  {
     HAL_eeprom_data[pos + i] = value[i];
+  }
+
   crc16(crc, value, size);
   pos += size;
   return false;
 }
 
-bool PersistentStore::read_data(int &pos, uint8_t *value, const size_t size, uint16_t *crc, const bool writing/*=true*/) {
-  for (size_t i = 0; i < size; i++) {
+bool PersistentStore::read_data(int &pos, uint8_t *value, const size_t size, uint16_t *crc, const bool writing /*=true*/)
+{
+  for (size_t i = 0; i < size; i++)
+  {
     uint8_t c = HAL_eeprom_data[pos + i];
-    if (writing) value[i] = c;
+    if (writing)
+      value[i] = c;
     crc16(crc, &c, 1);
   }
+
   pos += size;
   return false;
 }

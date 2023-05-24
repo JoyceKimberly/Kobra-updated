@@ -116,10 +116,10 @@ extern void setup_gpio(void )
     //PORT_InitGPIO(LED, &stcPortInit);
 }
 
-HardwareSerial Serial1(M4_USART1);
-HardwareSerial Serial2(M4_USART2);
-HardwareSerial Serial3(M4_USART3);
-HardwareSerial Serial4(M4_USART4);
+HardwareSerial MSerial1(M4_USART1);
+HardwareSerial MSerial2(M4_USART2);
+HardwareSerial MSerial3(M4_USART3);
+HardwareSerial MSerial4(M4_USART4);
 
 adc_dev adc1;
 struct adc_dev *ADC1;
