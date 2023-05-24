@@ -782,7 +782,7 @@ void idle(const bool no_stepper_sleep/*=false*/) {
   #endif
 
   // Run HAL idle tasks
-  TERN_(HAL_IDLETASK, HAL_idletask()); // changed
+  hal.idletask();
 
   // Check network connection
   TERN_(HAS_ETHERNET, ethernet.check());
@@ -802,7 +802,7 @@ void idle(const bool no_stepper_sleep/*=false*/) {
   TERN_(HAS_MEDIA, card.manage_media());
 
   // Handle USB Flash Drive insert / remove
-  TERN_(USB_FLASH_DRIVE_SUPPORT, Sd2Card::idle()); // changed
+  TERN_(USB_FLASH_DRIVE_SUPPORT, card.diskIODriver()->idle());
 
   // Announce Host Keepalive state (if any)
   TERN_(HOST_KEEPALIVE_FEATURE, gcode.host_keepalive());
@@ -1244,10 +1244,7 @@ void setup() {
     SETUP_RUN(disableStepperDrivers());
   #endif
 
-  #ifdef BOARD_INIT // changed
-    SETUP_LOG("BOARD_INIT"); // changed
-    BOARD_INIT(); // changed
-  #endif // changed
+  SETUP_RUN(hal.init_board());
 
   #if ENABLED(WIFISUPPORT)
     SETUP_RUN(esp_wifi_init());
