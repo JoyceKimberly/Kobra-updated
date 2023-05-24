@@ -24,6 +24,7 @@
 #include "../../inc/MarlinConfig.h"
 #include "../shared/Delay.h"
 #include "HAL.h"
+#include "hc32_ddl.h"
 #include "bsp_rmu.h"
 
 uint16_t HAL_adc_result;
@@ -34,42 +35,43 @@ uint16_t MarlinHAL::adc_result;
 // Watchdog Timer
 // ------------------------
 
+// pclk = system_clock/div4 = 50M
+// max cycle = 65536
+// max feed interval = 65536 / (50000000/8192) = 10.7s
+void MarlinHAL::watchdog_init()
+{
 #if ENABLED(USE_WATCHDOG)
+    stc_wdt_init_t wdtConf;
 
-  #include <iwdg.h>
+    /* configure structure initialization */
+    MEM_ZERO_STRUCT(wdtConf);
 
-  void watchdogSetup() {
-    // do whatever. don't remove this function.
-  }
+    wdtConf.enCountCycle = WdtCountCycle65536;
+    wdtConf.enClkDiv = WdtPclk3Div8192;
+    wdtConf.enRefreshRange = WdtRefresh100Pct;
+    wdtConf.enSleepModeCountEn = Disable;
+    wdtConf.enRequestType = WdtTriggerResetRequest;
+    WDT_Init(&wdtConf);
+    WDT_RefreshCounter();
+#endif
+}
 
-  /**
-   *  The watchdog clock is 40Khz. So for a 4s or 8s interval use a /256 preescaler and 625 or 1250 reload value (counts down to 0).
-   */
-  #define STM32F1_WD_RELOAD TERN(WATCHDOG_DURATION_8S, 1250, 625) // 4 or 8 second timeout
-
-  /**
-   * @brief  Initialize the independent hardware watchdog.
-   *
-   * @return No return
-   *
-   * @details The watchdog clock is 40Khz. So for a 4s or 8s interval use a /256 preescaler and 625 or 1250 reload value (counts down to 0).
-   */
-  void MarlinHAL::watchdog_init() {
-    #if DISABLED(DISABLE_WATCHDOG_INIT)
-      iwdg_init();
-    #endif
-  }
-
-  // Reset watchdog. MUST be called every 4 or 8 seconds after the
-  // first watchdog_init or the STM32F1 will reset.
-  void MarlinHAL::watchdog_refresh() {
+void MarlinHAL::watchdog_refresh()
+{
+#if ENABLED(USE_WATCHDOG)
     #if DISABLED(PINS_DEBUGGING) && PIN_EXISTS(LED)
       TOGGLE(LED_PIN);  // heartbeat indicator
     #endif
-    iwdg_feed();
-  }
 
+    en_result_t enRet = Error;
+    enRet = WDT_RefreshCounter();
+
+    if(enRet != Ok) {
+        printf("Failed at function: %s, line: %d\n", __FUNCTION__, __LINE__);
+    }
 #endif
+}
+
 void MarlinHAL::init()
 {
     // Ensure F_CPU is a constant expression.
@@ -140,15 +142,15 @@ uint8_t MarlinHAL::get_reset_source()
 }
 
 void MarlinHAL::clear_reset_source()
-{ rmu_clear_reset_cause(); }
+{
+    RMU_ClrResetFlag();
+}
 
 extern "C" {
   extern unsigned int _ebss; // end of bss section
 }
 
-// Init the AD in continuous capture mode
 void MarlinHAL::adc_init() {}
 
-// Reset the system to initiate a firmware flash
-void flashFirmware(const int16_t) { hal.reboot(); }
+void flashFirmware(const int16_t) { MarlinHAL::reboot(); }
 
