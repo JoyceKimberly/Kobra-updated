@@ -23,6 +23,7 @@
  ******************************************************************************/
 #include "hc32_ddl.h"
 #include "hc32f460_utility.h"
+#include "hc32f460_dmac.h"
 
 /* C binding of definitions if building with C++ compiler */
 #ifdef __cplusplus

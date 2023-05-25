@@ -39,10 +39,13 @@ void Usart1ErrIrqCallback(void)
 
 void Usart1TxIrqCallback(void)
 {
+	usart_tx_irq(USART1);
 }
 
 void Usart1TxCmpltIrqCallback(void)
 {
+	USART_FuncCmd(M4_USART1, UsartTxCmpltInt, Disable);
+	USART_FuncCmd(M4_USART1, UsartTx, Disable);
 }
 
 //
@@ -76,10 +79,13 @@ void Usart2ErrIrqCallback(void)
 
 void Usart2TxIrqCallback(void)
 {
+	usart_tx_irq(USART2);
 }
 
 void Usart2TxCmpltIrqCallback(void)
 {
+	USART_FuncCmd(M4_USART2, UsartTxCmpltInt, Disable);
+	USART_FuncCmd(M4_USART2, UsartTx, Disable);
 }
 
 //
@@ -112,10 +118,13 @@ void Usart3ErrIrqCallback(void)
 
 void Usart3TxIrqCallback(void)
 {
+	usart_tx_irq(USART3);
 }
 
 void Usart3TxCmpltIrqCallback(void)
 {
+	USART_FuncCmd(M4_USART3, UsartTxCmpltInt, Disable);
+	USART_FuncCmd(M4_USART3, UsartTx, Disable);
 }
 
 //
@@ -148,10 +157,13 @@ void Usart4ErrIrqCallback(void)
 
 void Usart4TxIrqCallback(void)
 {
+	usart_tx_irq(USART4);
 }
 
 void Usart4TxCmpltIrqCallback(void)
 {
+	USART_FuncCmd(M4_USART4, UsartTxCmpltInt, Disable);
+	USART_FuncCmd(M4_USART4, UsartTx, Disable);
 }
 
 //

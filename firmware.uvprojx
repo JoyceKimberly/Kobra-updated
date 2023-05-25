@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>firmware_Release</TargetName>
+      <TargetName>Release</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
@@ -21,9 +21,9 @@
           <Cpu>IRAM(0x1FFF8000,0x8000) IRAM2(0x20000000,0x10000) IROM(0x00000000,0x80000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD1FFF8000 -FC1000 -FN1 -FF0HC32F46x -FS00 -FL080000 -FP0(..\Marlin\lib\cores\ddl\common\Flash_HC32F46x.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD1FFF8000 -FC1000 -FN1 -FF0HC32F46x -FS00 -FL080000 -FP0(modified\Marlin\lib\cores\ddl\common\Flash_HC32F46x.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>..\Marlin\lib\cores\ddl\common\hc32f460.h</RegisterFile>
+          <RegisterFile>modified\Marlin\lib\cores\ddl\common\hc32f460.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -33,7 +33,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>..\Marlin\lib\cores\ddl\common\HDSC_HC32F460PETB.SFR</SFDFile>
+          <SFDFile>modified\Marlin\lib\cores\ddl\common\HDSC_HC32F460PETB.SFR</SFDFile>
           <bCustSvd>1</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -70,9 +70,9 @@
             <nStopU2X>0</nStopU2X>
           </BeforeCompile>
           <BeforeMake>
-            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
+            <UserProg1Name>py "pre-compile.py"</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -340,7 +340,7 @@
               <MiscControls>--gnu --diag_suppress=186,66 --cpp11 --multifile</MiscControls>
               <Define>BOARD_F_CPU=84000000,HC32F460,TARGET_HC32F46x,STM32F4xx,USE_DEVICE_DRIVER_LIB,__TARGET_FPU_VFP,__FPU_PRESENT=1,__CC_ARM,ARM_MATH_CM4,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING,__MPU_PRESENT=1,STM32_HIGH_DENSITY,ARDUINO_ARCH_STM32F1,ARDUINO_ARCH_STM32,REDIRECT_PRINTF_TO_SERIAL,ARDUINO=100,__STDC_CONSTANT_MACROS,__STDC_LIMIT_MACROS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Marlin;..\Marlin\lib\component\adc;..\Marlin\lib\component\i2c;..\Marlin\lib\component\sdio;..\Marlin\lib\middleware\sd_card\inc;..\Marlin\lib\component\spi;..\Marlin\lib\component\uart;..\Marlin\lib\libraries\Utility;..\Marlin\lib\cores\arduino\drivers;..\Marlin\lib\cores\ddl\library;..\Marlin\lib\cores\ddl\library\inc;..\Marlin\lib\cores\arduino;..\Marlin\lib\usb;..\Marlin\lib\variants;..\Marlin\lib\main;..\Marlin\lib\cores\ddl;..\Marlin\lib\libraries\SoftwareSerial;..\Marlin\lib\libraries\TMCStepper;..\Marlin\lib\libraries\TMCStepper\source;..\Marlin\lib\cores\arduino\drivers;..\Marlin\lib\libraries\FatFs;..\Marlin\src;..\Marlin\src\core;..\Marlin\src\lcd;..\Marlin\src\feature;..\Marlin\src\feature\bedlevel;..\Marlin\src\feature\bedlevel\abl;..\Marlin\src\feature\bedlevel\mbl;..\Marlin\src\feature\bedlevel\ubl;..\Marlin\src\gcode;..\Marlin\src\HAL;..\Marlin\src\HAL\shared;..\Marlin\src\HAL\shared\backtrace;..\Marlin\src\HAL\HC32F46x;..\Marlin\src\HAL\HC32F46x\tft;..\Marlin\src\HAL\HC32F46x\inc;..\Marlin\src\inc;..\Marlin\src\lcd\language;..\Marlin\src\libs;..\Marlin\src\pins;..\Marlin\src\pins\hc32f46x;..\Marlin\src\lcd\extui;..\Marlin\src\lcd\extui\anycubic_kobra;..\Marlin\src\module;..\Marlin\src\module\stepper;..\Marlin\src\module\stepper\source;..\Marlin\src\module\thermistor;..\Marlin\src\sd;..\Marlin\lib\cores\arduino\avr;..\Marlin\lib\variants\generic_hc32f460;..\Marlin\lib\cores\ddl\cmsis;..\Marlin\lib\cores\arduino\series;..\Marlin\lib\cores\arduino\drivers;..\Marlin\lib\cores\arduino\drivers\adc;..\Marlin\lib\cores\arduino\drivers\gpio;..\Marlin\lib\cores\ddl\addon;..\Marlin\lib\cores\arduino\drivers\ots;..\Marlin\lib\cores\arduino\drivers\usart;..\Marlin\lib\cores\ddl\common;..\Marlin\lib\cores\ddl\startup;..\Marlin\lib\cores\arduino\main;..\Marlin\lib\cores\arduino\drivers\sysclock;..\Marlin\lib\libraries\SPI</IncludePath>
+              <IncludePath>modified\Marlin;modified\Marlin\lib\component\adc;modified\Marlin\lib\component\i2c;modified\Marlin\lib\component\sdio;modified\Marlin\lib\middleware\sd_card\inc;modified\Marlin\lib\component\spi;modified\Marlin\lib\component\uart;modified\Marlin\lib\libraries\Utility;modified\Marlin\lib\cores\arduino\drivers;modified\Marlin\lib\cores\ddl\library;modified\Marlin\lib\cores\ddl\library\inc;modified\Marlin\lib\cores\arduino;modified\Marlin\lib\usb;modified\Marlin\lib\variants;modified\Marlin\lib\main;modified\Marlin\lib\cores\ddl;modified\Marlin\lib\libraries\SoftwareSerial;modified\Marlin\lib\libraries\TMCStepper;modified\Marlin\lib\libraries\TMCStepper\source;modified\Marlin\lib\cores\arduino\drivers;modified\Marlin\lib\libraries\FatFs;modified\Marlin\src;modified\Marlin\src\core;modified\Marlin\src\lcd;modified\Marlin\src\feature;modified\Marlin\src\feature\bedlevel;modified\Marlin\src\feature\bedlevel\abl;modified\Marlin\src\feature\bedlevel\mbl;modified\Marlin\src\feature\bedlevel\ubl;modified\Marlin\src\gcode;modified\Marlin\src\HAL;modified\Marlin\src\HAL\shared;modified\Marlin\src\HAL\shared\backtrace;modified\Marlin\src\HAL\HC32F46x;modified\Marlin\src\HAL\HC32F46x\tft;modified\Marlin\src\HAL\HC32F46x\inc;modified\Marlin\src\inc;modified\Marlin\src\lcd\language;modified\Marlin\src\libs;modified\Marlin\src\pins;modified\Marlin\src\pins\hc32f46x;modified\Marlin\src\lcd\extui;modified\Marlin\src\lcd\extui\anycubic_kobra;modified\Marlin\src\module;modified\Marlin\src\module\stepper;modified\Marlin\src\module\stepper\source;modified\Marlin\src\module\thermistor;modified\Marlin\src\sd;modified\Marlin\lib\cores\arduino\avr;modified\Marlin\lib\variants\generic_hc32f460;modified\Marlin\lib\cores\ddl\cmsis;modified\Marlin\lib\cores\arduino\series;modified\Marlin\lib\cores\arduino\drivers;modified\Marlin\lib\cores\arduino\drivers\adc;modified\Marlin\lib\cores\arduino\drivers\gpio;modified\Marlin\lib\cores\ddl\addon;modified\Marlin\lib\cores\arduino\drivers\ots;modified\Marlin\lib\cores\arduino\drivers\usart;modified\Marlin\lib\cores\ddl\common;modified\Marlin\lib\cores\ddl\startup;modified\Marlin\lib\cores\arduino\main;modified\Marlin\lib\cores\arduino\drivers\sysclock;modified\Marlin\lib\libraries\SPI</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -387,37 +387,37 @@
             <File>
               <FileName>startup_hc32f460.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\startup\startup_hc32f460.s</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\startup\startup_hc32f460.s</FilePath>
             </File>
             <File>
               <FileName>system_hc32f460.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\common\system_hc32f460.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\common\system_hc32f460.c</FilePath>
             </File>
             <File>
               <FileName>gpio.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\gpio\gpio.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\drivers\gpio\gpio.cpp</FilePath>
             </File>
             <File>
               <FileName>systick.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\sysclock\systick.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\drivers\sysclock\systick.cpp</FilePath>
             </File>
             <File>
               <FileName>adc.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\adc\adc.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\drivers\adc\adc.cpp</FilePath>
             </File>
             <File>
               <FileName>board_sdio.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\board_sdio.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\drivers\board_sdio.cpp</FilePath>
             </File>
             <File>
               <FileName>startup.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\main\startup.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\main\startup.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -427,207 +427,207 @@
             <File>
               <FileName>hc32f460_adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_adc.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_adc.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_aes.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_aes.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_aes.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_can.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_can.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_can.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_clk.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_clk.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_clk.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_cmp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_cmp.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_cmp.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_crc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_crc.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_crc.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_dcu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_dcu.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_dcu.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_dmac.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_dmac.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_dmac.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_efm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_efm.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_efm.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_emb.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_emb.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_emb.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_event_port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_event_port.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_event_port.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_exint_nmi_swi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_exint_nmi_swi.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_exint_nmi_swi.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_gpio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_gpio.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_gpio.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_hash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_hash.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_hash.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_i2c.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_i2c.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_i2c.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_i2s.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_i2s.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_i2s.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_icg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_icg.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_icg.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_interrupts.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_interrupts.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_interrupts.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_keyscan.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_keyscan.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_keyscan.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_mpu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_mpu.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_mpu.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_ots.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_ots.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_ots.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_pwc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_pwc.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_pwc.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_qspi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_qspi.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_qspi.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_rmu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_rmu.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_rmu.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_rtc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_rtc.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_rtc.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_sdioc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_sdioc.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_sdioc.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_spi.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_spi.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_sram.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_sram.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_sram.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_swdt.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_swdt.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_swdt.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer0.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_timer0.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_timer0.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer4_cnt.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_timer4_cnt.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_timer4_cnt.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer4_emb.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_timer4_emb.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_timer4_emb.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer4_oco.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_timer4_oco.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_timer4_oco.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer4_pwm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_timer4_pwm.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_timer4_pwm.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer4_sevt.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_timer4_sevt.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_timer4_sevt.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timer6.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_timer6.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_timer6.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_timera.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_timera.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_timera.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_trng.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_trng.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_trng.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_usart.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_usart.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_wdt.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_wdt.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_wdt.c</FilePath>
             </File>
             <File>
               <FileName>hc32f460_utility.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\library\src\hc32f460_utility.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\library\src\hc32f460_utility.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -637,72 +637,72 @@
             <File>
               <FileName>cmsis_armcc.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\cmsis_armcc.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\cmsis_armcc.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_armclang.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\cmsis_armclang.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\cmsis_armclang.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_compiler.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\cmsis_compiler.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\cmsis_compiler.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_gcc.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\cmsis_gcc.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\cmsis_gcc.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_version.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\cmsis_version.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\cmsis_version.h</FilePath>
             </File>
             <File>
               <FileName>core_cm4.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\core_cm4.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\core_cm4.h</FilePath>
             </File>
             <File>
               <FileName>mpu_armv7.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\mpu_armv7.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\mpu_armv7.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_iccarm.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\cmsis_iccarm.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\cmsis_iccarm.h</FilePath>
             </File>
             <File>
               <FileName>core_cm0.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\core_cm0.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\core_cm0.h</FilePath>
             </File>
             <File>
               <FileName>core_cm0plus.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\core_cm0plus.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\core_cm0plus.h</FilePath>
             </File>
             <File>
               <FileName>core_cm3.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\core_cm3.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\core_cm3.h</FilePath>
             </File>
             <File>
               <FileName>core_cm7.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\core_cm7.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\core_cm7.h</FilePath>
             </File>
             <File>
               <FileName>mpu_armv8.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\mpu_armv8.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\mpu_armv8.h</FilePath>
             </File>
             <File>
               <FileName>tz_context.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\ddl\cmsis\tz_context.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\ddl\cmsis\tz_context.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -712,57 +712,57 @@
             <File>
               <FileName>HardwareSerial.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\HardwareSerial.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\HardwareSerial.cpp</FilePath>
             </File>
             <File>
               <FileName>Print.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\Print.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\Print.cpp</FilePath>
             </File>
             <File>
               <FileName>Stream.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\Stream.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\Stream.cpp</FilePath>
             </File>
             <File>
               <FileName>WString.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\WString.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\WString.cpp</FilePath>
             </File>
             <File>
               <FileName>Printable.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\Printable.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\Printable.h</FilePath>
             </File>
             <File>
               <FileName>itoa.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\itoa.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\itoa.c</FilePath>
             </File>
             <File>
               <FileName>main.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\main\main.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\main\main.cpp</FilePath>
             </File>
             <File>
               <FileName>WMath.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\WMath.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\WMath.cpp</FilePath>
             </File>
             <File>
               <FileName>RingBuffer.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\RingBuffer.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\RingBuffer.cpp</FilePath>
             </File>
             <File>
               <FileName>usart.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\usart\usart.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\drivers\usart\usart.cpp</FilePath>
             </File>
             <File>
               <FileName>usart_devices.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\usart\usart_devices.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\drivers\usart\usart_devices.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -772,27 +772,27 @@
             <File>
               <FileName>init.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\main\init.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\main\init.cpp</FilePath>
             </File>
             <File>
               <FileName>bsp_pwm.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\bsp_pwm.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\drivers\bsp_pwm.cpp</FilePath>
             </File>
             <File>
               <FileName>bsp_sdio.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\bsp_sdio.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\drivers\bsp_sdio.cpp</FilePath>
             </File>
             <File>
               <FileName>bsp_timer.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\bsp_timer.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\drivers\bsp_timer.cpp</FilePath>
             </File>
             <File>
               <FileName>ots.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\drivers\ots\ots.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\drivers\ots\ots.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -802,7 +802,7 @@
             <File>
               <FileName>SoftwareSerial.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\SoftwareSerial\SoftwareSerial.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\SoftwareSerial\SoftwareSerial.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -812,132 +812,132 @@
             <File>
               <FileName>CHOPCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\CHOPCONF.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\CHOPCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>COOLCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\COOLCONF.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\COOLCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>DRV_CONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\DRV_CONF.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\DRV_CONF.cpp</FilePath>
             </File>
             <File>
               <FileName>DRV_STATUS.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\DRV_STATUS.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\DRV_STATUS.cpp</FilePath>
             </File>
             <File>
               <FileName>DRVCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\DRVCONF.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\DRVCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>DRVCTRL.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\DRVCTRL.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\DRVCTRL.cpp</FilePath>
             </File>
             <File>
               <FileName>DRVSTATUS.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\DRVSTATUS.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\DRVSTATUS.cpp</FilePath>
             </File>
             <File>
               <FileName>ENCMODE.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\ENCMODE.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\ENCMODE.cpp</FilePath>
             </File>
             <File>
               <FileName>GCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\GCONF.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\GCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>IHOLD_IRUN.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\IHOLD_IRUN.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\IHOLD_IRUN.cpp</FilePath>
             </File>
             <File>
               <FileName>PWMCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\PWMCONF.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\PWMCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>RAMP_STAT.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\RAMP_STAT.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\RAMP_STAT.cpp</FilePath>
             </File>
             <File>
               <FileName>SERIAL_SWITCH.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\SERIAL_SWITCH.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\SERIAL_SWITCH.cpp</FilePath>
             </File>
             <File>
               <FileName>SERIAL_SWITCH.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\SERIAL_SWITCH.h</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\SERIAL_SWITCH.h</FilePath>
             </File>
             <File>
               <FileName>SGCSCONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\SGCSCONF.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\SGCSCONF.cpp</FilePath>
             </File>
             <File>
               <FileName>SHORT_CONF.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\SHORT_CONF.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\SHORT_CONF.cpp</FilePath>
             </File>
             <File>
               <FileName>SMARTEN.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\SMARTEN.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\SMARTEN.cpp</FilePath>
             </File>
             <File>
               <FileName>SW_MODE.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\SW_MODE.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\SW_MODE.cpp</FilePath>
             </File>
             <File>
               <FileName>SW_SPI.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\SW_SPI.h</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\SW_SPI.h</FilePath>
             </File>
             <File>
               <FileName>TMC_MACROS.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\TMC_MACROS.h</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\TMC_MACROS.h</FilePath>
             </File>
             <File>
               <FileName>TMC_platforms.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\TMC_platforms.h</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\TMC_platforms.h</FilePath>
             </File>
             <File>
               <FileName>TMC2208_bitfields.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\TMC2208_bitfields.h</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\TMC2208_bitfields.h</FilePath>
             </File>
             <File>
               <FileName>TMC2208Stepper.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\TMC2208Stepper.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\TMC2208Stepper.cpp</FilePath>
             </File>
             <File>
               <FileName>TMC2209_bitfields.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\TMC2209_bitfields.h</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\TMC2209_bitfields.h</FilePath>
             </File>
             <File>
               <FileName>TMC2209Stepper.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\TMC2209Stepper.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\TMC2209Stepper.cpp</FilePath>
             </File>
             <File>
               <FileName>TMCStepper.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\libraries\TMCStepper\source\TMCStepper.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\TMCStepper\source\TMCStepper.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -947,27 +947,27 @@
             <File>
               <FileName>diskio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\libraries\FatFs\diskio.c</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\FatFs\diskio.c</FilePath>
             </File>
             <File>
               <FileName>ff.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\libraries\FatFs\ff.c</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\FatFs\ff.c</FilePath>
             </File>
             <File>
               <FileName>ffconf.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\libraries\FatFs\ffconf.h</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\FatFs\ffconf.h</FilePath>
             </File>
             <File>
               <FileName>ffsystem.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\libraries\FatFs\ffsystem.c</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\FatFs\ffsystem.c</FilePath>
             </File>
             <File>
               <FileName>ffunicode.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\libraries\FatFs\ffunicode.c</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\FatFs\ffunicode.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -977,17 +977,17 @@
             <File>
               <FileName>sd_card.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\middleware\sd_card\src\sd_card.c</FilePath>
+              <FilePath>modified\Marlin\lib\middleware\sd_card\src\sd_card.c</FilePath>
             </File>
             <File>
               <FileName>sdmmc_cmd.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\middleware\sd_card\src\sdmmc_cmd.c</FilePath>
+              <FilePath>modified\Marlin\lib\middleware\sd_card\src\sdmmc_cmd.c</FilePath>
             </File>
             <File>
               <FileName>rtdef.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\libraries\Utility\rtdef.h</FilePath>
+              <FilePath>modified\Marlin\lib\libraries\Utility\rtdef.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -997,22 +997,22 @@
             <File>
               <FileName>Configuration.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\Configuration.h</FilePath>
+              <FilePath>modified\Marlin\Configuration.h</FilePath>
             </File>
             <File>
               <FileName>Configuration_adv.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\Configuration_adv.h</FilePath>
+              <FilePath>modified\Marlin\Configuration_adv.h</FilePath>
             </File>
             <File>
               <FileName>Version.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\inc\Version.h</FilePath>
+              <FilePath>modified\Marlin\src\inc\Version.h</FilePath>
             </File>
             <File>
               <FileName>MarlinCore.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\MarlinCore.cpp</FilePath>
+              <FilePath>modified\Marlin\src\MarlinCore.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1022,97 +1022,97 @@
             <File>
               <FileName>marlinui.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\marlinui.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\marlinui.cpp</FilePath>
             </File>
             <File>
               <FileName>ui_api.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\ui_api.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\ui_api.cpp</FilePath>
             </File>
             <File>
               <FileName>lcdprint.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\lcdprint.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\lcdprint.cpp</FilePath>
             </File>
             <File>
               <FileName>utf8.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\utf8.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\utf8.cpp</FilePath>
             </File>
             <File>
               <FileName>dgus_reloaded_extui.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\dgus_reloaded_extui.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\dgus_reloaded_extui.cpp</FilePath>
             </File>
             <File>
               <FileName>DGUSScreenHandler.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\DGUSScreenHandler.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\DGUSScreenHandler.cpp</FilePath>
             </File>
             <File>
               <FileName>DGUSSetupHandler.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\DGUSSetupHandler.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\DGUSSetupHandler.cpp</FilePath>
             </File>
             <File>
               <FileName>DGUSDisplay.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\DGUSDisplay.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\DGUSDisplay.cpp</FilePath>
             </File>
             <File>
               <FileName>DGUS_ScreenAddrList.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\definition\DGUS_ScreenAddrList.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\definition\DGUS_ScreenAddrList.cpp</FilePath>
             </File>
             <File>
               <FileName>DGUS_ScreenSetup.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\definition\DGUS_ScreenSetup.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\definition\DGUS_ScreenSetup.cpp</FilePath>
             </File>
             <File>
               <FileName>DGUS_VPList.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\definition\DGUS_VPList.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\definition\DGUS_VPList.cpp</FilePath>
             </File>
             <File>
               <FileName>DGUS_VP.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\definition\DGUS_VP.h</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\definition\DGUS_VP.h</FilePath>
             </File>
             <File>
               <FileName>DGUSRxHandler.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\DGUSRxHandler.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\DGUSRxHandler.cpp</FilePath>
             </File>
             <File>
               <FileName>DGUSTxHandler.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\DGUSTxHandler.cpp</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\DGUSTxHandler.cpp</FilePath>
             </File>
             <File>
               <FileName>DGUS_Addr.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Addr.h</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Addr.h</FilePath>
             </File>
             <File>
               <FileName>DGUS_Constants.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Constants.h</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Constants.h</FilePath>
             </File>
             <File>
               <FileName>DGUS_Control.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Control.h</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Control.h</FilePath>
             </File>
             <File>
               <FileName>DGUS_Data.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Data.h</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Data.h</FilePath>
             </File>
             <File>
               <FileName>DGUS_Screen.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Screen.h</FilePath>
+              <FilePath>modified\Marlin\src\lcd\extui\dgus_reloaded\config\DGUS_Screen.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1122,82 +1122,82 @@
             <File>
               <FileName>utility.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\core\utility.cpp</FilePath>
+              <FilePath>modified\Marlin\src\core\utility.cpp</FilePath>
             </File>
             <File>
               <FileName>serial.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\core\serial.cpp</FilePath>
+              <FilePath>modified\Marlin\src\core\serial.cpp</FilePath>
             </File>
             <File>
               <FileName>serial.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\serial.h</FilePath>
+              <FilePath>modified\Marlin\src\core\serial.h</FilePath>
             </File>
             <File>
               <FileName>serial_hook.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\serial_hook.h</FilePath>
+              <FilePath>modified\Marlin\src\core\serial_hook.h</FilePath>
             </File>
             <File>
               <FileName>serial_base.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\serial_base.h</FilePath>
+              <FilePath>modified\Marlin\src\core\serial_base.h</FilePath>
             </File>
             <File>
               <FileName>language.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\language.h</FilePath>
+              <FilePath>modified\Marlin\src\core\language.h</FilePath>
             </File>
             <File>
               <FileName>types.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\types.h</FilePath>
+              <FilePath>modified\Marlin\src\core\types.h</FilePath>
             </File>
             <File>
               <FileName>boards.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\boards.h</FilePath>
+              <FilePath>modified\Marlin\src\core\boards.h</FilePath>
             </File>
             <File>
               <FileName>multi_language.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\multi_language.h</FilePath>
+              <FilePath>modified\Marlin\src\core\multi_language.h</FilePath>
             </File>
             <File>
               <FileName>debug_out.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\debug_out.h</FilePath>
+              <FilePath>modified\Marlin\src\core\debug_out.h</FilePath>
             </File>
             <File>
               <FileName>drivers.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\drivers.h</FilePath>
+              <FilePath>modified\Marlin\src\core\drivers.h</FilePath>
             </File>
             <File>
               <FileName>millis_t.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\millis_t.h</FilePath>
+              <FilePath>modified\Marlin\src\core\millis_t.h</FilePath>
             </File>
             <File>
               <FileName>debug_section.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\core\debug_section.h</FilePath>
+              <FilePath>modified\Marlin\src\core\debug_section.h</FilePath>
             </File>
             <File>
               <FileName>wiring_digital.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\wiring_digital.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\wiring_digital.cpp</FilePath>
             </File>
             <File>
               <FileName>flash.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\flash.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\flash.cpp</FilePath>
             </File>
             <File>
               <FileName>Tone.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\Tone.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\Tone.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1207,67 +1207,67 @@
             <File>
               <FileName>bedlevel.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\bedlevel\bedlevel.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\bedlevel\bedlevel.cpp</FilePath>
             </File>
             <File>
               <FileName>babystep.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\babystep.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\babystep.cpp</FilePath>
             </File>
             <File>
               <FileName>controllerfan.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\controllerfan.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\controllerfan.cpp</FilePath>
             </File>
             <File>
               <FileName>e_parser.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\e_parser.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\e_parser.cpp</FilePath>
             </File>
             <File>
               <FileName>fwretract.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\fwretract.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\fwretract.cpp</FilePath>
             </File>
             <File>
               <FileName>pause.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\pause.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\pause.cpp</FilePath>
             </File>
             <File>
               <FileName>power_monitor.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\power_monitor.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\power_monitor.cpp</FilePath>
             </File>
             <File>
               <FileName>repeat.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\repeat.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\repeat.cpp</FilePath>
             </File>
             <File>
               <FileName>tmc_util.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\tmc_util.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\tmc_util.cpp</FilePath>
             </File>
             <File>
               <FileName>z_stepper_align.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\z_stepper_align.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\z_stepper_align.cpp</FilePath>
             </File>
             <File>
               <FileName>bbl.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\bedlevel\abl\bbl.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\bedlevel\abl\bbl.cpp</FilePath>
             </File>
             <File>
               <FileName>backlash.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\backlash.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\backlash.cpp</FilePath>
             </File>
             <File>
               <FileName>host_actions.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\feature\host_actions.cpp</FilePath>
+              <FilePath>modified\Marlin\src\feature\host_actions.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1277,862 +1277,862 @@
             <File>
               <FileName>G29.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\bedlevel\abl\G29.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\bedlevel\abl\G29.cpp</FilePath>
             </File>
             <File>
               <FileName>M421.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\bedlevel\abl\M421.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\bedlevel\abl\M421.cpp</FilePath>
             </File>
             <File>
               <FileName>G26.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\bedlevel\G26.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\bedlevel\G26.cpp</FilePath>
             </File>
             <File>
               <FileName>G35.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\bedlevel\G35.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\bedlevel\G35.cpp</FilePath>
             </File>
             <File>
               <FileName>G42.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\bedlevel\G42.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\bedlevel\G42.cpp</FilePath>
             </File>
             <File>
               <FileName>M420.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\bedlevel\M420.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\bedlevel\M420.cpp</FilePath>
             </File>
             <File>
               <FileName>G28.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\G28.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\G28.cpp</FilePath>
             </File>
             <File>
               <FileName>G33.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\G33.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\G33.cpp</FilePath>
             </File>
             <File>
               <FileName>G34.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\G34.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\G34.cpp</FilePath>
             </File>
             <File>
               <FileName>G34_M422.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\G34_M422.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\G34_M422.cpp</FilePath>
             </File>
             <File>
               <FileName>G425.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\G425.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\G425.cpp</FilePath>
             </File>
             <File>
               <FileName>M12.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\M12.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\M12.cpp</FilePath>
             </File>
             <File>
               <FileName>M48.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\M48.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\M48.cpp</FilePath>
             </File>
             <File>
               <FileName>M100.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\M100.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\M100.cpp</FilePath>
             </File>
             <File>
               <FileName>M425.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\M425.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\M425.cpp</FilePath>
             </File>
             <File>
               <FileName>M665.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\M665.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\M665.cpp</FilePath>
             </File>
             <File>
               <FileName>M666.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\M666.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\M666.cpp</FilePath>
             </File>
             <File>
               <FileName>M852.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\M852.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\M852.cpp</FilePath>
             </File>
             <File>
               <FileName>M43.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M43.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M43.cpp</FilePath>
             </File>
             <File>
               <FileName>M92.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M92.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M92.cpp</FilePath>
             </File>
             <File>
               <FileName>M200-M205.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M200-M205.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M200-M205.cpp</FilePath>
             </File>
             <File>
               <FileName>M217.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M217.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M217.cpp</FilePath>
             </File>
             <File>
               <FileName>M218.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M218.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M218.cpp</FilePath>
             </File>
             <File>
               <FileName>M220.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M220.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M220.cpp</FilePath>
             </File>
             <File>
               <FileName>M221.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M221.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M221.cpp</FilePath>
             </File>
             <File>
               <FileName>M281.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M281.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M281.cpp</FilePath>
             </File>
             <File>
               <FileName>M301.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M301.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M301.cpp</FilePath>
             </File>
             <File>
               <FileName>M302.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M302.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M302.cpp</FilePath>
             </File>
             <File>
               <FileName>M304.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M304.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M304.cpp</FilePath>
             </File>
             <File>
               <FileName>M305.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M305.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M305.cpp</FilePath>
             </File>
             <File>
               <FileName>M540.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M540.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M540.cpp</FilePath>
             </File>
             <File>
               <FileName>M575.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M575.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M575.cpp</FilePath>
             </File>
             <File>
               <FileName>M672.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M672.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M672.cpp</FilePath>
             </File>
             <File>
               <FileName>M3-M5.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M3-M5.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M3-M5.cpp</FilePath>
             </File>
             <File>
               <FileName>M7-M9.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M7-M9.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M7-M9.cpp</FilePath>
             </File>
             <File>
               <FileName>M17_M18_M84.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M17_M18_M84.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M17_M18_M84.cpp</FilePath>
             </File>
             <File>
               <FileName>M42.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M42.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M42.cpp</FilePath>
             </File>
             <File>
               <FileName>M80_M81.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M80_M81.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M80_M81.cpp</FilePath>
             </File>
             <File>
               <FileName>M85.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M85.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M85.cpp</FilePath>
             </File>
             <File>
               <FileName>M108_M112_M410.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M108_M112_M410.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M108_M112_M410.cpp</FilePath>
             </File>
             <File>
               <FileName>M111.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M111.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M111.cpp</FilePath>
             </File>
             <File>
               <FileName>M120_M121.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M120_M121.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M120_M121.cpp</FilePath>
             </File>
             <File>
               <FileName>M211.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M211.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M211.cpp</FilePath>
             </File>
             <File>
               <FileName>M226.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M226.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M226.cpp</FilePath>
             </File>
             <File>
               <FileName>M280.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M280.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M280.cpp</FilePath>
             </File>
             <File>
               <FileName>M350_M351.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M350_M351.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M350_M351.cpp</FilePath>
             </File>
             <File>
               <FileName>M380_M381.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M380_M381.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M380_M381.cpp</FilePath>
             </File>
             <File>
               <FileName>M605.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M605.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M605.cpp</FilePath>
             </File>
             <File>
               <FileName>M993_M994.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M993_M994.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M993_M994.cpp</FilePath>
             </File>
             <File>
               <FileName>M997.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M997.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M997.cpp</FilePath>
             </File>
             <File>
               <FileName>M999.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M999.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M999.cpp</FilePath>
             </File>
             <File>
               <FileName>M500-M504.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\eeprom\M500-M504.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\eeprom\M500-M504.cpp</FilePath>
             </File>
             <File>
               <FileName>M552-M554.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\network\M552-M554.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\network\M552-M554.cpp</FilePath>
             </File>
             <File>
               <FileName>G27.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\pause\G27.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\pause\G27.cpp</FilePath>
             </File>
             <File>
               <FileName>G60.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\pause\G60.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\pause\G60.cpp</FilePath>
             </File>
             <File>
               <FileName>G61.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\pause\G61.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\pause\G61.cpp</FilePath>
             </File>
             <File>
               <FileName>M125.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\pause\M125.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\pause\M125.cpp</FilePath>
             </File>
             <File>
               <FileName>M600.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\pause\M600.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\pause\M600.cpp</FilePath>
             </File>
             <File>
               <FileName>M603.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\pause\M603.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\pause\M603.cpp</FilePath>
             </File>
             <File>
               <FileName>M701_M702.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\pause\M701_M702.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\pause\M701_M702.cpp</FilePath>
             </File>
             <File>
               <FileName>M430.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\power_monitor\M430.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\power_monitor\M430.cpp</FilePath>
             </File>
             <File>
               <FileName>M122.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\trinamic\M122.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\trinamic\M122.cpp</FilePath>
             </File>
             <File>
               <FileName>M569.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\trinamic\M569.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\trinamic\M569.cpp</FilePath>
             </File>
             <File>
               <FileName>M906.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\trinamic\M906.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\trinamic\M906.cpp</FilePath>
             </File>
             <File>
               <FileName>M911-M914.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\trinamic\M911-M914.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\trinamic\M911-M914.cpp</FilePath>
             </File>
             <File>
               <FileName>G17-G19.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\geometry\G17-G19.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\geometry\G17-G19.cpp</FilePath>
             </File>
             <File>
               <FileName>G53-G59.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\geometry\G53-G59.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\geometry\G53-G59.cpp</FilePath>
             </File>
             <File>
               <FileName>G92.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\geometry\G92.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\geometry\G92.cpp</FilePath>
             </File>
             <File>
               <FileName>M206_M428.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\geometry\M206_M428.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\geometry\M206_M428.cpp</FilePath>
             </File>
             <File>
               <FileName>M16.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\host\M16.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\host\M16.cpp</FilePath>
             </File>
             <File>
               <FileName>M110.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\host\M110.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\host\M110.cpp</FilePath>
             </File>
             <File>
               <FileName>M113.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\host\M113.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\host\M113.cpp</FilePath>
             </File>
             <File>
               <FileName>M114.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\host\M114.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\host\M114.cpp</FilePath>
             </File>
             <File>
               <FileName>M115.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\host\M115.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\host\M115.cpp</FilePath>
             </File>
             <File>
               <FileName>M118.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\host\M118.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\host\M118.cpp</FilePath>
             </File>
             <File>
               <FileName>M119.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\host\M119.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\host\M119.cpp</FilePath>
             </File>
             <File>
               <FileName>M360.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\host\M360.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\host\M360.cpp</FilePath>
             </File>
             <File>
               <FileName>M876.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\host\M876.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\host\M876.cpp</FilePath>
             </File>
             <File>
               <FileName>M0_M1.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\lcd\M0_M1.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\lcd\M0_M1.cpp</FilePath>
             </File>
             <File>
               <FileName>M73.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\lcd\M73.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\lcd\M73.cpp</FilePath>
             </File>
             <File>
               <FileName>M117.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\lcd\M117.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\lcd\M117.cpp</FilePath>
             </File>
             <File>
               <FileName>M145.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\lcd\M145.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\lcd\M145.cpp</FilePath>
             </File>
             <File>
               <FileName>M250.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\lcd\M250.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\lcd\M250.cpp</FilePath>
             </File>
             <File>
               <FileName>M300.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\lcd\M300.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\lcd\M300.cpp</FilePath>
             </File>
             <File>
               <FileName>M995.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\lcd\M995.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\lcd\M995.cpp</FilePath>
             </File>
             <File>
               <FileName>G0_G1.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\motion\G0_G1.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\motion\G0_G1.cpp</FilePath>
             </File>
             <File>
               <FileName>G2_G3.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\motion\G2_G3.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\motion\G2_G3.cpp</FilePath>
             </File>
             <File>
               <FileName>G4.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\motion\G4.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\motion\G4.cpp</FilePath>
             </File>
             <File>
               <FileName>G5.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\motion\G5.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\motion\G5.cpp</FilePath>
             </File>
             <File>
               <FileName>G6.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\motion\G6.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\motion\G6.cpp</FilePath>
             </File>
             <File>
               <FileName>G80.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\motion\G80.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\motion\G80.cpp</FilePath>
             </File>
             <File>
               <FileName>M290.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\motion\M290.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\motion\M290.cpp</FilePath>
             </File>
             <File>
               <FileName>G30.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\probe\G30.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\probe\G30.cpp</FilePath>
             </File>
             <File>
               <FileName>G31_G32.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\probe\G31_G32.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\probe\G31_G32.cpp</FilePath>
             </File>
             <File>
               <FileName>G38.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\probe\G38.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\probe\G38.cpp</FilePath>
             </File>
             <File>
               <FileName>M401_M402.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\probe\M401_M402.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\probe\M401_M402.cpp</FilePath>
             </File>
             <File>
               <FileName>M851.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\probe\M851.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\probe\M851.cpp</FilePath>
             </File>
             <File>
               <FileName>M951.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\probe\M951.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\probe\M951.cpp</FilePath>
             </File>
             <File>
               <FileName>M20.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M20.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M20.cpp</FilePath>
             </File>
             <File>
               <FileName>M21_M22.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M21_M22.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M21_M22.cpp</FilePath>
             </File>
             <File>
               <FileName>M23.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M23.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M23.cpp</FilePath>
             </File>
             <File>
               <FileName>M24_M25.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M24_M25.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M24_M25.cpp</FilePath>
             </File>
             <File>
               <FileName>M26.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M26.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M26.cpp</FilePath>
             </File>
             <File>
               <FileName>M27.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M27.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M27.cpp</FilePath>
             </File>
             <File>
               <FileName>M28_M29.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M28_M29.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M28_M29.cpp</FilePath>
             </File>
             <File>
               <FileName>M30.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M30.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M30.cpp</FilePath>
             </File>
             <File>
               <FileName>M32.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M32.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M32.cpp</FilePath>
             </File>
             <File>
               <FileName>M33.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M33.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M33.cpp</FilePath>
             </File>
             <File>
               <FileName>M34.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M34.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M34.cpp</FilePath>
             </File>
             <File>
               <FileName>M524.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M524.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M524.cpp</FilePath>
             </File>
             <File>
               <FileName>M808.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M808.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M808.cpp</FilePath>
             </File>
             <File>
               <FileName>M928.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M928.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M928.cpp</FilePath>
             </File>
             <File>
               <FileName>M1001.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\sd\M1001.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\sd\M1001.cpp</FilePath>
             </File>
             <File>
               <FileName>M31.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\stats\M31.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\stats\M31.cpp</FilePath>
             </File>
             <File>
               <FileName>M75-M78.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\stats\M75-M78.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\stats\M75-M78.cpp</FilePath>
             </File>
             <File>
               <FileName>M104_M109.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\temp\M104_M109.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\temp\M104_M109.cpp</FilePath>
             </File>
             <File>
               <FileName>M105.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\temp\M105.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\temp\M105.cpp</FilePath>
             </File>
             <File>
               <FileName>M106_M107.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\temp\M106_M107.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\temp\M106_M107.cpp</FilePath>
             </File>
             <File>
               <FileName>M140_M190.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\temp\M140_M190.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\temp\M140_M190.cpp</FilePath>
             </File>
             <File>
               <FileName>M141_M191.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\temp\M141_M191.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\temp\M141_M191.cpp</FilePath>
             </File>
             <File>
               <FileName>M155.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\temp\M155.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\temp\M155.cpp</FilePath>
             </File>
             <File>
               <FileName>M303.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\temp\M303.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\temp\M303.cpp</FilePath>
             </File>
             <File>
               <FileName>G20_G21.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\units\G20_G21.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\units\G20_G21.cpp</FilePath>
             </File>
             <File>
               <FileName>M82_M83.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\units\M82_M83.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\units\M82_M83.cpp</FilePath>
             </File>
             <File>
               <FileName>M149.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\units\M149.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\units\M149.cpp</FilePath>
             </File>
             <File>
               <FileName>gcode.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\gcode.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\gcode.cpp</FilePath>
             </File>
             <File>
               <FileName>gcode_d.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\gcode_d.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\gcode_d.cpp</FilePath>
             </File>
             <File>
               <FileName>parser.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\parser.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\parser.cpp</FilePath>
             </File>
             <File>
               <FileName>queue.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\queue.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\queue.cpp</FilePath>
             </File>
             <File>
               <FileName>M710.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\controllerfan\M710.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\controllerfan\M710.cpp</FilePath>
             </File>
             <File>
               <FileName>M900.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\advance\M900.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\advance\M900.cpp</FilePath>
             </File>
             <File>
               <FileName>G10_G11.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\fwretract\G10_G11.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\fwretract\G10_G11.cpp</FilePath>
             </File>
             <File>
               <FileName>M207-M209.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\fwretract\M207-M209.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\fwretract\M207-M209.cpp</FilePath>
             </File>
             <File>
               <FileName>M593.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\input_shaping\M593.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\input_shaping\M593.cpp</FilePath>
             </File>
             <File>
               <FileName>M360-M364.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\scara\M360-M364.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\scara\M360-M364.cpp</FilePath>
             </File>
             <File>
               <FileName>T.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\T.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\T.cpp</FilePath>
             </File>
             <File>
               <FileName>M123.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\temp\M123.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\temp\M123.cpp</FilePath>
             </File>
             <File>
               <FileName>M143_M193.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\temp\M143_M193.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\temp\M143_M193.cpp</FilePath>
             </File>
             <File>
               <FileName>M192.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\temp\M192.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\temp\M192.cpp</FilePath>
             </File>
             <File>
               <FileName>M306.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\temp\M306.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\temp\M306.cpp</FilePath>
             </File>
             <File>
               <FileName>M102.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\probe\M102.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\probe\M102.cpp</FilePath>
             </File>
             <File>
               <FileName>M423.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\probe\M423.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\probe\M423.cpp</FilePath>
             </File>
             <File>
               <FileName>M255.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\lcd\M255.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\lcd\M255.cpp</FilePath>
             </File>
             <File>
               <FileName>M256.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\lcd\M256.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\lcd\M256.cpp</FilePath>
             </File>
             <File>
               <FileName>M414.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\lcd\M414.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\lcd\M414.cpp</FilePath>
             </File>
             <File>
               <FileName>M154.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\host\M154.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\host\M154.cpp</FilePath>
             </File>
             <File>
               <FileName>M10-M11.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M10-M11.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M10-M11.cpp</FilePath>
             </File>
             <File>
               <FileName>M282.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\control\M282.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\control\M282.cpp</FilePath>
             </File>
             <File>
               <FileName>M309.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\config\M309.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\config\M309.cpp</FilePath>
             </File>
             <File>
               <FileName>G76_M871.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\calibrate\G76_M871.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\calibrate\G76_M871.cpp</FilePath>
             </File>
             <File>
               <FileName>M919.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\trinamic\M919.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\trinamic\M919.cpp</FilePath>
             </File>
             <File>
               <FileName>M412.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\runout\M412.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\runout\M412.cpp</FilePath>
             </File>
             <File>
               <FileName>M403.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\prusa_MMU2\M403.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\prusa_MMU2\M403.cpp</FilePath>
             </File>
             <File>
               <FileName>M413.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\powerloss\M413.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\powerloss\M413.cpp</FilePath>
             </File>
             <File>
               <FileName>M1000.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\powerloss\M1000.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\powerloss\M1000.cpp</FilePath>
             </File>
             <File>
               <FileName>M510-M512.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\password\M510-M512.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\password\M510-M512.cpp</FilePath>
             </File>
             <File>
               <FileName>M163-M165.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\mixing\M163-M165.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\mixing\M163-M165.cpp</FilePath>
             </File>
             <File>
               <FileName>M166.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\mixing\M166.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\mixing\M166.cpp</FilePath>
             </File>
             <File>
               <FileName>M810-M819.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\macro\M810-M819.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\macro\M810-M819.cpp</FilePath>
             </File>
             <File>
               <FileName>M150.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\leds\M150.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\leds\M150.cpp</FilePath>
             </File>
             <File>
               <FileName>M7219.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\leds\M7219.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\leds\M7219.cpp</FilePath>
             </File>
             <File>
               <FileName>M260_M261.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\i2c\M260_M261.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\i2c\M260_M261.cpp</FilePath>
             </File>
             <File>
               <FileName>M404-M407.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\filwidth\M404-M407.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\filwidth\M404-M407.cpp</FilePath>
             </File>
             <File>
               <FileName>M907-M910.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\digipot\M907-M910.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\digipot\M907-M910.cpp</FilePath>
             </File>
             <File>
               <FileName>G12.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\clean\G12.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\clean\G12.cpp</FilePath>
             </File>
             <File>
               <FileName>M355.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\caselight\M355.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\caselight\M355.cpp</FilePath>
             </File>
             <File>
               <FileName>M486.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\cancel\M486.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\cancel\M486.cpp</FilePath>
             </File>
             <File>
               <FileName>M240.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\camera\M240.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\camera\M240.cpp</FilePath>
             </File>
             <File>
               <FileName>M126-M129.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\baricuda\M126-M129.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\baricuda\M126-M129.cpp</FilePath>
             </File>
             <File>
               <FileName>M3426.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\adc\M3426.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\adc\M3426.cpp</FilePath>
             </File>
             <File>
               <FileName>M493.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\feature\ft_motion\M493.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\feature\ft_motion\M493.cpp</FilePath>
             </File>
             <File>
               <FileName>M400.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\gcode\motion\M400.cpp</FilePath>
+              <FilePath>modified\Marlin\src\gcode\motion\M400.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -2142,107 +2142,107 @@
             <File>
               <FileName>eeprom_api.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\HAL\shared\eeprom_api.cpp</FilePath>
+              <FilePath>modified\Marlin\src\HAL\shared\eeprom_api.cpp</FilePath>
             </File>
             <File>
               <FileName>Marduino.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\shared\Marduino.h</FilePath>
+              <FilePath>modified\Marlin\src\HAL\shared\Marduino.h</FilePath>
             </File>
             <File>
               <FileName>math_32bit.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\shared\math_32bit.h</FilePath>
+              <FilePath>modified\Marlin\src\HAL\shared\math_32bit.h</FilePath>
             </File>
             <File>
               <FileName>eeprom_flash.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\eeprom_flash.cpp</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\eeprom_flash.cpp</FilePath>
             </File>
             <File>
               <FileName>eeprom_sdcard.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\eeprom_sdcard.cpp</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\eeprom_sdcard.cpp</FilePath>
             </File>
             <File>
               <FileName>endstop_interrupts.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\endstop_interrupts.h</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\endstop_interrupts.h</FilePath>
             </File>
             <File>
               <FileName>HAL.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\HAL.cpp</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\HAL.cpp</FilePath>
             </File>
             <File>
               <FileName>spi_pins.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\spi_pins.h</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\spi_pins.h</FilePath>
             </File>
             <File>
               <FileName>timers.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\timers.cpp</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\timers.cpp</FilePath>
             </File>
             <File>
               <FileName>Conditionals_adv.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\inc\Conditionals_adv.h</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\inc\Conditionals_adv.h</FilePath>
             </File>
             <File>
               <FileName>Conditionals_LCD.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\inc\Conditionals_LCD.h</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\inc\Conditionals_LCD.h</FilePath>
             </File>
             <File>
               <FileName>Conditionals_post.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\inc\Conditionals_post.h</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\inc\Conditionals_post.h</FilePath>
             </File>
             <File>
               <FileName>SanityCheck.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\inc\SanityCheck.h</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\inc\SanityCheck.h</FilePath>
             </File>
             <File>
               <FileName>platforms.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\platforms.h</FilePath>
+              <FilePath>modified\Marlin\src\HAL\platforms.h</FilePath>
             </File>
             <File>
               <FileName>sdio.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\sdio.cpp</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\sdio.cpp</FilePath>
             </File>
             <File>
               <FileName>fastio.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\fastio.cpp</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\fastio.cpp</FilePath>
             </File>
             <File>
               <FileName>Delay.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\HAL\shared\Delay.cpp</FilePath>
+              <FilePath>modified\Marlin\src\HAL\shared\Delay.cpp</FilePath>
             </File>
             <File>
               <FileName>eeprom_if.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\shared\eeprom_if.h</FilePath>
+              <FilePath>modified\Marlin\src\HAL\shared\eeprom_if.h</FilePath>
             </File>
             <File>
               <FileName>progmem.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\HAL\shared\progmem.h</FilePath>
+              <FilePath>modified\Marlin\src\HAL\shared\progmem.h</FilePath>
             </File>
             <File>
               <FileName>MinSerial.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\HAL\shared\MinSerial.cpp</FilePath>
+              <FilePath>modified\Marlin\src\HAL\shared\MinSerial.cpp</FilePath>
             </File>
             <File>
               <FileName>HAL_SPI.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\HAL\HC32F46x\HAL_SPI.cpp</FilePath>
+              <FilePath>modified\Marlin\src\HAL\HC32F46x\HAL_SPI.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -2252,37 +2252,37 @@
             <File>
               <FileName>Conditionals_adv.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\inc\Conditionals_adv.h</FilePath>
+              <FilePath>modified\Marlin\src\inc\Conditionals_adv.h</FilePath>
             </File>
             <File>
               <FileName>Conditionals_LCD.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\inc\Conditionals_LCD.h</FilePath>
+              <FilePath>modified\Marlin\src\inc\Conditionals_LCD.h</FilePath>
             </File>
             <File>
               <FileName>Conditionals_post.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\inc\Conditionals_post.h</FilePath>
+              <FilePath>modified\Marlin\src\inc\Conditionals_post.h</FilePath>
             </File>
             <File>
               <FileName>MarlinConfig.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\inc\MarlinConfig.h</FilePath>
+              <FilePath>modified\Marlin\src\inc\MarlinConfig.h</FilePath>
             </File>
             <File>
               <FileName>MarlinConfigPre.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\inc\MarlinConfigPre.h</FilePath>
+              <FilePath>modified\Marlin\src\inc\MarlinConfigPre.h</FilePath>
             </File>
             <File>
               <FileName>SanityCheck.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\inc\SanityCheck.h</FilePath>
+              <FilePath>modified\Marlin\src\inc\SanityCheck.h</FilePath>
             </File>
             <File>
               <FileName>Version.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\inc\Version.h</FilePath>
+              <FilePath>modified\Marlin\src\inc\Version.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2292,72 +2292,72 @@
             <File>
               <FileName>bresenham.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\bresenham.h</FilePath>
+              <FilePath>modified\Marlin\src\libs\bresenham.h</FilePath>
             </File>
             <File>
               <FileName>buzzer.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\libs\buzzer.cpp</FilePath>
+              <FilePath>modified\Marlin\src\libs\buzzer.cpp</FilePath>
             </File>
             <File>
               <FileName>circularqueue.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\circularqueue.h</FilePath>
+              <FilePath>modified\Marlin\src\libs\circularqueue.h</FilePath>
             </File>
             <File>
               <FileName>crc16.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\libs\crc16.cpp</FilePath>
+              <FilePath>modified\Marlin\src\libs\crc16.cpp</FilePath>
             </File>
             <File>
               <FileName>duration_t.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\duration_t.h</FilePath>
+              <FilePath>modified\Marlin\src\libs\duration_t.h</FilePath>
             </File>
             <File>
               <FileName>hex_print.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\libs\hex_print.cpp</FilePath>
+              <FilePath>modified\Marlin\src\libs\hex_print.cpp</FilePath>
             </File>
             <File>
               <FileName>nozzle.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\libs\nozzle.cpp</FilePath>
+              <FilePath>modified\Marlin\src\libs\nozzle.cpp</FilePath>
             </File>
             <File>
               <FileName>numtostr.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\libs\numtostr.cpp</FilePath>
+              <FilePath>modified\Marlin\src\libs\numtostr.cpp</FilePath>
             </File>
             <File>
               <FileName>private_spi.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\private_spi.h</FilePath>
+              <FilePath>modified\Marlin\src\libs\private_spi.h</FilePath>
             </File>
             <File>
               <FileName>softspi.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\libs\softspi.h</FilePath>
+              <FilePath>modified\Marlin\src\libs\softspi.h</FilePath>
             </File>
             <File>
               <FileName>stopwatch.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\libs\stopwatch.cpp</FilePath>
+              <FilePath>modified\Marlin\src\libs\stopwatch.cpp</FilePath>
             </File>
             <File>
               <FileName>vector_3.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\libs\vector_3.cpp</FilePath>
+              <FilePath>modified\Marlin\src\libs\vector_3.cpp</FilePath>
             </File>
             <File>
               <FileName>dtostrf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\avr\dtostrf.c</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\avr\dtostrf.c</FilePath>
             </File>
             <File>
               <FileName>pgmspace.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\lib\cores\arduino\avr\pgmspace.h</FilePath>
+              <FilePath>modified\Marlin\lib\cores\arduino\avr\pgmspace.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2367,77 +2367,77 @@
             <File>
               <FileName>indirection.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\stepper\indirection.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\stepper\indirection.cpp</FilePath>
             </File>
             <File>
               <FileName>trinamic.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\stepper\trinamic.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\stepper\trinamic.cpp</FilePath>
             </File>
             <File>
               <FileName>endstops.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\endstops.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\endstops.cpp</FilePath>
             </File>
             <File>
               <FileName>motion.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\motion.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\motion.cpp</FilePath>
             </File>
             <File>
               <FileName>planner.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\planner.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\planner.cpp</FilePath>
             </File>
             <File>
               <FileName>printcounter.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\printcounter.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\printcounter.cpp</FilePath>
             </File>
             <File>
               <FileName>probe.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\probe.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\probe.cpp</FilePath>
             </File>
             <File>
               <FileName>settings.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\settings.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\settings.cpp</FilePath>
             </File>
             <File>
               <FileName>stepper.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\stepper.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\stepper.cpp</FilePath>
             </File>
             <File>
               <FileName>temperature.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\temperature.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\temperature.cpp</FilePath>
             </File>
             <File>
               <FileName>tool_change.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\tool_change.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\tool_change.cpp</FilePath>
             </File>
             <File>
               <FileName>speed_lookuptable.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\stepper\speed_lookuptable.h</FilePath>
+              <FilePath>modified\Marlin\src\module\stepper\speed_lookuptable.h</FilePath>
             </File>
             <File>
               <FileName>thermistors.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\thermistor\thermistors.h</FilePath>
+              <FilePath>modified\Marlin\src\module\thermistor\thermistors.h</FilePath>
             </File>
             <File>
               <FileName>ft_motion.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\module\ft_motion.cpp</FilePath>
+              <FilePath>modified\Marlin\src\module\ft_motion.cpp</FilePath>
             </File>
             <File>
               <FileName>ft_types.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\module\ft_types.h</FilePath>
+              <FilePath>modified\Marlin\src\module\ft_types.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2447,32 +2447,32 @@
             <File>
               <FileName>pins.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\pins\pins.h</FilePath>
+              <FilePath>modified\Marlin\src\pins\pins.h</FilePath>
             </File>
             <File>
               <FileName>sensitive_pins.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\pins\sensitive_pins.h</FilePath>
+              <FilePath>modified\Marlin\src\pins\sensitive_pins.h</FilePath>
             </File>
             <File>
               <FileName>pinsDebug.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\pins\pinsDebug.h</FilePath>
+              <FilePath>modified\Marlin\src\pins\pinsDebug.h</FilePath>
             </File>
             <File>
               <FileName>pinsDebug_list.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\pins\pinsDebug_list.h</FilePath>
+              <FilePath>modified\Marlin\src\pins\pinsDebug_list.h</FilePath>
             </File>
             <File>
               <FileName>pins_postprocess.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\pins\pins_postprocess.h</FilePath>
+              <FilePath>modified\Marlin\src\pins\pins_postprocess.h</FilePath>
             </File>
             <File>
               <FileName>pins_AC_TRI_F1_V1.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\pins\hc32f46x\pins_AC_TRI_F1_V1.h</FilePath>
+              <FilePath>modified\Marlin\src\pins\hc32f46x\pins_AC_TRI_F1_V1.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2482,42 +2482,42 @@
             <File>
               <FileName>cardreader.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\sd\cardreader.cpp</FilePath>
+              <FilePath>modified\Marlin\src\sd\cardreader.cpp</FilePath>
             </File>
             <File>
               <FileName>SdBaseFile.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\sd\SdBaseFile.cpp</FilePath>
+              <FilePath>modified\Marlin\src\sd\SdBaseFile.cpp</FilePath>
             </File>
             <File>
               <FileName>SdFatConfig.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\sd\SdFatConfig.h</FilePath>
+              <FilePath>modified\Marlin\src\sd\SdFatConfig.h</FilePath>
             </File>
             <File>
               <FileName>SdFatStructs.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\sd\SdFatStructs.h</FilePath>
+              <FilePath>modified\Marlin\src\sd\SdFatStructs.h</FilePath>
             </File>
             <File>
               <FileName>SdFatUtil.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\sd\SdFatUtil.cpp</FilePath>
+              <FilePath>modified\Marlin\src\sd\SdFatUtil.cpp</FilePath>
             </File>
             <File>
               <FileName>SdFile.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\sd\SdFile.cpp</FilePath>
+              <FilePath>modified\Marlin\src\sd\SdFile.cpp</FilePath>
             </File>
             <File>
               <FileName>SdInfo.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Marlin\src\sd\SdInfo.h</FilePath>
+              <FilePath>modified\Marlin\src\sd\SdInfo.h</FilePath>
             </File>
             <File>
               <FileName>SdVolume.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\sd\SdVolume.cpp</FilePath>
+              <FilePath>modified\Marlin\src\sd\SdVolume.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -2527,17 +2527,17 @@
             <File>
               <FileName>marlin_tests.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\src\tests\marlin_tests.cpp</FilePath>
+              <FilePath>modified\Marlin\src\tests\marlin_tests.cpp</FilePath>
             </File>
             <File>
               <FileName>app_fatfs_test.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\app\app_fatfs_test.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\app\app_fatfs_test.cpp</FilePath>
             </File>
             <File>
               <FileName>app_sserial_test.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Marlin\lib\app\app_sserial_test.cpp</FilePath>
+              <FilePath>modified\Marlin\lib\app\app_sserial_test.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -2552,7 +2552,7 @@
       </filter>
       <package name="HC32F460" schemaVersion="1.3" url="https://raw.githubusercontent.com/hdscmcu/pack/master/" vendor="HDSC" version="1.0.9">
         <targetInfos>
-          <targetInfo name="firmware_Release" versionMatchMode="fixed"/>
+          <targetInfo name="Release" versionMatchMode="fixed"/>
         </targetInfos>
       </package>
     </packages>
