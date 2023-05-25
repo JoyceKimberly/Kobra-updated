@@ -174,16 +174,16 @@ xyz_pos_t cartes;
  */
 #if HAS_POSITION_SHIFT
   // The distance that XYZ has been offset by G92. Reset by G28.
-  xyz_pos_t position_shift={0}; // changed
+  xyz_pos_t position_shift{0};
 #endif
 #if HAS_HOME_OFFSET
   // This offset is added to the configured home position.
   // Set by M206, M428, or menu item. Saved to EEPROM.
-  xyz_pos_t home_offset={0}; // changed
+  xyz_pos_t home_offset{0};
 #endif
 #if HAS_HOME_OFFSET && HAS_POSITION_SHIFT
   // The above two are combined to save on computes
-  xyz_pos_t workspace_offset={0}; // changed
+  xyz_pos_t workspace_offset{0};
 #endif
 
 #if HAS_ABL_NOT_UBL
@@ -955,7 +955,7 @@ void restore_feedrate_and_scaling() {
         // For now, we don't limit POLAR
       #else
         // SCARA needs to consider the angle of the arm through the entire move, so for now use no tool offset.
-        constexpr xy_pos_t offs={0}; // changed
+        constexpr xy_pos_t offs{0};
       #endif
 
       #if ENABLED(POLARGRAPH)
@@ -1914,7 +1914,7 @@ void prepare_line_to_destination() {
       planner.set_machine_position_mm(target);  // Update the machine position
 
       #if HAS_DIST_MM_ARG
-        const xyze_float_t cart_dist_mm={0}; // changed
+        const xyze_float_t cart_dist_mm{0};
       #endif
 
       // Set delta/cartesian axes directly

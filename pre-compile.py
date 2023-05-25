@@ -5,7 +5,11 @@ dest = 'modified'
 list = [
   "backlash.cpp", 
   "M17_M18_M84.cpp",
-  "gcode.cpp"
+  "gcode.cpp",
+  "stepper.cpp",
+  "settings.cpp",
+  "motion.cpp",
+  "planner.cpp"
 ]
 
 for root, dirs, files in os.walk(path):
@@ -23,7 +27,8 @@ for root, dirs, files in os.walk(path):
         if file.name in list:
           with open(os.path.join(dest, file.path), mode="r+") as content:
             lines = content.read()
-            lines = re.sub(r'([A-Za-z])({)', r'\1 = \2', lines)
+            #lines = re.sub(r'([A-Za-z])({)', r'\1 = \2', lines)
+            lines = re.sub(r'(\b(?!do|while|else|struct|\)|=|\"\b)\w+)({)', r'\1 = \2', lines)
             content.seek(0)
             content.write(lines)
             content.close()
@@ -34,6 +39,17 @@ for root, dirs, files in os.walk(path):
             lines = content.read()
             lines = lines.replace("static constexpr uint8_t output[] =", "static constexpr uint8_t output =")
             lines = lines.replace("#define _OUT_MASK(N) | output[N]", "#define _OUT_MASK(N) | output")
+            content.seek(0)
+            content.write(lines)
+            content.close()
+            print("Modified: " + os.path.join(dest, file.path))
+
+        if file.name == "macros.h":
+          with open(os.path.join(dest, file.path), mode="r+") as content:
+            lines = content.read()
+            lines = lines.replace("static constexpr void NOLESS", "static inline void NOLESS")
+            lines = lines.replace("static constexpr void NOMORE", "static inline void NOMORE")
+            lines = lines.replace("static constexpr void LIMIT", "static inline void LIMIT")
             content.seek(0)
             content.write(lines)
             content.close()
@@ -89,11 +105,16 @@ for root, dirs, files in os.walk(path):
         if file.name == "stepper.cpp":
           with open(os.path.join(dest, file.path), mode="r+") as content:
             lines = content.read()
-            lines = lines.replace("delta_error{", "delta_error = {")
-            lines = lines.replace("xyze_long_t Stepper::advance_dividend{", "xyze_ulong_t Stepper::advance_dividend = {")
-            lines = lines.replace("count_position{", "count_position = {")
-            lines = lines.replace("count_direction{", "count_direction = {")
-            lines = lines.replace("step_needed{", "step_needed = {")
+            lines = lines.replace("xyze_long_t Stepper::advance_dividend", "xyze_ulong_t Stepper::advance_dividend")
+            content.seek(0)
+            content.write(lines)
+            content.close()
+            print("Modified: " + os.path.join(dest, file.path))
+
+        if file.name == "G30.cpp" or file.name == "M114.cpp":
+          with open(os.path.join(dest, file.path), mode="r+") as content:
+            lines = content.read()
+            lines = lines.replace(".asLogical()", "")
             content.seek(0)
             content.write(lines)
             content.close()

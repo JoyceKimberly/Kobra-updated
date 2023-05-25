@@ -957,7 +957,7 @@ void MarlinSettings::postprocess() {
         EEPROM_WRITE(bedlevel.grid_spacing);
         EEPROM_WRITE(bedlevel.grid_start);
       #else
-        const xy_pos_t bilinear_grid_spacing={0}, bilinear_start={0}; // changed
+        const xy_pos_t bilinear_grid_spacing{0}, bilinear_start{0};
         EEPROM_WRITE(bilinear_grid_spacing);
         EEPROM_WRITE(bilinear_start);
       #endif
@@ -1269,7 +1269,7 @@ void MarlinSettings::postprocess() {
     {
       _FIELD_TEST(tmc_stepper_current);
 
-      per_stepper_uint16_t tmc_stepper_current={0}; // changed
+      per_stepper_uint16_t tmc_stepper_current{0};
 
       #if HAS_TRINAMIC_CONFIG
         #if AXIS_IS_TMC(X)
@@ -1349,7 +1349,7 @@ void MarlinSettings::postprocess() {
       _FIELD_TEST(tmc_hybrid_threshold);
 
       #if ENABLED(HYBRID_THRESHOLD)
-        per_stepper_uint32_t tmc_hybrid_threshold={0}; // changed
+        per_stepper_uint32_t tmc_hybrid_threshold{0};
         TERN_(X_HAS_STEALTHCHOP,  tmc_hybrid_threshold.X =  stepperX.get_pwm_thrs());
         TERN_(Y_HAS_STEALTHCHOP,  tmc_hybrid_threshold.Y =  stepperY.get_pwm_thrs());
         TERN_(Z_HAS_STEALTHCHOP,  tmc_hybrid_threshold.Z =  stepperZ.get_pwm_thrs());
@@ -1388,7 +1388,7 @@ void MarlinSettings::postprocess() {
     // TMC StallGuard threshold
     //
     {
-      mot_stepper_int16_t tmc_sgt={0}; // changed
+      mot_stepper_int16_t tmc_sgt{0};
       #if USE_SENSORLESS
         NUM_AXIS_CODE(
           TERN_(X_SENSORLESS, tmc_sgt.X = stepperX.homing_threshold()),
@@ -1521,7 +1521,7 @@ void MarlinSettings::postprocess() {
         LOOP_NUM_AXES(axis) backlash_distance_mm[axis] = backlash.get_distance_mm((AxisEnum)axis);
         const uint8_t backlash_correction = backlash.get_correction_uint8();
       #else
-        const xyz_float_t backlash_distance_mm={0}; // changed
+        const xyz_float_t backlash_distance_mm{0};
         const uint8_t backlash_correction = 0;
       #endif
       #if ENABLED(BACKLASH_GCODE) && defined(BACKLASH_SMOOTHING_MM)
