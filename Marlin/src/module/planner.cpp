@@ -212,7 +212,7 @@ float Planner::mm_per_step[DISTINCT_AXES];      // (mm) Millimeters per step
 
 // private:
 
-xyze_long_t Planner::position{0};
+xyze_long_t Planner::position={0}; // changed
 
 uint32_t Planner::acceleration_long_cutoff;
 
