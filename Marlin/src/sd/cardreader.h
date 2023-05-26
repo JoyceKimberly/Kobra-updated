@@ -83,9 +83,9 @@ public:
   // Fast! binary file transfer
   #if ENABLED(BINARY_FILE_TRANSFER)
     #if HAS_MULTI_SERIAL
-      static int8_t transfer_port_index;
+      static serial_index_t transfer_port_index;
     #else
-      static constexpr int8_t transfer_port_index = 0;
+      static constexpr serial_index_t transfer_port_index = 0;
     #endif
   #endif
 
@@ -215,7 +215,7 @@ public:
   static void setIndex(const uint32_t index)      { file.seekSet((sdpos = index)); }
 
   // TODO: rename to diskIODriver()
-  static Sd2Card& getSd2Card() { return sd2card; }
+  static DiskIODriver& getSd2Card() { return driver; }
 
   #if ENABLED(AUTO_REPORT_SD_STATUS)
     //
@@ -288,8 +288,8 @@ private:
 
   #endif // SDCARD_SORT_ALPHA
 
-  static Sd2Card sd2card;
-  static SdVolume volume;
+  static DiskIODriver driver;
+  static MarlinVolume volume;
   static MediaFile file;
 
   static uint32_t filesize, // Total size of the current file, in bytes
@@ -322,7 +322,7 @@ private:
 };
 
 #if ENABLED(USB_FLASH_DRIVE_SUPPORT)
-  #define IS_SD_INSERTED() Sd2Card::isInserted()
+  #define IS_SD_INSERTED() DiskIODriver_USBFlash::isInserted()
 #elif HAS_SD_DETECT
   #define IS_SD_INSERTED() (READ(SD_DETECT_PIN) == SD_DETECT_STATE)
 #else

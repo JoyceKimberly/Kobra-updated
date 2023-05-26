@@ -1442,9 +1442,9 @@ void MarlinUI::init() {
   #if ENABLED(EXTENSIBLE_UI)
     #include "extui/ui_api.h"
   #endif
-/*
+
   bool MarlinUI::has_status() { return (status_message[0] != '\0'); }
-//*/
+
   void MarlinUI::set_status(const char * const cstr, const bool persist) {
     if (alert_level) return;
 
@@ -1475,7 +1475,7 @@ void MarlinUI::init() {
   /**
    * Reset the status message
    */
-/*
+
   void MarlinUI::reset_status(const bool no_welcome) {
     #if SERVICE_INTERVAL_1 > 0
       static PGMSTR(service1, "> " SERVICE_NAME_1 "!");
@@ -1516,7 +1516,7 @@ void MarlinUI::init() {
 
     set_status(msg, -1);
   }
-//*/
+
   /**
    * Set Status with a fixed string and alert level.
    * @param fstr  A constant F-string to set as the status.
@@ -1552,13 +1552,13 @@ void MarlinUI::init() {
 
     finish_status(level > 0);
   }
-/*
+
   void MarlinUI::set_alert_status(FSTR_P const fstr) {
     set_status(fstr, 1);
     TERN_(HAS_TOUCH_SLEEP, wakeup_screen());
     TERN_(HAS_MARLINUI_MENU, return_to_status());
   }
-//*/
+
   #include <stdarg.h>
 
   void MarlinUI::status_printf(int8_t level, FSTR_P const fmt, ...) {
@@ -1654,7 +1654,7 @@ void MarlinUI::init() {
   #if HAS_MEDIA
     extern bool wait_for_user, wait_for_heatup;
   #endif
-/*
+
   void MarlinUI::abort_print() {
     #if HAS_MEDIA
       wait_for_heatup = wait_for_user = false;
@@ -1669,7 +1669,7 @@ void MarlinUI::init() {
     TERN_(HAS_MARLINUI_MENU, return_to_status());
     TERN_(DWIN_LCD_PROUI, HMI_flag.abort_flag = true);
   }
-//*/
+
   #if BOTH(HAS_MARLINUI_MENU, PSU_CONTROL)
 
     void MarlinUI::poweroff() {

@@ -22,7 +22,6 @@ Unfortunately I cannot give any promises or guarantees, I just have my one print
 - Make MarlinSerial work
 - Completely redo kobra extui and dgus so it makes sense
 - Find a way to get rid of having to use uVision/ARMCC to compile
-- Update SD. This is the only folder that's relatively unchanged, as I figured that as long as it works, doesn't matter much :P
 
 # Credits
 The following sources have been invaluable 

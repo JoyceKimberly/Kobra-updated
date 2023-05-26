@@ -49,8 +49,6 @@
   #include "e3v2/proui/dwin.h"
 #endif
 
-#include "../MarlinCore.h" // for printingIsPaused
-
 #define START_OF_UTF8_CHAR(C) (((C) & 0xC0u) != 0x80U)
 
 typedef bool (*statusResetFunc_t)();
@@ -382,61 +380,13 @@ public:
       static char* status_and_len(uint8_t &len);
     #endif
 
-    static bool has_status() {
-      static char status_message[MAX_MESSAGE_LENGTH + 1];
-      return (
-        status_message[0] != '\0'
-      ); 
-    }
-    static void reset_status(const bool no_welcome=false) {
-    #if SERVICE_INTERVAL_1 > 0
-      static PGMSTR(service1, "> " SERVICE_NAME_1 "!");
-    #endif
-    #if SERVICE_INTERVAL_2 > 0
-      static PGMSTR(service2, "> " SERVICE_NAME_2 "!");
-    #endif
-    #if SERVICE_INTERVAL_3 > 0
-      static PGMSTR(service3, "> " SERVICE_NAME_3 "!");
-    #endif
-
-    FSTR_P msg;
-    if (printingIsPaused())
-      msg = GET_TEXT_F(MSG_PRINT_PAUSED);
-    #if ENABLED(SDSUPPORT)
-      else if (IS_SD_PRINTING())
-        return set_status(card.longest_filename(), true);
-    #endif
-    else if (print_job_timer.isRunning())
-      msg = GET_TEXT_F(MSG_PRINTING);
-
-    #if SERVICE_INTERVAL_1 > 0
-      else if (print_job_timer.needsService(1)) msg = FPSTR(service1);
-    #endif
-    #if SERVICE_INTERVAL_2 > 0
-      else if (print_job_timer.needsService(2)) msg = FPSTR(service2);
-    #endif
-    #if SERVICE_INTERVAL_3 > 0
-      else if (print_job_timer.needsService(3)) msg = FPSTR(service3);
-    #endif
-
-    else if (!no_welcome) msg = GET_TEXT_F(WELCOME_MSG);
-
-    else if (ENABLED(DWIN_LCD_PROUI))
-        msg = F("");
-    else
-      return;
-
-    set_status(msg, -1);
-  }
-    static void set_alert_status(FSTR_P const fstr) {
-    set_status(fstr, 1);
-    TERN_(HAS_TOUCH_SLEEP, wakeup_screen());
-    TERN_(HAS_MARLINUI_MENU, return_to_status());
-  }
-    static void reset_alert_level() { static uint8_t alert_level = 0; }
+    static bool has_status();
+    static void reset_status(const bool no_welcome=false);
+    static void set_alert_status(FSTR_P const fstr);
+    static void reset_alert_level() { alert_level = 0; }
 
     static statusResetFunc_t status_reset_callback;
-    static void set_status_reset_fn(const statusResetFunc_t fn=nullptr) { static statusResetFunc_t status_reset_callback = fn; }
+    static void set_status_reset_fn(const statusResetFunc_t fn=nullptr) { status_reset_callback = fn; }
   #else
     static constexpr bool has_status() { return false; }
     static void reset_status(const bool=false) {}
@@ -453,20 +403,7 @@ public:
 
     static void update();
 
-    static void abort_print() {
-    #if HAS_MEDIA
-      wait_for_heatup = wait_for_user = false;
-      card.abortFilePrintSoon();
-    #endif
-    #ifdef ACTION_ON_CANCEL
-      hostui.cancel();
-    #endif
-    print_job_timer.stop();
-    TERN_(HOST_PROMPT_SUPPORT, hostui.prompt_open(PROMPT_INFO, F("UI Aborted"), FPSTR(DISMISS_STR)));
-    //LCD_MESSAGE(MSG_PRINT_ABORTED);
-    TERN_(HAS_MARLINUI_MENU, return_to_status());
-    TERN_(DWIN_LCD_PROUI, HMI_flag.abort_flag = true);
-  }
+    static void abort_print();
     static void pause_print();
     static void resume_print();
     static void flow_fault();

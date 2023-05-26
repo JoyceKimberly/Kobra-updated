@@ -35,6 +35,7 @@
 
 #include "SdFatConfig.h"
 #include "SdInfo.h"
+#include "disk_io_driver.h"
 
 #include <stdint.h>
 
@@ -95,12 +96,11 @@ uint8_t const SD_CARD_TYPE_SD1  = 1,        // Standard capacity V1 SD card
  * \class Sd2Card
  * \brief Raw access to SD and SDHC flash memory cards.
  */
-class Sd2Card {
+class DiskIODriver_SPI_SD : public DiskIODriver {
 public:
 
-  Sd2Card() : errorCode_(SD_CARD_ERROR_INIT_NOT_CALLED), type_(0) {}
+  DiskIODriver_SPI_SD() : errorCode_(SD_CARD_ERROR_INIT_NOT_CALLED), type_(0) {}
 
-  uint32_t cardSize();
   bool erase(uint32_t firstBlock, uint32_t lastBlock);
   bool eraseSingleBlockEnable();
 
@@ -124,9 +124,15 @@ public:
    *
    * \return true for success or false for failure.
    */
-  bool init(const uint8_t sckRateID, const pin_t chipSelectPin);
+  bool init(const uint8_t sckRateID, const pin_t chipSelectPin) override;
 
-  bool readBlock(uint32_t block, uint8_t* dst);
+  bool setSckRate(const uint8_t sckRateID);
+
+  /**
+   * Return the card type: SD V1, SD V2 or SDHC
+   * \return 0 - SD V1, 1 - SD V2, or 3 - SDHC.
+   */
+  int type() const { return type_; }
 
   /**
    * Read a card's CID register. The CID contains card identification
@@ -137,7 +143,7 @@ public:
    *
    * \return true for success or false for failure.
    */
-  bool readCID(cid_t *cid) { return readRegister(CMD10, cid); }
+  bool readCID(cid_t * const cid) { return readRegister(CMD10, cid); }
 
   /**
    * Read a card's CSD register. The CSD contains Card-Specific Data that
@@ -147,22 +153,24 @@ public:
    *
    * \return true for success or false for failure.
    */
-  inline bool readCSD(csd_t* csd) { return readRegister(CMD9, csd); }
+  inline bool readCSD(csd_t * const csd) override { return readRegister(CMD9, csd); }
 
-  bool readData(uint8_t* dst);
-  bool readStart(uint32_t blockNumber);
-  bool readStop();
-  bool setSckRate(const uint8_t sckRateID);
+  bool readData(uint8_t * const dst) override;
+  bool readStart(uint32_t blockNumber) override;
+  bool readStop() override;
 
-  /**
-   * Return the card type: SD V1, SD V2 or SDHC
-   * \return 0 - SD V1, 1 - SD V2, or 3 - SDHC.
-   */
-  int type() const {return type_;}
-  bool writeBlock(uint32_t blockNumber, const uint8_t* src);
-  bool writeData(const uint8_t* src);
-  bool writeStart(uint32_t blockNumber, const uint32_t eraseCount);
-  bool writeStop();
+  bool writeData(const uint8_t * const src) override;
+  bool writeStart(uint32_t blockNumber, const uint32_t eraseCount) override;
+  bool writeStop() override;
+
+  bool readBlock(uint32_t blockNumber, uint8_t * const dst) override;
+  bool writeBlock(uint32_t blockNumber, const uint8_t * const src) override;
+
+  uint32_t cardSize() override;
+
+  bool isReady() override { return ready; };
+
+  void idle() override {}
 
 private:
   bool ready = false;
@@ -179,11 +187,11 @@ private:
   }
   uint8_t cardCommand(const uint8_t cmd, const uint32_t arg);
 
-  bool readData(uint8_t *dst, const uint16_t count);
-  bool readRegister(const uint8_t cmd, void *buf);
+  bool readData(uint8_t * const dst, const uint16_t count);
+  bool readRegister(const uint8_t cmd, void * const buf);
   void chipDeselect();
   void chipSelect();
   inline void type(const uint8_t value) { type_ = value; }
   bool waitNotBusy(const millis_t timeout_ms);
-  bool writeData(const uint8_t token, const uint8_t *src);
+  bool writeData(const uint8_t token, const uint8_t * const src);
 };
