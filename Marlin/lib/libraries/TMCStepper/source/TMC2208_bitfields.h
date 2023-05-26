@@ -104,21 +104,18 @@ namespace TMC2208_n {
     union {
       uint32_t sr;
       struct {
-        uint32_t toff    : 4;
-        uint32_t hstrt   : 3;
-        uint32_t hend    : 4;
-        uint32_t nouse1  : 4;
-        uint32_t tbl     : 2;
-                        
-        uint32_t vsense  : 1;
-                        
-        uint32_t nouse2  : 6;
-        uint32_t mres    : 4;
-
-        uint32_t intpol  : 1;
-        uint32_t dedge   : 1;
-        uint32_t diss2g  : 1;
-        uint32_t diss2vs : 1;
+        uint8_t toff : 4,
+                hstrt : 3,
+                hend : 4,
+                     : 4,
+                tbl : 2;
+        bool    vsense : 1;
+        uint8_t : 6,
+                mres : 4;
+        bool    intpol : 1,
+                dedge : 1,
+                diss2g : 1,
+                diss2vs : 1;
       };
     };
   };

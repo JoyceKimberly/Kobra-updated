@@ -36,7 +36,7 @@ TMC2208Stepper::TMC2208Stepper(Stream * SerialPort, float RS, uint8_t addr, uint
 		if (SWSerial != nullptr)
 		{
 			SWSerial->begin(baudrate);
-			SWSerial->stopListening();
+			SWSerial->end();
 		}
 		#if defined(ARDUINO_ARCH_AVR)
 			if (RXTX_pin > 0) {
@@ -179,7 +179,7 @@ __attribute__((weak))
 void TMC2208Stepper::postReadCommunication() {
 	#if SW_CAPABLE_PLATFORM
 		if (SWSerial != nullptr) {
-			SWSerial->stopListening();
+			SWSerial->end();
 		}
 	#endif
 }
@@ -346,7 +346,7 @@ bool TMC2208Stepper::ms2()			{ TMC2208_n::IOIN_t r = {0}; r.sr = IOIN(); return 
 bool TMC2208Stepper::diag()			{ TMC2208_n::IOIN_t r = {0}; r.sr = IOIN(); return r.diag;		}
 bool TMC2208Stepper::pdn_uart()		{ TMC2208_n::IOIN_t r = {0}; r.sr = IOIN(); return r.pdn_uart;	}
 bool TMC2208Stepper::step()			{ TMC2208_n::IOIN_t r = {0}; r.sr = IOIN(); return r.step;		}
-bool TMC2208Stepper::sel_a()		{ TMC2208_n::IOIN_t r = {0}; r.sr = IOIN(); return r.sel_a;	    }
+bool TMC2208Stepper::sel_a()		{ TMC2208_n::IOIN_t r = {0}; r.sr = IOIN(); return r.sel_a;	}
 bool TMC2208Stepper::dir()			{ TMC2208_n::IOIN_t r = {0}; r.sr = IOIN(); return r.dir;		}
 uint8_t TMC2208Stepper::version() 	{ TMC2208_n::IOIN_t r = {0}; r.sr = IOIN(); return r.version;	}
 

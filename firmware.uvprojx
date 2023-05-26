@@ -774,6 +774,11 @@
               <FileType>5</FileType>
               <FilePath>.\Marlin\lib\cores\arduino\core_hooks.h</FilePath>
             </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Marlin\lib\cores\arduino\delay.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
