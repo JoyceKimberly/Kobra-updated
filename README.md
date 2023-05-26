@@ -26,5 +26,5 @@ Unfortunately I cannot give any promises or guarantees, I just have my one print
 
 # Credits
 The following sources have been invaluable 
-https://github.com/jojos38/anycubic-kobra-improved-firmware
-https://github.com/shadow578/Marlin-H32
+- https://github.com/jojos38/anycubic-kobra-improved-firmware
+- https://github.com/shadow578/Marlin-H32
