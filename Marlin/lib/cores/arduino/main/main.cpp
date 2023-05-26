@@ -51,7 +51,7 @@ int main(void)
 
     PWC_HS2HP();
 
-    clock_init();
+    flash_init();
 
     uart1_init();
     uart2_init();

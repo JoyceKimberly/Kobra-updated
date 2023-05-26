@@ -1,10 +1,15 @@
 #include "init.h"
-#include "usart.h"
+#include "../drivers/sysclock/sysclock.h"
+#include "../drivers/sysclock/systick.h"
 #include "../drivers/adc/adc.h"
+#include "../WInterrupts.h"
 #include "startup.h"
 #include <hc32_ddl.h>
 
-void clock_init(void)
+/**
+ * set flash latency and cache
+ */
+void flash_init(void)
 {
     stc_clk_xtal_cfg_t   stcXtalCfg;
     stc_clk_mpll_cfg_t   stcMpllCfg;

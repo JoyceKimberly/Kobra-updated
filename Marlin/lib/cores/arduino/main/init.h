@@ -152,7 +152,7 @@ extern "C"
 
 #endif
 
-void clock_init(void);
+void flash_init(void);
 void get_all_clock(void);
 
 void led_pin_init(void);
