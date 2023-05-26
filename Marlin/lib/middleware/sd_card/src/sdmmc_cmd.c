@@ -1015,7 +1015,7 @@ en_result_t SDMMC_Cmd38_Erase(M4_SDIOC_TypeDef *SDIOCx, uint32_t *pu32Resp1)
             if (enRet == Ok)
             {
                 /* Check for error conditions */
-                enRet = SDMMC_GetCmdResp1b(SDIOCx, pu32Resp1, 5u * SDMMC_CMD_TIMEOUT);
+                enRet = SDMMC_GetCmdResp1b(SDIOCx, pu32Resp1, 50u * SDMMC_CMD_TIMEOUT);
             }
         }
     }

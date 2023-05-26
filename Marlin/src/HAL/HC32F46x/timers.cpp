@@ -27,6 +27,8 @@
 #include "HAL.h"
 #include "timers.h"
 
+#define TMR_UNIT M4_TMR02
+
 //
 // HAL
 //

@@ -40,6 +40,7 @@ extern const pin_info_t PIN_MAP[BOARD_NR_GPIO_PINS] = {
     {14, PortB, Pin14, NULL,   ADC_PIN_INVALID,  Func_Gpio},
     {15, PortB, Pin15, NULL,   ADC_PIN_INVALID,  Func_Gpio},
 
+	// PC
     {0,  PortC, Pin00, &adc1,  ADC12_IN10,       Func_Gpio},
     {1,  PortC, Pin01, &adc1,  ADC12_IN11,       Func_Gpio},
     {2,  PortC, Pin02, &adc1,  ADC1_IN12,        Func_Gpio},
@@ -57,6 +58,7 @@ extern const pin_info_t PIN_MAP[BOARD_NR_GPIO_PINS] = {
     {14, PortC, Pin14, NULL,   ADC_PIN_INVALID,  Func_Gpio},
     {15, PortC, Pin15, NULL,   ADC_PIN_INVALID,  Func_Gpio},
 
+	// PD
     {0,  PortD, Pin00, NULL,   ADC_PIN_INVALID,  Func_Gpio},
     {1,  PortD, Pin01, NULL,   ADC_PIN_INVALID,  Func_Gpio},
     {2,  PortD, Pin02, NULL,   ADC_PIN_INVALID,  Func_Sdio},
@@ -74,6 +76,7 @@ extern const pin_info_t PIN_MAP[BOARD_NR_GPIO_PINS] = {
     {14, PortD, Pin14, NULL,   ADC_PIN_INVALID,  Func_Gpio},
     {15, PortD, Pin15, NULL,   ADC_PIN_INVALID,  Func_Gpio},
 
+	// PE
     {0,  PortE, Pin00, NULL,   ADC_PIN_INVALID,  Func_Gpio},
     {1,  PortE, Pin01, NULL,   ADC_PIN_INVALID,  Func_Gpio},
     {2,  PortE, Pin02, NULL,   ADC_PIN_INVALID,  Func_Gpio},
@@ -91,6 +94,7 @@ extern const pin_info_t PIN_MAP[BOARD_NR_GPIO_PINS] = {
     {14, PortE, Pin14, NULL,   ADC_PIN_INVALID,  Func_Sdio},
     {15, PortE, Pin15, NULL,   ADC_PIN_INVALID,  Func_Gpio},
 
+	// PH
     {0,  PortH, Pin00, NULL,   ADC_PIN_INVALID,  Func_Gpio},
     {1,  PortH, Pin01, NULL,   ADC_PIN_INVALID,  Func_Gpio},
     {2,  PortH, Pin02, NULL,   ADC_PIN_INVALID,  Func_Usart3_Rx},
@@ -120,9 +124,6 @@ HardwareSerial MSerial1(M4_USART1);
 HardwareSerial MSerial2(M4_USART2);
 HardwareSerial MSerial3(M4_USART3);
 HardwareSerial MSerial4(M4_USART4);
-
-adc_dev adc1;
-struct adc_dev *ADC1;
 
 //DEFINE_HWSERIAL(Serial1, 1);
 //DEFINE_HWSERIAL(Serial2, 2);

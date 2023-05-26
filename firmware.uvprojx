@@ -764,6 +764,16 @@
               <FileType>8</FileType>
               <FilePath>Marlin\lib\cores\arduino\drivers\usart\usart_devices.cpp</FilePath>
             </File>
+            <File>
+              <FileName>core_debug.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Marlin\lib\cores\arduino\core_debug.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_hooks.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Marlin\lib\cores\arduino\core_hooks.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -793,6 +803,11 @@
               <FileName>ots.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>Marlin\lib\cores\arduino\drivers\ots\ots.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>sysclock.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Marlin\lib\cores\arduino\drivers\sysclock\sysclock.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -2243,6 +2258,11 @@
               <FileName>HAL_SPI.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>Marlin\src\HAL\HC32F46x\HAL_SPI.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>MarlinHAL.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Marlin\src\HAL\HC32F46x\MarlinHAL.cpp</FilePath>
             </File>
           </Files>
         </Group>

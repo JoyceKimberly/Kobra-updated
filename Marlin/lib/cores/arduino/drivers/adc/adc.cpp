@@ -1,4 +1,5 @@
 #include "adc.h"
+#include "../gpio/gpio.h"
 #include "usart.h"
 
 #define ADC_CH_COUNT	3
@@ -6,10 +7,29 @@
 uint16_t g_adc_value[3];
 uint8_t g_adc_idx;
 
+//
+// ADC1 device
+//
+adc_dev adc1 = {
+	.HAL_AdcDmaIrqFlag = 0,
+	.HAL_adc_results = {0},
+
+	.regs = M4_ADC1,
+	.PeriphClock = PWC_FCG3_PERIPH_ADC1,
+	.Channel = ADC1_SA_CHANNEL,
+
+	.DMARegs = M4_DMA2,
+	.DMAPeriphClock = PWC_FCG0_PERIPH_DMA2,
+	.DMAChannel = DmaCh3,
+	.DMAenSrc = EVT_ADC1_EOCA,
+};
+adc_dev *ADC1 = &adc1;
+
 uint16_t adc_read(adc_dev *dev, uint8_t channel)
 {
+	// wait for adc result
 
-
+	// read result and clear irq flag
 }
 
 /**
@@ -26,22 +46,22 @@ uint16_t adc_read(adc_dev *dev, uint8_t channel)
 static void adc_setCLK(void)
 {
 #if (ADC_CLK == ADC_CLK_PCLK)
-	stc_clk_sysclk_cfg_t stcSysclkCfg;
+	stc_clk_sysclk_cfg_t sysClkConf;
 
 	/* Set bus clock division, depends on the system clock frequency. */
-	stcSysclkCfg.enHclkDiv  = ClkSysclkDiv1;  // 168MHz
-	stcSysclkCfg.enExclkDiv = ClkSysclkDiv2;  // 84MHz
-	stcSysclkCfg.enPclk0Div = ClkSysclkDiv1;  // 168MHz
-	stcSysclkCfg.enPclk1Div = ClkSysclkDiv2;  // 84MHz
-	stcSysclkCfg.enPclk2Div = ClkSysclkDiv4;  // 42MHz
-	stcSysclkCfg.enPclk3Div = ClkSysclkDiv4;  // 42MHz
-	stcSysclkCfg.enPclk4Div = ClkSysclkDiv1;  // 84MHz.
-	CLK_SysClkConfig(&stcSysclkCfg);
+	sysClkConf.enHclkDiv  = ClkSysclkDiv1;  // 168MHz
+	sysClkConf.enExclkDiv = ClkSysclkDiv2;  // 84MHz
+	sysClkConf.enPclk0Div = ClkSysclkDiv1;  // 168MHz
+	sysClkConf.enPclk1Div = ClkSysclkDiv2;  // 84MHz
+	sysClkConf.enPclk2Div = ClkSysclkDiv4;  // 42MHz
+	sysClkConf.enPclk3Div = ClkSysclkDiv4;  // 42MHz
+	sysClkConf.enPclk4Div = ClkSysclkDiv1;  // 84MHz.
+	CLK_SysClkConfig(&sysClkConf);
 	CLK_SetPeriClkSource(ClkPeriSrcPclk);
 
 #elif (ADC_CLK == ADC_CLK_MPLLQ)
 	stc_clk_xtal_cfg_t xtalConf;
-	stc_clk_mpll_cfg_t mpllConf;
+	stc_clk_mpll_cfg_t pllConf;
 
 	if (CLKSysSrcMPLL == CLK_GetSysClkSource())
 	{
@@ -60,14 +80,16 @@ static void adc_setCLK(void)
 		CLK_XtalCmd(Enable);
 
 		/* Set MPLL out 240MHz. */
-		mpllConf.pllmDiv = 1u;
+		pllConf.pllmDiv = 1u;
 		/* mpll = 8M / pllmDiv * plln */
-		mpllConf.plln	= 30u;
-		mpllConf.PllpDiv = 16u;
-		mpllConf.PllqDiv = 16u;
-		mpllConf.PllrDiv = 16u;
+		pllConf.PllpDiv = 16u;
+		pllConf.PllqDiv = 16u;
+		pllConf.PllrDiv = 16u;
+		pllConf.plln	= 30u;
+
 		CLK_SetPllSource(ClkPllSrcXTAL);
-		CLK_MpllConfig(&mpllConf);
+		CLK_MpllConfig(&pllConf);
+
 		CLK_MpllCmd(Enable);
 	}
 	CLK_SetPeriClkSource(ClkPeriSrcMpllp);
@@ -270,12 +292,12 @@ static void adc_channelConfig(void)
 	// init adc channel
 	stc_adc_ch_cfg_t adcChannelConf;
 	MEM_ZERO_STRUCT(adcChannelConf);
-	adcChannelConf.u32Channel  = BOARD_ADC_CH0_CH | BOARD_ADC_CH1_CH | BOARD_ADC_CH2_CH;
+	adcChannelConf.u32Channel  = ADC1_CH10 | ADC1_CH11 | ADC1_CH12;
 	adcChannelConf.u8Sequence  = ADC_SEQ_A;
 	adcChannelConf.pu8SampTime = samplingTimes;
 	ADC_AddAdcChannel(M4_ADC1, &adcChannelConf);
 //	ADC_ConfigAvg(M4_ADC1, AdcAvcnt_64);
-//	ADC_AddAvgChannel(M4_ADC1, BOARD_ADC_CH0_CH | BOARD_ADC_CH1_CH | BOARD_ADC_CH2_CH);
+//	ADC_AddAvgChannel(M4_ADC1, ADC1_CH10 | ADC1_CH11 | ADC1_CH12);
 }
 
 /**
@@ -341,13 +363,7 @@ void adc_dmaInitConfig(void)
 	DMA_SetTriggerSrc(M4_DMA2, DmaCh3, EVT_ADC1_EOCA);
 }
 
-void setup_adcs(void)
-{
-}
 
-void adc_main(void)
-{
-}
 
 static void adc_pin_init(void)
 {
@@ -379,6 +395,9 @@ void adc_setDefaultConfig(void)
 
 void adc_init(void)
 {
+	// set ADC clock (default is MRC @ 8MHz)
+	adc_setCLK();
+
 	// configure ADC
 	adc_setDefaultConfig();
 }
