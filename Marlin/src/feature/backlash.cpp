@@ -30,7 +30,7 @@
 #include "../module/planner.h"
 
 AxisBits Backlash::last_direction_bits;
-xyz_long_t Backlash::residual_error{0};
+xyz_long_t Backlash::residual_error={0}; // changed
 
 #ifdef BACKLASH_DISTANCE_MM
   #if ENABLED(BACKLASH_GCODE)
@@ -48,8 +48,8 @@ xyz_long_t Backlash::residual_error{0};
 #endif
 
 #if ENABLED(MEASURE_BACKLASH_WHEN_PROBING)
-  xyz_float_t Backlash::measured_mm{0};
-  xyz_uint8_t Backlash::measured_count{0};
+  xyz_float_t Backlash::measured_mm={0}; // changed
+  xyz_uint8_t Backlash::measured_count={0}; // changed
 #endif
 
 Backlash backlash;

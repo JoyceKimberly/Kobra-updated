@@ -34,6 +34,7 @@
 
 #include <HardwareSerial.h>
 #include <SPI.h>
+#include "../pins/pins.h" // changed
 
 enum StealthIndex : uint8_t {
   LOGICAL_AXIS_LIST(STEALTH_AXIS_E, STEALTH_AXIS_X, STEALTH_AXIS_Y, STEALTH_AXIS_Z, STEALTH_AXIS_I, STEALTH_AXIS_J, STEALTH_AXIS_K, STEALTH_AXIS_U, STEALTH_AXIS_V, STEALTH_AXIS_W)
@@ -221,7 +222,7 @@ enum StealthIndex : uint8_t {
   void tmc_init(TMCMarlin<TMC2130Stepper, AXIS_LETTER, DRIVER_ID, AXIS_ID> &st, const uint16_t mA, const uint16_t microsteps, const uint32_t hyb_thrs, const bool stealth, const chopper_timing_t &chop_init, const bool interpolate, float hold_multiplier) {
     st.begin();
 
-    CHOPCONF_t chopconf{0};
+    CHOPCONF_t chopconf={0}; // changed
     chopconf.tbl = 0b01;
     chopconf.toff = chop_init.toff;
     chopconf.intpol = interpolate;
@@ -238,7 +239,7 @@ enum StealthIndex : uint8_t {
     st.en_pwm_mode(stealth);
     st.stored.stealthChop_enabled = stealth;
 
-    PWMCONF_t pwmconf{0};
+    PWMCONF_t pwmconf={0}; // changed
     pwmconf.pwm_freq = 0b01; // f_pwm = 2/683 f_clk
     pwmconf.pwm_autoscale = true;
     pwmconf.pwm_grad = 5;
@@ -256,7 +257,7 @@ enum StealthIndex : uint8_t {
   void tmc_init(TMCMarlin<TMC2160Stepper, AXIS_LETTER, DRIVER_ID, AXIS_ID> &st, const uint16_t mA, const uint16_t microsteps, const uint32_t hyb_thrs, const bool stealth, const chopper_timing_t &chop_init, const bool interpolate, float hold_multiplier) {
     st.begin();
 
-    CHOPCONF_t chopconf{0};
+    CHOPCONF_t chopconf={0}; // changed
     chopconf.tbl = 0b01;
     chopconf.toff = chop_init.toff;
     chopconf.intpol = interpolate;
@@ -273,7 +274,7 @@ enum StealthIndex : uint8_t {
     st.en_pwm_mode(stealth);
     st.stored.stealthChop_enabled = stealth;
 
-    TMC2160_n::PWMCONF_t pwmconf{0};
+    TMC2160_n::PWMCONF_t pwmconf={0}; // changed
     pwmconf.pwm_lim = 12;
     pwmconf.pwm_reg = 8;
     pwmconf.pwm_autograd = true;
@@ -670,7 +671,7 @@ enum StealthIndex : uint8_t {
 #if HAS_DRIVER(TMC2208)
   template<char AXIS_LETTER, char DRIVER_ID, AxisEnum AXIS_ID>
   void tmc_init(TMCMarlin<TMC2208Stepper, AXIS_LETTER, DRIVER_ID, AXIS_ID> &st, const uint16_t mA, const uint16_t microsteps, const uint32_t hyb_thrs, const bool stealth, const chopper_timing_t &chop_init, const bool interpolate, float hold_multiplier) {
-    TMC2208_n::GCONF_t gconf{0};
+    TMC2208_n::GCONF_t gconf={0}; // changed
     gconf.pdn_disable = true; // Use UART
     gconf.mstep_reg_select = true; // Select microsteps with UART
     gconf.i_scale_analog = false;
@@ -678,7 +679,7 @@ enum StealthIndex : uint8_t {
     st.GCONF(gconf.sr);
     st.stored.stealthChop_enabled = stealth;
 
-    TMC2208_n::CHOPCONF_t chopconf{0};
+    TMC2208_n::CHOPCONF_t chopconf={0}; // changed
     chopconf.tbl = 0b01; // blank_time = 24
     chopconf.toff = chop_init.toff;
     chopconf.intpol = interpolate;
@@ -692,7 +693,7 @@ enum StealthIndex : uint8_t {
     st.iholddelay(10);
     st.TPOWERDOWN(128); // ~2s until driver lowers to hold current
 
-    TMC2208_n::PWMCONF_t pwmconf{0};
+    TMC2208_n::PWMCONF_t pwmconf={0}; // changed
     pwmconf.pwm_lim = 12;
     pwmconf.pwm_reg = 8;
     pwmconf.pwm_autograd = true;
@@ -712,7 +713,7 @@ enum StealthIndex : uint8_t {
 #if HAS_DRIVER(TMC2209)
   template<char AXIS_LETTER, char DRIVER_ID, AxisEnum AXIS_ID>
   void tmc_init(TMCMarlin<TMC2209Stepper, AXIS_LETTER, DRIVER_ID, AXIS_ID> &st, const uint16_t mA, const uint16_t microsteps, const uint32_t hyb_thrs, const bool stealth, const chopper_timing_t &chop_init, const bool interpolate, float hold_multiplier) {
-    TMC2208_n::GCONF_t gconf{0};
+    TMC2208_n::GCONF_t gconf={0}; // changed
     gconf.pdn_disable = true; // Use UART
     gconf.mstep_reg_select = true; // Select microsteps with UART
     gconf.i_scale_analog = false;
@@ -720,7 +721,7 @@ enum StealthIndex : uint8_t {
     st.GCONF(gconf.sr);
     st.stored.stealthChop_enabled = stealth;
 
-    TMC2208_n::CHOPCONF_t chopconf{0};
+    TMC2208_n::CHOPCONF_t chopconf={0}; // changed
     chopconf.tbl = 0b01; // blank_time = 24
     chopconf.toff = chop_init.toff;
     chopconf.intpol = interpolate;
@@ -734,7 +735,7 @@ enum StealthIndex : uint8_t {
     st.iholddelay(10);
     st.TPOWERDOWN(128); // ~2s until driver lowers to hold current
 
-    TMC2208_n::PWMCONF_t pwmconf{0};
+    TMC2208_n::PWMCONF_t pwmconf={0}; // changed
     pwmconf.pwm_lim = 12;
     pwmconf.pwm_reg = 8;
     pwmconf.pwm_autograd = true;
@@ -778,7 +779,7 @@ enum StealthIndex : uint8_t {
   void tmc_init(TMCMarlin<TMC5130Stepper, AXIS_LETTER, DRIVER_ID, AXIS_ID> &st, const uint16_t mA, const uint16_t microsteps, const uint32_t hyb_thrs, const bool stealth, const chopper_timing_t &chop_init, const bool interpolate, float hold_multiplier) {
     st.begin();
 
-    CHOPCONF_t chopconf{0};
+    CHOPCONF_t chopconf={0}; // changed
     chopconf.tbl = 0b01;
     chopconf.toff = chop_init.toff;
     chopconf.intpol = interpolate;
@@ -795,7 +796,7 @@ enum StealthIndex : uint8_t {
     st.en_pwm_mode(stealth);
     st.stored.stealthChop_enabled = stealth;
 
-    PWMCONF_t pwmconf{0};
+    PWMCONF_t pwmconf={0}; // changed
     pwmconf.pwm_freq = 0b01; // f_pwm = 2/683 f_clk
     pwmconf.pwm_autoscale = true;
     pwmconf.pwm_grad = 5;
@@ -813,7 +814,7 @@ enum StealthIndex : uint8_t {
   void tmc_init(TMCMarlin<TMC5160Stepper, AXIS_LETTER, DRIVER_ID, AXIS_ID> &st, const uint16_t mA, const uint16_t microsteps, const uint32_t hyb_thrs, const bool stealth, const chopper_timing_t &chop_init, const bool interpolate, float hold_multiplier) {
     st.begin();
 
-    CHOPCONF_t chopconf{0};
+    CHOPCONF_t chopconf={0}; // changed
     chopconf.tbl = 0b01;
     chopconf.toff = chop_init.toff;
     chopconf.intpol = interpolate;
@@ -830,7 +831,7 @@ enum StealthIndex : uint8_t {
     st.en_pwm_mode(stealth);
     st.stored.stealthChop_enabled = stealth;
 
-    TMC2160_n::PWMCONF_t pwmconf{0};
+    TMC2160_n::PWMCONF_t pwmconf={0}; // changed
     pwmconf.pwm_lim = 12;
     pwmconf.pwm_reg = 8;
     pwmconf.pwm_autograd = true;
