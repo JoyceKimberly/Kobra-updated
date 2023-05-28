@@ -755,9 +755,9 @@
               <FilePath>Marlin\lib\cores\arduino\RingBuffer.cpp</FilePath>
             </File>
             <File>
-              <FileName>usart.cpp</FileName>
+              <FileName>Usart.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>Marlin\lib\cores\arduino\drivers\usart\usart.cpp</FilePath>
+              <FilePath>Marlin\lib\cores\arduino\drivers\usart\Usart.cpp</FilePath>
             </File>
             <File>
               <FileName>usart_devices.cpp</FileName>
@@ -895,11 +895,6 @@
               <FilePath>Marlin\lib\libraries\TMCStepper\source\SERIAL_SWITCH.cpp</FilePath>
             </File>
             <File>
-              <FileName>SERIAL_SWITCH.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>Marlin\lib\libraries\TMCStepper\source\SERIAL_SWITCH.h</FilePath>
-            </File>
-            <File>
               <FileName>SGCSCONF.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>Marlin\lib\libraries\TMCStepper\source\SGCSCONF.cpp</FilePath>
@@ -918,11 +913,6 @@
               <FileName>SW_MODE.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>Marlin\lib\libraries\TMCStepper\source\SW_MODE.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SW_SPI.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>Marlin\lib\libraries\TMCStepper\source\SW_SPI.h</FilePath>
             </File>
             <File>
               <FileName>TMC_MACROS.h</FileName>
@@ -958,6 +948,16 @@
               <FileName>TMCStepper.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>Marlin\lib\libraries\TMCStepper\source\TMCStepper.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>SPI</GroupName>
+          <Files>
+            <File>
+              <FileName>SPI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Marlin\lib\libraries\SPI\SPI.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2235,9 +2235,9 @@
               <FilePath>Marlin\src\HAL\HC32F46x\sdio.cpp</FilePath>
             </File>
             <File>
-              <FileName>fastio.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>Marlin\src\HAL\HC32F46x\fastio.cpp</FilePath>
+              <FileName>fastio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>Marlin\src\HAL\HC32F46x\fastio.h</FilePath>
             </File>
             <File>
               <FileName>Delay.cpp</FileName>

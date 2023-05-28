@@ -29,51 +29,31 @@
 #include <wiring_digital.h>
 #include <gpio/gpio.h>
 
-// ------------------------
-// Public Variables
-// ------------------------
+#define READ(IO) (PORT_GetBitGPIO(IO) ? HIGH : LOW)
+#define WRITE(IO, V) (((V) > 0) ? PORT_SetBitsGPIO(IO) : PORT_ResetBitsGPIO(IO))
+#define TOGGLE(IO) (PORT_ToggleGPIO(IO))
 
-//extern GPIO_TypeDef * FastIOPortMap[];
+#define _GET_MODE(IO) getPinMode(IO)
+#define _SET_MODE(IO, M) pinMode(IO, M)
+#define _SET_OUTPUT(IO) _SET_MODE(IO, OUTPUT)
 
-// ------------------------
-// Public functions
-// ------------------------
+#define OUT_WRITE(IO, V) \
+  do                     \
+  {                      \
+    _SET_OUTPUT(IO);     \
+    WRITE(IO, V);        \
+  } while (0)
 
-void FastIO_init(); // Must be called before using fast io macros
-#define FASTIO_INIT() FastIO_init()
+#define SET_INPUT(IO) _SET_MODE(IO, INPUT_FLOATING)
+#define SET_INPUT_PULLUP(IO) _SET_MODE(IO, INPUT_PULLUP)
+#define SET_INPUT_PULLDOWN(IO) _SET_MODE(IO, INPUT_PULLDOWN)
+#define SET_OUTPUT(IO) OUT_WRITE(IO, LOW)
 
-// ------------------------
-// Defines
-// ------------------------
+#define IS_INPUT(IO) (_GET_MODE(IO) == INPUT || _GET_MODE(IO) == INPUT_FLOATING || _GET_MODE(IO) == INPUT_ANALOG || _GET_MODE(IO) == INPUT_PULLUP ||  _GET_MODE(IO) == INPUT_PULLDOWN)
+#define IS_OUTPUT(IO) (_GET_MODE(IO) == OUTPUT || _GET_MODE(IO) == OUTPUT_OPEN_DRAIN)
 
-#define _BV32(b) (1UL << (b))
+// TODO: #warning "PWM_PIN(IO) is not implemented"
+#define PWM_PIN(IO) (false)
 
-#ifndef PWM
-  #define PWM OUTPUT
-#endif
-
-
-#define _GET_MODE(IO)           gpio_get_mode(IO)
-#define _SET_MODE(IO,M)         pinMode(IO,M)
-#define _SET_OUTPUT(IO)         _SET_MODE(IO, OUTPUT)                             //!< Output Push Pull Mode & GPIO_NOPULL
-
-#define WRITE(IO,V)             (V>0? PORT_SetBitsGPIO(IO) : PORT_ResetBitsGPIO(IO))
-#define READ(IO)                (PORT_GetBitGPIO(IO) ? HIGH : LOW)
-#define TOGGLE(IO)              (PORT_ToggleGPIO(IO))
-
-#define OUT_WRITE(IO,V)         do{ _SET_OUTPUT(IO); WRITE(IO,V); }while(0)
-
-#define SET_INPUT(IO)           _SET_MODE(IO, INPUT)                              //!< Input Floating Mode
-#define SET_INPUT_PULLUP(IO)    _SET_MODE(IO, INPUT_PULLUP)                       //!< Input with Pull-up activation
-#define SET_INPUT_PULLDOWN(IO)  _SET_MODE(IO, INPUT_PULLDOWN)                     //!< Input with Pull-down activation
-#define SET_OUTPUT(IO)          OUT_WRITE(IO, LOW)
-
-#define IS_INPUT(IO)
-#define IS_OUTPUT(IO)
-
-#define PWM_PIN(P)              0//digitalPinHasPWM(P)
-#define NO_COMPILE_TIME_PWM
-
-// digitalRead/Write wrappers
-#define extDigitalRead(IO)    digitalRead(IO)
-#define extDigitalWrite(IO,V) digitalWrite(IO,V)
+#define extDigitalRead(IO) digitalRead(IO)
+#define extDigitalWrite(IO, V) digitalWrite(IO, V)

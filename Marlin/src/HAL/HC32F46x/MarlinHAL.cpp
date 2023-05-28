@@ -192,19 +192,21 @@ void MarlinHAL::adc_enable(const pin_t pin)
     pinMode(pin, INPUT_ANALOG);
 }
 
+extern uint16_t g_adc_value[3];
 void MarlinHAL::adc_start(const pin_t pin)
 {
+    uint8_t pin_index;
     if       (pin == TEMP_BED_PIN) {
-        g_adc_idx = 0;
+        pin_index = 0;
     } else if(pin == TEMP_0_PIN) {
-        g_adc_idx = 1;
+        pin_index = 1;
     } else if(pin == POWER_MONITOR_VOLTAGE_PIN) {
-        g_adc_idx = 2;
+        pin_index = 2;
     } else {
-        g_adc_idx = 0x0;
+        pin_index = 0x0;
     }
 
-    MarlinHAL::adc_result = g_adc_value[g_adc_idx];
+    MarlinHAL::adc_result = g_adc_value[pin_index];
 }
 
 bool MarlinHAL::adc_ready()

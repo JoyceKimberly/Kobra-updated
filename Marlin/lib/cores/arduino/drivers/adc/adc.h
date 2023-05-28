@@ -69,7 +69,6 @@ extern "C"
 	extern uint32_t  AdcCH2Value;
 
 	extern uint16_t g_adc_value[3];
-	extern uint8_t g_adc_idx;
 
 	static void adc_pin_init(void);
 	static void adc_initConfig(void);
