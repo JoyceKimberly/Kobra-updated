@@ -187,7 +187,7 @@ tags
 *.lin
 *.lnp
 *.orc
-*.pack
+#*.pack
 *.pdsc
 *.plg
 *.sct
