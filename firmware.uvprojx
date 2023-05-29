@@ -779,6 +779,11 @@
               <FileType>1</FileType>
               <FilePath>.\Marlin\lib\cores\arduino\delay.c</FilePath>
             </File>
+            <File>
+              <FileName>variant.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Marlin\lib\variants\generic_hc32f460\variant.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -948,16 +953,6 @@
               <FileName>TMCStepper.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>Marlin\lib\libraries\TMCStepper\source\TMCStepper.cpp</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>SPI</GroupName>
-          <Files>
-            <File>
-              <FileName>SPI.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Marlin\lib\libraries\SPI\SPI.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2268,6 +2263,11 @@
               <FileName>MarlinHAL.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\Marlin\src\HAL\HC32F46x\MarlinHAL.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SPI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Marlin\src\HAL\HC32F46x\SPI.cpp</FilePath>
             </File>
           </Files>
         </Group>

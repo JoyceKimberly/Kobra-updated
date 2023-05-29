@@ -132,5 +132,38 @@ PH0,PH1,PH2,
 #define PH1  0x51
 #define PH2  0x52
 
+//
+// USART gpio pins
+//
+#define BOARD_USART1_TX_PIN     PA9     // MOTO
+#define BOARD_USART1_RX_PIN     PA15
+
+#define BOARD_USART2_TX_PIN     PA2     // DEBUG
+#define BOARD_USART2_RX_PIN     PA3
+
+#define BOARD_USART3_TX_PIN     PB4     // MOTO
+#define BOARD_USART3_RX_PIN     PB3
+
+#define BOARD_USART4_TX_PIN     PB10    // LCD
+#define BOARD_USART4_RX_PIN     PH2
+
+//
+// SPI gpio pins
+//
+#define BOARD_NR_SPI            3
+#define BOARD_SPI1_NSS_PIN      PA4
+#define BOARD_SPI1_SCK_PIN      PA5
+#define BOARD_SPI1_MISO_PIN     PA6
+#define BOARD_SPI1_MOSI_PIN     PA7
+
+#define BOARD_SPI2_NSS_PIN      PB12
+#define BOARD_SPI2_SCK_PIN      PB13
+#define BOARD_SPI2_MISO_PIN     PB14
+#define BOARD_SPI2_MOSI_PIN     PB15
+
+#define BOARD_SPI3_NSS_PIN      PA15
+#define BOARD_SPI3_SCK_PIN      PB3
+#define BOARD_SPI3_MISO_PIN     PB4
+#define BOARD_SPI3_MOSI_PIN     PB5
 
 #endif /* BOARD_VARIANT_H_ */
