@@ -19,16 +19,13 @@
 #ifndef BOARD_VARIANT_H_
 #define BOARD_VARIANT_H_
 
-#include "WVariant.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
-
-#define LED_BUILTIN	4
+//
+// GPIO pin count (size of PIN_MAP array)
+//
+#define BOARD_NR_GPIO_PINS 83
 
 //
-// Pin Definitions for HC32F46x
+// GPIO pin aliases (index into PIN_MAP array)
 //
 
 enum {
@@ -135,8 +132,5 @@ PH0,PH1,PH2,
 #define PH1  0x51
 #define PH2  0x52
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* BOARD_VARIANT_H_ */

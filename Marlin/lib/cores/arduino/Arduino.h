@@ -76,9 +76,6 @@ void loop( void ) ;
 #include "Uart.h"
 #endif
 
-// Include board variant
-#include "variant.h"
-
 #include "wiring_digital.h"
 #include "wiring_analog.h"
 #include "wiring_shift.h"

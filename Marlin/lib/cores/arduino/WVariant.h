@@ -19,12 +19,12 @@
 #ifndef WVARIANT_H_
 #define WVARIANT_H_
 
-
 #include <stdint.h>
 #include <stdbool.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 struct variantPinMap {
