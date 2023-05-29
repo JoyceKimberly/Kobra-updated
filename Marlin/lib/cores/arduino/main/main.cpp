@@ -29,13 +29,6 @@ void soft_delay_ms(uint32_t ms)
     }
 }
 
-#define LD_FLASH_START 0x8000u
-void core_init(void)
-{
-// bootloader vector startup addr
-    SCB->VTOR = ((uint32_t) LD_FLASH_START & SCB_VTOR_TBLOFF_Msk);
-}
-
 int main(void)
 {
 	// initialize SoC, then CORE_DEBUG
@@ -48,8 +41,6 @@ int main(void)
 
   PWC_HS2HP();
 
-  flash_init();
-
   uart1_init();
   uart2_init();
   uart4_init();
@@ -59,8 +50,6 @@ int main(void)
   get_all_clock();
 
   led_pin_init();
-
-  adc_init();
 
   endstop_pin_init();
 

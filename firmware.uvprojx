@@ -415,9 +415,9 @@
               <FilePath>Marlin\lib\cores\arduino\drivers\board_sdio.cpp</FilePath>
             </File>
             <File>
-              <FileName>startup.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>Marlin\lib\cores\arduino\main\startup.cpp</FilePath>
+              <FileName>startup.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>Marlin\lib\cores\arduino\main\startup.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -783,6 +783,11 @@
               <FileName>variant.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\Marlin\lib\variants\generic_hc32f460\variant.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>wiring_digital.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Marlin\lib\cores\arduino\wiring_digital.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1198,11 +1203,6 @@
               <FileName>debug_section.h</FileName>
               <FileType>5</FileType>
               <FilePath>Marlin\src\core\debug_section.h</FilePath>
-            </File>
-            <File>
-              <FileName>wiring_digital.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>Marlin\lib\cores\arduino\wiring_digital.cpp</FilePath>
             </File>
             <File>
               <FileName>flash.cpp</FileName>
