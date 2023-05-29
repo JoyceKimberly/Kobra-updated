@@ -88,30 +88,8 @@ void HAL_timer_start(const uint8_t timer_num, const uint32_t frequency);
 void HAL_timer_enable_interrupt(const uint8_t timer_num);
 void HAL_timer_disable_interrupt(const uint8_t timer_num);
 bool HAL_timer_interrupt_enabled(const uint8_t timer_num);
-
-// ------------------------
-// Public Variables
-// ------------------------
-
-//static HardwareTimer StepperTimer(MF_TIMER_STEP);
-//static HardwareTimer TempTimer(MF_TIMER_TEMP);
-
-/**
- * NOTE: By default libmaple sets ARPE = 1, which means the Auto reload register is preloaded (will only update with an update event)
- * Thus we have to pause the timer, update the value, refresh, resume the timer.
- * That seems like a big waste of time and may be better to change the timer config to ARPE = 0, so ARR can be updated any time.
- * We are using a Channel in each timer in Capture/Compare mode. We could also instead use the Time Update Event Interrupt, but need to disable ARPE
- * so we can change the ARR value on the fly (without calling refresh), and not get an interrupt right there because we caused an UEV.
- * This mode pretty much makes 2 timers unusable for PWM since they have their counts updated all the time on ISRs.
- * The way Marlin manages timer interrupts doesn't make for an efficient usage in STM32F1
- * Todo: Look at that possibility later.
- */
-
 void HAL_timer_set_compare(const uint8_t timer_num, const hal_timer_t compare);
-
-
 #define HAL_timer_isr_prologue(TIMER_NUM)
-//#define HAL_timer_isr_epilogue(TIMER_NUM)   TIMER4_CNT_ClearIrqFlag(M4_TMR42, Timer4CntZeroMatchInt)
 
 static inline void HAL_timer_isr_epilogue(uint8_t timer_num)
 {

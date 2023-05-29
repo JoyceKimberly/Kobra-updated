@@ -794,11 +794,6 @@
               <FileType>5</FileType>
               <FilePath>.\Marlin\lib\cores\arduino\drivers\usart\usart_handlers.h</FilePath>
             </File>
-            <File>
-              <FileName>IWatchdog.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\Marlin\lib\libraries\IWatchdog\IWatchdog.cpp</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -837,12 +832,17 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>SoftwareSerial</GroupName>
+          <GroupName>libraries</GroupName>
           <Files>
             <File>
               <FileName>SoftwareSerial.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>Marlin\lib\libraries\SoftwareSerial\SoftwareSerial.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>IWatchdog.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Marlin\lib\libraries\IWatchdog\IWatchdog.cpp</FilePath>
             </File>
           </Files>
         </Group>
