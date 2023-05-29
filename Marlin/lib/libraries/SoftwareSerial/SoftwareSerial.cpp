@@ -139,11 +139,11 @@ inline void SoftwareSerial::setTX()
   if (_inverse_logic) {
 //    LL_GPIO_ResetOutputPin(_transmitPinPort, _transmitPinNumber);
 //    PORT_ResetBits(_transmitPinPort,   _transmitPinNumber);
-    PORT_ResetBitsGPIO(_transmitPin);
+    GPIO_ResetBits(_transmitPin);
   } else {
 //    LL_GPIO_SetOutputPin(_transmitPinPort, _transmitPinNumber);
 //    PORT_SetBits(_transmitPinPort,   _transmitPinNumber);
-    PORT_SetBitsGPIO(_transmitPin);
+    GPIO_SetBits(_transmitPin);
   }
   pinMode(_transmitPin, OUTPUT);
 }
@@ -181,11 +181,11 @@ inline void SoftwareSerial::send()
       if (tx_buffer & 1) {
 //        LL_GPIO_SetOutputPin(_transmitPinPort, _transmitPinNumber);
 //        PORT_SetBits(_transmitPinPort,   _transmitPinNumber);
-          PORT_SetBitsGPIO(_transmitPin);
+          GPIO_SetBits(_transmitPin);
       } else {
 //        LL_GPIO_ResetOutputPin(_transmitPinPort, _transmitPinNumber);
 //        PORT_ResetBits(_transmitPinPort,   _transmitPinNumber);
-          PORT_ResetBitsGPIO(_transmitPin);
+          GPIO_ResetBits(_transmitPin);
       }
       tx_buffer >>= 1;
       tx_tick_cnt = OVERSAMPLE; // Wait OVERSAMPLE tick to send next bit

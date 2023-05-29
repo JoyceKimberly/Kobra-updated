@@ -117,7 +117,7 @@ extern void setup_gpio(void )
     stcPortInit.enExInt = Disable;
     stcPortInit.enPullUp = Disable;
     /* LED0 and LED1 Port/Pin initialization */
-    //PORT_InitGPIO(LED, &stcPortInit);
+    //GPIO_Init(LED, &stcPortInit);
 }
 
 HardwareSerial MSerial1(M4_USART1);
