@@ -794,6 +794,16 @@
               <FileType>5</FileType>
               <FilePath>.\Marlin\lib\cores\arduino\drivers\usart\usart_handlers.h</FilePath>
             </File>
+            <File>
+              <FileName>yield.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Marlin\lib\cores\arduino\yield.c</FilePath>
+            </File>
+            <File>
+              <FileName>WVariant.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Marlin\lib\cores\arduino\WVariant.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -31,15 +31,10 @@ int main(void)
   uart4_init();
 
   H32OTS::init();
-
   get_all_clock();
-
   led_pin_init();
-
   endstop_pin_init();
-
   stepper_pin_init();
-
   heater_pin_init();
 
 // 0x1C swd on ; 0x1F swd off
@@ -47,7 +42,6 @@ int main(void)
 
   fan_pwm_init();
   beep_pwm_init();
-
   hal_sdio_init();
 
 // disk_initialize(0);
