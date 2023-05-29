@@ -19,7 +19,6 @@
 #include "../core/boards.h"
 
 #include "systick.h"
-#include "board_cfg.h" 
 #include "gpio.h" 
 #include "adc.h"
 #include "../pins/pins.h"
