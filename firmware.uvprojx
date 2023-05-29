@@ -415,9 +415,9 @@
               <FilePath>Marlin\lib\cores\arduino\drivers\board_sdio.cpp</FilePath>
             </File>
             <File>
-              <FileName>startup.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>Marlin\lib\cores\arduino\main\startup.cpp</FilePath>
+              <FileName>startup.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>Marlin\lib\cores\arduino\main\startup.h</FilePath>
             </File>
           </Files>
         </Group>

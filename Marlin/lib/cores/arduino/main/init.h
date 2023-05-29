@@ -1,15 +1,12 @@
 #ifndef __BSP_INIT_H__
 #define __BSP_INIT_H__
 
-
 #include "hc32_ddl.h"
-
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
 
 #define LED0_PORT                       (PortA)
 #define LED0_PIN                        (Pin01)
@@ -170,11 +167,8 @@ void uart2_init();
 void uart3_init();
 void uart4_init(void);
 
-
 #ifdef __cplusplus
 }
 #endif
 
-
 #endif
-

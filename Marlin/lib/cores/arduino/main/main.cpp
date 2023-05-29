@@ -14,10 +14,6 @@
 
 #include "marlincore.h"
 
-
-#define APP_START_ADDRESS   0x8000u
-
-
 void soft_delay_ms(uint32_t ms)
 {
     for(uint32_t i=0; i<ms; i++) {
@@ -33,10 +29,11 @@ void soft_delay_ms(uint32_t ms)
     }
 }
 
+#define LD_FLASH_START 0x8000u
 void core_init(void)
 {
 // bootloader vector startup addr
-    SCB->VTOR = ((uint32_t) APP_START_ADDRESS & SCB_VTOR_TBLOFF_Msk);
+    SCB->VTOR = ((uint32_t) LD_FLASH_START & SCB_VTOR_TBLOFF_Msk);
 }
 
 int main(void)
@@ -49,46 +46,46 @@ int main(void)
 	core_hook_pre_setup();
 	CORE_DEBUG_PRINTF("core entering setup\n");
 
-    PWC_HS2HP();
+  PWC_HS2HP();
 
-    flash_init();
+  flash_init();
 
-    uart1_init();
-    uart2_init();
-    uart4_init();
+  uart1_init();
+  uart2_init();
+  uart4_init();
 
-    H32OTS::init();
+  H32OTS::init();
 
-    get_all_clock();
+  get_all_clock();
 
-    led_pin_init();
+  led_pin_init();
 
-    adc_init();
+  adc_init();
 
-    endstop_pin_init();
+  endstop_pin_init();
 
-    stepper_pin_init();
+  stepper_pin_init();
 
-    heater_pin_init();
+  heater_pin_init();
 
 // 0x1C swd on ; 0x1F swd off
-    PORT_DebugPortSetting(0x1F, Disable);
+  PORT_DebugPortSetting(0x1F, Disable);
 
-    fan_pwm_init();
-    beep_pwm_init();
+  fan_pwm_init();
+  beep_pwm_init();
 
-    hal_sdio_init();
+  hal_sdio_init();
 
-//    disk_initialize(0);
+// disk_initialize(0);
 
-    timer02A_init();     // 1k Hz, millis()
-    timer02B_init();     // soft serial
-    timer41_init();      // 1k Hz, used for temperature tick
-    timer42_init();      // step motor
-    timer01B_init();     // used for beep duration timer
+  timer02A_init();     // 1k Hz, millis()
+  timer02B_init();     // soft serial
+  timer41_init();      // 1k Hz, used for temperature tick
+  timer42_init();      // step motor
+  timer01B_init();     // used for beep duration timer
 
-//SysTick configuration
-    SysTick_Init(1000u);
+// SysTick configuration
+  SysTick_Init(1000u);
 
 	setup();
 	core_hook_post_setup();
