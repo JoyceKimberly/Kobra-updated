@@ -19,8 +19,10 @@
 #pragma once
 #include <startup.h>
 #include <hc32_ddl.h>
+#include <stdint.h>
 #include "HardwareSerial.h"
 #include "RingBuffer.h"
+#include "usart_config.h"
 #include "../../core_hooks.h"
 #include <stddef.h>
 
@@ -44,6 +46,8 @@ public:
   void IrqHandler();
 
 private:
+
+  // rx / tx buffers (unboxed from config)
   RingBuffer rxBuffer;
   RingBuffer txBuffer;
 };

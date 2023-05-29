@@ -14,21 +14,6 @@
 
 #include "marlincore.h"
 
-void soft_delay_ms(uint32_t ms)
-{
-    for(uint32_t i=0; i<ms; i++) {
-        for(uint32_t j=0; j<8192; j++) {
-
-#if   defined ( __CC_ARM )
-            __nop();
-#elif defined ( __GNUC__ )
-        	asm("NOP");
-#endif
-
-        }
-    }
-}
-
 int main(void)
 {
 	// initialize SoC, then CORE_DEBUG

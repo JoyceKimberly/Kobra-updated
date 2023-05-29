@@ -19,8 +19,11 @@
 #ifndef _WIRING_DIGITAL_
 #define _WIRING_DIGITAL_
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 #include "WVariant.h"
-#include "startup.h"
 
 /**
  * \brief Configures the specified pin to behave either as an input or an output. See the description of digital pins for details.
@@ -68,5 +71,9 @@ extern void digitalWrite( uint32_t dwPin, uint32_t dwVal ) ;
  * \return HIGH or LOW
  */
 extern int digitalRead( uint32_t ulPin ) ;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _WIRING_DIGITAL_ */

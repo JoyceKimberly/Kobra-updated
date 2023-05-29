@@ -1,6 +1,6 @@
 #include "usart_config.h"
 #include "usart_handlers.h"
-#include "../gpio/gpio_pindefs.h"
+#include "../../WVariant.h"
 #include "../../core_hooks.h"
 
 // UART1
@@ -130,7 +130,7 @@ usart_config_t USART2_config = {
     .interrupts = {
         .rx_data_available = {
             .interrupt_number = IRQ_INDEX_INT_USART2_RI,
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_priority = DDL_IRQ_PRIORITY_08,
             .interrupt_source = INT_USART2_RI,
             .interrupt_handler = USARTx_rx_data_available_irq<2>,
         },
