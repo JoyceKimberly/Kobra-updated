@@ -22,6 +22,8 @@ extern "C"
 /********************************************************/
 /********************************************************/
 
+#define ADC_CH 3
+
 // ADC irq flag bit mask
 #define ADC1_SA_DMA_IRQ_BIT (1ul << 0u)
 
@@ -31,7 +33,7 @@ extern "C"
 	typedef struct adc_dev
 	{
 		__IO uint32_t HAL_AdcDmaIrqFlag;
-		__IO uint16_t HAL_adc_results[3];
+		__IO uint16_t HAL_adc_results[ADC_CH];
 
 		M4_ADC_TypeDef *regs;           /**< Register map */
 		__IO uint32_t PeriphClock;      /**< clock information */
@@ -67,8 +69,20 @@ extern "C"
 	extern uint32_t  AdcCH2Value;
 
 	extern uint16_t g_adc_value[3];
+	extern uint8_t g_adc_idx;
 
 	static void adc_pin_init(void);
+	static void adc_initConfig(void);
+	static void adc_channelConfig(void);
+	static void adc_triggerConfig(void);
+
+	static void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx,
+																	uint32_t u32Channel,
+																	en_pin_mode_t mode);
+
+	static void adc_setPinMode(uint8_t adcPin, en_pin_mode_t mode);
+
+	void adc_dmaInitConfig(void);
 
 	void BSP_DMA2CH0_TcIrqHander(void);
 	void BSP_DMA2CH1_TcIrqHander(void);

@@ -26,10 +26,6 @@
 #include "../../inc/MarlinConfig.h"
 #include "HAL.h"
 #include "timers.h"
-#include "hc32f460_clk.h"
-#include "hc32f460_pwc.h"
-#include "hc32f460_timer0.h"
-#include "hc32f460_interrupts.h"
 
 #define TMR_UNIT M4_TMR02
 

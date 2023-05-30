@@ -131,4 +131,6 @@ protected:
   volatile rx_buffer_index_t _rx_buffer_tail;
 };
 
+extern void serialEventRun(void) __attribute__((weak));
+
 #endif

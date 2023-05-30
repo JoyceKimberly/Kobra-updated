@@ -7,32 +7,13 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 
 #if defined(ARDUINO) && ARDUINO >= 100
-	#include <Arduino.h>
-	#include <SPI.h>
-	#include <Stream.h>
-#elif defined(bcm2835)
-	#include <bcm2835.h>
-	#include "source/bcm2835_spi.h"
-	#include "source/bcm2835_stream.h"
-#elif __cplusplus >= 201703L
-	#if __has_include(<Arduino.h>)
-		#include <Arduino.h>
-	#endif
-	#if __has_include(<SPI.h>)
-		#include <SPI.h>
-	#endif
-	#if __has_include(<Stream.h>)
-		#include <Stream.h>
-	#endif
+	//#include <Arduino.h>
 #endif
 
-#if (__cplusplus == 201703L) && defined(__has_include)
-	#define SW_CAPABLE_PLATFORM __has_include(<SoftwareSerial.h>)
-#elif defined(__AVR__) || defined(TARGET_LPC1768) || defined(ARDUINO_ARCH_STM32)
-	#define SW_CAPABLE_PLATFORM true
-#else
-	#define SW_CAPABLE_PLATFORM false
-#endif
+//#include <Stream.h>
+#include <SPI.h>
+
+#define SW_CAPABLE_PLATFORM true
 
 #if SW_CAPABLE_PLATFORM
 	#include <SoftwareSerial.h>

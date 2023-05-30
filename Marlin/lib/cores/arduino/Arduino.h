@@ -73,8 +73,11 @@ void loop( void ) ;
 #endif
 #include "delay.h"
 #ifdef __cplusplus
-#include "drivers/usart/Usart.h"
+#include "Uart.h"
 #endif
+
+// Include board variant
+#include "variant.h"
 
 #include "wiring_digital.h"
 #include "wiring_analog.h"

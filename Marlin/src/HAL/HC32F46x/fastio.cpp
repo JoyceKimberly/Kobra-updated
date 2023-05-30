@@ -4,6 +4,7 @@
  *
  * Based on Sprinter and grbl.
  * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (c) 2017 Victor Perez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,41 +20,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
-#pragma once
-#include "HardwareSerial.h"
-#include "../../core/serial_hook.h"
 
-// optionally set uart IRQ priority to reduce overflow errors
-// #define UART_IRQ_PRIO 1
+#include "../../inc/MarlinConfig.h"
 
-struct MarlinSerial : public HardwareSerial
-{
-  MarlinSerial(struct usart_dev *usart_device, uint8_t tx_pin, uint8_t rx_pin) : HardwareSerial(usart_device, tx_pin, rx_pin) {}
-
-#ifdef UART_IRQ_PRIO
-  void setPriority()
-  {
-    NVIC_SetPriority(c_dev()->RX_IRQ, UART_IRQ_PRIO);
-    NVIC_SetPriority(c_dev()->TX_IRQ, UART_IRQ_PRIO);
-  }
-
-  void begin(uint32_t baud)
-  {
-    HardwareSerial::begin(baud);
-    setPriority();
-  }
-
-  void begin(uint32_t baud, uint8_t config)
-  {
-    HardwareSerial::begin(baud, config);
-    setPriority();
-  }
-#endif
-};
-
-typedef Serial1Class<MarlinSerial> MSerialT;
-
-extern MSerialT MSerial1;
-extern MSerialT MSerial2;
-extern MSerialT MSerial3;
-extern MSerialT MSerial4;
+void FastIO_init() {
+}

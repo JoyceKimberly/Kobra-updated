@@ -6,8 +6,6 @@
 #include "../../inc/MarlinConfig.h"
 #include "../shared/Delay.h"
 #include "HAL.h"
-#include <IWatchdog.h>
-#include "soctemp.h"
 #include "sysclock.h"
 #include <core_hooks.h>
 #include "hc32_ddl.h"
@@ -24,13 +22,18 @@ MarlinHAL::MarlinHAL() {}
 void MarlinHAL::watchdog_init()
 {
 #if ENABLED(USE_WATCHDOG)
-    stc_wdt_init_t wdtConf = {
-        .enCountCycle = WdtCountCycle65536,
-        .enClkDiv = WdtPclk3Div8192,
-        .enRefreshRange = WdtRefresh100Pct,
-        .enSleepModeCountEn = Disable,
-        .enRequestType = WdtTriggerResetRequest};
-    WDT.begin(&wdtConf);
+    stc_wdt_init_t wdtConf;
+
+    /* configure structure initialization */
+    MEM_ZERO_STRUCT(wdtConf);
+
+    wdtConf.enCountCycle = WdtCountCycle65536;
+    wdtConf.enClkDiv = WdtPclk3Div8192;
+    wdtConf.enRefreshRange = WdtRefresh100Pct;
+    wdtConf.enSleepModeCountEn = Disable;
+    wdtConf.enRequestType = WdtTriggerResetRequest;
+    WDT_Init(&wdtConf);
+    WDT_RefreshCounter();
 #endif
 }
 
@@ -40,7 +43,13 @@ void MarlinHAL::watchdog_refresh()
     #if DISABLED(PINS_DEBUGGING) && PIN_EXISTS(LED)
       TOGGLE(LED_PIN);  // heartbeat indicator
     #endif
-    WDT.reload();
+
+    en_result_t enRet = Error;
+    enRet = WDT_RefreshCounter();
+
+    if(enRet != Ok) {
+        printf("Failed at function: %s, line: %d\n", __FUNCTION__, __LINE__);
+    }
 #endif
 }
 
@@ -53,7 +62,6 @@ void MarlinHAL::init()
     UNUSED(cpuFreq);
 
     NVIC_SetPriorityGrouping(0x3);
-    SOCTemp::init();
 
     // print clock frequencies to host serial
     SERIAL_LEAF_1.print("-- clocks dump -- \n");
@@ -131,13 +139,6 @@ void MarlinHAL::delay_ms(const int ms)
 void MarlinHAL::idletask()
 {
     MarlinHAL::watchdog_refresh();
-
-    // monitor SOC temperature
-    if (SOCTemp::criticalTemperatureReached())
-    {
-        printf("SoC reached critical temperature, rebooting\n");
-        MarlinHAL::reboot();
-    }
 }
 
 uint8_t MarlinHAL::get_reset_source()
@@ -191,21 +192,19 @@ void MarlinHAL::adc_enable(const pin_t pin)
     pinMode(pin, INPUT_ANALOG);
 }
 
-extern uint16_t g_adc_value[3];
 void MarlinHAL::adc_start(const pin_t pin)
 {
-    uint8_t pin_index;
     if       (pin == TEMP_BED_PIN) {
-        pin_index = 0;
+        g_adc_idx = 0;
     } else if(pin == TEMP_0_PIN) {
-        pin_index = 1;
+        g_adc_idx = 1;
     } else if(pin == POWER_MONITOR_VOLTAGE_PIN) {
-        pin_index = 2;
+        g_adc_idx = 2;
     } else {
-        pin_index = 0x0;
+        g_adc_idx = 0x0;
     }
 
-    MarlinHAL::adc_result = g_adc_value[pin_index];
+    MarlinHAL::adc_result = g_adc_value[g_adc_idx];
 }
 
 bool MarlinHAL::adc_ready()

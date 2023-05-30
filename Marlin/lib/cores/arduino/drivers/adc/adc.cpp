@@ -43,7 +43,7 @@ uint16_t adc_read(adc_dev *dev, uint8_t channel)
  **			b. PCLK4 : ADCLK = 1:1, 2:1, 4:1, 8:1, 1:2, 1:4
  **
  ******************************************************************************/
-void adc_setCLK()
+static void adc_setCLK(void)
 {
 #if (ADC_CLK == ADC_CLK_PCLK)
 	stc_clk_sysclk_cfg_t sysClkConf;
@@ -128,7 +128,7 @@ void adc_setCLK()
  ** \brief  ADC initial configuration.
  **
  ******************************************************************************/
-void adc_initConfig(adc_dev *dev)
+static void adc_initConfig(void)
 {
 	// enable adc1
 	PWC_Fcg3PeriphClockCmd(PWC_FCG3_PERIPH_ADC1, Enable);
@@ -150,7 +150,7 @@ void adc_initConfig(adc_dev *dev)
  ** \brief  Set an ADC pin as analog input mode or digit mode.
  **
  ******************************************************************************/
-void adc_setPinMode(uint8_t adcPin, en_pin_mode_t mode)
+static void adc_setPinMode(uint8_t adcPin, en_pin_mode_t mode)
 {
 	// translate adc input to pin
 	en_port_t enPort = PortA;
@@ -243,7 +243,7 @@ void adc_setPinMode(uint8_t adcPin, en_pin_mode_t mode)
  ** \brief  Config the pin which is mapping the channel to analog or digit mode.
  **
  ******************************************************************************/
-void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, en_pin_mode_t mode)
+static void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, en_pin_mode_t mode)
 {
 	// get channel offset and mask
 #if (ADC_CH_REMAP)
@@ -285,7 +285,7 @@ void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, en_pin_
  ** \brief  ADC channel configuration.
  **
  ******************************************************************************/
-void adc_channelConfig(adc_dev *dev, en_pin_mode_t mode)
+static void adc_channelConfig(void)
 {
 	uint8_t samplingTimes[3] = { 0x60, 0x60, 0x60 };
 
@@ -305,7 +305,7 @@ void adc_channelConfig(adc_dev *dev, en_pin_mode_t mode)
  ** \brief  ADC trigger source configuration.
  **
  ******************************************************************************/
-void adc_triggerConfig(adc_dev *dev, uint32_t fcg0Periph)
+static void adc_triggerConfig(void)
 {
 	PWC_Fcg0PeriphClockCmd(PWC_FCG0_PERIPH_AOS, Enable);
 
@@ -313,22 +313,16 @@ void adc_triggerConfig(adc_dev *dev, uint32_t fcg0Periph)
 	MEM_ZERO_STRUCT(stcTrgCfg);
 
 	/*
-	// select EVT_TMR02_GCMA as ADC1 trigger source
-	stc_adc_trg_cfg_t triggerConf = {
-		.u8Sequence = ADC_SEQ_A,
-		.enTrgSel = AdcTrgsel_TRGX0,
-		.enInTrg0 = EVT_TMR02_GCMA,
-	};
-	ADC_ConfigTriggerSrc(dev->regs, &triggerConf);
-	ADC_TriggerSrcCmd(dev->regs, ADC_SEQ_A, Enable);
-	*/
+	 * If select an event(@ref en_event_src_t) to trigger ADC,
+	 * AOS must be enabled first.
+	 */
 
 	// ADC1 is always triggered by software
 	ADC_TriggerSrcCmd(M4_ADC1, ADC_SEQ_A, Disable);
 }
 
 // DMA2 CH0 ~ CH2
-void adc_dmaInitConfig(adc_dev *dev)
+void adc_dmaInitConfig(void)
 {
 	// setup dma config
 	stc_dma_config_t dmaConf;
@@ -385,18 +379,18 @@ static void adc_pin_init(void)
 	PORT_Init(BOARD_ADC_CH2_PORT, BOARD_ADC_CH2_PIN, &portConf);
 }
 
-void adc_setDefaultConfig(adc_dev *dev)
+void adc_setDefaultConfig(void)
 {
 	// init and config adc and channels
-	adc_initConfig(dev);
+	adc_initConfig();
 	adc_pin_init();
-	adc_channelConfig(dev, Pin_Mode_Ana);
-	adc_triggerConfig(dev, PWC_FCG0_PERIPH_AOS);
+	adc_channelConfig();
+	adc_triggerConfig();
 
 	// init and config DMA
-	adc_dmaInitConfig(dev);
+	adc_dmaInitConfig();
 
-	ADC_StartConvert(dev->regs);
+	ADC_StartConvert(M4_ADC1);
 }
 
 void adc_init(void)
@@ -405,5 +399,5 @@ void adc_init(void)
 	adc_setCLK();
 
 	// configure ADC
-	adc_setDefaultConfig(ADC1);
+	adc_setDefaultConfig();
 }

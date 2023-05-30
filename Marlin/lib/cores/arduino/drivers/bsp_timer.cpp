@@ -5,15 +5,6 @@
 #include <init.h>
 #include "SoftwareSerial.h"
 
-#define IRQ_INDEX_INT_TMR01_GCMA        Int019_IRQn
-#define IRQ_INDEX_INT_TMR01_GCMB        Int020_IRQn
-
-#define IRQ_INDEX_INT_TMR02_GCMA        Int021_IRQn
-#define IRQ_INDEX_INT_TMR02_GCMB        Int022_IRQn
-
-#define IRQ_INDEX_INT_TMR41_GCMB        Int023_IRQn
-#define IRQ_INDEX_INT_TMR42_GCMB        Int024_IRQn
-
 extern volatile uint32_t _millis;
 
 void Timer02A_CallBack(void)

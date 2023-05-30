@@ -1,65 +1,41 @@
-/*
-  Copyright (c) 2015 Arduino LLC.  All right reserved.
+/******************************************************************************
+ * The MIT License
+ *
+ * Copyright (c) 2010 Perry Hung.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *****************************************************************************/
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the GNU Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+/**
+ * @file libmaple/include/libmaple/usart.h
+ * @author Marti Bolivar <mbolivar@leaflabs.com>,
+ *         Perry Hung <perry@leaflabs.com>
+ * @brief USART definitions and prototypes
+ */
 
 #pragma once
 #include <startup.h>
 #include <hc32_ddl.h>
-#include <stdint.h>
-#include "HardwareSerial.h"
 #include "RingBuffer.h"
 #include "../../core_hooks.h"
-#include <stddef.h>
-
-class Usart : public HardwareSerial
-{
-public:
-  // Use the constructor to pass hardware configurations
-  Usart(struct usart_config_t *config);
-  void begin(uint32_t baud);
-  void begin(uint32_t baud, uint16_t config);
-  void begin(uint32_t baud, const stc_usart_uart_init_t *config);
-  void end();
-  int available();
-  int availableForWrite();
-  int peek();
-  int read();
-  void flush();
-  size_t write(uint8_t ch);
-  using Print::write; // pull in write(str) and write(buf, size) from Print
-  operator bool() { return true; }
-
-  /**
-   * @brief access the base usart config struct
-   */
-  const usart_config_t *c_dev(void) { return this->config; }
-
-private:
-  // usart configuration struct
-  usart_config_t *config;
-
-  // rx / tx buffers (unboxed from config)
-  RingBuffer rxBuffer;
-  RingBuffer txBuffer;
-};
-
-//
-// global instances
-//
 
 #ifdef __cplusplus
 extern "C"
@@ -89,6 +65,20 @@ extern "C"
 #define IRQ_INDEX_INT_DMA2_TC0          Int016_IRQn
 #define IRQ_INDEX_INT_DMA2_TC1          Int017_IRQn
 #define IRQ_INDEX_INT_DMA2_TC2          Int018_IRQn
+
+#define IRQ_INDEX_INT_TMR01_GCMA        Int019_IRQn
+#define IRQ_INDEX_INT_TMR01_GCMB        Int020_IRQn
+
+#define IRQ_INDEX_INT_TMR02_GCMA        Int021_IRQn
+#define IRQ_INDEX_INT_TMR02_GCMB        Int022_IRQn
+
+#define IRQ_INDEX_INT_TMR41_GCMB        Int023_IRQn
+#define IRQ_INDEX_INT_TMR42_GCMB        Int024_IRQn
+
+
+extern uint8_t g_uart2_rx_buf[128];
+extern uint8_t g_uart2_rx_index;
+
 
 void uart1_init(void);
 void Usart1RxIrqCallback(void);

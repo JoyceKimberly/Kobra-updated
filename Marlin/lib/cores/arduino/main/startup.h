@@ -19,6 +19,7 @@
 #include "../core/boards.h"
 
 #include "systick.h"
+#include "board_cfg.h" 
 #include "gpio.h" 
 #include "adc.h"
 #include "../pins/pins.h"
@@ -28,5 +29,22 @@
 
 #include "Arduino.h"
 #include "flash.h"
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+
+void init(void);
+void f_cpu_init(uint32_t clock);
+extern void setup_Extinterrupt(void);
+extern void ExtInt_X_MIN_Callback(void);
+extern void ExtInt_Y_MIN_Callback(void);
+extern void ExtInt_Z_MIN_Callback(void);
+extern void ExtInt_Z2_MIN_Callback(void);
+extern void ExtInt_Z_MIN_PROBE_Callback(void);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif

@@ -9,7 +9,7 @@
 /**
  * set flash latency and cache
  */
-inline void flash_init()
+void flash_init(void)
 {
     stc_clk_xtal_cfg_t   stcXtalCfg;
     stc_clk_mpll_cfg_t   stcMpllCfg;
@@ -70,38 +70,36 @@ inline void flash_init()
     CLK_SetSysClkSource(CLKSysSrcMPLL);
 }
 
-#define LD_FLASH_START 0x8000u
-
-void core_init()
-{
-    // setup VTO register
-    SCB->VTOR = (uint32_t(LD_FLASH_START) & SCB_VTOR_TBLOFF_Msk);
-
-    // setup the SoC and initialize drivers
-    flash_init();
-    update_system_clock_frequencies();
-    adc_init();
-}
-
-uint32_t F_CPU;
-
-void f_cpu_init(uint32_t clock)
-{
-    F_CPU = clock;
-}
-
 void get_all_clock(void)
 {
     stc_clk_freq_t   stcClkFreq;
     stc_pll_clk_freq_t stcPllClkFreq;
 
-  	MEM_ZERO_STRUCT(stcClkFreq);
+	MEM_ZERO_STRUCT(stcClkFreq);
     MEM_ZERO_STRUCT(stcPllClkFreq);
 
-	  CLK_GetClockFreq(&stcClkFreq);
-	  CLK_GetPllClockFreq(&stcPllClkFreq);
+	CLK_GetClockFreq(&stcClkFreq);
+	CLK_GetPllClockFreq(&stcPllClkFreq);
 
-	  f_cpu_init(stcClkFreq.pclk1Freq);   // used for stepper timer
+	f_cpu_init(stcClkFreq.pclk1Freq);   // used for stepper timer
+
+#if 0
+    printf("sysclkFreq: %d\n", stcClkFreq.sysclkFreq);
+    printf("hclkFreq:   %d\n", stcClkFreq.hclkFreq);
+    printf("exckFreq:   %d\n", stcClkFreq.exckFreq);
+    printf("pclk0Freq:  %d\n", stcClkFreq.pclk0Freq);
+    printf("pclk1Freq:  %d\n", stcClkFreq.pclk1Freq);
+    printf("pclk2Freq:  %d\n", stcClkFreq.pclk2Freq);
+    printf("pclk3Freq:  %d\n", stcClkFreq.pclk3Freq);
+    printf("pclk4Freq:  %d\n", stcClkFreq.pclk4Freq);
+
+    printf("mpllp:      %d\n", stcPllClkFreq.mpllp);
+    printf("mpllq:      %d\n", stcPllClkFreq.mpllq);
+    printf("mpllr:      %d\n", stcPllClkFreq.mpllr);
+    printf("upllp:      %d\n", stcPllClkFreq.upllp);
+    printf("upllq:      %d\n", stcPllClkFreq.upllq);
+    printf("upllr:      %d\n", stcPllClkFreq.upllr);
+#endif
 }
 
 void led_pin_init(void)
@@ -127,6 +125,14 @@ void endstop_pin_init(void)
 
     stcPortInit.enPinMode = Pin_Mode_In;
     stcPortInit.enPullUp  = Disable;
+
+#if 0
+    PORT_Init(X_MIN_PORT,   X_MIN_PIN,   &stcPortInit);
+    PORT_Init(Y_MIN_PORT,   Y_MIN_PIN,   &stcPortInit);
+    PORT_Init(Z_MIN_PORT,   Z_MIN_PIN,   &stcPortInit);
+    PORT_Init(E0_MIN_PORT,  E0_MIN_PIN,  &stcPortInit);
+    PORT_Init(Z_PROBE_PORT, Z_PROBE_PIN, &stcPortInit);
+#endif
 }
 
 void stepper_pin_init(void)
@@ -137,6 +143,28 @@ void stepper_pin_init(void)
 
     stcPortInit.enPinMode = Pin_Mode_Out;
     stcPortInit.enPullUp  = Enable;
+
+#if 0
+    PORT_Init(X_ENABLE_PORT,   X_ENABLE_PIN,  &stcPortInit);
+    PORT_SetBits(X_ENABLE_PORT, X_ENABLE_PIN);
+
+    stcPortInit.enPullUp  = Disable;
+
+    PORT_Init(X_STEP_PORT,     X_STEP_PIN,    &stcPortInit);
+    PORT_Init(X_DIR_PORT,      X_DIR_PIN,     &stcPortInit);
+
+    PORT_Init(Y_ENABLE_PORT,   Y_ENABLE_PIN,  &stcPortInit);
+    PORT_Init(Y_STEP_PORT,     Y_STEP_PIN,    &stcPortInit);
+    PORT_Init(Y_DIR_PORT,      Y_DIR_PIN,     &stcPortInit);
+
+    PORT_Init(Z_ENABLE_PORT,   Z_ENABLE_PIN,  &stcPortInit);
+    PORT_Init(Z_STEP_PORT,     Z_STEP_PIN,    &stcPortInit);
+    PORT_Init(Z_DIR_PORT,      Z_DIR_PIN,     &stcPortInit);
+
+    PORT_Init(E0_ENABLE_PORT,  E0_ENABLE_PIN,  &stcPortInit);
+    PORT_Init(E0_STEP_PORT,    E0_STEP_PIN,    &stcPortInit);
+    PORT_Init(E0_DIR_PORT,     E0_DIR_PIN,     &stcPortInit);
+#endif
 }
 
 void heater_pin_init(void)
@@ -147,6 +175,14 @@ void heater_pin_init(void)
 
     stcPortInit.enPinMode = Pin_Mode_Out;
     stcPortInit.enPullUp  = Disable;
+
+#if 0
+    PORT_Init(HEATER_BED_PORT, HEATER_BED_PIN, &stcPortInit);
+    PORT_Init(HEATER_0_PORT,   HEATER_0_PIN,   &stcPortInit);
+
+    PORT_ResetBits(HEATER_BED_PORT, HEATER_BED_PIN);
+    PORT_ResetBits(HEATER_0_PORT,   HEATER_0_PIN);
+#endif
 }
 
 void fan_pin_init(void)
@@ -160,4 +196,18 @@ void fan_pin_init(void)
 
 // 0x1C swd on ; 0x1F swd off
     PORT_DebugPortSetting(0x1F, Disable);
+
+#if 0
+    PORT_SetFunc(FAN_0_PORT, FAN_0_PIN, Func_Gpio, Disable);
+    PORT_SetFunc(FAN_1_PORT, FAN_1_PIN, Func_Gpio, Disable);
+    PORT_SetFunc(FAN_2_PORT, FAN_2_PIN, Func_Gpio, Disable);
+
+    PORT_Init(FAN_0_PORT, FAN_0_PIN, &stcPortInit);
+    PORT_Init(FAN_1_PORT, FAN_1_PIN, &stcPortInit);
+    PORT_Init(FAN_2_PORT, FAN_2_PIN, &stcPortInit);
+
+    FAN_0_OFF();
+    FAN_1_OFF();
+    FAN_2_OFF();
+#endif
 }

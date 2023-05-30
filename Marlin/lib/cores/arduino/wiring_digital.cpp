@@ -32,7 +32,7 @@ void pinMode(uint32_t dwPin, uint32_t dwMode)
     }
 
     // set pind config
-    GPIO_Init(dwPin, &pinConf);
+    PORT_InitGPIO(dwPin, &pinConf);
 }
 
 void digitalWrite(uint32_t dwPin, uint32_t dwVal)
@@ -44,11 +44,11 @@ void digitalWrite(uint32_t dwPin, uint32_t dwVal)
 
     if (dwVal == HIGH)
     {
-        GPIO_SetBits(dwPin);
+        PORT_SetBitsGPIO(dwPin);
     }
     else
     {
-        GPIO_ResetBits(dwPin);
+        PORT_ResetBitsGPIO(dwPin);
     }
 }
 
@@ -59,5 +59,5 @@ int digitalRead(uint32_t ulPin)
         return LOW;
     }
 
-    return GPIO_GetBit(ulPin) ? HIGH : LOW;
+    return PORT_GetBitGPIO(ulPin) ? HIGH : LOW;
 }

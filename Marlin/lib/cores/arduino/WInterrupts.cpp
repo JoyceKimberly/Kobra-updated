@@ -98,7 +98,7 @@ void _attachInterrupt(uint32_t pin, voidFuncPtr handler, uint8_t irqNum, uint32_
     stc_port_init_t portConf;
     MEM_ZERO_STRUCT(portConf);
     portConf.enExInt = Enable;
-    GPIO_Init(pin, &portConf);
+    PORT_InitGPIO(pin, &portConf);
 
     // register IRQ
     stc_irq_regi_conf_t irqReg = {
@@ -125,7 +125,7 @@ void _detachInterrupt(uint32_t pin, uint8_t irqNum)
     stc_port_init_t portConf;
     MEM_ZERO_STRUCT(portConf);
     portConf.enExInt = Disable;
-    GPIO_Init(pin, &portConf);
+    PORT_InitGPIO(pin, &portConf);
 
     // clear pending and disable IRQ
     IRQn_Type irqVec = mapToIQRVector(irqNum);

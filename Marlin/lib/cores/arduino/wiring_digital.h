@@ -19,11 +19,8 @@
 #ifndef _WIRING_DIGITAL_
 #define _WIRING_DIGITAL_
 
-#ifdef __cplusplus
- extern "C" {
-#endif
-
 #include "WVariant.h"
+#include "startup.h"
 
 /**
  * \brief Configures the specified pin to behave either as an input or an output. See the description of digital pins for details.
@@ -32,14 +29,6 @@
  * \param ulMode Can be INPUT, OUTPUT, INPUT_PULLUP or INPUT_PULLDOWN
  */
 extern void pinMode( uint32_t dwPin, uint32_t dwMode ) ;
-
-/**
- * \brief get the current pin mode
- * 
- * \param dwPin The number of the pin whose mode you wish to get
- * \return the current pin mode. Can be INPUT, OUTPUT, INPUT_PULLUP or INPUT_PULLDOWN
-*/
-extern uint32_t getPinMode( uint32_t dwPin) ;
 
 /**
  * \brief Write a HIGH or a LOW value to a digital pin.
@@ -71,9 +60,5 @@ extern void digitalWrite( uint32_t dwPin, uint32_t dwVal ) ;
  * \return HIGH or LOW
  */
 extern int digitalRead( uint32_t ulPin ) ;
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* _WIRING_DIGITAL_ */
