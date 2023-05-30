@@ -55,8 +55,6 @@ public:
    */
   const usart_receive_error_t getReceiveError(void);
 
-  void IrqHandler();
-
 private:
   // usart configuration struct
   usart_config_t *config;
@@ -107,20 +105,6 @@ extern "C"
 #define IRQ_INDEX_INT_DMA2_TC0          Int016_IRQn
 #define IRQ_INDEX_INT_DMA2_TC1          Int017_IRQn
 #define IRQ_INDEX_INT_DMA2_TC2          Int018_IRQn
-
-#define IRQ_INDEX_INT_TMR01_GCMA        Int019_IRQn
-#define IRQ_INDEX_INT_TMR01_GCMB        Int020_IRQn
-
-#define IRQ_INDEX_INT_TMR02_GCMA        Int021_IRQn
-#define IRQ_INDEX_INT_TMR02_GCMB        Int022_IRQn
-
-#define IRQ_INDEX_INT_TMR41_GCMB        Int023_IRQn
-#define IRQ_INDEX_INT_TMR42_GCMB        Int024_IRQn
-
-
-extern uint8_t g_uart2_rx_buf[128];
-extern uint8_t g_uart2_rx_index;
-
 
 void uart1_init(void);
 void Usart1RxIrqCallback(void);
