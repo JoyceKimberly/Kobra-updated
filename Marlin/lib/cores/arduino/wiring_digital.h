@@ -31,6 +31,14 @@
 extern void pinMode( uint32_t dwPin, uint32_t dwMode ) ;
 
 /**
+ * \brief get the current pin mode
+ * 
+ * \param dwPin The number of the pin whose mode you wish to get
+ * \return the current pin mode. Can be INPUT, OUTPUT, INPUT_PULLUP or INPUT_PULLDOWN
+*/
+extern uint32_t getPinMode( uint32_t dwPin) ;
+
+/**
  * \brief Write a HIGH or a LOW value to a digital pin.
  *
  * If the pin has been configured as an OUTPUT with pinMode(), its voltage will be set to the

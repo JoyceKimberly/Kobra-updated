@@ -38,9 +38,6 @@ extern uint16_t timer_get_count(const uint8_t timer_num);
 extern void timer_enable_irq(const uint8_t timer_num,en_functional_state_t state); 
 extern bool timer_irq_enabled(M4_TMR0_TypeDef* pstcTim0Reg, const uint8_t timer_num); 
 
-void delay(uint32_t ms);
-void delayMicroseconds(uint32_t us);
-
 #define os_get_timeslice(x,y)  ((uint32_t)(x>=y?(x-y):0))
 
 extern volatile uint32_t _millis;

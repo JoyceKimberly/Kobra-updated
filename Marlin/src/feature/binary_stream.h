@@ -32,11 +32,11 @@
 #endif
 
 inline bool bs_serial_data_available(const serial_index_t index) {
-  return SERIAL_IMPL.available(index);
+  return SERIAL_IMPL.available();
 }
 
 inline int bs_read_serial(const serial_index_t index) {
-  return SERIAL_IMPL.read(index);
+  return SERIAL_IMPL.read();
 }
 
 class SDFileTransferProtocol  {

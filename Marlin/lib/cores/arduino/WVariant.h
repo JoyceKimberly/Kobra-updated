@@ -77,7 +77,7 @@ extern "C"
 	/**
 	 * @brief GPIO pin map
 	 */
-	extern const pin_info_t PIN_MAP[];
+	extern const pin_info_t PIN_MAP[BOARD_NR_GPIO_PINS];
 	extern const uint8_t ADC_PINS[BOARD_NR_ADC_PINS];
 
 /**

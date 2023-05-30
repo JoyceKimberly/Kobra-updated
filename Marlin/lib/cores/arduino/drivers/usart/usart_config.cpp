@@ -1,3 +1,4 @@
+@@ -1,412 +0,0 @@
 #include "usart.h"
 
 // initial usart config
@@ -18,37 +19,29 @@ stc_usart_uart_init_t usartConf = {
 
 // UART1
 #define USART1_BAUDRATE                (115200ul)
-
 #define USART1_TX_PORT                 (PortA)  // Func_Grp1
 #define USART1_TX_PIN                  (Pin09)
-
 #define USART1_RX_PORT                 (PortA)  // Func_Grp1
 #define USART1_RX_PIN                  (Pin15)
 
 // UART2
 #define USART2_BAUDRATE                (115200ul)
-
 #define USART2_TX_PORT                 (PortA)  // Func_Grp1
 #define USART2_TX_PIN                  (Pin02)
-
 #define USART2_RX_PORT                 (PortA)  // Func_Grp1
 #define USART2_RX_PIN                  (Pin03)
 
 // UART3
 #define USART3_BAUDRATE                (115200ul)
-
 #define USART3_TX_PORT                 (PortA)  // Func_Grp1
 #define USART3_TX_PIN                  (Pin11)
-
 #define USART3_RX_PORT                 (PortA)  // Func_Grp1
 #define USART3_RX_PIN                  (Pin12)
 
 // UART4
 #define USART4_BAUDRATE                (115200ul)
-
 #define USART4_TX_PORT                 (PortB)  // Func_Grp2
 #define USART4_TX_PIN                  (Pin10)
-
 #define USART4_RX_PORT                 (PortH)  // Func_Grp2
 #define USART4_RX_PIN                  (Pin02)
 
