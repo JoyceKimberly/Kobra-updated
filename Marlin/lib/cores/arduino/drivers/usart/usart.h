@@ -22,7 +22,6 @@
 #include <stdint.h>
 #include "HardwareSerial.h"
 #include "RingBuffer.h"
-#include "usart_config.h"
 #include "../../core_hooks.h"
 #include <stddef.h>
 
@@ -49,12 +48,6 @@ public:
    */
   const usart_config_t *c_dev(void) { return this->config; }
 
-  /**
-   * @brief get the last receive error
-   * @note calling this function clears the error
-   */
-  const usart_receive_error_t getReceiveError(void);
-
 private:
   // usart configuration struct
   usart_config_t *config;
@@ -67,15 +60,6 @@ private:
 //
 // global instances
 //
-#define DISABLE_SERIAL_GLOBALS
-#ifndef DISABLE_SERIAL_GLOBALS
-extern Usart Serial1;
-extern Usart Serial2;
-extern Usart Serial3;
-extern Usart Serial4;
-
-#define Serial Serial1
-#endif
 
 #ifdef __cplusplus
 extern "C"
@@ -304,6 +288,13 @@ void Usart4TxCmpltIrqCallback(void);
             USART_FuncCmd(dev->regs, UsartTxEmptyInt, Disable);
             USART_FuncCmd(dev->regs, UsartTxCmpltInt, Enable);
         }
+    }
+
+    static inline void usart_rx_irq(usart_dev *dev)
+    {
+        uint8_t ch = (uint8_t)USART_RecData(dev->regs);
+        core_hook_usart_rx_irq(ch, usart_dev_to_channel(dev->regs));
+        dev->rb->push(ch, true);
     }
 
 #ifdef __cplusplus

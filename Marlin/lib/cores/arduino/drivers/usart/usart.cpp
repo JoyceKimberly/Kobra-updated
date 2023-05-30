@@ -1,5 +1,5 @@
 #include <hc32_ddl.h>
-#include "Usart.h"
+#include "usart.h"
 #include "core_hooks.h"
 #include "core_debug.h"
 #include "yield.h"
@@ -10,16 +10,6 @@ extern HardwareSerial MSerial1;
 extern HardwareSerial MSerial2;
 extern HardwareSerial MSerial3;
 extern HardwareSerial MSerial4;
-
-//
-// global instances
-//
-#ifndef DISABLE_SERIAL_GLOBALS
-Usart Serial1(&USART1_config);
-Usart Serial2(&USART2_config);
-Usart Serial3(&USART3_config);
-Usart Serial4(&USART4_config);
-#endif
 
 //
 // USART1 callbacks
