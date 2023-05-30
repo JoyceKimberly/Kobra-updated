@@ -73,6 +73,13 @@
 #endif
 
 //
+// Emergency Parser
+//
+#if ENABLED(EMERGENCY_PARSER)
+extern "C" void usart_rx_irq_hook(uint8_t ch, uint8_t usart);
+#endif
+
+//
 // Misc. Defines
 //
 #define STM32_FLASH_SIZE 256
@@ -86,14 +93,18 @@
 // Misc. Functions
 //
 #ifndef analogInputToDigitalPin
-  #define analogInputToDigitalPin(p) (p)
+#define analogInputToDigitalPin(p) (p)
 #endif
 
 #define HAL_CAN_SET_PWM_FREQ   // This HAL supports PWM Frequency adjustment
 
-#define CRITICAL_SECTION_START()  const bool irqon = !__get_PRIMASK(); __disable_irq()
+#define CRITICAL_SECTION_START()        \
+  const bool irqon = !__get_PRIMASK(); \
+  __disable_irq()
 
-#define CRITICAL_SECTION_END()    if (irqon) __enable_irq()
+#define CRITICAL_SECTION_END() \
+  if (irqon)              \
+  __enable_irq()
 
 // Disable interrupts
 #define cli() __disable_irq()

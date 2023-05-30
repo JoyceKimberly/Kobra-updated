@@ -2,9 +2,6 @@
 
 #include <stdint.h>
 
-extern uint16_t g_adc_value[3];
-extern uint8_t g_adc_idx;
-
 typedef int16_t pin_t;
 
 class MarlinHAL

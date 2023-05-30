@@ -1,8 +1,9 @@
+#include <hc32_ddl.h>
 #include "usart.h"
+#include "core_hooks.h"
+#include "core_debug.h"
+#include "yield.h"
 #include "HardwareSerial.h"
-
-uint8_t g_uart2_rx_buf[128];
-uint8_t g_uart2_rx_index;
 
 extern HardwareSerial MSerial1;
 extern HardwareSerial MSerial2;
