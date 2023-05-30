@@ -1,4 +1,3 @@
-@@ -1,412 +0,0 @@
 #include "usart.h"
 
 // initial usart config
