@@ -1,55 +1,22 @@
 /*******************************************************************************
- * Copyright (C) 2016, Huada Semiconductor Co., Ltd. All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co., Ltd. ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
-/** \file hc32f46x_adc.h
+/** \file hc32f460_adc.h
  **
  ** A detailed description is available at
  ** @link AdcGroup Adc description @endlink
  **
- **   - 2018-11-30  1.0 First version for Device Driver Library of Adc.
+ **   - 2018-11-30  CDT First version for Device Driver Library of Adc.
  **
  ******************************************************************************/
-#ifndef __HC32F46X_ADC_H__
-#define __HC32F46X_ADC_H__
+#ifndef __HC32F460_ADC_H__
+#define __HC32F460_ADC_H__
 
 /*******************************************************************************
  * Include files
@@ -455,16 +422,16 @@ typedef struct stc_adc_init
 * PGA channel definition.
 * NOTE: The PGA channel directly maps external pins and does not correspond to the ADC channel.
 */
-#define PGA_CH0                 (0x1ul << ADC1_IN0)     ///< Mapping pin ADC1_IN0
-#define PGA_CH1                 (0x1ul << ADC1_IN1)     ///< Mapping pin ADC1_IN1
-#define PGA_CH2                 (0x1ul << ADC1_IN2)     ///< Mapping pin ADC1_IN2
-#define PGA_CH3                 (0x1ul << ADC1_IN3)     ///< Mapping pin ADC1_IN3
-#define PGA_CH4                 (0x1ul << ADC12_IN4)    ///< Mapping pin ADC12_IN4
-#define PGA_CH5                 (0x1ul << ADC12_IN5)    ///< Mapping pin ADC12_IN5
-#define PGA_CH6                 (0x1ul << ADC12_IN6)    ///< Mapping pin ADC12_IN6
-#define PGA_CH7                 (0x1ul << ADC12_IN7)    ///< Mapping pin ADC12_IN7
-#define PGA_CH8                 (0x1ul << ADC12_IN8)    ///< Mapping internal 8bit DAC1 output
-#define PGA_CH_ALL              (0x000001FFul)
+#define PGA_CH_NONE             (0x0000u)           ///< PGA channel none selection.
+#define PGA_CH0                 (0x0001u)           ///< Mapping pin ADC1_IN0
+#define PGA_CH1                 (0x0002u)           ///< Mapping pin ADC1_IN1
+#define PGA_CH2                 (0x0004u)           ///< Mapping pin ADC1_IN2
+#define PGA_CH3                 (0x0008u)           ///< Mapping pin ADC1_IN3
+#define PGA_CH4                 (0x0010u)           ///< Mapping pin ADC12_IN4
+#define PGA_CH5                 (0x0020u)           ///< Mapping pin ADC12_IN5
+#define PGA_CH6                 (0x0040u)           ///< Mapping pin ADC12_IN6
+#define PGA_CH7                 (0x0080u)           ///< Mapping pin ADC12_IN7
+#define PGA_CH8                 (0x0100u)           ///< Mapping internal 8bit DAC1 output
 
 /* ADC1 has up to 17 channels */
 #define ADC1_CH_COUNT           (17u)
@@ -489,7 +456,7 @@ void ADC_ComTriggerCmd(M4_ADC_TypeDef *ADCx, en_adc_trgsel_t enTrgSel, \
                        en_adc_com_trigger_t enComTrigger, en_functional_state_t enState);
 
 en_result_t ADC_AddAdcChannel(M4_ADC_TypeDef *ADCx, const stc_adc_ch_cfg_t *pstcChCfg);
-en_result_t ADC_DelAdcChannel(M4_ADC_TypeDef *ADCx, const stc_adc_ch_cfg_t *pstcChCfg);
+en_result_t ADC_DelAdcChannel(M4_ADC_TypeDef *ADCx, uint32_t u32Channel);
 en_result_t ADC_SeqITCmd(M4_ADC_TypeDef *ADCx, uint8_t u8Seq, en_functional_state_t enState);
 
 en_result_t ADC_ConfigAvg(M4_ADC_TypeDef *ADCx, en_adc_avcnt_t enAvgCnt);
@@ -504,8 +471,7 @@ en_result_t ADC_DelAwdChannel(M4_ADC_TypeDef *ADCx, uint32_t u32Channel);
 
 void ADC_ConfigPga(en_adc_pga_factor_t enFactor, en_adc_pga_negative_t enNegativeIn);
 void ADC_PgaCmd(en_functional_state_t enState);
-void ADC_AddPgaChannel(uint32_t u32Channel);
-void ADC_DelPgaChannel(uint32_t u32Channel);
+void ADC_PgaSelChannel(uint16_t u16Channel);
 
 void ADC_ConfigSync(en_adc_sync_mode_t enMode, uint8_t u8TrgDelay);
 void ADC_SyncCmd(en_functional_state_t enState);
@@ -535,7 +501,7 @@ uint8_t ADC_GetChannelPinNum(const M4_ADC_TypeDef *ADCx, uint8_t u8ChIndex);
 
 #endif /* DDL_ADC_ENABLE */
 
-#endif /* __HC32F46X_ADC_H__ */
+#endif /* __HC32F460_ADC_H__ */
 
 /*******************************************************************************
  * EOF (not truncated)
