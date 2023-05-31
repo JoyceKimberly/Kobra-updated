@@ -6,20 +6,14 @@
 #include "../gpio/gpio.h"
 #include "HardwareSerial.h"
 
-extern HardwareSerial MSerial1;
-extern HardwareSerial MSerial2;
-extern HardwareSerial MSerial3;
-extern HardwareSerial MSerial4;
-
 //
 // global instances
 //
-#define DISABLE_SERIAL_GLOBALS
 #ifndef DISABLE_SERIAL_GLOBALS
-Usart Serial1(&USART1_config);
-Usart Serial2(&USART2_config);
-Usart Serial3(&USART3_config);
-Usart Serial4(&USART4_config);
+HardwareSerial MSerial1(M4_USART1);
+HardwareSerial MSerial2(M4_USART2);
+HardwareSerial MSerial3(M4_USART3);
+HardwareSerial MSerial4(M4_USART4);
 #endif
 
 //
@@ -61,164 +55,7 @@ inline void usart_irq_resign(usart_interrupt_config_t irq)
     CORE_DEBUG_PRINTF("[USART%d] " fmt, USART_REG_TO_X(this->config->peripheral.register_base), ##__VA_ARGS__)
 
 //
-// USART1 callbacks
-//
-void Usart1RxIrqCallback(void)
-{
-    uint8_t c = USART_RecData(M4_USART1);
-    MSerial1._rx_complete_callback(c);
-//  RingBuf_Write(&Usart1RingBuf,(uint8_t)tmp);
-}
-
-void Usart1ErrIrqCallback(void)
-{
-	if (USART_GetStatus(M4_USART1, UsartFrameErr) == Set)
-	{
-		USART_ClearStatus(M4_USART1, UsartFrameErr);
-	}
-
-	if (USART_GetStatus(M4_USART1, UsartParityErr) == Set)
-	{
-		USART_ClearStatus(M4_USART1, UsartParityErr);
-	}
-
-	if (USART_GetStatus(M4_USART1, UsartOverrunErr) == Set)
-	{
-		USART_ClearStatus(M4_USART1, UsartOverrunErr);
-	}
-}
-
-void Usart1TxIrqCallback(void)
-{
-	usart_tx_irq(USART1);
-}
-
-void Usart1TxCmpltIrqCallback(void)
-{
-	USART_FuncCmd(M4_USART1, UsartTxCmpltInt, Disable);
-	USART_FuncCmd(M4_USART1, UsartTx, Disable);
-}
-
-//
-// USART2 callbacks
-//
-void Usart2RxIrqCallback(void)
-{
-    uint8_t c = USART_RecData(M4_USART2);
-    MSerial2._rx_complete_callback(c);
-
-//  RingBuf_Write(&Usart2RingBuf,(uint8_t)tmp);
-}
-
-void Usart2ErrIrqCallback(void)
-{
-	if (USART_GetStatus(M4_USART2, UsartFrameErr) == Set)
-	{
-		USART_ClearStatus(M4_USART2, UsartFrameErr);
-	}
-
-	if (USART_GetStatus(M4_USART2, UsartParityErr) == Set)
-	{
-		USART_ClearStatus(M4_USART2, UsartParityErr);
-	}
-
-	if (USART_GetStatus(M4_USART2, UsartOverrunErr) == Set)
-	{
-		USART_ClearStatus(M4_USART2, UsartOverrunErr);
-	}
-}
-
-void Usart2TxIrqCallback(void)
-{
-	usart_tx_irq(USART2);
-}
-
-void Usart2TxCmpltIrqCallback(void)
-{
-	USART_FuncCmd(M4_USART2, UsartTxCmpltInt, Disable);
-	USART_FuncCmd(M4_USART2, UsartTx, Disable);
-}
-
-//
-// USART3 callbacks
-//
-void Usart3RxIrqCallback(void)
-{
-    uint8_t c = USART_RecData(M4_USART3);
-    MSerial3._rx_complete_callback(c);
-//  RingBuf_Write(&Usart3RingBuf,(uint8_t)tmp);
-}
-
-void Usart3ErrIrqCallback(void)
-{
-	if (USART_GetStatus(M4_USART3, UsartFrameErr) == Set)
-	{
-		USART_ClearStatus(M4_USART3, UsartFrameErr);
-	}
-
-	if (USART_GetStatus(M4_USART3, UsartParityErr) == Set)
-	{
-		USART_ClearStatus(M4_USART3, UsartParityErr);
-	}
-
-	if (USART_GetStatus(M4_USART3, UsartOverrunErr) == Set)
-	{
-		USART_ClearStatus(M4_USART3, UsartOverrunErr);
-	}
-}
-
-void Usart3TxIrqCallback(void)
-{
-	usart_tx_irq(USART3);
-}
-
-void Usart3TxCmpltIrqCallback(void)
-{
-	USART_FuncCmd(M4_USART3, UsartTxCmpltInt, Disable);
-	USART_FuncCmd(M4_USART3, UsartTx, Disable);
-}
-
-//
-// USART4 callbacks
-//
-void Usart4RxIrqCallback(void)
-{
-    uint8_t c = USART_RecData(M4_USART4);
-    MSerial4._rx_complete_callback(c);
-//  RingBuf_Write(&Usart3RingBuf,(uint8_t)tmp);
-}
-
-void Usart4ErrIrqCallback(void)
-{
-	if (USART_GetStatus(M4_USART4, UsartFrameErr) == Set)
-	{
-		USART_ClearStatus(M4_USART4, UsartFrameErr);
-	}
-
-	if (USART_GetStatus(M4_USART4, UsartParityErr) == Set)
-	{
-		USART_ClearStatus(M4_USART4, UsartParityErr);
-	}
-
-	if (USART_GetStatus(M4_USART4, UsartOverrunErr) == Set)
-	{
-		USART_ClearStatus(M4_USART4, UsartOverrunErr);
-	}
-}
-
-void Usart4TxIrqCallback(void)
-{
-	usart_tx_irq(USART4);
-}
-
-void Usart4TxCmpltIrqCallback(void)
-{
-	USART_FuncCmd(M4_USART4, UsartTxCmpltInt, Disable);
-	USART_FuncCmd(M4_USART4, UsartTx, Disable);
-}
-
-//
-// public api
+// Usart class implementation
 //
 void usart_init(usart_dev *dev)
 {
@@ -435,4 +272,161 @@ void usart_putudec(usart_dev *dev, uint32_t val)
 	{
 		usart_putc(dev, digits[i]);
 	}
+}
+
+//
+// USART1 callbacks
+//
+void Usart1RxIrqCallback(void)
+{
+    uint8_t c = USART_RecData(M4_USART1);
+    MSerial1._rx_complete_callback(c);
+//  RingBuf_Write(&Usart1RingBuf,(uint8_t)tmp);
+}
+
+void Usart1ErrIrqCallback(void)
+{
+	if (USART_GetStatus(M4_USART1, UsartFrameErr) == Set)
+	{
+		USART_ClearStatus(M4_USART1, UsartFrameErr);
+	}
+
+	if (USART_GetStatus(M4_USART1, UsartParityErr) == Set)
+	{
+		USART_ClearStatus(M4_USART1, UsartParityErr);
+	}
+
+	if (USART_GetStatus(M4_USART1, UsartOverrunErr) == Set)
+	{
+		USART_ClearStatus(M4_USART1, UsartOverrunErr);
+	}
+}
+
+void Usart1TxIrqCallback(void)
+{
+	usart_tx_irq(USART1);
+}
+
+void Usart1TxCmpltIrqCallback(void)
+{
+	USART_FuncCmd(M4_USART1, UsartTxCmpltInt, Disable);
+	USART_FuncCmd(M4_USART1, UsartTx, Disable);
+}
+
+//
+// USART2 callbacks
+//
+void Usart2RxIrqCallback(void)
+{
+    uint8_t c = USART_RecData(M4_USART2);
+    MSerial2._rx_complete_callback(c);
+
+//  RingBuf_Write(&Usart2RingBuf,(uint8_t)tmp);
+}
+
+void Usart2ErrIrqCallback(void)
+{
+	if (USART_GetStatus(M4_USART2, UsartFrameErr) == Set)
+	{
+		USART_ClearStatus(M4_USART2, UsartFrameErr);
+	}
+
+	if (USART_GetStatus(M4_USART2, UsartParityErr) == Set)
+	{
+		USART_ClearStatus(M4_USART2, UsartParityErr);
+	}
+
+	if (USART_GetStatus(M4_USART2, UsartOverrunErr) == Set)
+	{
+		USART_ClearStatus(M4_USART2, UsartOverrunErr);
+	}
+}
+
+void Usart2TxIrqCallback(void)
+{
+	usart_tx_irq(USART2);
+}
+
+void Usart2TxCmpltIrqCallback(void)
+{
+	USART_FuncCmd(M4_USART2, UsartTxCmpltInt, Disable);
+	USART_FuncCmd(M4_USART2, UsartTx, Disable);
+}
+
+//
+// USART3 callbacks
+//
+void Usart3RxIrqCallback(void)
+{
+    uint8_t c = USART_RecData(M4_USART3);
+    MSerial3._rx_complete_callback(c);
+//  RingBuf_Write(&Usart3RingBuf,(uint8_t)tmp);
+}
+
+void Usart3ErrIrqCallback(void)
+{
+	if (USART_GetStatus(M4_USART3, UsartFrameErr) == Set)
+	{
+		USART_ClearStatus(M4_USART3, UsartFrameErr);
+	}
+
+	if (USART_GetStatus(M4_USART3, UsartParityErr) == Set)
+	{
+		USART_ClearStatus(M4_USART3, UsartParityErr);
+	}
+
+	if (USART_GetStatus(M4_USART3, UsartOverrunErr) == Set)
+	{
+		USART_ClearStatus(M4_USART3, UsartOverrunErr);
+	}
+}
+
+void Usart3TxIrqCallback(void)
+{
+	usart_tx_irq(USART3);
+}
+
+void Usart3TxCmpltIrqCallback(void)
+{
+	USART_FuncCmd(M4_USART3, UsartTxCmpltInt, Disable);
+	USART_FuncCmd(M4_USART3, UsartTx, Disable);
+}
+
+//
+// USART4 callbacks
+//
+void Usart4RxIrqCallback(void)
+{
+    uint8_t c = USART_RecData(M4_USART4);
+    MSerial4._rx_complete_callback(c);
+//  RingBuf_Write(&Usart3RingBuf,(uint8_t)tmp);
+}
+
+void Usart4ErrIrqCallback(void)
+{
+	if (USART_GetStatus(M4_USART4, UsartFrameErr) == Set)
+	{
+		USART_ClearStatus(M4_USART4, UsartFrameErr);
+	}
+
+	if (USART_GetStatus(M4_USART4, UsartParityErr) == Set)
+	{
+		USART_ClearStatus(M4_USART4, UsartParityErr);
+	}
+
+	if (USART_GetStatus(M4_USART4, UsartOverrunErr) == Set)
+	{
+		USART_ClearStatus(M4_USART4, UsartOverrunErr);
+	}
+}
+
+void Usart4TxIrqCallback(void)
+{
+	usart_tx_irq(USART4);
+}
+
+void Usart4TxCmpltIrqCallback(void)
+{
+	USART_FuncCmd(M4_USART4, UsartTxCmpltInt, Disable);
+	USART_FuncCmd(M4_USART4, UsartTx, Disable);
 }

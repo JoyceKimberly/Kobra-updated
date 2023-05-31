@@ -735,9 +735,9 @@
               <FilePath>Marlin\lib\cores\arduino\RingBuffer.cpp</FilePath>
             </File>
             <File>
-              <FileName>usart.cpp</FileName>
+              <FileName>Usart.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>Marlin\lib\cores\arduino\drivers\usart\usart.cpp</FilePath>
+              <FilePath>Marlin\lib\cores\arduino\drivers\usart\Usart.cpp</FilePath>
             </File>
             <File>
               <FileName>usart_config.cpp</FileName>
@@ -1062,7 +1062,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>component</GroupName>
+          <GroupName>middleware</GroupName>
           <Files>
             <File>
               <FileName>sd_card.c</FileName>

@@ -60,20 +60,20 @@ private:
   usart_config_t *config;
 
   // rx / tx buffers (unboxed from config)
-  RingBuffer rxBuffer;
-  RingBuffer txBuffer;
+  RingBuffer *rxBuffer;
+  RingBuffer *txBuffer;
 };
 
 //
 // global instances
 //
 #ifndef DISABLE_SERIAL_GLOBALS
-extern Usart Serial1;
-extern Usart Serial2;
-extern Usart Serial3;
-extern Usart Serial4;
+extern HardwareSerial MSerial1;
+extern HardwareSerial MSerial2;
+extern HardwareSerial MSerial3;
+extern HardwareSerial MSerial4;
 
-#define Serial Serial1
+#define Serial MSerial1
 #endif
 
 #ifdef __cplusplus

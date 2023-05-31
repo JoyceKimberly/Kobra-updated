@@ -23,11 +23,6 @@ extern void setup_gpio(void )
     //GPIO_Init(LED, &stcPortInit);
 }
 
-HardwareSerial MSerial1(M4_USART1);
-HardwareSerial MSerial2(M4_USART2);
-HardwareSerial MSerial3(M4_USART3);
-HardwareSerial MSerial4(M4_USART4);
-
 //DEFINE_HWSERIAL(Serial1, 1);
 //DEFINE_HWSERIAL(Serial2, 2);
 //DEFINE_HWSERIAL(Serial3, 3);

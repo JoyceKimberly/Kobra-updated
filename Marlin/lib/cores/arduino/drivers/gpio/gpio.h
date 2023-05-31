@@ -3,17 +3,11 @@
 #include <addon_gpio.h>
 #include "../adc/adc.h"
 #include "../../WVariant.h"
-#include "HardwareSerial.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
-extern HardwareSerial MSerial1;
-extern HardwareSerial MSerial2;
-extern HardwareSerial MSerial3;
-extern HardwareSerial MSerial4;
 
 //
 // GPIO wrappers for PORT_* functions
@@ -31,7 +25,7 @@ extern HardwareSerial MSerial4;
     inline en_result_t GPIO_Init(uint16_t gpio_pin, const stc_port_init_t *pstcPortInit)
     {
         ASSERT_GPIO_PIN(gpio_pin);
-        return PORT_Init(PIN_MAP[gpio_pin].gpio_port, PIN_MAP[gpio_pin].gpio_pin, pstcPortInit);
+        return PORT_Init(PIN_ARG(gpio_pin), pstcPortInit);
     }
 
     /**
@@ -40,20 +34,20 @@ extern HardwareSerial MSerial4;
     inline en_result_t GPIO_GetConfig(uint16_t gpio_pin, stc_port_init_t *pstcPortInit)
     {
         ASSERT_GPIO_PIN(gpio_pin);
-        return PORT_GetConfig(PIN_MAP[gpio_pin].gpio_port, PIN_MAP[gpio_pin].gpio_pin, pstcPortInit);
+        return PORT_GetConfig(PIN_ARG(gpio_pin), pstcPortInit);
     }
 
     /**
      * @brief GPIO wrapper for PORT_GetBit
      */
-    inline uint8_t GPIO_GetBit(uint8_t gpio_pin)
+    inline en_flag_status_t GPIO_GetBit(uint16_t gpio_pin)
     {
         if (!IS_GPIO_PIN(gpio_pin))
         {
             return Reset;
         }
 
-        return (PORT_GetBit(PIN_MAP[gpio_pin].gpio_port, PIN_MAP[gpio_pin].gpio_pin) == Reset) ? false : true;
+        return PORT_GetBit(PIN_ARG(gpio_pin));
     }
 
     /**
@@ -71,7 +65,7 @@ extern HardwareSerial MSerial4;
     inline en_result_t GPIO_SetBits(uint16_t gpio_pin)
     {
         ASSERT_GPIO_PIN(gpio_pin);
-        return PORT_SetBits(PIN_MAP[gpio_pin].gpio_port, PIN_MAP[gpio_pin].gpio_pin);
+        return PORT_SetBits(PIN_ARG(gpio_pin));
     }
 
     /**
@@ -80,7 +74,7 @@ extern HardwareSerial MSerial4;
     inline en_result_t GPIO_ResetBits(uint16_t gpio_pin)
     {
         ASSERT_GPIO_PIN(gpio_pin);
-        return PORT_ResetBits(PIN_MAP[gpio_pin].gpio_port, PIN_MAP[gpio_pin].gpio_pin);
+        return PORT_ResetBits(PIN_ARG(gpio_pin));
     }
 
     /**
@@ -89,7 +83,7 @@ extern HardwareSerial MSerial4;
     inline en_result_t GPIO_Toggle(uint16_t gpio_pin)
     {
         ASSERT_GPIO_PIN(gpio_pin);
-        return PORT_Toggle(PIN_MAP[gpio_pin].gpio_port, PIN_MAP[gpio_pin].gpio_pin);
+        return PORT_Toggle(PIN_ARG(gpio_pin));
     }
 
     /**
