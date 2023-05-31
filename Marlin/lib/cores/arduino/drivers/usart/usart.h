@@ -22,6 +22,7 @@
 #include <stdint.h>
 #include "HardwareSerial.h"
 #include "RingBuffer.h"
+#include "usart_config.h"
 #include "../../core_hooks.h"
 #include <stddef.h>
 
@@ -48,6 +49,12 @@ public:
    */
   const usart_config_t *c_dev(void) { return this->config; }
 
+  /**
+   * @brief get the last receive error
+   * @note calling this function clears the error
+   */
+  const usart_receive_error_t getReceiveError(void);
+
 private:
   // usart configuration struct
   usart_config_t *config;
@@ -57,34 +64,22 @@ private:
   RingBuffer txBuffer;
 };
 
+//
+// global instances
+//
+#ifndef DISABLE_SERIAL_GLOBALS
+extern Usart Serial1;
+extern Usart Serial2;
+extern Usart Serial3;
+extern Usart Serial4;
+
+#define Serial Serial1
+#endif
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
-#define IRQ_INDEX_INT_USART1_RI         Int000_IRQn
-#define IRQ_INDEX_INT_USART1_EI         Int001_IRQn
-#define IRQ_INDEX_INT_USART1_TI         Int002_IRQn
-#define IRQ_INDEX_INT_USART1_TCI        Int003_IRQn
-
-#define IRQ_INDEX_INT_USART2_RI         Int004_IRQn
-#define IRQ_INDEX_INT_USART2_EI         Int005_IRQn
-#define IRQ_INDEX_INT_USART2_TI         Int006_IRQn
-#define IRQ_INDEX_INT_USART2_TCI        Int007_IRQn
-
-#define IRQ_INDEX_INT_USART3_RI         Int008_IRQn
-#define IRQ_INDEX_INT_USART3_EI         Int009_IRQn
-#define IRQ_INDEX_INT_USART3_TI         Int010_IRQn
-#define IRQ_INDEX_INT_USART3_TCI        Int011_IRQn
-
-#define IRQ_INDEX_INT_USART4_RI         Int012_IRQn
-#define IRQ_INDEX_INT_USART4_EI         Int013_IRQn
-#define IRQ_INDEX_INT_USART4_TI         Int014_IRQn
-#define IRQ_INDEX_INT_USART4_TCI        Int015_IRQn
-
-#define IRQ_INDEX_INT_DMA2_TC0          Int016_IRQn
-#define IRQ_INDEX_INT_DMA2_TC1          Int017_IRQn
-#define IRQ_INDEX_INT_DMA2_TC2          Int018_IRQn
 
 void uart1_init(void);
 void Usart1RxIrqCallback(void);

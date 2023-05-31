@@ -3,12 +3,62 @@
 #include "core_hooks.h"
 #include "core_debug.h"
 #include "yield.h"
+#include "../gpio/gpio.h"
 #include "HardwareSerial.h"
 
 extern HardwareSerial MSerial1;
 extern HardwareSerial MSerial2;
 extern HardwareSerial MSerial3;
 extern HardwareSerial MSerial4;
+
+//
+// global instances
+//
+#define DISABLE_SERIAL_GLOBALS
+#ifndef DISABLE_SERIAL_GLOBALS
+Usart Serial1(&USART1_config);
+Usart Serial2(&USART2_config);
+Usart Serial3(&USART3_config);
+Usart Serial4(&USART4_config);
+#endif
+
+//
+// IRQ register / unregister helper
+//
+inline void usart_irq_register(usart_interrupt_config_t irq)
+{
+    // create irq registration struct
+    stc_irq_regi_conf_t irqConf = {
+        .enIntSrc = irq.interrupt_source,
+        .enIRQn = irq.interrupt_number,
+        .pfnCallback = irq.interrupt_handler,
+    };
+
+    // register and enable irq
+    enIrqRegistration(&irqConf);
+    NVIC_SetPriority(irqConf.enIRQn, irq.interrupt_priority);
+    NVIC_ClearPendingIRQ(irqConf.enIRQn);
+    NVIC_EnableIRQ(irqConf.enIRQn);
+}
+
+inline void usart_irq_resign(usart_interrupt_config_t irq)
+{
+    NVIC_DisableIRQ(irq.interrupt_number);
+    NVIC_ClearPendingIRQ(irq.interrupt_number);
+    enIrqResign(irq.interrupt_number);
+}
+
+//
+// debug print helpers
+//
+#define USART_REG_TO_X(reg) \
+    reg == M4_USART1   ? 1  \
+    : reg == M4_USART2 ? 2  \
+    : reg == M4_USART3 ? 3  \
+    : reg == M4_USART4 ? 4  \
+                       : 0
+#define USART_DEBUG_PRINTF(fmt, ...) \
+    CORE_DEBUG_PRINTF("[USART%d] " fmt, USART_REG_TO_X(this->config->peripheral.register_base), ##__VA_ARGS__)
 
 //
 // USART1 callbacks

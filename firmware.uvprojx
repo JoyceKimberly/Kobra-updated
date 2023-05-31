@@ -884,6 +884,11 @@
               <FileType>8</FileType>
               <FilePath>.\Marlin\lib\cores\arduino\drivers\sysclock\systick.cpp</FilePath>
             </File>
+            <File>
+              <FileName>usart_handlers.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Marlin\lib\cores\arduino\drivers\usart\usart_handlers.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
