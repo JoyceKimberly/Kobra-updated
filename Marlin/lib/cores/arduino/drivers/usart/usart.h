@@ -22,6 +22,33 @@
 #include "RingBuffer.h"
 #include "../../core_hooks.h"
 
+#include <stddef.h>
+
+class Uart : public HardwareSerial
+{
+public:
+  // Use the constructor to pass hardware configurations
+  Uart();
+  void begin(unsigned long baudRate);
+  void begin(unsigned long baudrate, uint16_t config);
+  void end();
+  int available();
+  int availableForWrite();
+  int peek();
+  int read();
+  void flush();
+  size_t write(const uint8_t data);
+  using Print::write; // pull in write(str) and write(buf, size) from Print
+
+  void IrqHandler();
+
+  operator bool() { return true; }
+
+private:
+  RingBuffer rxBuffer;
+  RingBuffer txBuffer;
+};
+
 #ifdef __cplusplus
 extern "C"
 {
