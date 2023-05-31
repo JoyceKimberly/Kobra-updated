@@ -19,32 +19,40 @@
 #pragma once
 #include <startup.h>
 #include <hc32_ddl.h>
+#include <stdint.h>
+#include "HardwareSerial.h"
 #include "RingBuffer.h"
 #include "../../core_hooks.h"
-
 #include <stddef.h>
 
-class Uart : public HardwareSerial
+class Usart : public HardwareSerial
 {
 public:
-  // Use the constructor to pass hardware configurations
-  Uart();
-  void begin(unsigned long baudRate);
-  void begin(unsigned long baudrate, uint16_t config);
+  Usart(struct usart_config_t *config);
+  void begin(uint32_t baud);
+  void begin(uint32_t baud, uint16_t config);
+  void begin(uint32_t baud, const stc_usart_uart_init_t *config);
   void end();
   int available();
   int availableForWrite();
   int peek();
   int read();
   void flush();
-  size_t write(const uint8_t data);
+  size_t write(uint8_t ch);
   using Print::write; // pull in write(str) and write(buf, size) from Print
-
+  operator bool() { return true; }
   void IrqHandler();
 
-  operator bool() { return true; }
+  /**
+   * @brief access the base usart config struct
+   */
+  const usart_config_t *c_dev(void) { return this->config; }
 
 private:
+  // usart configuration struct
+  usart_config_t *config;
+
+  // rx / tx buffers (unboxed from config)
   RingBuffer rxBuffer;
   RingBuffer txBuffer;
 };
