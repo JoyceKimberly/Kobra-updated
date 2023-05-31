@@ -33,11 +33,6 @@ void heater_pin_init(void);
 
 void fan_pin_init(void);
 
-void uart1_init();
-void uart2_init();
-void uart3_init();
-void uart4_init(void);
-
 #ifdef __cplusplus
 }
 #endif
