@@ -106,8 +106,6 @@ extern "C"
         return GPIO_SetFunction(gpio_pin, PIN_MAP[gpio_pin].function, state);
     }
 
-extern void setup_gpio(void);
-
 #ifdef __cplusplus
 }
 #endif

@@ -124,16 +124,6 @@ void HardFault_Handler_C(uint32_t stack[])
     panic(msg.buffer);
 }
 
-/**
- * @brief hard fault handler wrapper in assembly
- */
-__attribute__((naked)) void HardFault_Handler(void)
-{
-    asm volatile(
-        " mrs r0,msp    \n"
-        " b HardFault_Handler_C \n");
-}
-
 #else
 void fault_handlers_init()
 {

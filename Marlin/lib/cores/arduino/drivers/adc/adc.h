@@ -22,8 +22,6 @@ extern "C"
 /********************************************************/
 /********************************************************/
 
-#define ADC_CH 3
-
 // ADC irq flag bit mask
 #define ADC1_SA_DMA_IRQ_BIT (1ul << 0u)
 
@@ -33,7 +31,7 @@ extern "C"
 	typedef struct adc_dev
 	{
 		__IO uint32_t HAL_AdcDmaIrqFlag;
-		__IO uint16_t HAL_adc_results[ADC_CH];
+		__IO uint16_t HAL_adc_results[3];
 
 		M4_ADC_TypeDef *regs;           /**< Register map */
 		__IO uint32_t PeriphClock;      /**< clock information */

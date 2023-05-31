@@ -889,6 +889,11 @@
               <FileType>5</FileType>
               <FilePath>.\Marlin\lib\cores\arduino\drivers\usart\usart_handlers.h</FilePath>
             </File>
+            <File>
+              <FileName>fault_handlers.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Marlin\lib\cores\arduino\drivers\panic\fault_handlers.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -9,6 +9,8 @@
 #include "hc32f460_interrupts.h"
 #include "hc32f460_pwc.h"
 
+void systick_init();
+
 #ifdef __cplusplus
 extern "C"{
 #endif

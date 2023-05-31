@@ -29,6 +29,12 @@ extern "C" void SysTick_IrqHandler(void)
     SysTick_IncTick();
 }
 
+void systick_init()
+{
+    stc_clk_freq_t clkFreq;
+    CLK_GetClockFreq(&clkFreq);
+}
+
 void setup_time2A(const uint32_t frequency)
 {
 }
