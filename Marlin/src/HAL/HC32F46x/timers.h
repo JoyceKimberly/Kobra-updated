@@ -28,31 +28,11 @@
 #include "bsp_timer.h"
 #include "hc32f460_timer0.h"
 
-// ------------------------
-// Defines
-// ------------------------
-
-/**
- * TODO: Check and confirm what timer we will use for each Temps and stepper driving.
- * We should probable drive temps with PWM.
- */
-#define FORCE_INLINE __attribute__((always_inline)) inline
-
 //
 // Misc.
 //
 typedef en_tim0_channel_t timer_channel_t;
-// STM32 timers may be 16 or 32 bit. Limiting HAL_TIMER_TYPE_MAX to 16 bits
-// avoids issues with STM32F0 MCUs, which seem to pause timers if UINT32_MAX
-// is written to the register. STM32F4 timers do not manifest this issue,
-// even when writing to 16 bit timers.
-//
-// The range of the timer can be queried at runtime using IS_TIM_32B_COUNTER_INSTANCE.
-// This is a more expensive check than a simple compile-time constant, so its
-// implementation is deferred until the desire for a 32-bit range outweighs the cost
-// of adding a run-time check and HAL_TIMER_TYPE_MAX is refactored to allow unique
-// values for each timer.
-#define hal_timer_t uint32_t
+typedef uint32_t hal_timer_t;
 #define HAL_TIMER_TYPE_MAX UINT16_MAX
 
 // frequency of the timer peripheral
@@ -61,14 +41,14 @@ typedef en_tim0_channel_t timer_channel_t;
 //
 // Timer Channels and Configuration
 //
-#define MF_TIMER_STEP       Tim0_ChannelB
-#define MF_TIMER_TEMP       Tim0_ChannelA
-#define MF_TIMER_PULSE      MF_TIMER_STEP
+#define STEP_TIMER_NUM Tim0_ChannelB
+#define TEMP_TIMER_NUM Tim0_ChannelA
+#define PULSE_TIMER_NUM STEP_TIMER_NUM
 
 // channel aliases
-#define STEP_TIMER_NUM MF_TIMER_STEP
-#define TEMP_TIMER_NUM MF_TIMER_TEMP
-#define PULSE_TIMER_NUM MF_TIMER_PULSE
+#define MF_TIMER_STEP STEP_TIMER_NUM
+#define MF_TIMER_TEMP TEMP_TIMER_NUM
+#define MF_TIMER_PULSE PULSE_TIMER_NUM
 
 #define TEMP_TIMER_FREQUENCY 1000
 #define TEMP_TIMER_PRESCALE 16ul
@@ -84,36 +64,28 @@ typedef en_tim0_channel_t timer_channel_t;
 //
 // HAL functions
 //
-void HAL_timer_start(const uint8_t timer_num, const uint32_t frequency);
-void HAL_timer_enable_interrupt(const uint8_t timer_num);
-void HAL_timer_disable_interrupt(const uint8_t timer_num);
-bool HAL_timer_interrupt_enabled(const uint8_t timer_num);
-void HAL_timer_set_compare(const uint8_t timer_num, const hal_timer_t compare);
-#define HAL_timer_isr_prologue(TIMER_NUM)
-
-static inline void HAL_timer_isr_epilogue(uint8_t timer_num)
-{
-    if(timer_num == TEMP_TIMER_NUM) {
-        TIMER4_CNT_ClearIrqFlag(M4_TMR41, Timer4CntZeroMatchInt);
-    } else if(timer_num == STEP_TIMER_NUM) {
-        TIMER4_CNT_ClearIrqFlag(M4_TMR42, Timer4CntZeroMatchInt);
-    }
-}
-
-#define TIMER_OC_NO_PRELOAD 0 // Need to disable preload also on compare registers.
+void HAL_timer_start(const timer_channel_t timer_num, const uint32_t frequency);
+void HAL_timer_enable_interrupt(const timer_channel_t timer_num);
+void HAL_timer_disable_interrupt(const timer_channel_t timer_num);
+bool HAL_timer_interrupt_enabled(const timer_channel_t timer_num);
+void HAL_timer_set_compare(const timer_channel_t timer_num, const hal_timer_t compare);
+hal_timer_t HAL_timer_get_count(const timer_channel_t timer_num);
+void HAL_timer_isr_prologue(const timer_channel_t timer_num);
+void HAL_timer_isr_epilogue(const timer_channel_t timer_num);
 
 //
 // HAL function aliases
 //
-#define ENABLE_STEPPER_DRIVER_INTERRUPT() timer_enable_irq(MF_TIMER_STEP,Enable)
-#define DISABLE_STEPPER_DRIVER_INTERRUPT() timer_enable_irq(MF_TIMER_STEP,Disable)
-#define STEPPER_ISR_ENABLED() HAL_timer_interrupt_enabled(MF_TIMER_STEP)
+#define ENABLE_STEPPER_DRIVER_INTERRUPT() HAL_timer_enable_interrupt(STEP_TIMER_NUM)
+#define DISABLE_STEPPER_DRIVER_INTERRUPT() HAL_timer_disable_interrupt(STEP_TIMER_NUM)
+#define STEPPER_ISR_ENABLED() HAL_timer_interrupt_enabled(STEP_TIMER_NUM)
 
-#define ENABLE_TEMPERATURE_INTERRUPT() timer_enable_irq(MF_TIMER_TEMP,Enable)
-#define DISABLE_TEMPERATURE_INTERRUPT() timer_enable_irq(MF_TIMER_TEMP,Disable)
+#define ENABLE_TEMPERATURE_INTERRUPT() HAL_timer_enable_interrupt(TEMP_TIMER_NUM)
+#define DISABLE_TEMPERATURE_INTERRUPT() HAL_timer_disable_interrupt(TEMP_TIMER_NUM);
 
-#define HAL_timer_get_count(timer_num) timer_get_count(timer_num)
-
-#define HAL_STEP_TIMER_ISR()      void timer42_zero_match_irq_cb(void)
-#define HAL_TEMP_TIMER_ISR()      void timer41_zero_match_irq_cb(void)
-#define HAL_TONE_TIMER_ISR()      void Timer01B_CallBack(void)
+//
+// HAL ISR callbacks
+//
+#define HAL_STEP_TIMER_ISR() void timer42_zero_match_irq_cb(void)
+#define HAL_TEMP_TIMER_ISR() void timer41_zero_match_irq_cb(void)
+#define HAL_TONE_TIMER_ISR() void Timer01B_CallBack(void)

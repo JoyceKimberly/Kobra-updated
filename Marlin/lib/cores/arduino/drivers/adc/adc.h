@@ -70,17 +70,6 @@ extern "C"
 	extern uint8_t g_adc_idx;
 
 	static void adc_pin_init(void);
-	static void adc_initConfig(void);
-	static void adc_channelConfig(void);
-	static void adc_triggerConfig(void);
-
-	static void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx,
-																	uint32_t u32Channel,
-																	en_pin_mode_t mode);
-
-	static void adc_setPinMode(uint8_t adcPin, en_pin_mode_t mode);
-
-	void adc_dmaInitConfig(void);
 
 	void BSP_DMA2CH0_TcIrqHander(void);
 	void BSP_DMA2CH1_TcIrqHander(void);
