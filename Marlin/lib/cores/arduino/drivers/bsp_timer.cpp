@@ -14,12 +14,12 @@
 #define IRQ_INDEX_INT_TMR41_GCMB        Int023_IRQn
 #define IRQ_INDEX_INT_TMR42_GCMB        Int024_IRQn
 
-extern volatile uint32_t _millis;
+extern volatile uint32_t uptime;
 
 void Timer02A_CallBack(void)
 {
 //    PORT_Toggle(PortA, Pin01);
-    _millis++;
+    uptime++;
 }
 
 void timer02A_init(void)

@@ -4,14 +4,14 @@
 #include "bsp_timer.h"
 #include "timers.h"
 
-void delay(uint32_t ms)
+void delay(uint32_t dwMs)
 {
-    SysTick_Delay(ms);
+    SysTick_Delay(dwMs);
 }
 
-void delayMicroseconds(uint32_t us)
+void delayMicroseconds(uint32_t dwUs)
 {
-    for(uint32_t i=0; i<us; i++) {
+    for(uint32_t i=0; i<dwUs; i++) {
         for(uint32_t j=0; j<8; j++) {
             __NOP();
         }

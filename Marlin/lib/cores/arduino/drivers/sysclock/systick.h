@@ -42,7 +42,7 @@ extern bool timer_irq_enabled(M4_TMR0_TypeDef* pstcTim0Reg, const uint8_t timer_
 
 #define os_get_timeslice(x,y)  ((uint32_t)(x>=y?(x-y):0))
 
-extern volatile uint32_t _millis;
+extern volatile uint32_t uptime;
 
 #ifdef __cplusplus
 }

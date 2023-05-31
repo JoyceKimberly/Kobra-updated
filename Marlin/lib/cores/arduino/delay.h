@@ -42,14 +42,14 @@ extern "C"
    *
    * \param dwMs the number of milliseconds to pause (uint32_t)
    */
-  void delay(uint32_t ms);
+  void delay(uint32_t dwMs);
 
   /**
    * \brief Pauses the program for the amount of time (in microseconds) specified as parameter.
    *
    * \param dwUs the number of microseconds to pause (uint32_t)
    */
-  void delayMicroseconds(uint32_t us);
+  void delayMicroseconds(uint32_t dwUs);
 
 #ifdef __cplusplus
 }

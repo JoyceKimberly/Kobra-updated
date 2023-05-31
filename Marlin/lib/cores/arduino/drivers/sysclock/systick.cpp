@@ -2,11 +2,11 @@
 #include "bsp_timer.h"
 #include "timers.h"
 
-volatile uint32_t _millis = 0;
+volatile uint32_t uptime = 0;
 
 uint32_t millis()
 {
-    return _millis;
+    return uptime;
 }
 
 uint32_t micros(void)

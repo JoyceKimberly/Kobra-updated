@@ -8,6 +8,7 @@
 #include "bsp_pwm.h"
 #include "bsp_sdio.h"
 #include "bsp_timer.h"
+#include "delay.h"
 #include "ots.h"
 
 #include "diskio.h"
