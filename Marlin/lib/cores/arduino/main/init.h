@@ -11,9 +11,9 @@ extern "C"
 #define LED0_PORT                       (PortA)
 #define LED0_PIN                        (Pin01)
 
-#define LED0_ON()                       (PORT_SetBits(LED0_PORT, LED0_PIN))
-#define LED0_OFF()                      (PORT_ResetBits(LED0_PORT, LED0_PIN))
-#define LED0_TOGGLE()                   (PORT_Toggle(LED0_PORT, LED0_PIN))
+#define LED_ON()                        (PORT_SetBits(LED0_PORT, LED0_PIN))
+#define LED_OFF()                       (PORT_ResetBits(LED0_PORT, LED0_PIN))
+#define LED_TOGGLE()                    (PORT_Toggle(LED0_PORT, LED0_PIN))
 
 #define LED0_ON()                       (PORT_SetBits(LED0_PORT, LED0_PIN))
 #define LED0_OFF()                      (PORT_ResetBits(LED0_PORT, LED0_PIN))
