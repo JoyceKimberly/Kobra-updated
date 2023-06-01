@@ -894,6 +894,16 @@
               <FileType>1</FileType>
               <FilePath>.\Marlin\lib\cores\arduino\drivers\panic\fault_handlers.c</FilePath>
             </File>
+            <File>
+              <FileName>addon_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Marlin\lib\cores\ddl\addon\addon_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>irqn.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Marlin\lib\cores\arduino\drivers\irqn\irqn.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

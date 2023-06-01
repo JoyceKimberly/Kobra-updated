@@ -205,6 +205,9 @@ tags
 *.__i
 *._ia
 
+.*
+*.code-workspace
+
 !obj/marlinui.o
 
 modified

@@ -72,8 +72,6 @@ inline void flash_init()
     CLK_SetSysClkSource(CLKSysSrcMPLL);
 }
 
-#define LD_FLASH_START 0x8000u
-
 void core_init()
 {
 #if defined(__CC_ARM) && defined(__TARGET_FPU_VFP)

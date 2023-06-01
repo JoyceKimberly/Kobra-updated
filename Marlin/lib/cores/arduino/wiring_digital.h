@@ -20,7 +20,6 @@
 #define _WIRING_DIGITAL_
 
 #include "WVariant.h"
-#include "startup.h"
 
 /**
  * \brief Configures the specified pin to behave either as an input or an output. See the description of digital pins for details.
