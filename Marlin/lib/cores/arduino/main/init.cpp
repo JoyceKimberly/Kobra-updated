@@ -76,6 +76,10 @@ inline void flash_init()
 
 void core_init()
 {
+#if defined(__CC_ARM) && defined(__TARGET_FPU_VFP)
+    SCB->CPACR |= 0x00F00000;
+#endif
+
     // setup VTO register
     SCB->VTOR = (uint32_t(LD_FLASH_START) & SCB_VTOR_TBLOFF_Msk);
 
@@ -91,11 +95,6 @@ void core_init()
 
 uint32_t F_CPU;
 
-void f_cpu_init(uint32_t clock)
-{
-    F_CPU = clock;
-}
-
 void get_all_clock(void)
 {
     stc_clk_freq_t   stcClkFreq;
@@ -107,7 +106,7 @@ void get_all_clock(void)
 	  CLK_GetClockFreq(&stcClkFreq);
 	  CLK_GetPllClockFreq(&stcPllClkFreq);
 
-	  f_cpu_init(stcClkFreq.pclk1Freq);   // used for stepper timer
+	  F_CPU = stcClkFreq.pclk1Freq;   // used for stepper timer
 }
 
 void led_pin_init(void)
