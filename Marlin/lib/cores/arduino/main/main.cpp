@@ -1,17 +1,14 @@
-#include "hc32_ddl.h"
 #include "../Arduino.h"
 #include "init.h"
 #include "../core_debug.h"
 #include "../core_hooks.h"
-#include "adc.h"
+#include "hc32_ddl.h"
 #include "bsp_pwm.h"
 #include "bsp_sdio.h"
 #include "bsp_timer.h"
 #include "delay.h"
 #include "ots.h"
-
 #include "diskio.h"
-
 #include "marlincore.h"
 
 int main(void)
@@ -31,22 +28,22 @@ int main(void)
   stepper_pin_init();
   heater_pin_init();
 
-// 0x1C swd on ; 0x1F swd off
+  // 0x1C swd on ; 0x1F swd off
   PORT_DebugPortSetting(0x1F, Disable);
 
   fan_pwm_init();
   beep_pwm_init();
   hal_sdio_init();
 
-// disk_initialize(0);
+  // disk_initialize(0);
 
+  timer01B_init();     // used for beep duration timer
   timer02A_init();     // 1k Hz, millis()
   timer02B_init();     // soft serial
   timer41_init();      // 1k Hz, used for temperature tick
   timer42_init();      // step motor
-  timer01B_init();     // used for beep duration timer
 
-// SysTick configuration
+  // SysTick configuration
   SysTick_Init(1000u);
 
 	setup();

@@ -4,7 +4,6 @@
 #include "../drivers/adc/adc.h"
 #include "../drivers/panic/fault_handlers.h"
 #include "../WInterrupts.h"
-#include "startup.h"
 #include <hc32_ddl.h>
 #include "usart.h"
 
@@ -92,7 +91,6 @@ void core_init()
     systick_init();
     interrupts_init();
     adc_init();
-
     uart1_init();
     uart2_init();
     uart4_init();
