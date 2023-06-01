@@ -3,7 +3,6 @@
 #include "init.h"
 #include "../core_debug.h"
 #include "../core_hooks.h"
-#include "usart.h"
 #include "adc.h"
 #include "bsp_pwm.h"
 #include "bsp_sdio.h"
@@ -24,12 +23,6 @@ int main(void)
 	// call setup()
 	core_hook_pre_setup();
 	CORE_DEBUG_PRINTF("core entering setup\n");
-
-  PWC_HS2HP();
-
-  uart1_init();
-  uart2_init();
-  uart4_init();
 
   H32OTS::init();
   get_all_clock();

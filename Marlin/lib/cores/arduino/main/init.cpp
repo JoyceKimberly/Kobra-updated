@@ -6,6 +6,7 @@
 #include "../WInterrupts.h"
 #include "startup.h"
 #include <hc32_ddl.h>
+#include "usart.h"
 
 /**
  * set flash latency and cache
@@ -91,6 +92,10 @@ void core_init()
     systick_init();
     interrupts_init();
     adc_init();
+
+    uart1_init();
+    uart2_init();
+    uart4_init();
 }
 
 uint32_t F_CPU;
