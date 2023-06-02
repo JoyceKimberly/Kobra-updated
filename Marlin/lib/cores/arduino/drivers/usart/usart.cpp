@@ -67,7 +67,19 @@ inline void usart_irq_resign(usart_interrupt_config_t &irq, const char *name)
 //
 // Usart class implementation
 //
+/*
+Usart::Usart(struct usart_config_t *config, uint16_t tx_pin, uint16_t rx_pin)
+{
+    this->config = config;
+    this->tx_pin = tx_pin;
+    this->rx_pin = rx_pin;
 
+    // unpack rx and tx buffers from usart config
+    this->rxBuffer = config->state.rx_buffer;
+    this->txBuffer = config->state.tx_buffer;
+}
+
+//*/
 //
 // USART1 callbacks
 //
@@ -102,8 +114,6 @@ void Usart1TxIrqCallback(void)
 
 void Usart1TxCmpltIrqCallback(void)
 {
-	USART_FuncCmd(M4_USART1, UsartTxCmpltInt, Disable);
-	USART_FuncCmd(M4_USART1, UsartTx, Disable);
 }
 
 //
@@ -141,8 +151,6 @@ void Usart2TxIrqCallback(void)
 
 void Usart2TxCmpltIrqCallback(void)
 {
-	USART_FuncCmd(M4_USART2, UsartTxCmpltInt, Disable);
-	USART_FuncCmd(M4_USART2, UsartTx, Disable);
 }
 
 //
@@ -179,8 +187,6 @@ void Usart3TxIrqCallback(void)
 
 void Usart3TxCmpltIrqCallback(void)
 {
-	USART_FuncCmd(M4_USART3, UsartTxCmpltInt, Disable);
-	USART_FuncCmd(M4_USART3, UsartTx, Disable);
 }
 
 //
@@ -217,6 +223,4 @@ void Usart4TxIrqCallback(void)
 
 void Usart4TxCmpltIrqCallback(void)
 {
-	USART_FuncCmd(M4_USART4, UsartTxCmpltInt, Disable);
-	USART_FuncCmd(M4_USART4, UsartTx, Disable);
 }
