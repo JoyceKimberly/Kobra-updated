@@ -144,9 +144,6 @@ private:
   bool initialized = false;
 
 protected:
-  // Has any byte been written to the UART since begin()
-  bool _written;
-
   volatile rx_buffer_index_t _rx_buffer_head;
   volatile rx_buffer_index_t _rx_buffer_tail;
 };
