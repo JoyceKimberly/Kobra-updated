@@ -66,9 +66,6 @@
 // USART configurations
 //
 
-//
-// USART1
-//
 usart_config_t USART1_config = {
     .peripheral = {
         .register_base = M4_USART1,
@@ -105,6 +102,117 @@ usart_config_t USART1_config = {
     },
 };
 
+usart_config_t USART2_config = {
+    .peripheral = {
+        .register_base = M4_USART2,
+        .clock_id = PWC_FCG1_PERIPH_USART2,
+        .tx_pin_function = Func_Usart2_Tx,
+        .rx_pin_function = Func_Usart2_Rx,
+    },
+    .interrupts = {
+        .rx_data_available = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_08,
+            .interrupt_source = INT_USART2_RI,
+            .interrupt_handler = USARTx_rx_data_available_irq<2>,
+        },
+        .rx_error = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_source = INT_USART2_EI,
+            .interrupt_handler = USARTx_rx_error_irq<2>,
+        },
+        .tx_buffer_empty = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_source = INT_USART2_TI,
+            .interrupt_handler = USARTx_tx_buffer_empty_irq<2>,
+        },
+        .tx_complete = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_source = INT_USART2_TCI,
+            .interrupt_handler = USARTx_tx_complete_irq<2>,
+        },
+    },
+    .state = {
+        .rx_buffer = new RingBuffer(SERIAL_RX_BUFFER_SIZE),
+        .tx_buffer = new RingBuffer(SERIAL_TX_BUFFER_SIZE),
+        .rx_error = usart_receive_error_t::None,
+    },
+};
+
+usart_config_t USART3_config = {
+    .peripheral = {
+        .register_base = M4_USART3,
+        .clock_id = PWC_FCG1_PERIPH_USART3,
+        .tx_pin_function = Func_Usart3_Tx,
+        .rx_pin_function = Func_Usart3_Rx,
+    },
+    .interrupts = {
+        .rx_data_available = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_source = INT_USART3_RI,
+            .interrupt_handler = USARTx_rx_data_available_irq<3>,
+        },
+        .rx_error = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_source = INT_USART3_EI,
+            .interrupt_handler = USARTx_rx_error_irq<3>,
+        },
+        .tx_buffer_empty = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_source = INT_USART3_TI,
+            .interrupt_handler = USARTx_tx_buffer_empty_irq<3>,
+        },
+        .tx_complete = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_source = INT_USART3_TCI,
+            .interrupt_handler = USARTx_tx_complete_irq<3>,
+        },
+    },
+    .state = {
+        .rx_buffer = new RingBuffer(SERIAL_RX_BUFFER_SIZE),
+        .tx_buffer = new RingBuffer(SERIAL_TX_BUFFER_SIZE),
+        .rx_error = usart_receive_error_t::None,
+    },
+};
+
+usart_config_t USART4_config = {
+    .peripheral = {
+        .register_base = M4_USART4,
+        .clock_id = PWC_FCG1_PERIPH_USART4,
+        .tx_pin_function = Func_Usart3_Tx,
+        .rx_pin_function = Func_Usart3_Rx,
+    },
+    .interrupts = {
+        .rx_data_available = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_source = INT_USART4_RI,
+            .interrupt_handler = USARTx_rx_data_available_irq<4>,
+        },
+        .rx_error = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_source = INT_USART4_EI,
+            .interrupt_handler = USARTx_rx_error_irq<4>,
+        },
+        .tx_buffer_empty = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_source = INT_USART4_TI,
+            .interrupt_handler = USARTx_tx_buffer_empty_irq<4>,
+        },
+        .tx_complete = {
+            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
+            .interrupt_source = INT_USART4_TCI,
+            .interrupt_handler = USARTx_tx_complete_irq<4>,
+        },
+    },
+    .state = {
+        .rx_buffer = new RingBuffer(SERIAL_RX_BUFFER_SIZE),
+        .tx_buffer = new RingBuffer(SERIAL_TX_BUFFER_SIZE),
+        .rx_error = usart_receive_error_t::None,
+    },
+};
+
+//
+// USART1
+//
 void uart1_init(void)
 {
     en_result_t enRet = Ok;
@@ -178,42 +286,6 @@ void uart1_init(void)
 //
 // USART2
 //
-usart_config_t USART2_config = {
-    .peripheral = {
-        .register_base = M4_USART2,
-        .clock_id = PWC_FCG1_PERIPH_USART2,
-        .tx_pin_function = Func_Usart2_Tx,
-        .rx_pin_function = Func_Usart2_Rx,
-    },
-    .interrupts = {
-        .rx_data_available = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_08,
-            .interrupt_source = INT_USART2_RI,
-            .interrupt_handler = USARTx_rx_data_available_irq<2>,
-        },
-        .rx_error = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
-            .interrupt_source = INT_USART2_EI,
-            .interrupt_handler = USARTx_rx_error_irq<2>,
-        },
-        .tx_buffer_empty = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
-            .interrupt_source = INT_USART2_TI,
-            .interrupt_handler = USARTx_tx_buffer_empty_irq<2>,
-        },
-        .tx_complete = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
-            .interrupt_source = INT_USART2_TCI,
-            .interrupt_handler = USARTx_tx_complete_irq<2>,
-        },
-    },
-    .state = {
-        .rx_buffer = new RingBuffer(SERIAL_RX_BUFFER_SIZE),
-        .tx_buffer = new RingBuffer(SERIAL_TX_BUFFER_SIZE),
-        .rx_error = usart_receive_error_t::None,
-    },
-};
-
 void uart2_init(void)
 {
     en_result_t enRet = Ok;
@@ -287,42 +359,6 @@ void uart2_init(void)
 //
 // USART3
 //
-usart_config_t USART3_config = {
-    .peripheral = {
-        .register_base = M4_USART3,
-        .clock_id = PWC_FCG1_PERIPH_USART3,
-        .tx_pin_function = Func_Usart3_Tx,
-        .rx_pin_function = Func_Usart3_Rx,
-    },
-    .interrupts = {
-        .rx_data_available = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
-            .interrupt_source = INT_USART3_RI,
-            .interrupt_handler = USARTx_rx_data_available_irq<3>,
-        },
-        .rx_error = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
-            .interrupt_source = INT_USART3_EI,
-            .interrupt_handler = USARTx_rx_error_irq<3>,
-        },
-        .tx_buffer_empty = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
-            .interrupt_source = INT_USART3_TI,
-            .interrupt_handler = USARTx_tx_buffer_empty_irq<3>,
-        },
-        .tx_complete = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
-            .interrupt_source = INT_USART3_TCI,
-            .interrupt_handler = USARTx_tx_complete_irq<3>,
-        },
-    },
-    .state = {
-        .rx_buffer = new RingBuffer(SERIAL_RX_BUFFER_SIZE),
-        .tx_buffer = new RingBuffer(SERIAL_TX_BUFFER_SIZE),
-        .rx_error = usart_receive_error_t::None,
-    },
-};
-
 void uart3_init(void)
 {
     en_result_t enRet = Ok;
@@ -396,42 +432,6 @@ void uart3_init(void)
 //
 // USART4
 //
-usart_config_t USART4_config = {
-    .peripheral = {
-        .register_base = M4_USART4,
-        .clock_id = PWC_FCG1_PERIPH_USART4,
-        .tx_pin_function = Func_Usart3_Tx,
-        .rx_pin_function = Func_Usart3_Rx,
-    },
-    .interrupts = {
-        .rx_data_available = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
-            .interrupt_source = INT_USART4_RI,
-            .interrupt_handler = USARTx_rx_data_available_irq<4>,
-        },
-        .rx_error = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
-            .interrupt_source = INT_USART4_EI,
-            .interrupt_handler = USARTx_rx_error_irq<4>,
-        },
-        .tx_buffer_empty = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
-            .interrupt_source = INT_USART4_TI,
-            .interrupt_handler = USARTx_tx_buffer_empty_irq<4>,
-        },
-        .tx_complete = {
-            .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
-            .interrupt_source = INT_USART4_TCI,
-            .interrupt_handler = USARTx_tx_complete_irq<4>,
-        },
-    },
-    .state = {
-        .rx_buffer = new RingBuffer(SERIAL_RX_BUFFER_SIZE),
-        .tx_buffer = new RingBuffer(SERIAL_TX_BUFFER_SIZE),
-        .rx_error = usart_receive_error_t::None,
-    },
-};
-
 void uart4_init(void)
 {
     en_result_t enRet = Ok;

@@ -79,6 +79,203 @@ Usart::Usart(struct usart_config_t *config, uint16_t tx_pin, uint16_t rx_pin)
     this->txBuffer = config->state.tx_buffer;
 }
 
+void Usart::begin(uint32_t baud)
+{
+    // default to 8 bits, no parity, 1 stop bit
+    begin(baud, SERIAL_8N1);
+}
+
+void Usart::begin(uint32_t baud, uint16_t config)
+{
+    // create full configuration from input config
+    stc_usart_uart_init_t usartConfig = {
+        .enClkMode = UsartIntClkCkNoOutput,
+        .enClkDiv = UsartClkDiv_16,
+        .enDataLength = UsartDataBits8,
+        .enDirection = UsartDataLsbFirst,
+        .enStopBit = UsartOneStopBit,
+        .enParity = UsartParityNone,
+        .enSampleMode = UsartSampleBit8,
+        .enDetectMode = UsartStartBitFallEdge,
+        .enHwFlow = UsartRtsEnable,
+    };
+
+    // stop bits
+    switch (config & HARDSER_STOP_BIT_MASK)
+    {
+    default:
+    case HARDSER_STOP_BIT_1:
+        usartConfig.enStopBit = UsartOneStopBit;
+        break;
+    case HARDSER_STOP_BIT_2:
+        usartConfig.enStopBit = UsartTwoStopBit;
+        break;
+    }
+
+    // parity
+    switch (config & HARDSER_PARITY_MASK)
+    {
+    default:
+    case HARDSER_PARITY_NONE:
+        usartConfig.enParity = UsartParityNone;
+        break;
+    case HARDSER_PARITY_EVEN:
+        usartConfig.enParity = UsartParityEven;
+        break;
+    case HARDSER_PARITY_ODD:
+        usartConfig.enParity = UsartParityOdd;
+        break;
+    }
+
+    // data bits
+    switch (config & HARDSER_DATA_MASK)
+    {
+    default:
+    case HARDSER_DATA_8:
+        usartConfig.enDataLength = UsartDataBits8;
+        break;
+    }
+
+    // call begin with full config
+    begin(baud, &usartConfig);
+}
+
+void Usart::begin(uint32_t baud, const stc_usart_uart_init_t *config)
+{
+    // clear rx and tx buffers
+    this->rxBuffer->clear();
+    // this->txBuffer->clear();
+
+    // set IO pin functions
+    GPIO_SetFunc(this->tx_pin, this->config->peripheral.tx_pin_function);
+    GPIO_SetFunc(this->rx_pin, this->config->peripheral.rx_pin_function);
+
+    // enable peripheral clock
+    PWC_Fcg1PeriphClockCmd(this->config->peripheral.clock_id, Enable);
+
+    // initialize usart peripheral and set baud rate
+    USART_UART_Init(this->config->peripheral.register_base, config);
+    USART_SetBaudrate(this->config->peripheral.register_base, baud);
+
+    // setup usart interrupts
+    usart_irq_register(this->config->interrupts.rx_data_available, "usart rx data available");
+    usart_irq_register(this->config->interrupts.rx_error, "usart rx error");
+    usart_irq_register(this->config->interrupts.tx_buffer_empty, "usart tx buffer empty");
+    usart_irq_register(this->config->interrupts.tx_complete, "usart tx complete");
+
+    // enable usart RX + interrupts
+    // (tx is enabled on-demand when data is available to send)
+    USART_FuncCmd(this->config->peripheral.register_base, UsartRx, Enable);
+    USART_FuncCmd(this->config->peripheral.register_base, UsartRxInt, Enable);
+
+    // write debug message AFTER init (this UART may be used for the debug message)
+    USART_DEBUG_PRINTF("begin completed\n");
+    this->initialized = true;
+}
+
+void Usart::end()
+{
+    // write debug message BEFORE deinit (this UART may be used for the debug message)
+    USART_DEBUG_PRINTF("end()\n");
+
+    // wait for tx buffer to empty
+    flush();
+
+    // disable uart peripheral
+    USART_FuncCmd(this->config->peripheral.register_base, UsartTx, Disable);
+    USART_FuncCmd(this->config->peripheral.register_base, UsartRx, Disable);
+
+    // resign usart interrupts
+    usart_irq_resign(this->config->interrupts.rx_data_available, "usart rx data available");
+    usart_irq_resign(this->config->interrupts.rx_error, "usart rx error");
+    usart_irq_resign(this->config->interrupts.tx_buffer_empty, "usart tx buffer empty");
+    usart_irq_resign(this->config->interrupts.tx_complete, "usart tx complete");
+
+    // deinit uart
+    USART_DeInit(this->config->peripheral.register_base);
+
+    // clear rx and tx buffers
+    this->rxBuffer->clear();
+    this->txBuffer->clear();
+
+    this->initialized = false;
+}
+
+int Usart::available(void)
+{
+    return this->rxBuffer->count();
+}
+
+int Usart::availableForWrite(void)
+{
+    return this->txBuffer->capacity() - this->txBuffer->count();
+}
+
+int Usart::peek(void)
+{
+    return this->rxBuffer->peek();
+}
+
+int Usart::read(void)
+{
+    uint8_t ch;
+    if (this->rxBuffer->pop(ch))
+    {
+        return ch;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+void Usart::flush(void)
+{
+    // ignore if not initialized
+    if (!this->initialized)
+    {
+        return;
+    }
+
+    // wait for tx buffer to empty
+    while (!this->txBuffer->isEmpty())
+        ;
+}
+
+size_t Usart::write(uint8_t ch)
+{
+    // if uninitialized, ignore write
+    if (!this->initialized)
+    {
+        return 1;
+    }
+
+    // wait until tx buffer is no longer full
+    while (this->txBuffer->isFull())
+    {
+        yield();
+    }
+
+    // add to tx buffer
+    while (!this->txBuffer->push(ch))
+    {
+        yield();
+    }
+
+    // enable tx + empty interrupt
+    USART_FuncCmd(this->config->peripheral.register_base, UsartTxAndTxEmptyInt, Enable);
+
+    // wrote one byte
+    return 1;
+}
+
+const usart_receive_error_t Usart::getReceiveError()
+{
+    auto rxError = this->config->state.rx_error;
+    this->config->state.rx_error = usart_receive_error_t::None;
+    return rxError;
+}
+
 //*/
 //
 // USART1 callbacks
