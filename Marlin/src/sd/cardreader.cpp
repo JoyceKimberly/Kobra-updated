@@ -124,8 +124,8 @@ int16_t CardReader::nrItems = -1;
 
 #endif // SDCARD_SORT_ALPHA
 
-Sd2Card CardReader::sd2card;
-SdVolume CardReader::volume;
+DiskIODriver CardReader::driver;
+MarlinVolume CardReader::volume;
 MediaFile CardReader::file;
 
 #if HAS_MEDIA_SUBCALLS
@@ -462,12 +462,12 @@ void CardReader::mount() {
   nrItems = -1;
   if (root.isOpen()) root.close();
 
-  if (!sd2card.init()
+  if (!driver.init()
     #if defined(LCD_SDSS) && (LCD_SDSS != SDSS)
-      && !sd2card.init()
+      && !driver.init()
     #endif
   ) SERIAL_ECHO_MSG(STR_SD_INIT_FAIL);
-  else if (!volume.init(&sd2card))
+  else if (!volume.init(&driver))
     SERIAL_ERROR_MSG(STR_SD_VOL_INIT_FAIL);
   else if (!root.openRoot(&volume))
     SERIAL_ERROR_MSG(STR_SD_OPENROOT_FAIL);

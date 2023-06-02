@@ -1,51 +1,18 @@
 /******************************************************************************
- * Copyright (C) 2016, Huada Semiconductor Co.,Ltd All rights reserved.
+ * Copyright (C) 2020, Huada Semiconductor Co., Ltd. All rights reserved.
  *
- * This software is owned and published by:
- * Huada Semiconductor Co.,Ltd. ("HDSC").
- *
- * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
- * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
- *
- * This software contains source code for use with HDSC
- * components. This software is licensed by HDSC to be adapted only
- * for use in systems utilizing HDSC components. HDSC shall not be
- * responsible for misuse or illegal use of this software for devices not
- * supported herein. HDSC is providing this software "AS IS" and will
- * not be responsible for issues arising from incorrect user implementation
- * of the software.
- *
- * Disclaimer:
- * HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
- * REGARDING THE SOFTWARE (INCLUDING ANY ACCOMPANYING WRITTEN MATERIALS),
- * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
- * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
- * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
- * WARRANTY OF NONINFRINGEMENT.
- * HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
- * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
- * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
- * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
- * INABILITY TO USE THE SOFTWARE, INCLUDING, WITHOUT LIMITATION, ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR LOSS OF DATA,
- * SAVINGS OR PROFITS,
- * EVEN IF Disclaimer HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * YOU ASSUME ALL RESPONSIBILITIES FOR SELECTION OF THE SOFTWARE TO ACHIEVE YOUR
- * INTENDED RESULTS, AND FOR THE INSTALLATION OF, USE OF, AND RESULTS OBTAINED
- * FROM, THE SOFTWARE.
- *
- * This software may be replicated in part or whole for the licensed use,
- * with the restriction that this Disclaimer and Copyright notice must be
- * included with each copy of this software, whether used in part or whole,
- * at all times.
+ * This software component is licensed by HDSC under BSD 3-Clause license
+ * (the "License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                    opensource.org/licenses/BSD-3-Clause
  */
 /******************************************************************************/
-/** \file hc32f46x_pwc.c
+/** \file hc32f460_pwc.c
  **
  ** A detailed description is available at
  ** @link PwcGroup PWC description @endlink
  **
- **   - 2018-10-28  1.0  Chengy First version for Device Driver Library of PWC.
+ **   - 2018-10-28  CDT  First version for Device Driver Library of PWC.
  **
  ******************************************************************************/
 
@@ -162,23 +129,18 @@
 
 /*! Parameter validity check for flash mode while stop mode mode. */
 #define IS_PWC_STOP_MODE_FLASH(x)                                              \
-(   ((x) == Wait)                       ||                                     \
-    ((x) == NotWait))
+(   ((x) == FlashWait)                       ||                                \
+    ((x) == FlashNotWait))
 
 /*! Parameter validity check for wake_up timer over flag. */
 #define IS_PWC_WKTMOVER_FLAG(flag)                                             \
 (   ((flag) == UnEqual)                 ||                                     \
     ((flag) == Equal))
 
-/*! Parameter validity check for ram power control. */
-#define IS_PWC_RAM_PWR_CTL(x)                                                  \
-    (   ((x) == DynamicCtl)             ||                                     \
-        ((x) == PowDownCtl))
-
 /*! Parameter validity check for ram operate mode. */
 #define IS_PWC_RAM_OP_MD(x)                                                    \
-    (   ((x) == HighSpeedMd)            ||                                     \
-        ((x) == UlowSpeedMd))
+(   ((x) == HighSpeedMd)                ||                                     \
+    ((x) == UlowSpeedMd))
 
 /*! Parameter validity check for wake_up timer clock. */
 #define IS_PWC_WKTM_CLK(clk)                                                   \
@@ -228,7 +190,7 @@
     ((x) == MskInt))
 
 /*! Parameter validity check for valid wakeup source from stop mode. */
-#define     IS_VALID_WKUP_SRC(x)                                                \
+#define IS_VALID_WKUP_SRC(x)                                                    \
 (   ((x) == INT_USART1_WUPI)                    ||                              \
     ((x) == INT_TMR01_GCMA)                     ||                              \
     ((x) == INT_RTC_ALM)                        ||                              \
@@ -285,10 +247,7 @@ uint8_t     u8SysClkSrc = 1u;
  ** \arg    enPwrDownMd                 The power down mode.
  ** \arg    enRLdo                      Enable or disable RLDO.
  ** \arg    enRetSram                   Enable or disable RetSram.
- ** \arg    enVPll                      Enable or disable PLL VCC.
- ** \arg    enVHrc                      Enable or disable Hrc VCC.
  ** \arg    enIoRetain                  The IO state while power down.
- ** \arg    enDynVol                    The dynamic voltage.
  ** \arg    enPwrDWkupTm                The wake_up timer while power down.
  **
  ** \retval None
@@ -301,11 +260,7 @@ void PWC_PowerModeCfg(const stc_pwc_pwr_mode_cfg_t* pstcPwrMdCfg)
     DDL_ASSERT(IS_PWC_PWR_DOWN_MODE(pstcPwrMdCfg->enPwrDownMd ));
     DDL_ASSERT(IS_FUNCTIONAL_STATE(pstcPwrMdCfg->enRLdo));
     DDL_ASSERT(IS_FUNCTIONAL_STATE(pstcPwrMdCfg->enRetSram));
-    DDL_ASSERT(IS_FUNCTIONAL_STATE(pstcPwrMdCfg->enVPll));
-    DDL_ASSERT(IS_FUNCTIONAL_STATE(pstcPwrMdCfg->enVHrc));
     DDL_ASSERT(IS_PWC_PWR_DWON_IO_STATE(pstcPwrMdCfg->enIoRetain));
-    DDL_ASSERT(IS_PWC_DRIVER_ABILITY(pstcPwrMdCfg->enDrvAbility));
-    DDL_ASSERT(IS_PWC_DYNAMIC_VOLTAGE(pstcPwrMdCfg->enRunDrvs));
     DDL_ASSERT(IS_PWC_PWR_DOWN_WKUP_TIM(pstcPwrMdCfg->enPwrDWkupTm));
 
     ENABLE_PWR_REG_WRITE();
@@ -315,14 +270,7 @@ void PWC_PowerModeCfg(const stc_pwc_pwr_mode_cfg_t* pstcPwrMdCfg)
                            (uint8_t)(((Enable == pstcPwrMdCfg->enRetSram) ? 0u : 1u) << 3u) |
                            (pstcPwrMdCfg->enIoRetain << 4u));
 
-    M4_SYSREG->PWR_PWRC1_f.VHRCSD = ((Enable == pstcPwrMdCfg->enVHrc) ? 0u : 1u);
-    M4_SYSREG->PWR_PWRC1_f.VPLLSD = ((Enable == pstcPwrMdCfg->enVPll) ? 0u : 1u);
-
-    M4_SYSREG->PWR_PWRC2 = (pstcPwrMdCfg->enDrvAbility         |
-                           (pstcPwrMdCfg->enRunDrvs << 4u)     |
-                           (0x3u << 6u));
-
-    M4_SYSREG->PWR_PWRC3 = (pstcPwrMdCfg->enPwrDWkupTm | (0x03));
+    M4_SYSREG->PWR_PWRC3 = (pstcPwrMdCfg->enPwrDWkupTm | (0x03)) << 2u;
 
     DISABLE_PWR_REG_WRITE();
 }
@@ -338,10 +286,7 @@ void PWC_PowerModeCfg(const stc_pwc_pwr_mode_cfg_t* pstcPwrMdCfg)
  ** \note   This function should be put ram
  **
  ******************************************************************************/
-#if defined (__ICCARM__)
-__ramfunc
-#endif
-void PWC_EnterPowerDownMd(void)
+__RAM_FUNC void PWC_EnterPowerDownMd(void)
 {
     ENABLE_PVD_REG_WRITE();
 
@@ -981,57 +926,57 @@ void PWC_EnterSleepMd(void)
 }
 /**
  *******************************************************************************
- ** \brief  Ram configuration(include ram operate mode & ram power down control).
+ ** \brief  Ram area power down commond.
  **
- ** \param  [in] pstcRamCfg             The struct of ram configuration.
- ** \arg    enRam0                      Ram0(0x20000000-0x2000FFFF) power down control.
- ** \arg    enRam1                      Ram1(0x20010000-0x2001FFFF) power down control.
- ** \arg    enRam2                      Ram2(0x20020000-0x20026FFF) power down control.
- ** \arg    enRam3                      Rom3(0x1FFF8000-0x1FFFFFFF) power down control.
- ** \arg    enUsbfs                     Usbfs power down control.
- ** \arg    enSdioc0                    Sdioc0 power down control.
- ** \arg    enSdioc1                    Sdioc1 power down control.
- ** \arg    enCan                       Can power down control.
- ** \arg    enCache                     Cache power down control.
- ** \arg    enRamOpMd                   Ram operate mode.
+ ** \param  [in] u32RamCtlBit           The ram area contol.
+ ** \arg    PWC_RAMPWRDOWN_SRAM1        Ram0(0x20000000-0x2000FFFF) power down control.
+ ** \arg    PWC_RAMPWRDOWN_SRAM2        Ram1(0x20010000-0x2001FFFF) power down control.
+ ** \arg    PWC_RAMPWRDOWN_SRAM3        Ram2(0x20020000-0x20026FFF) power down control.
+ ** \arg    PWC_RAMPWRDOWN_SRAMH        Ram3(0x1FFF8000-0x1FFFFFFF) power down control.
+ ** \arg    PWC_RAMPWRDOWN_USBFS        Usbfs power down control.
+ ** \arg    PWC_RAMPWRDOWN_SDIOC0       Sdioc0 power down control.
+ ** \arg    PWC_RAMPWRDOWN_SDIOC1       Sdioc1 power down control.
+ ** \arg    PWC_RAMPWRDOWN_CAN          Can power down control.
+ ** \arg    PWC_RAMPWRDOWN_CACHE        Cache power down control.
+ ** \arg    PWC_RAMPWRDOWN_FULL         Full.
+ **
+ ** \param  [in] enNewState             The new state of the Ram area.
+ ** \arg    Enable                      Ten ram area run.
+ ** \arg    Disable                     The ram area power down.
  **
  ** \retval None
  **
  ** \note   None
  **
  ******************************************************************************/
-void PWC_RamCfg(const stc_pwc_ram_cfg_t* pstcRamCfg)
+void PWC_RamPwrdownCmd(uint32_t u32RamCtlBit, en_functional_state_t enNewState)
 {
-    DDL_ASSERT(IS_PWC_RAM_PWR_CTL(pstcRamCfg->enRam0));
-    DDL_ASSERT(IS_PWC_RAM_PWR_CTL(pstcRamCfg->enRam1));
-    DDL_ASSERT(IS_PWC_RAM_PWR_CTL(pstcRamCfg->enRam2));
-    DDL_ASSERT(IS_PWC_RAM_PWR_CTL(pstcRamCfg->enRam3));
-    DDL_ASSERT(IS_PWC_RAM_PWR_CTL(pstcRamCfg->enUsbfs));
-    DDL_ASSERT(IS_PWC_RAM_PWR_CTL(pstcRamCfg->enSdioc0));
-    DDL_ASSERT(IS_PWC_RAM_PWR_CTL(pstcRamCfg->enSdioc1));
-    DDL_ASSERT(IS_PWC_RAM_PWR_CTL(pstcRamCfg->enCan));
-    DDL_ASSERT(IS_PWC_RAM_PWR_CTL(pstcRamCfg->enCache));
-    DDL_ASSERT(IS_PWC_RAM_OP_MD(pstcRamCfg->enRamOpMd));
+    DDL_ASSERT(IS_FUNCTIONAL_STATE(enNewState));
 
     ENABLE_PWR_REG_WRITE();
 
-    M4_SYSREG->PWR_RAMOPM = pstcRamCfg->enRamOpMd;
-
-    M4_SYSREG->PWR_RAMPC0 = (pstcRamCfg->enRam0               |
-                            (pstcRamCfg->enRam1 << 1ul)       |
-                            (pstcRamCfg->enRam2 << 2ul)       |
-                            (pstcRamCfg->enRam3 << 3ul)       |
-                            (pstcRamCfg->enUsbfs << 4ul)      |
-                            (pstcRamCfg->enSdioc0 << 5ul)     |
-                            (pstcRamCfg->enSdioc1 << 6ul)     |
-                            (pstcRamCfg->enCan << 7ul)        |
-                            (pstcRamCfg->enCache << 8ul));
-
-
+    if(Enable == enNewState)
+    {
+        M4_SYSREG->PWR_RAMPC0 &= ~u32RamCtlBit;
+    }
+    else
+    {
+        M4_SYSREG->PWR_RAMPC0 |= u32RamCtlBit;
+    }
 
     DISABLE_PWR_REG_WRITE();
 }
 
+void PWC_RamOpMdConfig(en_pwc_ram_op_md_t enRamOpMd)
+{
+    DDL_ASSERT(IS_PWC_RAM_OP_MD(enRamOpMd));
+
+    ENABLE_PWR_REG_WRITE();
+
+    M4_SYSREG->PWR_RAMOPM = enRamOpMd;
+
+    DISABLE_PWR_REG_WRITE();
+}
 /**
  *******************************************************************************
  ** \brief  Enable or disable XTAL/RTC/WKTM bias current.
@@ -1355,17 +1300,16 @@ void PWC_PllPwrCmd(en_functional_state_t enNewState)
  *******************************************************************************
  ** \brief NVIC backup and disable before entry from stop mode
  **
- ** param  none
+ ** param  None
  **
- ** retval Ok                           Ok, Backup and disable sucessfully.
+ ** retval None
  **
  *****************************************************************************/
-static en_result_t PWC_enNvicBackup(void)
+void PWC_enNvicBackup(void)
 {
     uint8_t u8Cnt;
     stc_intc_sel_field_t *stcIntSel;
     uint32_t u32WakeupSrc = INT_MAX;
-    en_result_t enRet = Ok;
 
     /* Backup NVIC set enable register for IRQ0~143*/
     for (u8Cnt = 0u; u8Cnt < sizeof(NVIC_ISER_BAK)/sizeof(uint32_t); u8Cnt++)
@@ -1549,23 +1493,21 @@ static en_result_t PWC_enNvicBackup(void)
         }
         else
         {
-            enRet = ErrorInvalidParameter;
-            break;
+            ;
         }
     }
-    return enRet;
 }
 
 /**
  *******************************************************************************
  ** \brief NVIC recover after wakeup from stop mode
  **
- ** param  none
+ ** param  None
  **
- ** retval Ok                           Ok, NVIC set enable recover sucessfully.
+ ** retval None
  **
  *****************************************************************************/
-static en_result_t PWC_enNvicRecover(void)
+void PWC_enNvicRecover(void)
 {
     uint8_t u8Cnt;
 
@@ -1573,7 +1515,6 @@ static en_result_t PWC_enNvicRecover(void)
     {
         NVIC->ISER[u8Cnt] = NVIC_ISER_BAK[u8Cnt];
     }
-    return Ok;
 }
 
 /**
@@ -1726,7 +1667,7 @@ static void PWC_enClockRecover(void)
  **
  ** \note   This function should be called before func. PWC_EnterStopMd.
  ******************************************************************************/
-static void PWC_ClkBackup(void)
+void PWC_ClkBackup(void)
 {
     /* Disable all interrupt to ensure the following operation continued. */
     __disable_irq();
@@ -1751,7 +1692,7 @@ static void PWC_ClkBackup(void)
  **
  ** \note   This function should be called after func. PWC_EnterStopMd.
  ******************************************************************************/
-static void PWC_ClkRecover(void)
+void PWC_ClkRecover(void)
 {
     /* Disable all interrupt to ensure the following operation continued. */
     __disable_irq();
@@ -1830,7 +1771,6 @@ void PWC_EnterStopMd(void)
 
     M4_SYSREG->PWR_STPMCR_f.STOP = 1u;
     M4_SYSREG->PWR_PWRC0_f.PWDN = 0u;
-    M4_SYSREG->CMU_TPIUCKCFGR=0x88;
 
     DISABLE_PWR_REG0_WRITE();
 

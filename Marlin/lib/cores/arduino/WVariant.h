@@ -19,23 +19,61 @@
 #ifndef WVARIANT_H_
 #define WVARIANT_H_
 
-
 #include <stdint.h>
 #include <stdbool.h>
+#include <hc32_ddl.h>
+#include <addon_gpio.h>
+#include "drivers/adc/adc.h"
+
+// Include board variant
+#include <variant.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
+	/**
+	 * @brief variant pin map struct
+	 */
+	typedef struct pin_info_t
+	{
+		/**
+		 * @brief bit position of the pin in the port
+		 */
+		uint8_t bit_pos;
 
-struct variantPinMap {
-	int pin;
-};
+		/**
+		 * @brief IO port this pin belongs to
+		 */
+		__IO en_port_t port;
 
-/* An array of something, integers, structs...
- * depends on the target and implementation
- * of the Arduino HAL
+		/**
+		 * @brief bit mask of the pin in the port
+		 */
+		__IO en_pin_t bit_mask;
+
+		/**
+		 * @brief pointer to the ADC device of this pin, if any
+		 * @note NULL if not a ADC pin
+		 */
+		adc_dev *adc_device;
+
+		/**
+		 * @brief adc channel number of this pin, if any
+		 * @note ADC_PIN_INVALID if not a ADC pin
+		 */
+		__IO uint8_t adc_channel;
+	} pin_info_t;
+
+	/**
+	 * @brief GPIO pin map
+	 */
+	extern const pin_info_t PIN_MAP[BOARD_NR_GPIO_PINS];
+
+/**
+ * @brief test if a gpio pin number is valid
  */
-extern const struct variantPinMap g_variantPinmap[];
+#define IS_GPIO_PIN(pin) (pin >= 0 && pin < BOARD_NR_GPIO_PINS)
 
 #ifdef __cplusplus
 } // extern "C"

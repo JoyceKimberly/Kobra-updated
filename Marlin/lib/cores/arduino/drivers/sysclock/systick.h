@@ -9,6 +9,12 @@
 #include "hc32f460_interrupts.h"
 #include "hc32f460_pwc.h"
 
+#define TICKS_PER_SECOND 1000ul
+
+void systick_init();
+uint32_t systick_millis();
+uint32_t systick_micros();
+
 #ifdef __cplusplus
 extern "C"{
 #endif
@@ -29,8 +35,6 @@ extern void setup_time(void);
 void setup_step_tim(const uint32_t frequency);
 void setup_temp_tim(const uint32_t frequency);
 
-extern uint32_t millis(void);
-extern uint32_t micros(void);
 extern en_result_t timer_preset_compare(M4_TMR0_TypeDef* pstcTim0Reg, en_tim0_channel_t enCh,const uint16_t compare,en_functional_state_t counterclr);
 extern void tone_set_compare(const uint16_t compare);
 extern en_result_t timer_set_compare(const uint8_t timer_num,const uint16_t compare);
@@ -38,12 +42,7 @@ extern uint16_t timer_get_count(const uint8_t timer_num);
 extern void timer_enable_irq(const uint8_t timer_num,en_functional_state_t state); 
 extern bool timer_irq_enabled(M4_TMR0_TypeDef* pstcTim0Reg, const uint8_t timer_num); 
 
-void delay(uint32_t ms);
-void delayMicroseconds(uint32_t us);
-
 #define os_get_timeslice(x,y)  ((uint32_t)(x>=y?(x-y):0))
-
-extern volatile uint32_t _millis;
 
 #ifdef __cplusplus
 }

@@ -184,24 +184,7 @@
 #define Y_HARDWARE_SERIAL  MSerial1
 #define Z_HARDWARE_SERIAL  MSerial1
 #define E0_HARDWARE_SERIAL MSerial1
-
 //#define E1_HARDWARE_SERIAL MSerial3
-
-//
-// Software serial
-//
-//  #define X_SERIAL_TX_PIN                   PA9
-//  #define X_SERIAL_RX_PIN                   PA15
-
-//  #define Y_SERIAL_TX_PIN                   PA9
-//  #define Y_SERIAL_RX_PIN                   PA15
-
-//  #define Z_SERIAL_TX_PIN                   PA9
-//  #define Z_SERIAL_RX_PIN                   PA15
-
-//  #define E0_SERIAL_TX_PIN                  PA9
-//  #define E0_SERIAL_RX_PIN                  PA15
 
 // Reduce baud rate to improve software serial reliability
 #define TMC_BAUD_RATE                     115200
-

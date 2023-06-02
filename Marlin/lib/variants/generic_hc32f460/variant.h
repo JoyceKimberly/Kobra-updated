@@ -19,124 +19,123 @@
 #ifndef BOARD_VARIANT_H_
 #define BOARD_VARIANT_H_
 
-#include "WVariant.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
-
-#define LED_BUILTIN	4
+//
+// GPIO pin count (size of PIN_MAP array)
+//
+#define BOARD_NR_GPIO_PINS 83
 
 //
-// Pin Definitions for HC32F46x
+// GPIO pin aliases (index into PIN_MAP array)
 //
-
-enum {
-PA0,PA1,PA2,PA3,PA4,PA5,PA6,PA7,PA8,PA9,PA10,PA11,PA12,PA13,PA14,PA15,
-PB0,PB1,PB2,PB3,PB4,PB5,PB6,PB7,PB8,PB9,PB10,PB11,PB12,PB13,PB14,PB15,
-PC0,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,PC10,PC11,PC12,PC13,PC14,PC15,
-PD0,PD1,PD2,PD3,PD4,PD5,PD6,PD7,PD8,PD9,PD10,PD11,PD12,PD13,PD14,PD15,
-PE0,PE1,PE2,PE3,PE4,PE5,PE6,PE7,PE8,PE9,PE10,PE11,PE12,PE13,PE14,PE15,
-PH0,PH1,PH2,
-};
 
 // PAx
-#define PA0  0x00
-#define PA1  0x01
-#define PA2  0x02
-#define PA3  0x03
-#define PA4  0x04
-#define PA5  0x05
-#define PA6  0x06
-#define PA7  0x07
-#define PA8  0x08
-#define PA9  0x09
-#define PA10 0x0A
-#define PA11 0x0B
-#define PA12 0x0C
-#define PA13 0x0D
-#define PA14 0x0E
-#define PA15 0x0F
+#define PA0 0
+#define PA1 1
+#define PA2 2
+#define PA3 3
+#define PA4 4
+#define PA5 5
+#define PA6 6
+#define PA7 7
+#define PA8 8
+#define PA9 9
+#define PA10 10
+#define PA11 11
+#define PA12 12
+#define PA13 13
+#define PA14 14
+#define PA15 15
 
 // PBx
-#define PB0  0x10
-#define PB1  0x11
-#define PB2  0x12
-#define PB3  0x13
-#define PB4  0x14
-#define PB5  0x15
-#define PB6  0x16
-#define PB7  0x17 // 36 pins (F103T)
-#define PB8  0x18
-#define PB9  0x19
-#define PB10 0x1A
-#define PB11 0x1B
-#define PB12 0x1C
-#define PB13 0x1D
-#define PB14 0x1E
-#define PB15 0x1F
+#define PB0 16
+#define PB1 17
+#define PB2 18
+#define PB3 19
+#define PB4 20
+#define PB5 21
+#define PB6 22
+#define PB7 23
+#define PB8 24
+#define PB9 25
+#define PB10 26
+#define PB11 27
+#define PB12 28
+#define PB13 29
+#define PB14 30
+#define PB15 31
 
 // PCx
-#define PC0  0x20
-#define PC1  0x21
-#define PC2  0x22
-#define PC3  0x23
-#define PC4  0x24
-#define PC5  0x25
-#define PC6  0x26
-#define PC7  0x27
-#define PC8  0x28
-#define PC9  0x29
-#define PC10 0x2A
-#define PC11 0x2B
-#define PC12 0x2C
-#define PC13 0x2D
-#define PC14 0x2E
-#define PC15 0x2F
+#define PC0 32
+#define PC1 33
+#define PC2 34
+#define PC3 35
+#define PC4 36
+#define PC5 37
+#define PC6 38
+#define PC7 39
+#define PC8 40
+#define PC9 41
+#define PC10 42
+#define PC11 43
+#define PC12 44
+#define PC13 45
+#define PC14 46
+#define PC15 47
 
 // PDx
-#define PD0  0x30
-#define PD1  0x31
-#define PD2  0x32 // 64 pins (F103R)
-#define PD3  0x33
-#define PD4  0x34
-#define PD5  0x35
-#define PD6  0x36
-#define PD7  0x37
-#define PD8  0x38
-#define PD9  0x39
-#define PD10 0x3A
-#define PD11 0x3B
-#define PD12 0x3C
-#define PD13 0x3D
-#define PD14 0x3E
-#define PD15 0x3F
+#define PD0 48
+#define PD1 49
+#define PD2 50
+#define PD3 51
+#define PD4 52
+#define PD5 53
+#define PD6 54
+#define PD7 55
+#define PD8 56
+#define PD9 57
+#define PD10 58
+#define PD11 59
+#define PD12 60
+#define PD13 61
+#define PD14 62
+#define PD15 63
 
 // PEx
-#define PE0  0x40
-#define PE1  0x41
-#define PE2  0x42
-#define PE3  0x43
-#define PE4  0x44
-#define PE5  0x45
-#define PE6  0x46
-#define PE7  0x47
-#define PE8  0x48
-#define PE9  0x49
-#define PE10 0x4A
-#define PE11 0x4B
-#define PE12 0x4C
-#define PE13 0x4D
-#define PE14 0x4E
-#define PE15 0x4F // 100 pins (F103V)
+#define PE0 64
+#define PE1 65
+#define PE2 66
+#define PE3 67
+#define PE4 68
+#define PE5 69
+#define PE6 70
+#define PE7 71
+#define PE8 72
+#define PE9 73
+#define PE10 74
+#define PE11 75
+#define PE12 76
+#define PE13 77
+#define PE14 78
+#define PE15 79
 
 // PHx
-#define PH0  0x50
-#define PH1  0x51
-#define PH2  0x52
+#define PH0 80
+#define PH1 81
+#define PH2 82
 
-#ifdef __cplusplus
-}
-#endif
+//
+// USART gpio pins
+//
+#define VARIANT_USART1_TX_PIN     PA9     // MOTO
+#define VARIANT_USART1_RX_PIN     PA15
+
+#define VARIANT_USART2_TX_PIN     PA2     // DEBUG
+#define VARIANT_USART2_RX_PIN     PA3
+
+#define VARIANT_USART3_TX_PIN     PB4     // MOTO
+#define VARIANT_USART3_RX_PIN     PB3
+
+#define VARIANT_USART4_TX_PIN     PB10    // LCD
+#define VARIANT_USART4_RX_PIN     PH2
 
 #endif /* BOARD_VARIANT_H_ */

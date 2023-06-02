@@ -29,22 +29,22 @@ en_result_t PORT_GetConfig(en_port_t port, uint16_t pin, stc_port_init_t *portCo
                                                                      port * 0x40ul + pinPos * 0x04ul);
 
             // input latch setting
-            portConf->enLatch = PCRx->LTE;
+            portConf->enLatch = (en_functional_state_t)PCRx->LTE;
 
             // external interrupt input enable
-            portConf->enExInt = PCRx->INTE;
+            portConf->enExInt = (en_functional_state_t)PCRx->INTE;
 
             // In_Out invert
-            portConf->enInvert = PCRx->INVE;
+            portConf->enInvert = (en_functional_state_t)PCRx->INVE;
 
             // pin pull-up enable
-            portConf->enPullUp = PCRx->PUU;
+            portConf->enPullUp = (en_functional_state_t)PCRx->PUU;
 
             // CMOS/OD output toggle
-            portConf->enPinOType = PCRx->NOD;
+            portConf->enPinOType = (en_pin_o_type_t)PCRx->NOD;
 
             // pin drive mode
-            portConf->enPinDrv = PCRx->DRV;
+            portConf->enPinDrv = (en_pin_drv_t)PCRx->DRV;
 
             // pin mode
             if (PCRx->DDIS == 1u)
@@ -57,7 +57,7 @@ en_result_t PORT_GetConfig(en_port_t port, uint16_t pin, stc_port_init_t *portCo
             }
 
             // sub-function enable
-            portConf->enPinSubFunc = PFSRx->BFE;
+            portConf->enPinSubFunc = (en_functional_state_t)PFSRx->BFE;
         }
     }
 

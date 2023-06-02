@@ -1,22 +1,17 @@
 #ifndef __BSP_TIMER_H__
 #define __BSP_TIMER_H__
 
-
 #include "hc32_ddl.h"
-
 
 #define TMR_UNIT            (M4_TMR02)
 #define TMR_INI_GCMA        (INT_TMR02_GCMA)
 #define TMR_INI_GCMB        (INT_TMR02_GCMB)
 
-
 #define TMR_SSERIAL_UNIT    (M4_TMR02)
 #define TMR_SSERIAL_CH      (Tim0_ChannelB)
 
-
 #define TMR_SSERIAL_STOP()  TIMER0_Cmd(TMR_SSERIAL_UNIT, TMR_SSERIAL_CH, Disable)
 #define TMR_SSERIAL_RESUM() TIMER0_Cmd(TMR_SSERIAL_UNIT, TMR_SSERIAL_CH, Enable)
-
 
 uint32_t get_pclk1Freq(void);
 
@@ -39,6 +34,4 @@ bool timer42_irq_get(void);
 bool timer42_set_compare(const uint16_t compare);
 uint16_t timer42_get_count(void);
 
-
 #endif
-

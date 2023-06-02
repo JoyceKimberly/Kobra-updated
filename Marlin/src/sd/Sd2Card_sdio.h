@@ -23,17 +23,36 @@
 
 #include "../inc/MarlinConfig.h"
 
-#if ENABLED(ONBOARD_SDIO)
+#include "SdInfo.h"
 
 bool SDIO_Init();
 bool SDIO_ReadBlock(uint32_t block, uint8_t *dst);
 bool SDIO_WriteBlock(uint32_t block, const uint8_t *src);
+bool SDIO_IsReady();
+uint32_t SDIO_GetCardSize();
 
-class Sd2Card {
+class DiskIODriver {
   public:
-    bool init(uint8_t sckRateID = 0, uint8_t chipSelectPin = 0) { return SDIO_Init(); }
-    bool readBlock(uint32_t block, uint8_t *dst) { return SDIO_ReadBlock(block, dst); }
-    bool writeBlock(uint32_t block, const uint8_t *src) { return SDIO_WriteBlock(block, src); }
-};
+    bool init(const uint8_t sckRateID=0, const pin_t chipSelectPin=0) { return SDIO_Init(); }
 
-#endif // ONBOARD_SDIO
+    bool readCSD(csd_t *csd)                              { return false; }
+
+    bool readStart(const uint32_t block)                  { curBlock = block; return true; }
+    bool readData(uint8_t *dst)                           { return readBlock(curBlock++, dst); }
+    bool readStop()                                       { curBlock = -1; return true; }
+
+    bool writeStart(const uint32_t block, const uint32_t) { curBlock = block; return true; }
+    bool writeData(const uint8_t *src)                    { return writeBlock(curBlock++, src); }
+    bool writeStop()                                      { curBlock = -1; return true; }
+
+    bool readBlock(uint32_t block, uint8_t *dst)          { return SDIO_ReadBlock(block, dst); }
+    bool writeBlock(uint32_t block, const uint8_t *src)   { return SDIO_WriteBlock(block, src); }
+
+    uint32_t cardSize()                                   { return SDIO_GetCardSize(); }
+
+    bool isReady()                                        { return SDIO_IsReady(); }
+
+    void idle()                                           {}
+  private:
+    uint32_t curBlock;
+};

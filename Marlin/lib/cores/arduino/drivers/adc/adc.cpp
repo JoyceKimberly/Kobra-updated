@@ -1,15 +1,52 @@
 #include "adc.h"
+#include "../gpio/gpio.h"
+#include "../irqn/irqn.h"
 #include "usart.h"
-
-#define ADC_CH_COUNT	3
 
 uint16_t g_adc_value[3];
 uint8_t g_adc_idx;
 
+//
+// ADC1 device
+//
+adc_dev adc1 = {
+	.HAL_AdcDmaIrqFlag = 0,
+	.HAL_adc_results = {0},
+
+	.regs = M4_ADC1,
+	.PeriphClock = PWC_FCG3_PERIPH_ADC1,
+	.Channel = ADC1_SA_CHANNEL,
+
+	.DMARegs = M4_DMA2,
+	.DMAPeriphClock = PWC_FCG0_PERIPH_DMA2,
+	.DMAChannel = DmaCh3,
+	.DMAenSrc = EVT_ADC1_EOCA,
+};
+adc_dev *ADC1 = &adc1;
+
 uint16_t adc_read(adc_dev *dev, uint8_t channel)
 {
+	// wait for adc result
+	while (true)
+	{
+		if (dev->HAL_AdcDmaIrqFlag & ADC1_SA_DMA_IRQ_BIT)
+		{
+			break;
+		}
 
+		uint8_t c = 0;
+		if (++c >= 100)
+		{
+			c = 0;
+			return 0;
+		}
 
+		WDT_RefreshCounter();
+	}
+
+	// read result and clear irq flag
+	dev->HAL_AdcDmaIrqFlag &= ~ADC1_SA_DMA_IRQ_BIT;
+	return dev->HAL_adc_results[channel];
 }
 
 /**
@@ -23,25 +60,24 @@ uint16_t adc_read(adc_dev *dev, uint8_t channel)
  **			b. PCLK4 : ADCLK = 1:1, 2:1, 4:1, 8:1, 1:2, 1:4
  **
  ******************************************************************************/
-static void adc_setCLK(void)
+void adc_setCLK()
 {
 #if (ADC_CLK == ADC_CLK_PCLK)
-	stc_clk_sysclk_cfg_t stcSysclkCfg;
+	stc_clk_sysclk_cfg_t sysClkConf;
 
 	/* Set bus clock division, depends on the system clock frequency. */
-	stcSysclkCfg.enHclkDiv  = ClkSysclkDiv1;  // 168MHz
-	stcSysclkCfg.enExclkDiv = ClkSysclkDiv2;  // 84MHz
-	stcSysclkCfg.enPclk0Div = ClkSysclkDiv1;  // 168MHz
-	stcSysclkCfg.enPclk1Div = ClkSysclkDiv2;  // 84MHz
-	stcSysclkCfg.enPclk2Div = ClkSysclkDiv4;  // 42MHz
-	stcSysclkCfg.enPclk3Div = ClkSysclkDiv4;  // 42MHz
-	stcSysclkCfg.enPclk4Div = ClkSysclkDiv1;  // 84MHz.
-	CLK_SysClkConfig(&stcSysclkCfg);
+	sysClkConf.enHclkDiv  = ClkSysclkDiv1;  // 168MHz
+	sysClkConf.enExclkDiv = ClkSysclkDiv2;  // 84MHz
+	sysClkConf.enPclk0Div = ClkSysclkDiv1;  // 168MHz
+	sysClkConf.enPclk1Div = ClkSysclkDiv2;  // 84MHz
+	sysClkConf.enPclk2Div = ClkSysclkDiv4;  // 42MHz
+	sysClkConf.enPclk3Div = ClkSysclkDiv4;  // 42MHz
+	sysClkConf.enPclk4Div = ClkSysclkDiv1;  // 84MHz.
+	CLK_SysClkConfig(&sysClkConf);
 	CLK_SetPeriClkSource(ClkPeriSrcPclk);
-
 #elif (ADC_CLK == ADC_CLK_MPLLQ)
 	stc_clk_xtal_cfg_t xtalConf;
-	stc_clk_mpll_cfg_t mpllConf;
+	stc_clk_mpll_cfg_t pllConf;
 
 	if (CLKSysSrcMPLL == CLK_GetSysClkSource())
 	{
@@ -60,14 +96,16 @@ static void adc_setCLK(void)
 		CLK_XtalCmd(Enable);
 
 		/* Set MPLL out 240MHz. */
-		mpllConf.pllmDiv = 1u;
+		pllConf.pllmDiv = 1u;
 		/* mpll = 8M / pllmDiv * plln */
-		mpllConf.plln	= 30u;
-		mpllConf.PllpDiv = 16u;
-		mpllConf.PllqDiv = 16u;
-		mpllConf.PllrDiv = 16u;
+		pllConf.PllpDiv = 16u;
+		pllConf.PllqDiv = 16u;
+		pllConf.PllrDiv = 16u;
+		pllConf.plln	= 30u;
+
 		CLK_SetPllSource(ClkPllSrcXTAL);
-		CLK_MpllConfig(&mpllConf);
+		CLK_MpllConfig(&pllConf);
+
 		CLK_MpllCmd(Enable);
 	}
 	CLK_SetPeriClkSource(ClkPeriSrcMpllp);
@@ -106,7 +144,7 @@ static void adc_setCLK(void)
  ** \brief  ADC initial configuration.
  **
  ******************************************************************************/
-static void adc_initConfig(void)
+void adc_initConfig(adc_dev *dev)
 {
 	// enable adc1
 	PWC_Fcg3PeriphClockCmd(PWC_FCG3_PERIPH_ADC1, Enable);
@@ -128,92 +166,70 @@ static void adc_initConfig(void)
  ** \brief  Set an ADC pin as analog input mode or digit mode.
  **
  ******************************************************************************/
-static void adc_setPinMode(uint8_t adcPin, en_pin_mode_t mode)
+void adc_setPinMode(uint8_t adcPin, en_pin_mode_t mode)
 {
 	// translate adc input to pin
-	en_port_t enPort = PortA;
-	en_pin_t enPin   = Pin00;
-	bool bFlag	   = true;
+	uint8_t pin;
 	switch (adcPin)
 	{
 	case ADC1_IN0:
-		enPort = PortA;
-		enPin  = Pin00;
+		pin = PA0;
 		break;
 	case ADC1_IN1:
-		enPort = PortA;
-		enPin  = Pin01;
+		pin = PA1;
 		break;
 	case ADC1_IN2:
-		enPort = PortA;
-		enPin  = Pin02;
+		pin = PA2;
 		break;
 	case ADC1_IN3:
-		enPort = PortA;
-		enPin  = Pin03;
+		pin = PA3;
 		break;
 	case ADC12_IN4:
-		enPort = PortA;
-		enPin  = Pin04;
+		pin = PA4;
 		break;
 	case ADC12_IN5:
-		enPort = PortA;
-		enPin  = Pin05;
+		pin = PA5;
 		break;
 	case ADC12_IN6:
-		enPort = PortA;
-		enPin  = Pin06;
+		pin = PA6;
 		break;
 	case ADC12_IN7:
-		enPort = PortA;
-		enPin  = Pin07;
+		pin = PA7;
 		break;
 	case ADC12_IN8:
-		enPort = PortB;
-		enPin  = Pin00;
+		pin = PB0;
 		break;
 	case ADC12_IN9:
-		enPort = PortB;
-		enPin  = Pin01;
+		pin = PB1;
 		break;
 	case ADC12_IN10:
-		enPort = PortC;
-		enPin  = Pin00;
+		pin = PC0;
 		break;
 	case ADC12_IN11:
-		enPort = PortC;
-		enPin  = Pin01;
+		pin = PC1;
 		break;
 	case ADC1_IN12:
-		enPort = PortC;
-		enPin  = Pin02;
+		pin = PC2;
 		break;
 	case ADC1_IN13:
-		enPort = PortC;
-		enPin  = Pin03;
+		pin = PC3;
 		break;
 	case ADC1_IN14:
-		enPort = PortC;
-		enPin  = Pin04;
+		pin = PC4;
 		break;
 	case ADC1_IN15:
-		enPort = PortC;
-		enPin  = Pin05;
+		pin = PC5;
 		break;
 	default:
-		bFlag = false;
-		break;
+		return;
 	}
 
 	// set pin mode
-	stc_port_init_t portConf;
-	MEM_ZERO_STRUCT(portConf);
-	portConf.enPinMode = mode;
-	portConf.enPullUp  = Disable;
-	if (true == bFlag)
-	{
-		PORT_Init(enPort, enPin, &portConf);
-	}
+	stc_port_init_t portConf = {
+		.enPinMode = mode,
+		.enPullUp = Disable,
+	};
+	GPIO_Init(pin, &portConf);
 }
 
 /**
@@ -221,14 +237,10 @@ static void adc_setPinMode(uint8_t adcPin, en_pin_mode_t mode)
  ** \brief  Config the pin which is mapping the channel to analog or digit mode.
  **
  ******************************************************************************/
-static void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, en_pin_mode_t mode)
+void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, en_pin_mode_t mode)
 {
 	// get channel offset and mask
-#if (ADC_CH_REMAP)
-	uint8_t adcPin;
-#else
 	uint8_t channelOffset = 0u;
-#endif
 	if (M4_ADC1 == ADCx)
 	{
 		channel &= ADC1_PIN_MASK_ALL;
@@ -236,9 +248,7 @@ static void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, 
 	else
 	{
 		channel &= ADC2_PIN_MASK_ALL;
-#if (!ADC_CH_REMAP)
 		channelOffset = 4u;
-#endif
 	}
 
 	// set pin mode of all pins in the channel
@@ -246,12 +256,7 @@ static void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, 
 	{
 		if (channel & 0x1ul)
 		{
-#if (ADC_CH_REMAP)
-			adcPin = ADC_GetChannelPinNum(ADCx, i);
-			adc_setPinMode(adcPin, mode);
-#else
 			adc_setPinMode((channelOffset + i), mode);
-#endif
 		}
 
 		channel >>= 1u;
@@ -263,19 +268,29 @@ static void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, 
  ** \brief  ADC channel configuration.
  **
  ******************************************************************************/
-static void adc_channelConfig(void)
+void adc_channelConfig(adc_dev *dev, en_pin_mode_t mode)
 {
 	uint8_t samplingTimes[3] = { 0x60, 0x60, 0x60 };
+
+	stc_port_init_t portConf;
+	MEM_ZERO_STRUCT(portConf);
+
+	portConf.enPullUp  = Disable;
+	portConf.enPinMode = Pin_Mode_Ana;
+
+	PORT_Init(BOARD_ADC_CH0_PORT, BOARD_ADC_CH0_PIN, &portConf);
+	PORT_Init(BOARD_ADC_CH1_PORT, BOARD_ADC_CH1_PIN, &portConf);
+	PORT_Init(BOARD_ADC_CH2_PORT, BOARD_ADC_CH2_PIN, &portConf);
 
 	// init adc channel
 	stc_adc_ch_cfg_t adcChannelConf;
 	MEM_ZERO_STRUCT(adcChannelConf);
-	adcChannelConf.u32Channel  = BOARD_ADC_CH0_CH | BOARD_ADC_CH1_CH | BOARD_ADC_CH2_CH;
+	adcChannelConf.u32Channel  = ADC1_CH10 | ADC1_CH11 | ADC1_CH12;
 	adcChannelConf.u8Sequence  = ADC_SEQ_A;
 	adcChannelConf.pu8SampTime = samplingTimes;
 	ADC_AddAdcChannel(M4_ADC1, &adcChannelConf);
 //	ADC_ConfigAvg(M4_ADC1, AdcAvcnt_64);
-//	ADC_AddAvgChannel(M4_ADC1, BOARD_ADC_CH0_CH | BOARD_ADC_CH1_CH | BOARD_ADC_CH2_CH);
+//	ADC_AddAvgChannel(M4_ADC1, ADC1_CH10 | ADC1_CH11 | ADC1_CH12);
 }
 
 /**
@@ -283,7 +298,7 @@ static void adc_channelConfig(void)
  ** \brief  ADC trigger source configuration.
  **
  ******************************************************************************/
-static void adc_triggerConfig(void)
+void adc_triggerConfig(adc_dev *dev, uint32_t fcg0Periph)
 {
 	PWC_Fcg0PeriphClockCmd(PWC_FCG0_PERIPH_AOS, Enable);
 
@@ -291,26 +306,32 @@ static void adc_triggerConfig(void)
 	MEM_ZERO_STRUCT(stcTrgCfg);
 
 	/*
-	 * If select an event(@ref en_event_src_t) to trigger ADC,
-	 * AOS must be enabled first.
-	 */
+	// select EVT_TMR02_GCMA as ADC1 trigger source
+	stc_adc_trg_cfg_t triggerConf = {
+		.u8Sequence = ADC_SEQ_A,
+		.enTrgSel = AdcTrgsel_TRGX0,
+		.enInTrg0 = EVT_TMR02_GCMA,
+	};
+	ADC_ConfigTriggerSrc(dev->regs, &triggerConf);
+	ADC_TriggerSrcCmd(dev->regs, ADC_SEQ_A, Enable);
+	*/
 
 	// ADC1 is always triggered by software
 	ADC_TriggerSrcCmd(M4_ADC1, ADC_SEQ_A, Disable);
 }
 
 // DMA2 CH0 ~ CH2
-void adc_dmaInitConfig(void)
+void adc_dmaInitConfig(adc_dev *dev)
 {
 	// setup dma config
 	stc_dma_config_t dmaConf;
 	MEM_ZERO_STRUCT(dmaConf);
-	dmaConf.u16BlockSize   = ADC_CH_COUNT;
+	dmaConf.u16BlockSize   = 3;
 	dmaConf.u16TransferCnt = 0u;
 	dmaConf.u32SrcAddr	 = (uint32_t)(&M4_ADC1->DR10);
 	dmaConf.u32DesAddr	 = (uint32_t)(&g_adc_value[0]);
-	dmaConf.u16SrcRptSize  = ADC_CH_COUNT;
-	dmaConf.u16DesRptSize  = ADC_CH_COUNT;
+	dmaConf.u16SrcRptSize  = 3;
+	dmaConf.u16DesRptSize  = 3;
 	dmaConf.u32DmaLlp	  = 0u;
 	dmaConf.stcSrcNseqCfg.u32Offset = 0u;
 	dmaConf.stcSrcNseqCfg.u16Cnt	= 0u;
@@ -341,44 +362,73 @@ void adc_dmaInitConfig(void)
 	DMA_SetTriggerSrc(M4_DMA2, DmaCh3, EVT_ADC1_EOCA);
 }
 
-void setup_adcs(void)
+void adc_dmaRegisterIRQ(stc_irq_regi_conf_t *pstcCfg, uint32_t priority)
 {
+	int16_t irqNum = pstcCfg->enIRQn;
+	if (((irqNum >= Int000_IRQn) && (irqNum <= Int031_IRQn)) ||
+		((irqNum >= Int038_IRQn) && (irqNum <= Int043_IRQn)))
+	{
+		if (enIrqRegistration(pstcCfg) != Ok)
+		{
+			return;
+		}
+	}
+	else if (irqNum == Int129_IRQn)
+	{
+		enShareIrqEnable(pstcCfg->enIntSrc);
+	}
+	else
+	{
+		return;
+	}
+
+	NVIC_ClearPendingIRQ(pstcCfg->enIRQn);
+	NVIC_SetPriority(pstcCfg->enIRQn, priority);
+	NVIC_EnableIRQ(pstcCfg->enIRQn);
 }
 
-void adc_main(void)
+/**
+ * ADC DMA IRQ handler
+ */
+void Dma1Btc3_IrqHandler(void)
 {
+	// DMA_ClearIrqFlag(ADC1->DMARegs, ADC1->DMAChannel, BlkTrnCpltIrq);
+	ADC1->HAL_AdcDmaIrqFlag |= ADC1_SA_DMA_IRQ_BIT;
 }
 
-static void adc_pin_init(void)
+void adc_dmaIRQConfig(void)
 {
-	stc_port_init_t portConf;
+	// get auto-assigned IRQn
+	IRQn_Type irqn;
+	irqn_aa_get(irqn, "adc dma irq");
 
-	MEM_ZERO_STRUCT(portConf);
-
-	portConf.enPullUp  = Disable;
-	portConf.enPinMode = Pin_Mode_Ana;
-
-	PORT_Init(BOARD_ADC_CH0_PORT, BOARD_ADC_CH0_PIN, &portConf);
-	PORT_Init(BOARD_ADC_CH1_PORT, BOARD_ADC_CH1_PIN, &portConf);
-	PORT_Init(BOARD_ADC_CH2_PORT, BOARD_ADC_CH2_PIN, &portConf);
+	// register IRQ
+	stc_irq_regi_conf_t stcAdcIrqCfg = {
+		.enIntSrc = INT_DMA1_BTC3,
+		.enIRQn = irqn,
+		.pfnCallback = &Dma1Btc3_IrqHandler,
+	};
+	adc_dmaRegisterIRQ(&stcAdcIrqCfg, DDL_IRQ_PRIORITY_DEFAULT);
 }
 
-void adc_setDefaultConfig(void)
+void adc_setDefaultConfig(adc_dev *dev)
 {
 	// init and config adc and channels
-	adc_initConfig();
-	adc_pin_init();
-	adc_channelConfig();
-	adc_triggerConfig();
+	adc_initConfig(dev);
+	adc_channelConfig(dev, Pin_Mode_Ana);
+	adc_triggerConfig(dev, PWC_FCG0_PERIPH_AOS);
 
 	// init and config DMA
-	adc_dmaInitConfig();
-
-	ADC_StartConvert(M4_ADC1);
+	adc_dmaInitConfig(dev);
+	adc_dmaIRQConfig();
+	ADC_StartConvert(dev->regs);
 }
 
 void adc_init(void)
 {
+	// set ADC clock (default is MRC @ 8MHz)
+	adc_setCLK();
+
 	// configure ADC
-	adc_setDefaultConfig();
+	adc_setDefaultConfig(ADC1);
 }

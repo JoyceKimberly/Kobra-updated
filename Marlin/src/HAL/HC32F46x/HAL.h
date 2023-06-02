@@ -24,7 +24,6 @@
 /**
  * HAL for stm32duino.com based on Libmaple and compatible (HC32F46x based on STM32F1)
  */
-#pragma once
 
 #define CPU_32_BIT
 
@@ -74,6 +73,13 @@
 #endif
 
 //
+// Emergency Parser
+//
+#if ENABLED(EMERGENCY_PARSER)
+extern "C" void usart_rx_irq_hook(uint8_t ch, uint8_t usart);
+#endif
+
+//
 // Misc. Defines
 //
 #define STM32_FLASH_SIZE 256
@@ -87,14 +93,18 @@
 // Misc. Functions
 //
 #ifndef analogInputToDigitalPin
-  #define analogInputToDigitalPin(p) (p)
+#define analogInputToDigitalPin(p) (p)
 #endif
 
 #define HAL_CAN_SET_PWM_FREQ   // This HAL supports PWM Frequency adjustment
 
-#define CRITICAL_SECTION_START()  const bool irqon = !__get_PRIMASK(); __disable_irq()
+#define CRITICAL_SECTION_START()        \
+  const bool irqon = !__get_PRIMASK(); \
+  __disable_irq()
 
-#define CRITICAL_SECTION_END()    if (irqon) __enable_irq()
+#define CRITICAL_SECTION_END() \
+  if (irqon)              \
+  __enable_irq()
 
 // Disable interrupts
 #define cli() __disable_irq()
@@ -104,6 +114,10 @@
 
 // bss_end alias
 #define __bss_end __bss_end__
+
+// fix bug in pgm_read_ptr
+#undef pgm_read_ptr
+#define pgm_read_ptr(addr) (*(addr))
 
 //
 // ADC
@@ -121,81 +135,4 @@
 //
 // MarlinHAL implementation
 //
-extern uint16_t g_adc_value[3];
-extern uint8_t g_adc_idx;
-
-typedef int16_t pin_t;
-
-class MarlinHAL
-{
-public:
-    // Earliest possible init, before setup()
-    MarlinHAL();
-
-    // Watchdog
-    static void watchdog_init();
-    static void watchdog_refresh();
-
-    static void init();       // Called early in setup()
-    static void init_board(); // Called less early in setup()
-    static void reboot();     // Restart the firmware from 0x0
-
-    // Interrupts
-    static bool isr_state();
-    static void isr_on();
-    static void isr_off();
-
-    static void delay_ms(const int ms);
-
-    // Tasks, called from idle()
-    static void idletask();
-
-    // Reset
-    static uint8_t get_reset_source();
-    static void clear_reset_source();
-
-    // Free SRAM
-    static int freeMemory();
-
-    //
-    // ADC Methods
-    //
-
-    static uint16_t adc_result;
-
-    // Called by Temperature::init once at startup
-    static void adc_init();
-
-    // Called by Temperature::init for each sensor at startup
-    static void adc_enable(const pin_t pin);
-
-    // Begin ADC sampling on the given pin. Called from Temperature::isr!
-    static void adc_start(const pin_t pin);
-
-    // Is the ADC ready for reading?
-    static bool adc_ready();
-
-    // The current value of the ADC register
-    static uint16_t adc_value();
-
-    /**
-     * Set the PWM duty cycle for the pin to the given value.
-     * Optionally invert the duty cycle [default = false]
-     * Optionally change the maximum size of the provided value to enable finer PWM duty control [default = 255]
-     * The timer must be pre-configured with set_pwm_frequency() if the default frequency is not desired.
-     */
-    static void set_pwm_duty(const pin_t pin, const uint16_t v, const uint16_t = 255, const bool = false);
-
-    /**
-     * Set the frequency of the timer for the given pin.
-     * All Timer PWM pins run at the same frequency.
-     */
-    static void set_pwm_frequency(const pin_t pin, const uint16_t f_desired);
-};
-
-// M997: trigger firmware update from sd card (after upload)
-// on HC32F46x, a reboot is enough to do this
-#ifndef PLATFORM_M997_SUPPORT
-  #define PLATFORM_M997_SUPPORT
-#endif
-void flashFirmware(const int16_t);
+#include "MarlinHAL.h"
