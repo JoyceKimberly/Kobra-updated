@@ -118,14 +118,13 @@ static inline void noInterrupts() {
 
 #define bit(b) (1UL << (b))
 
-// default F_CPU to cpu frequency getter if not defined yet
+// dynamic F_CPU
+#include "drivers/sysclock/sysclock.h"
 extern uint32_t F_CPU;
 #define CYCLES_PER_MICROSECOND  (F_CPU / 1000000UL)
 
 #define clockCyclesPerMicrosecond() ( F_CPU / 1000000L )
 #define clockCyclesToMicroseconds(a) ( ((a) * 1000L) / (F_CPU / 1000L) )
 #define microsecondsToClockCycles(a) ( (a) * (F_CPU / 1000000L) )
-
-#define digitalPinToInterrupt(pin) (pin)
 
 #endif // Arduino_h

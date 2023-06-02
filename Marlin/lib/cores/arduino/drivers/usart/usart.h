@@ -17,14 +17,11 @@
 */
 
 #pragma once
-#include <startup.h>
-#include <hc32_ddl.h>
 #include <stdint.h>
+#include "drivers/usart/usart.h"
 #include "HardwareSerial.h"
 #include "RingBuffer.h"
 #include "usart_config.h"
-#include "../../core_hooks.h"
-#include <stddef.h>
 
 class Usart : public HardwareSerial
 {

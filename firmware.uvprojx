@@ -855,11 +855,6 @@
               <FilePath>.\Marlin\lib\libraries\IWatchdog\IWatchdog.cpp</FilePath>
             </File>
             <File>
-              <FileName>AsyncAnalogRead.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\Marlin\lib\libraries\AsyncAnalogRead\AsyncAnalogRead.cpp</FilePath>
-            </File>
-            <File>
               <FileName>OnChipTemperature.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\Marlin\lib\libraries\OnChipTemperature\OnChipTemperature.cpp</FilePath>
