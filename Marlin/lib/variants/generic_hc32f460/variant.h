@@ -138,16 +138,4 @@
 #define VARIANT_USART4_TX_PIN     PB10    // LCD
 #define VARIANT_USART4_RX_PIN     PH2
 
-#define BOARD_USART1_TX_PIN     PA9     // MOTO
-#define BOARD_USART1_RX_PIN     PA15
-
-#define BOARD_USART2_TX_PIN     PA2     // DEBUG
-#define BOARD_USART2_RX_PIN     PA3
-
-#define BOARD_USART3_TX_PIN     PB4     // MOTO
-#define BOARD_USART3_RX_PIN     PB3
-
-#define BOARD_USART4_TX_PIN     PB10    // LCD
-#define BOARD_USART4_RX_PIN     PH2
-
 #endif /* BOARD_VARIANT_H_ */

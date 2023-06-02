@@ -36,9 +36,6 @@ void MarlinHAL::watchdog_init()
 void MarlinHAL::watchdog_refresh()
 {
 #if ENABLED(USE_WATCHDOG)
-    #if DISABLED(PINS_DEBUGGING) && PIN_EXISTS(LED)
-      TOGGLE(LED_PIN);  // heartbeat indicator
-    #endif
     WDT.reload();
 #endif
 }

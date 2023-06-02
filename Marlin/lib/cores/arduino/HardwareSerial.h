@@ -19,10 +19,15 @@
 #ifndef HardwareSerial_h
 #define HardwareSerial_h
 
+#include <hc32_ddl.h>
 #include <stdint.h>
 #include "Print.h"
 #include "Stream.h"
 #include "hc32f460_usart.h"
+#include "RingBuffer.h"
+#include "usart_config.h"
+#include "../../core_hooks.h"
+#include <stddef.h>
 
 #define HARDSER_PARITY_EVEN (0x1ul)
 #define HARDSER_PARITY_ODD (0x2ul)
@@ -82,48 +87,63 @@
 class HardwareSerial : public Stream
 {
 public:
-  HardwareSerial(M4_USART_TypeDef *base);
   unsigned char _rx_buffer[SERIAL_RX_BUFFER_SIZE];
   unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];
-  unsigned char *g_rx_buffer;
-  HardwareSerial(struct usart_dev *usart_device,
-                 uint32_t tx_pin,
-                 uint32_t rx_pin);
+  /**
+   * @brief construct a new Usart object
+   * @param config pointer to the usart configuration struct
+   * @param tx_pin gpio pin number for tx function
+   * @param rx_pin gpio pin number for rx function
+   */
+  HardwareSerial(struct usart_config_t *config, uint16_t tx_pin, uint16_t rx_pin);
   size_t begin(uint32_t baud);
   void begin(uint32_t baud, uint16_t config);
+  void begin(uint32_t baud, const stc_usart_uart_init_t *config);
   void end();
-  virtual int available(void);
-  int availableForWrite(void);
-  virtual int peek(void);
-  virtual int read(void);
-  virtual void flush(void);
-  virtual size_t write(uint8_t);
+  int available();
+  int availableForWrite();
+  int peek();
+  int read();
+  void flush();
+  size_t write(uint8_t ch);
   using Print::write; // pull in write(str) and write(buf, size) from Print
-  operator bool() { return true; };
-
-  // escape hatch to underlying usart_dev
-  struct usart_dev *c_dev(void) { return this->usart_device; }
+  operator bool() { return true; }
 
   bool connected() {};
   void flushTX() { flush(); };
   void msgDone() {};
 
-  /* Pin accessors */
-  int txPin(void) { return this->tx_pin; }
-  int rxPin(void) { return this->rx_pin; }
+  /**
+   * @brief access the base usart config struct
+   */
+  const usart_config_t *c_dev(void) { return this->config; }
+
+  /**
+   * @brief get the last receive error
+   * @note calling this function clears the error
+   */
+  const usart_receive_error_t getReceiveError(void);
 
   // Interrupt handlers - Not intended to be called externally
   void _rx_complete_callback(unsigned char c);
   void set_buffer_head(rx_buffer_index_t index);
 
 private:
-  struct usart_dev *usart_device;
-  uint32_t tx_pin;
-  uint32_t rx_pin;
+  // usart configuration struct
+  usart_config_t *config;
+
+  // tx / rx pin numbers
+  uint16_t tx_pin;
+  uint16_t rx_pin;
+
+  // rx / tx buffers (unboxed from config)
+  RingBuffer *rxBuffer;
+  RingBuffer *txBuffer;
+
+  // is initialized? (begin() called)
+  bool initialized = false;
 
 protected:
-	M4_USART_TypeDef *uart_base;
-  
   // Has any byte been written to the UART since begin()
   bool _written;
 

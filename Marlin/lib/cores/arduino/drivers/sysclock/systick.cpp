@@ -1,38 +1,30 @@
 #include "systick.h"
+#include <hc32_ddl.h>
 #include "bsp_timer.h"
 #include "timers.h"
 
 volatile uint32_t uptime = 0;
 
-uint32_t millis()
-{
-    return uptime;
-}
-
-uint32_t micros(void)
-{
-  uint32_t m0 = millis();
-  __IO uint32_t u0 = SysTick->VAL;
-  uint32_t m1 = millis();
-  __IO uint32_t u1 = SysTick->VAL;
-  const uint32_t tms = SysTick->LOAD + 1;
-
-  if (m1 != m0) {
-    return (m1 * 1000 + ((tms - u1) * 1000) / tms);
-  } else {
-    return (m0 * 1000 + ((tms - u0) * 1000) / tms);
-  }
-}
-
 extern "C" void SysTick_IrqHandler(void)
 {
-    SysTick_IncTick();
+    uptime++;
 }
 
 void systick_init()
 {
     stc_clk_freq_t clkFreq;
     CLK_GetClockFreq(&clkFreq);
+    SysTick_Config(clkFreq.sysclkFreq / TICKS_PER_SECOND);
+}
+
+uint32_t systick_millis()
+{
+    return uptime;
+}
+
+uint32_t systick_micros()
+{
+    return uptime / 1000;
 }
 
 void setup_time2A(const uint32_t frequency)

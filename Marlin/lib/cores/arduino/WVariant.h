@@ -32,10 +32,6 @@
 extern "C"
 {
 #endif
-
-#define BOARD_NR_GPIO_PINS 83
-#define BOARD_NR_ADC_PINS  16
-
 	/**
 	 * @brief variant pin map struct
 	 */
@@ -67,18 +63,12 @@ extern "C"
 		 * @note ADC_PIN_INVALID if not a ADC pin
 		 */
 		__IO uint8_t adc_channel;
-
-		/**
-		 * @brief function of this GPIO pin, set by GPIO_SetFunc
-		 */
-		__IO en_port_func_t function;
 	} pin_info_t;
 
 	/**
 	 * @brief GPIO pin map
 	 */
 	extern const pin_info_t PIN_MAP[BOARD_NR_GPIO_PINS];
-	extern const uint8_t ADC_PINS[BOARD_NR_ADC_PINS];
 
 /**
  * @brief test if a gpio pin number is valid
