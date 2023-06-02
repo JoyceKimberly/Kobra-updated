@@ -108,21 +108,6 @@ void get_all_clock(void)
 	  F_CPU = stcClkFreq.pclk1Freq;   // used for stepper timer
 }
 
-void led_pin_init(void)
-{
-    stc_port_init_t stcPortInit;
-
-    MEM_ZERO_STRUCT(stcPortInit);
-
-    stcPortInit.enPinMode = Pin_Mode_Out;
-    stcPortInit.enPullUp  = Disable;
-
-    PORT_Init(PortA, Pin01, &stcPortInit);
-    PORT_Init(PortA, Pin04, &stcPortInit);
-
-    LED0_OFF();
-}
-
 void endstop_pin_init(void)
 {
     stc_port_init_t stcPortInit;

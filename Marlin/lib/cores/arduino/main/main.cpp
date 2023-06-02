@@ -23,7 +23,6 @@ int main(void)
 
   H32OTS::init();
   get_all_clock();
-  led_pin_init();
   endstop_pin_init();
   stepper_pin_init();
   heater_pin_init();
