@@ -23,6 +23,8 @@
 #include "../../inc/MarlinConfig.h"
 #include "HAL.h"
 #include "timers.h"
+#include <hc32_ddl.h>
+#include <drivers/irqn/irqn.h>
 #include "hc32f460_clk.h"
 #include "hc32f460_pwc.h"
 #include "hc32f460_timer0.h"
@@ -85,6 +87,7 @@ inline void setupTimerIRQ(const en_tim0_channel_t channel, const IRQn irq, const
 
 void HAL_timer_start(const timer_channel_t timer_num, const uint32_t frequency)
 {
+  IRQn_Type irqn;
   switch (timer_num)
   {
   case STEP_TIMER_NUM:

@@ -69,13 +69,9 @@ extern "C"
 	extern uint16_t g_adc_value[3];
 	extern uint8_t g_adc_idx;
 
-	static void adc_pin_init(void);
-
 	void BSP_DMA2CH0_TcIrqHander(void);
 	void BSP_DMA2CH1_TcIrqHander(void);
 	void BSP_DMA2CH2_TcIrqHander(void);
-
-	void AdcConfig(void);
 
 #ifdef __cplusplus
 }

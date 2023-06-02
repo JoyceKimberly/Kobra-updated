@@ -4,6 +4,7 @@
 #include "core_debug.h"
 #include "yield.h"
 #include "../gpio/gpio.h"
+#include "../irqn/irqn.h"
 #include "HardwareSerial.h"
 
 //
@@ -19,8 +20,13 @@ HardwareSerial MSerial4(M4_USART4);
 //
 // IRQ register / unregister helper
 //
-inline void usart_irq_register(usart_interrupt_config_t irq)
+inline void usart_irq_register(usart_interrupt_config_t &irq, const char *name)
 {
+    // get auto-assigned irqn and set in irq struct
+    IRQn_Type irqn;
+    irqn_aa_get(irqn, name);
+    irq.interrupt_number = irqn;
+
     // create irq registration struct
     stc_irq_regi_conf_t irqConf = {
         .enIntSrc = irq.interrupt_source,
@@ -35,11 +41,15 @@ inline void usart_irq_register(usart_interrupt_config_t irq)
     NVIC_EnableIRQ(irqConf.enIRQn);
 }
 
-inline void usart_irq_resign(usart_interrupt_config_t irq)
+inline void usart_irq_resign(usart_interrupt_config_t &irq, const char *name)
 {
+    // disable interrupt and clear pending
     NVIC_DisableIRQ(irq.interrupt_number);
     NVIC_ClearPendingIRQ(irq.interrupt_number);
     enIrqResign(irq.interrupt_number);
+
+    // resign auto-assigned irqn
+    irqn_aa_resign(irq.interrupt_number, name);
 }
 
 //

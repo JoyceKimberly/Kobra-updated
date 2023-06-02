@@ -67,12 +67,12 @@ uint32_t SoftwareSerial::cur_speed = 0;
 void SoftwareSerial::setSpeed(uint32_t speed)
 {
   if (speed != cur_speed) {
-    TMR_SSERIAL_STOP();
+    TIMER0_Cmd(M4_TMR02, Tim0_ChannelB, Disable);
     if (speed != 0) {
       // Disable the timer
       uint32_t clock_rate, cmp_value;
       // Get timer clock
-      clock_rate = get_pclk1Freq();
+      clock_rate = (F_CPU);
       int pre = 1;
       // Calculate prescale an compare value
       do {
@@ -88,7 +88,7 @@ void SoftwareSerial::setSpeed(uint32_t speed)
 //      timer.setCount(0);
 //      timer.attachInterrupt(&handleInterrupt);
 //      timer.resume();
-    TMR_SSERIAL_RESUM();
+    TIMER0_Cmd(M4_TMR02, Tim0_ChannelB, Enable);
     } else {
       
     }
@@ -275,6 +275,7 @@ void SoftwareSerial::handleInterrupt()
     active_out->send();
   }
 }
+
 //
 // Constructor
 //

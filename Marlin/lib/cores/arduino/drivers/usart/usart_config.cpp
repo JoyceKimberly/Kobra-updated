@@ -91,32 +91,26 @@ usart_config_t USART1_config = {
     .peripheral = {
         .register_base = M4_USART1,
         .clock_id = PWC_FCG1_PERIPH_USART1,
-    },
-    .pins = {
-        .tx_pin = USART1_TX_PIN,
-        .rx_pin = USART1_RX_PIN,
+        .tx_pin_function = Func_Usart1_Tx,
+        .rx_pin_function = Func_Usart1_Rx,
     },
     .interrupts = {
         .rx_data_available = {
-            .interrupt_number = IRQ_INDEX_INT_USART1_RI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART1_RI,
             .interrupt_handler = USARTx_rx_data_available_irq<1>,
         },
         .rx_error = {
-            .interrupt_number = IRQ_INDEX_INT_USART1_EI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART1_EI,
             .interrupt_handler = USARTx_rx_error_irq<1>,
         },
         .tx_buffer_empty = {
-            .interrupt_number = IRQ_INDEX_INT_USART1_TI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART1_TI,
             .interrupt_handler = USARTx_tx_buffer_empty_irq<1>,
         },
         .tx_complete = {
-            .interrupt_number = IRQ_INDEX_INT_USART1_TCI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART1_TCI,
             .interrupt_handler = USARTx_tx_complete_irq<1>,
@@ -222,32 +216,26 @@ usart_config_t USART2_config = {
     .peripheral = {
         .register_base = M4_USART2,
         .clock_id = PWC_FCG1_PERIPH_USART2,
-    },
-    .pins = {
-        .tx_pin = USART2_TX_PIN,
-        .rx_pin = USART2_RX_PIN,
+        .tx_pin_function = Func_Usart2_Tx,
+        .rx_pin_function = Func_Usart2_Rx,
     },
     .interrupts = {
         .rx_data_available = {
-            .interrupt_number = IRQ_INDEX_INT_USART2_RI,
             .interrupt_priority = DDL_IRQ_PRIORITY_08,
             .interrupt_source = INT_USART2_RI,
             .interrupt_handler = USARTx_rx_data_available_irq<2>,
         },
         .rx_error = {
-            .interrupt_number = IRQ_INDEX_INT_USART2_EI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART2_EI,
             .interrupt_handler = USARTx_rx_error_irq<2>,
         },
         .tx_buffer_empty = {
-            .interrupt_number = IRQ_INDEX_INT_USART2_TI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART2_TI,
             .interrupt_handler = USARTx_tx_buffer_empty_irq<2>,
         },
         .tx_complete = {
-            .interrupt_number = IRQ_INDEX_INT_USART2_TCI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART2_TCI,
             .interrupt_handler = USARTx_tx_complete_irq<2>,
@@ -353,32 +341,26 @@ usart_config_t USART3_config = {
     .peripheral = {
         .register_base = M4_USART3,
         .clock_id = PWC_FCG1_PERIPH_USART3,
-    },
-    .pins = {
-        .tx_pin = USART3_TX_PIN,
-        .rx_pin = USART3_RX_PIN,
+        .tx_pin_function = Func_Usart3_Tx,
+        .rx_pin_function = Func_Usart3_Rx,
     },
     .interrupts = {
         .rx_data_available = {
-            .interrupt_number = IRQ_INDEX_INT_USART3_RI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART3_RI,
             .interrupt_handler = USARTx_rx_data_available_irq<3>,
         },
         .rx_error = {
-            .interrupt_number = IRQ_INDEX_INT_USART3_EI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART3_EI,
             .interrupt_handler = USARTx_rx_error_irq<3>,
         },
         .tx_buffer_empty = {
-            .interrupt_number = IRQ_INDEX_INT_USART3_TI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART3_TI,
             .interrupt_handler = USARTx_tx_buffer_empty_irq<3>,
         },
         .tx_complete = {
-            .interrupt_number = IRQ_INDEX_INT_USART3_TCI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART3_TCI,
             .interrupt_handler = USARTx_tx_complete_irq<3>,
@@ -484,32 +466,26 @@ usart_config_t USART4_config = {
     .peripheral = {
         .register_base = M4_USART4,
         .clock_id = PWC_FCG1_PERIPH_USART4,
-    },
-    .pins = {
-        .tx_pin = USART4_TX_PIN,
-        .rx_pin = USART4_RX_PIN,
+        .tx_pin_function = Func_Usart3_Tx,
+        .rx_pin_function = Func_Usart3_Rx,
     },
     .interrupts = {
         .rx_data_available = {
-            .interrupt_number = IRQ_INDEX_INT_USART4_RI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART4_RI,
             .interrupt_handler = USARTx_rx_data_available_irq<4>,
         },
         .rx_error = {
-            .interrupt_number = IRQ_INDEX_INT_USART4_EI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART4_EI,
             .interrupt_handler = USARTx_rx_error_irq<4>,
         },
         .tx_buffer_empty = {
-            .interrupt_number = IRQ_INDEX_INT_USART4_TI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART4_TI,
             .interrupt_handler = USARTx_tx_buffer_empty_irq<4>,
         },
         .tx_complete = {
-            .interrupt_number = IRQ_INDEX_INT_USART4_TCI,
             .interrupt_priority = DDL_IRQ_PRIORITY_DEFAULT,
             .interrupt_source = INT_USART4_TCI,
             .interrupt_handler = USARTx_tx_complete_irq<4>,
