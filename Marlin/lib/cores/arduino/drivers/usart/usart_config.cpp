@@ -4,22 +4,6 @@
 #include "../../WVariant.h"
 #include "../../core_hooks.h"
 
-// initial usart config
-stc_usart_uart_init_t usartConf = {
-    .enClkMode = UsartIntClkCkNoOutput,
-    .enClkDiv = UsartClkDiv_16,
-    .enDataLength = UsartDataBits8,
-    .enDirection = UsartDataLsbFirst,
-    .enStopBit = UsartOneStopBit,
-    .enParity = UsartParityNone,
-    .enSampleMode = UsartSampleBit8,
-    .enDetectMode = UsartStartBitFallEdge,
-    .enHwFlow = UsartRtsEnable};
-
-// rx / tx buffer shorthand
-#define CREATE_RX_BUFFER(name) DEFINE_RING_BUFFER(, name, USART_RX_BUF_SIZE)
-#define CREATE_TX_BUFFER(name) DEFINE_RING_BUFFER(, name, USART_TX_BUF_SIZE)
-
 // UART1
 #define USART1_BAUDRATE                 (115200ul)
 #define USART1_TX_PORT                  (PortA)  // Func_Grp1
@@ -85,8 +69,6 @@ stc_usart_uart_init_t usartConf = {
 //
 // USART1
 //
-CREATE_RX_BUFFER(usart1_rb)
-CREATE_TX_BUFFER(usart1_wb)
 usart_config_t USART1_config = {
     .peripheral = {
         .register_base = M4_USART1,
@@ -122,20 +104,6 @@ usart_config_t USART1_config = {
         .rx_error = usart_receive_error_t::None,
     },
 };
-
-usart_dev usart1 = {
-    .regs = M4_USART1,
-    .rb = &usart1_rb,
-    .wb = &usart1_wb,
-    .clk_id = PWC_FCG1_PERIPH_USART1,
-    .pstcInitCfg = &usartConf,
-    .RX_IRQ = IRQ_INDEX_INT_USART1_RI,
-    .TX_IRQ = IRQ_INDEX_INT_USART1_TI,
-    .RX_error_IRQ = IRQ_INDEX_INT_USART1_EI,
-    .TX_complete_IRQ = IRQ_INDEX_INT_USART1_TCI,
-    .IRQ_priority = DDL_IRQ_PRIORITY_DEFAULT,
-};
-usart_dev *USART1 = &usart1;
 
 void uart1_init(void)
 {
@@ -210,8 +178,6 @@ void uart1_init(void)
 //
 // USART2
 //
-CREATE_RX_BUFFER(usart2_rb)
-CREATE_TX_BUFFER(usart2_wb)
 usart_config_t USART2_config = {
     .peripheral = {
         .register_base = M4_USART2,
@@ -247,20 +213,6 @@ usart_config_t USART2_config = {
         .rx_error = usart_receive_error_t::None,
     },
 };
-
-usart_dev usart2 = {
-    .regs = M4_USART2,
-    .rb = &usart2_rb,
-    .wb = &usart2_wb,
-    .clk_id = PWC_FCG1_PERIPH_USART2,
-    .pstcInitCfg = &usartConf,
-    .RX_IRQ = IRQ_INDEX_INT_USART2_RI,
-    .TX_IRQ = IRQ_INDEX_INT_USART2_TI,
-    .RX_error_IRQ = IRQ_INDEX_INT_USART2_EI,
-    .TX_complete_IRQ = IRQ_INDEX_INT_USART2_TCI,
-    .IRQ_priority = DDL_IRQ_PRIORITY_08,
-};
-usart_dev *USART2 = &usart2;
 
 void uart2_init(void)
 {
@@ -335,8 +287,6 @@ void uart2_init(void)
 //
 // USART3
 //
-CREATE_RX_BUFFER(usart3_rb)
-CREATE_TX_BUFFER(usart3_wb)
 usart_config_t USART3_config = {
     .peripheral = {
         .register_base = M4_USART3,
@@ -372,20 +322,6 @@ usart_config_t USART3_config = {
         .rx_error = usart_receive_error_t::None,
     },
 };
-
-usart_dev usart3 = {
-    .regs = M4_USART3,
-    .rb = &usart3_rb,
-    .wb = &usart3_wb,
-    .clk_id = PWC_FCG1_PERIPH_USART3,
-    .pstcInitCfg = &usartConf,
-    .RX_IRQ = IRQ_INDEX_INT_USART3_RI,
-    .TX_IRQ = IRQ_INDEX_INT_USART3_TI,
-    .RX_error_IRQ = IRQ_INDEX_INT_USART3_EI,
-    .TX_complete_IRQ = IRQ_INDEX_INT_USART3_TCI,
-    .IRQ_priority = DDL_IRQ_PRIORITY_DEFAULT,
-};
-usart_dev *USART3 = &usart3;
 
 void uart3_init(void)
 {
@@ -460,8 +396,6 @@ void uart3_init(void)
 //
 // USART4
 //
-CREATE_RX_BUFFER(usart4_rb)
-CREATE_TX_BUFFER(usart4_wb)
 usart_config_t USART4_config = {
     .peripheral = {
         .register_base = M4_USART4,
@@ -497,20 +431,6 @@ usart_config_t USART4_config = {
         .rx_error = usart_receive_error_t::None,
     },
 };
-
-usart_dev usart4 = {
-    .regs = M4_USART4,
-    .rb = &usart4_rb,
-    .wb = &usart4_wb,
-    .clk_id = PWC_FCG1_PERIPH_USART4,
-    .pstcInitCfg = &usartConf,
-    .RX_IRQ = IRQ_INDEX_INT_USART4_RI,
-    .TX_IRQ = IRQ_INDEX_INT_USART4_TI,
-    .RX_error_IRQ = IRQ_INDEX_INT_USART4_EI,
-    .TX_complete_IRQ = IRQ_INDEX_INT_USART4_TCI,
-    .IRQ_priority = DDL_IRQ_PRIORITY_DEFAULT,
-};
-usart_dev *USART4 = &usart4;
 
 void uart4_init(void)
 {
