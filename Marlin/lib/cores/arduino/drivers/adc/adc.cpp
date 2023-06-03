@@ -8,6 +8,9 @@
 uint16_t g_adc_value[3];
 uint8_t g_adc_idx;
 
+// ADC irq flag bit mask
+#define ADC1_SA_DMA_IRQ_BIT (1ul << 0u)
+
 /**
  * @brief assert that channel id is valid
  * @param device ADC device configuration
@@ -43,59 +46,59 @@ uint8_t g_adc_idx;
 /**
  * @brief ADC peripheral init
  */
-void adc_initConfig(adc_device_t *device)
+inline void adc_adc_init(const adc_device_t *device)
 {
     // enable ADC peripheral clock
     PWC_Fcg3PeriphClockCmd(PWC_FCG3_PERIPH_ADC1, Enable);
 
     // initialize ADC peripheral
-    stc_adc_init_t adcConf;
-    MEM_ZERO_STRUCT(adcConf);
-    adcConf.enResolution = AdcResolution_12Bit;
-    adcConf.enDataAlign  = AdcDataAlign_Right;
-    adcConf.enAutoClear  = AdcClren_Enable;
-    adcConf.enScanMode   = AdcMode_SAContinuous;
-    adcConf.enRschsel    = AdcRschsel_Restart;
+    stc_adc_init_t init_device;
+    MEM_ZERO_STRUCT(init_device);
+    init_device.enResolution = AdcResolution_12Bit;
+    init_device.enDataAlign  = AdcDataAlign_Right;
+    init_device.enAutoClear  = AdcClren_Enable;
+    init_device.enScanMode   = AdcMode_SAContinuous;
+    init_device.enRschsel    = AdcRschsel_Restart;
     /* 2. Initialize ADC1. */
-    ADC_Init(M4_ADC1, &adcConf);
+    ADC_Init(M4_ADC1, &init_device);
 
 }
 
 /**
  * @brief ADC DMA transfer init
  */
-void adc_dmaInitConfig(adc_device_t *device)
+inline void adc_dma_init(const adc_device_t *device)
 {
     // prepare DMA transfer deviceuration to
     // transfer ADCx->DR0-DRn to state.conversion_results
-    stc_dma_config_t dmaConf;
-    MEM_ZERO_STRUCT(dmaConf);
-    dmaConf.u16BlockSize   = 3;
-    dmaConf.u16TransferCnt = 0u;
-    dmaConf.u32SrcAddr     = (uint32_t)(&M4_ADC1->DR10);
-    dmaConf.u32DesAddr     = (uint32_t)(&g_adc_value[0]);
-    dmaConf.u16SrcRptSize  = 3;
-    dmaConf.u16DesRptSize  = 3;
-    dmaConf.u32DmaLlp      = 0u;
-    dmaConf.stcSrcNseqCfg.u32Offset = 0u;
-    dmaConf.stcSrcNseqCfg.u16Cnt    = 0u;
-    dmaConf.stcDesNseqCfg.u32Offset = 0u;
-    dmaConf.stcDesNseqCfg.u16Cnt    = 0u;
-    dmaConf.stcDmaChCfg.enSrcInc    = AddressIncrease;
-    dmaConf.stcDmaChCfg.enDesInc    = AddressIncrease;
-    dmaConf.stcDmaChCfg.enSrcRptEn  = Enable;
-    dmaConf.stcDmaChCfg.enDesRptEn  = Enable;
-    dmaConf.stcDmaChCfg.enSrcNseqEn = Disable;
-    dmaConf.stcDmaChCfg.enDesNseqEn = Disable;
-    dmaConf.stcDmaChCfg.enTrnWidth  = Dma16Bit;
-    dmaConf.stcDmaChCfg.enLlpEn     = Disable;
-    dmaConf.stcDmaChCfg.enIntEn     = Disable;
+    stc_dma_config_t dma_device;
+    MEM_ZERO_STRUCT(dma_device);
+    dma_device.u16BlockSize   = 3;
+    dma_device.u16TransferCnt = 0u;
+    dma_device.u32SrcAddr     = (uint32_t)(&M4_ADC1->DR10);
+    dma_device.u32DesAddr     = (uint32_t)(&g_adc_value[0]);
+    dma_device.u16SrcRptSize  = 3;
+    dma_device.u16DesRptSize  = 3;
+    dma_device.u32DmaLlp      = 0u;
+    dma_device.stcSrcNseqCfg.u32Offset = 0u;
+    dma_device.stcSrcNseqCfg.u16Cnt    = 0u;
+    dma_device.stcDesNseqCfg.u32Offset = 0u;
+    dma_device.stcDesNseqCfg.u16Cnt    = 0u;
+    dma_device.stcDmaChCfg.enSrcInc    = AddressIncrease;
+    dma_device.stcDmaChCfg.enDesInc    = AddressIncrease;
+    dma_device.stcDmaChCfg.enSrcRptEn  = Enable;
+    dma_device.stcDmaChCfg.enDesRptEn  = Enable;
+    dma_device.stcDmaChCfg.enSrcNseqEn = Disable;
+    dma_device.stcDmaChCfg.enDesNseqEn = Disable;
+    dma_device.stcDmaChCfg.enTrnWidth  = Dma16Bit;
+    dma_device.stcDmaChCfg.enLlpEn     = Disable;
+    dma_device.stcDmaChCfg.enIntEn     = Disable;
 
     // enable DMA peripheral clock
     PWC_Fcg0PeriphClockCmd(PWC_FCG0_PERIPH_DMA2, Enable);
 
     // initialize DMA channel and enable
-    DMA_InitChannel(M4_DMA2, DmaCh3, &dmaConf);
+    DMA_InitChannel(M4_DMA2, DmaCh3, &dma_device);
     DMA_Cmd(M4_DMA2, Enable);
     DMA_ChannelCmd(M4_DMA2, DmaCh3, Enable);
 
@@ -116,6 +119,37 @@ void adc_dmaInitConfig(adc_device_t *device)
 // ADC Channel API
 //
 
+/**
+ *******************************************************************************
+ ** \brief  Config the pin which is mapping the channel to analog or digit mode.
+ **
+ ******************************************************************************/
+void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, en_pin_mode_t mode)
+{
+    // get channel offset and mask
+    uint8_t channelOffset = 0u;
+    if (M4_ADC1 == ADCx)
+    {
+        channel &= ADC1_PIN_MASK_ALL;
+    }
+    else
+    {
+        channel &= ADC2_PIN_MASK_ALL;
+        channelOffset = 4u;
+    }
+
+    // set pin mode of all pins in the channel
+    for (uint8_t i = 0u; channel != 0u; i++)
+    {
+        if (channel & 0x1ul)
+        {
+            adc_setPinMode((channelOffset + i), mode);
+        }
+
+        channel >>= 1u;
+    }
+}
+
 void adc_channelConfig(adc_device_t *device, en_pin_mode_t mode)
 {
     uint8_t samplingTimes[3] = { 0x60, 0x60, 0x60 };
@@ -131,12 +165,12 @@ void adc_channelConfig(adc_device_t *device, en_pin_mode_t mode)
     PORT_Init(BOARD_ADC_CH2_PORT, BOARD_ADC_CH2_PIN, &portConf);
 
     // init adc channel
-    stc_adc_ch_cfg_t adcChannelConf;
-    MEM_ZERO_STRUCT(adcChannelConf);
-    adcChannelConf.u32Channel  = ADC1_CH10 | ADC1_CH11 | ADC1_CH12;
-    adcChannelConf.u8Sequence  = ADC_SEQ_A;
-    adcChannelConf.pu8SampTime = samplingTimes;
-    ADC_AddAdcChannel(M4_ADC1, &adcChannelConf);
+    stc_adc_ch_cfg_t channel_config;
+    MEM_ZERO_STRUCT(channel_config);
+    channel_config.u32Channel  = ADC1_CH10 | ADC1_CH11 | ADC1_CH12;
+    channel_config.u8Sequence  = ADC_SEQ_A;
+    channel_config.pu8SampTime = samplingTimes;
+    ADC_AddAdcChannel(M4_ADC1, &channel_config);
 //    ADC_ConfigAvg(M4_ADC1, AdcAvcnt_64);
 //    ADC_AddAvgChannel(M4_ADC1, ADC1_CH10 | ADC1_CH11 | ADC1_CH12);
 }
@@ -164,6 +198,33 @@ uint16_t adc_read_sync(adc_device_t *device, uint8_t channel)
     // read result and clear irq flag
     device->HAL_AdcDmaIrqFlag &= ~ADC1_SA_DMA_IRQ_BIT;
     return device->HAL_adc_results[channel];
+}
+
+/**
+ *******************************************************************************
+ ** \brief  ADC trigger source configuration.
+ **
+ ******************************************************************************/
+void adc_triggerConfig(adc_device_t *device, uint32_t fcg0Periph)
+{
+    PWC_Fcg0PeriphClockCmd(PWC_FCG0_PERIPH_AOS, Enable);
+
+    stc_adc_trg_cfg_t stcTrgCfg;
+    MEM_ZERO_STRUCT(stcTrgCfg);
+
+    /*
+    // select EVT_TMR02_GCMA as ADC1 trigger source
+    stc_adc_trg_cfg_t triggerConf = {
+        .u8Sequence = ADC_SEQ_A,
+        .enTrgSel = AdcTrgsel_TRGX0,
+        .enInTrg0 = EVT_TMR02_GCMA,
+    };
+    ADC_ConfigTriggerSrc(device->regs, &triggerConf);
+    ADC_TriggerSrcCmd(device->regs, ADC_SEQ_A, Enable);
+    */
+
+    // ADC1 is always triggered by software
+    ADC_TriggerSrcCmd(M4_ADC1, ADC_SEQ_A, Disable);
 }
 
 /**
@@ -326,124 +387,16 @@ void adc_setPinMode(uint8_t adcPin, en_pin_mode_t mode)
     };
     GPIO_Init(pin, &portConf);
 }
-
-/**
- *******************************************************************************
- ** \brief  Config the pin which is mapping the channel to analog or digit mode.
- **
- ******************************************************************************/
-void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, en_pin_mode_t mode)
-{
-    // get channel offset and mask
-    uint8_t channelOffset = 0u;
-    if (M4_ADC1 == ADCx)
-    {
-        channel &= ADC1_PIN_MASK_ALL;
-    }
-    else
-    {
-        channel &= ADC2_PIN_MASK_ALL;
-        channelOffset = 4u;
-    }
-
-    // set pin mode of all pins in the channel
-    for (uint8_t i = 0u; channel != 0u; i++)
-    {
-        if (channel & 0x1ul)
-        {
-            adc_setPinMode((channelOffset + i), mode);
-        }
-
-        channel >>= 1u;
-    }
-}
-
-/**
- *******************************************************************************
- ** \brief  ADC trigger source configuration.
- **
- ******************************************************************************/
-void adc_triggerConfig(adc_device_t *device, uint32_t fcg0Periph)
-{
-    PWC_Fcg0PeriphClockCmd(PWC_FCG0_PERIPH_AOS, Enable);
-
-    stc_adc_trg_cfg_t stcTrgCfg;
-    MEM_ZERO_STRUCT(stcTrgCfg);
-
-    /*
-    // select EVT_TMR02_GCMA as ADC1 trigger source
-    stc_adc_trg_cfg_t triggerConf = {
-        .u8Sequence = ADC_SEQ_A,
-        .enTrgSel = AdcTrgsel_TRGX0,
-        .enInTrg0 = EVT_TMR02_GCMA,
-    };
-    ADC_ConfigTriggerSrc(device->regs, &triggerConf);
-    ADC_TriggerSrcCmd(device->regs, ADC_SEQ_A, Enable);
-    */
-
-    // ADC1 is always triggered by software
-    ADC_TriggerSrcCmd(M4_ADC1, ADC_SEQ_A, Disable);
-}
-
-void adc_dmaRegisterIRQ(stc_irq_regi_conf_t *pstcCfg, uint32_t priority)
-{
-    int16_t irqNum = pstcCfg->enIRQn;
-    if (((irqNum >= Int000_IRQn) && (irqNum <= Int031_IRQn)) ||
-        ((irqNum >= Int038_IRQn) && (irqNum <= Int043_IRQn)))
-    {
-        if (enIrqRegistration(pstcCfg) != Ok)
-        {
-            return;
-        }
-    }
-    else if (irqNum == Int129_IRQn)
-    {
-        enShareIrqEnable(pstcCfg->enIntSrc);
-    }
-    else
-    {
-        return;
-    }
-
-    NVIC_ClearPendingIRQ(pstcCfg->enIRQn);
-    NVIC_SetPriority(pstcCfg->enIRQn, priority);
-    NVIC_EnableIRQ(pstcCfg->enIRQn);
-}
-
-/**
- * ADC DMA IRQ handler
- */
-void Dma1Btc3_IrqHandler(void)
-{
-    // DMA_ClearIrqFlag(ADC1->DMARegs, ADC1->DMAChannel, BlkTrnCpltIrq);
-    ADC1->HAL_AdcDmaIrqFlag |= ADC1_SA_DMA_IRQ_BIT;
-}
-
-void adc_dmaIRQConfig(void)
-{
-    // get auto-assigned IRQn
-    IRQn_Type irqn;
-    irqn_aa_get(irqn, "adc dma irq");
-
-    // register IRQ
-    stc_irq_regi_conf_t stcAdcIrqCfg = {
-        .enIntSrc = INT_DMA1_BTC3,
-        .enIRQn = irqn,
-        .pfnCallback = &Dma1Btc3_IrqHandler,
-    };
-    adc_dmaRegisterIRQ(&stcAdcIrqCfg, DDL_IRQ_PRIORITY_DEFAULT);
-}
-
 void adc_setDefaultConfig(adc_device_t *device)
 {
     // init and config adc and channels
-    adc_initConfig(device);
+    adc_adc_init(device);
     adc_channelConfig(device, Pin_Mode_Ana);
     adc_triggerConfig(device, PWC_FCG0_PERIPH_AOS);
 
     // init and config DMA
-    adc_dmaInitConfig(device);
-    adc_dmaIRQConfig();
+    adc_dma_init(device);
+
     ADC_StartConvert(device->regs);
 }
 
