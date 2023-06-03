@@ -9,7 +9,7 @@ uint8_t g_adc_idx;
 //
 // ADC1 device
 //
-adc_dev adc1 = {
+adc_device_t ADC1_device = {
 	.HAL_AdcDmaIrqFlag = 0,
 	.HAL_adc_results = {0},
 
@@ -22,9 +22,9 @@ adc_dev adc1 = {
 	.DMAChannel = DmaCh3,
 	.DMAenSrc = EVT_ADC1_EOCA,
 };
-adc_dev *ADC1 = &adc1;
+adc_device_t *ADC1 = &ADC1_device;
 
-uint16_t adc_read(adc_dev *dev, uint8_t channel)
+uint16_t adc_read_sync(adc_device_t *dev, uint8_t channel)
 {
 	// wait for adc result
 	while (true)
@@ -144,12 +144,12 @@ void adc_setCLK()
  ** \brief  ADC initial configuration.
  **
  ******************************************************************************/
-void adc_initConfig(adc_dev *dev)
+void adc_initConfig(adc_device_t *dev)
 {
-	// enable adc1
+	// enable ADC1_device
 	PWC_Fcg3PeriphClockCmd(PWC_FCG3_PERIPH_ADC1, Enable);
 
-	// initialize adc1
+	// initialize ADC1_device
 	stc_adc_init_t adcConf;
 	MEM_ZERO_STRUCT(adcConf);
 	adcConf.enResolution = AdcResolution_12Bit;
@@ -268,7 +268,7 @@ void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, en_pin_
  ** \brief  ADC channel configuration.
  **
  ******************************************************************************/
-void adc_channelConfig(adc_dev *dev, en_pin_mode_t mode)
+void adc_channelConfig(adc_device_t *dev, en_pin_mode_t mode)
 {
 	uint8_t samplingTimes[3] = { 0x60, 0x60, 0x60 };
 
@@ -298,7 +298,7 @@ void adc_channelConfig(adc_dev *dev, en_pin_mode_t mode)
  ** \brief  ADC trigger source configuration.
  **
  ******************************************************************************/
-void adc_triggerConfig(adc_dev *dev, uint32_t fcg0Periph)
+void adc_triggerConfig(adc_device_t *dev, uint32_t fcg0Periph)
 {
 	PWC_Fcg0PeriphClockCmd(PWC_FCG0_PERIPH_AOS, Enable);
 
@@ -321,7 +321,7 @@ void adc_triggerConfig(adc_dev *dev, uint32_t fcg0Periph)
 }
 
 // DMA2 CH0 ~ CH2
-void adc_dmaInitConfig(adc_dev *dev)
+void adc_dmaInitConfig(adc_device_t *dev)
 {
 	// setup dma config
 	stc_dma_config_t dmaConf;
@@ -411,7 +411,7 @@ void adc_dmaIRQConfig(void)
 	adc_dmaRegisterIRQ(&stcAdcIrqCfg, DDL_IRQ_PRIORITY_DEFAULT);
 }
 
-void adc_setDefaultConfig(adc_dev *dev)
+void adc_setDefaultConfig(adc_device_t *dev)
 {
 	// init and config adc and channels
 	adc_initConfig(dev);

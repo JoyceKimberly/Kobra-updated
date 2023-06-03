@@ -28,7 +28,7 @@ extern "C"
 	//
 	// ADC device definition
 	//
-	typedef struct adc_dev
+	typedef struct adc_device_t
 	{
 		__IO uint32_t HAL_AdcDmaIrqFlag;
 		__IO uint16_t HAL_adc_results[3];
@@ -41,13 +41,13 @@ extern "C"
 		__IO uint32_t DMAPeriphClock;
 		__IO uint8_t DMAChannel;
 		__IO en_event_src_t DMAenSrc;
-	} adc_dev;
+	} adc_device_t;
 
-	extern adc_dev adc1;
-	extern struct adc_dev *ADC1;
+	extern adc_device_t ADC1_device;
+	extern struct adc_device_t *ADC1;
 
 	void adc_init();
-	uint16_t adc_read(adc_dev *dev, uint8_t channel);
+	uint16_t adc_read_sync(adc_device_t *dev, uint8_t channel);
 
 	#define BOARD_ADC_CH0_PORT       (PortC)
 	#define BOARD_ADC_CH0_PIN        (Pin00)
