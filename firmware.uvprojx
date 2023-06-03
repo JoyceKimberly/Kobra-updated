@@ -834,6 +834,11 @@
               <FileType>8</FileType>
               <FilePath>.\Marlin\lib\cores\arduino\Tone.cpp</FilePath>
             </File>
+            <File>
+              <FileName>adc_config.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\Marlin\lib\cores\arduino\drivers\adc\adc_config.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

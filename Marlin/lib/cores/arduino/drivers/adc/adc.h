@@ -1,80 +1,57 @@
-#ifndef _ADC_H
-#define _ADC_H
-
+#pragma once
 #include <hc32_ddl.h>
+#include "adc_config.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-/********************************************************/
-/********************************************************/
-// ADC1 channel definition ch0~ch3.
-#define ADC_CHANNEL_COUNT     3u
-#define ADC1_SA_CHANNEL       (ADC1_CH10 | ADC1_CH11 | ADC1_CH12)
-#define ADC1_SA_CHANNEL_COUNT (ADC_CHANNEL_COUNT)
-//ADC1 channel sampling time.      ADC1_CH0  ADC1_CH1 ADC1_CH2  
-/********************************************************/
-/********************************************************/
-//#define ADC1_SB_CHANNEL             (ADC1_CH4|ADC1_CH5|ADC1_CH6)
-//#define ADC1_SB_CHANNEL_COUNT       (3u)
-//#define ADC1_SB_CHANNEL_SAMPLE_TIME { 0x50,0x60,0x45 }
-/********************************************************/
-/********************************************************/
+    /**
+     * @brief ADC peripheral init
+     * @param device ADC device configuration
+     * @note if the device is initialized, this function will do nothing
+     */
+    void adc_init();
 
-// ADC irq flag bit mask
-#define ADC1_SA_DMA_IRQ_BIT (1ul << 0u)
 
-	//
-	// ADC device definition
-	//
-	typedef struct adc_device_t
-	{
-		__IO uint32_t HAL_AdcDmaIrqFlag;
-		__IO uint16_t HAL_adc_results[3];
 
-		M4_ADC_TypeDef *regs;           /**< Register map */
-		__IO uint32_t PeriphClock;      /**< clock information */
-		__IO uint32_t Channel;
 
-		M4_DMA_TypeDef *DMARegs;
-		__IO uint32_t DMAPeriphClock;
-		__IO uint8_t DMAChannel;
-		__IO en_event_src_t DMAenSrc;
-	} adc_device_t;
 
-	extern adc_device_t ADC1_device;
-	extern struct adc_device_t *ADC1;
 
-	void adc_init();
-	uint16_t adc_read_sync(adc_device_t *dev, uint8_t channel);
 
-	#define BOARD_ADC_CH0_PORT       (PortC)
-	#define BOARD_ADC_CH0_PIN        (Pin00)
+    /**
+     * @brief start adc conversion and wait for result synchronously
+     * @param device ADC device configuration
+     * @param adc_channel ADC channel to read
+     * @return conversion result
+     * @note requires adc_device_init() to be called first
+     */
+    uint16_t adc_read_sync(adc_device_t *device, uint8_t channel);
 
-	#define BOARD_ADC_CH1_PORT       (PortC)
-	#define BOARD_ADC_CH1_PIN        (Pin01)
+    #define BOARD_ADC_CH0_PORT       (PortC)
+    #define BOARD_ADC_CH0_PIN        (Pin00)
 
-	#define BOARD_ADC_CH2_PORT       (PortC)
-	#define BOARD_ADC_CH2_PIN        (Pin02)
+    #define BOARD_ADC_CH1_PORT       (PortC)
+    #define BOARD_ADC_CH1_PIN        (Pin01)
 
-	extern uint16_t  AdcCH0SampleBuf[256];
-	extern uint16_t  AdcCH1SampleBuf[256];
-	extern uint16_t  AdcCH2SampleBuf[256];
+    #define BOARD_ADC_CH2_PORT       (PortC)
+    #define BOARD_ADC_CH2_PIN        (Pin02)
 
-	extern uint32_t  AdcCH0Value;
-	extern uint32_t  AdcCH1Value;
-	extern uint32_t  AdcCH2Value;
+    extern uint16_t  AdcCH0SampleBuf[256];
+    extern uint16_t  AdcCH1SampleBuf[256];
+    extern uint16_t  AdcCH2SampleBuf[256];
 
-	extern uint16_t g_adc_value[3];
-	extern uint8_t g_adc_idx;
+    extern uint32_t  AdcCH0Value;
+    extern uint32_t  AdcCH1Value;
+    extern uint32_t  AdcCH2Value;
 
-	void BSP_DMA2CH0_TcIrqHander(void);
-	void BSP_DMA2CH1_TcIrqHander(void);
-	void BSP_DMA2CH2_TcIrqHander(void);
+    extern uint16_t g_adc_value[3];
+    extern uint8_t g_adc_idx;
+
+    void BSP_DMA2CH0_TcIrqHander(void);
+    void BSP_DMA2CH1_TcIrqHander(void);
+    void BSP_DMA2CH2_TcIrqHander(void);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif
