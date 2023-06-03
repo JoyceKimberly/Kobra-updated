@@ -122,18 +122,6 @@ typedef struct adc_device_t
      * @brief ADC runtime state
      */
     adc_runtime_state_t state;
-
-    __IO uint32_t HAL_AdcDmaIrqFlag;
-    __IO uint16_t HAL_adc_results[3];
-
-    M4_ADC_TypeDef *regs;           /**< Register map */
-    __IO uint32_t PeriphClock;      /**< clock information */
-    __IO uint32_t Channel;
-
-    M4_DMA_TypeDef *DMARegs;
-    __IO uint32_t DMAPeriphClock;
-    __IO uint8_t DMAChannel;
-    __IO en_event_src_t DMAenSrc;
 } adc_device_t;
 
 //

@@ -6,7 +6,15 @@
 #include "usart.h"
 
 uint16_t g_adc_value[3];
-uint8_t g_adc_idx;
+
+#define BOARD_ADC_CH0_PORT       (PortC)
+#define BOARD_ADC_CH0_PIN        (Pin00)
+
+#define BOARD_ADC_CH1_PORT       (PortC)
+#define BOARD_ADC_CH1_PIN        (Pin01)
+
+#define BOARD_ADC_CH2_PORT       (PortC)
+#define BOARD_ADC_CH2_PIN        (Pin02)
 
 // ADC irq flag bit mask
 #define ADC1_SA_DMA_IRQ_BIT (1ul << 0u)
@@ -112,45 +120,36 @@ inline void adc_dma_init(const adc_device_t *device)
     DMA_SetTriggerSrc(M4_DMA2, DmaCh3, EVT_ADC1_EOCA);
 }
 
+void adc_device_init(adc_device_t *device)
+{
+    // do nothing if ADC is already initialized
+    if (device->state.initialized)
+    {
+        return;
+    }
 
+    // adc is set up to trigger conversion by software
+    // once conversion is completed, DMA transfer is triggered via AOS
+    // adc_wait_for_conversion() waits until the DMA transfer is complete
+    adc_adc_init(device);
+    adc_dma_init(device);
 
+    // set initialized flag
+    device->state.initialized = true;
+    ADC_DEBUG_PRINTF(device, "initialized device\n");
+}
 
 //
 // ADC Channel API
 //
 
-/**
- *******************************************************************************
- ** \brief  Config the pin which is mapping the channel to analog or digit mode.
- **
- ******************************************************************************/
-void adc_setChannelPinMode(const M4_ADC_TypeDef *ADCx, uint32_t channel, en_pin_mode_t mode)
+inline uint32_t adc_channel_to_mask(const adc_device_t *device, const uint8_t channel)
 {
-    // get channel offset and mask
-    uint8_t channelOffset = 0u;
-    if (M4_ADC1 == ADCx)
-    {
-        channel &= ADC1_PIN_MASK_ALL;
-    }
-    else
-    {
-        channel &= ADC2_PIN_MASK_ALL;
-        channelOffset = 4u;
-    }
-
-    // set pin mode of all pins in the channel
-    for (uint8_t i = 0u; channel != 0u; i++)
-    {
-        if (channel & 0x1ul)
-        {
-            adc_setPinMode((channelOffset + i), mode);
-        }
-
-        channel >>= 1u;
-    }
+    ASSERT_CHANNEL_ID(device, channel);
+    return 1 << channel;
 }
 
-void adc_channelConfig(adc_device_t *device, en_pin_mode_t mode)
+void adc_enable_channel(const adc_device_t *device, const uint8_t adc_channel, uint8_t sample_time)
 {
     uint8_t samplingTimes[3] = { 0x60, 0x60, 0x60 };
 
@@ -164,7 +163,7 @@ void adc_channelConfig(adc_device_t *device, en_pin_mode_t mode)
     PORT_Init(BOARD_ADC_CH1_PORT, BOARD_ADC_CH1_PIN, &portConf);
     PORT_Init(BOARD_ADC_CH2_PORT, BOARD_ADC_CH2_PIN, &portConf);
 
-    // init adc channel
+    ADC_DEBUG_PRINTF(device, "enable channel %d, sample_time=%d\n", adc_channel, sample_time);
     stc_adc_ch_cfg_t channel_config;
     MEM_ZERO_STRUCT(channel_config);
     channel_config.u32Channel  = ADC1_CH10 | ADC1_CH11 | ADC1_CH12;
@@ -175,29 +174,62 @@ void adc_channelConfig(adc_device_t *device, en_pin_mode_t mode)
 //    ADC_AddAvgChannel(M4_ADC1, ADC1_CH10 | ADC1_CH11 | ADC1_CH12);
 }
 
-uint16_t adc_read_sync(adc_device_t *device, uint8_t channel)
+void adc_disable_channel(const adc_device_t *device, const uint8_t adc_channel)
 {
-    // wait for adc result
-    while (true)
+    if (!device->state.initialized)
     {
-        if (device->HAL_AdcDmaIrqFlag & ADC1_SA_DMA_IRQ_BIT)
-        {
-            break;
-        }
-
-        uint8_t c = 0;
-        if (++c >= 100)
-        {
-            c = 0;
-            return 0;
-        }
-
-        WDT_RefreshCounter();
+        // if adc is not initialized, it's safe to assume no channels have been enabled yet
+        return;
     }
 
-    // read result and clear irq flag
-    device->HAL_AdcDmaIrqFlag &= ~ADC1_SA_DMA_IRQ_BIT;
-    return device->HAL_adc_results[channel];
+    ASSERT_CHANNEL_ID(device, adc_channel);
+
+    ADC_DEBUG_PRINTF(device, "disable channel %d\n", adc_channel);
+    ADC_DelAdcChannel(device->adc.register_base, adc_channel_to_mask(device, adc_channel));
+}
+
+//
+// ADC conversion API
+//
+
+void adc_start_conversion(const adc_device_t *device)
+{
+    ASSERT_INITIALIZED(device, STRINGIFY(adc_start_conversion));
+
+    // clear DMA transfer complete flag
+    DMA_ClearIrqFlag(device->dma.register_base, device->dma.channel, BlkTrnCpltIrq);
+
+    // start ADC conversion
+    ADC_StartConvert(device->adc.register_base);
+}
+
+bool adc_is_conversion_completed(const adc_device_t *device)
+{
+    ASSERT_INITIALIZED(device, STRINGIFY(adc_is_conversion_completed));
+
+    // check if DMA transfer complete flag is set
+    return DMA_GetIrqFlag(device->dma.register_base, device->dma.channel, BlkTrnCpltIrq) == Set;
+}
+
+void adc_await_conversion_completed(const adc_device_t *device)
+{
+    ASSERT_INITIALIZED(device, STRINGIFY(adc_await_conversion_completed));
+    while (!adc_is_conversion_completed(device))
+    {
+        yield();
+    }
+}
+
+uint16_t adc_conversion_read_result(const adc_device_t *device, const uint8_t adc_channel)
+{
+    ASSERT_INITIALIZED(device, STRINGIFY(adc_conversion_read_result));
+    ASSERT_CHANNEL_ID(device, adc_channel);
+
+    // clear DMA transfer complete flag
+    DMA_ClearIrqFlag(device->dma.register_base, device->dma.channel, BlkTrnCpltIrq);
+
+    // read conversion result
+    return device->state.conversion_results[adc_channel];
 }
 
 /**
@@ -391,13 +423,13 @@ void adc_setDefaultConfig(adc_device_t *device)
 {
     // init and config adc and channels
     adc_adc_init(device);
-    adc_channelConfig(device, Pin_Mode_Ana);
+    adc_enable_channel(device, Pin_Mode_Ana);
     adc_triggerConfig(device, PWC_FCG0_PERIPH_AOS);
 
     // init and config DMA
     adc_dma_init(device);
 
-    ADC_StartConvert(device->regs);
+    ADC_StartConvert(M4_ADC1);
 }
 
 void adc_init(void)
