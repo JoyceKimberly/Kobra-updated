@@ -26,37 +26,42 @@
 #include "hc32f460_timer0.h"
 
 //
-// Misc.
+// Timer Types
 //
 typedef en_tim0_channel_t timer_channel_t;
 typedef uint32_t hal_timer_t;
 #define HAL_TIMER_TYPE_MAX UINT16_MAX
 
+//
+// Timer Configurations
+//
+
 // frequency of the timer peripheral
 #define HAL_TIMER_RATE uint32_t(F_CPU)
 
-//
-// Timer Channels and Configuration
-//
-#define STEP_TIMER_NUM Tim0_ChannelB
+// temperature timer (Timer0 Unit1 Channel A)
 #define TEMP_TIMER_NUM Tim0_ChannelA
-#define PULSE_TIMER_NUM STEP_TIMER_NUM
+#define TEMP_TIMER_PRESCALE 16
+#define TEMP_TIMER_RATE 1000 // 1kHz
+#define TEMP_TIMER_FREQUENCY TEMP_TIMER_RATE // alias for Marlin
 
-// channel aliases
-#define MF_TIMER_STEP STEP_TIMER_NUM
-#define MF_TIMER_TEMP TEMP_TIMER_NUM
-#define MF_TIMER_PULSE PULSE_TIMER_NUM
-
-#define TEMP_TIMER_FREQUENCY 1000
-#define TEMP_TIMER_PRESCALE 16ul
-
-#define STEPPER_TIMER_PRESCALE 16ul
-
+// stepper timer (Timer0 Unit1 Channel B)
+#define STEP_TIMER_NUM Tim0_ChannelB
+#define STEPPER_TIMER_PRESCALE 16
 #define STEPPER_TIMER_RATE (HAL_TIMER_RATE / STEPPER_TIMER_PRESCALE)
-#define STEPPER_TIMER_TICKS_PER_US ((STEPPER_TIMER_RATE) / 1000000)
+#define STEPPER_TIMER_TICKS_PER_US (STEPPER_TIMER_RATE / 1000000)
 
+// pulse timer (== stepper timer)
+#define PULSE_TIMER_NUM STEP_TIMER_NUM
 #define PULSE_TIMER_PRESCALE STEPPER_TIMER_PRESCALE
 #define PULSE_TIMER_TICKS_PER_US STEPPER_TIMER_TICKS_PER_US
+
+//
+// channel aliases
+//
+#define MF_TIMER_TEMP TEMP_TIMER_NUM
+#define MF_TIMER_STEP STEP_TIMER_NUM
+#define MF_TIMER_PULSE PULSE_TIMER_NUM
 
 //
 // HAL functions

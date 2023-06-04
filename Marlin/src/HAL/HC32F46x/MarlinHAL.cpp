@@ -176,6 +176,7 @@ void MarlinHAL::adc_init() {}
 
 void MarlinHAL::adc_enable(const pin_t pin)
 {
+    // just set pin mode to analog
     pinMode(pin, INPUT_ANALOG);
 }
 

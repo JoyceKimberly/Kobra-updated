@@ -68,6 +68,12 @@ public:
      * All Timer PWM pins run at the same frequency.
      */
     static void set_pwm_frequency(const pin_t pin, const uint16_t f_desired);
+
+private:
+    /**
+     * pin number of the last pin that was used with adc_start()
+     */
+    static pin_t last_adc_pin;
 };
 
 // M997: trigger firmware update from sd card (after upload)

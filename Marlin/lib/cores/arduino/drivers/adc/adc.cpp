@@ -70,6 +70,8 @@ inline void adc_adc_init(const adc_device_t *device)
     /* 2. Initialize ADC1. */
     ADC_Init(M4_ADC1, &init_device);
 
+    // ADC will always trigger conversion by software
+    ADC_TriggerSrcCmd(M4_ADC1, ADC_SEQ_A, Disable);
 }
 
 /**
@@ -170,8 +172,6 @@ void adc_enable_channel(const adc_device_t *device, const uint8_t adc_channel, u
     channel_config.u8Sequence  = ADC_SEQ_A;
     channel_config.pu8SampTime = samplingTimes;
     ADC_AddAdcChannel(M4_ADC1, &channel_config);
-//    ADC_ConfigAvg(M4_ADC1, AdcAvcnt_64);
-//    ADC_AddAvgChannel(M4_ADC1, ADC1_CH10 | ADC1_CH11 | ADC1_CH12);
 }
 
 void adc_disable_channel(const adc_device_t *device, const uint8_t adc_channel)
@@ -230,33 +230,6 @@ uint16_t adc_conversion_read_result(const adc_device_t *device, const uint8_t ad
 
     // read conversion result
     return device->state.conversion_results[adc_channel];
-}
-
-/**
- *******************************************************************************
- ** \brief  ADC trigger source configuration.
- **
- ******************************************************************************/
-void adc_triggerConfig(adc_device_t *device, uint32_t fcg0Periph)
-{
-    PWC_Fcg0PeriphClockCmd(PWC_FCG0_PERIPH_AOS, Enable);
-
-    stc_adc_trg_cfg_t stcTrgCfg;
-    MEM_ZERO_STRUCT(stcTrgCfg);
-
-    /*
-    // select EVT_TMR02_GCMA as ADC1 trigger source
-    stc_adc_trg_cfg_t triggerConf = {
-        .u8Sequence = ADC_SEQ_A,
-        .enTrgSel = AdcTrgsel_TRGX0,
-        .enInTrg0 = EVT_TMR02_GCMA,
-    };
-    ADC_ConfigTriggerSrc(device->regs, &triggerConf);
-    ADC_TriggerSrcCmd(device->regs, ADC_SEQ_A, Enable);
-    */
-
-    // ADC1 is always triggered by software
-    ADC_TriggerSrcCmd(M4_ADC1, ADC_SEQ_A, Disable);
 }
 
 /**
@@ -424,7 +397,6 @@ void adc_setDefaultConfig(adc_device_t *device)
     // init and config adc and channels
     adc_adc_init(device);
     adc_enable_channel(device, Pin_Mode_Ana);
-    adc_triggerConfig(device, PWC_FCG0_PERIPH_AOS);
 
     // init and config DMA
     adc_dma_init(device);
