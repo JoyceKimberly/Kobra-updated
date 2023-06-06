@@ -1,7 +1,6 @@
 #include "Timer0.h"
 #include <drivers/sysclock/sysclock.h>
 #include <drivers/irqn/irqn.h>
-#include <core_debug.h>
 
 //
 // helpers
@@ -79,9 +78,6 @@ inline void timer0_irq_register(timer0_interrupt_config_t &irq, const char *name
     irqn_aa_get(irqn, name);
     irq.interrupt_number = irqn;
 
-    // ensure user callback is set to NULL
-    irq.user_callback = NULL;
-
     // create irq registration struct
     stc_irq_regi_conf_t irqConf = {
         .enIntSrc = irq.interrupt_source,
@@ -120,27 +116,49 @@ Timer0::Timer0(timer0_config_t *config)
 
 void Timer0::start(const Timer0Channel channel, const uint32_t frequency, const uint16_t prescaler)
 {
-    // TODO non-custom start() only supports sync mode, and thus only supports Unit 2
-    CORE_ASSERT(this->config->peripheral.register_base == M4_TMR02, "automatic start() is only supported for Timer0 Unit 2 (M4_TMR02)");
+    stc_tim0_base_init_t channel_config;
+    channel_config.Tim0_AsyncClockSource = Tim0_LRC;
+    channel_config.Tim0_SyncClockSource = Tim0_Pclk1;
 
-    // update clock frequencies and get PCLK1 frequency
-    update_system_clock_frequencies();
-    uint32_t pclk1_freq = SYSTEM_CLOCK_FREQUENCIES.pclk1;
+    // setup channel clock source and set base frequency
+    uint32_t base_frequency;
+    if (this->config->peripheral.register_base == M4_TMR01 && channel == CH_A)
+    {
+        // Timer0 Unit 1 Channel A does not support Sync mode, and thus does not support PCLK1 as clock source
+        // instead, LRC is used as clock source
+
+        // get LRC frequency (fixed, calibrated at factory)
+        base_frequency = LRC_VALUE;
+
+        // set channel clock source:
+        // Async mode, LRC
+        channel_config.Tim0_CounterMode = Tim0_Async;
+    }
+    else
+    {
+        // all other Timer channels support PCLK1 as clock source
+        // update clock frequencies and get PCLK1 frequency
+        update_system_clock_frequencies();
+        base_frequency = SYSTEM_CLOCK_FREQUENCIES.pclk1;
+
+        // set channel clock source:
+        // Sync mode, PCLK1
+        channel_config.Tim0_CounterMode = Tim0_Sync;
+    }
 
     // calculate the compare value needed to match the target frequency
-    // CMP = (PCLK1 / prescaler) / frequency
-    uint32_t compare = (pclk1_freq / uint32_t(prescaler)) / frequency;
+    // CMP = (base_freq / prescaler) / frequency
+    uint32_t compare = (base_frequency / uint32_t(prescaler)) / frequency;
 
-    // ensure compare value does not exceed 16 bits
-    CORE_ASSERT(compare <= 0xFFFF, "Timer0::start(): compare value exceeds 16 bits");
+    // ensure compare value does not exceed 16 bits, and larger than 0
+    CORE_ASSERT(compare > 0 && compare <= 0xFFFF, "Timer0::start(): compare value exceeds 16 bits");
 
-    // build timer channel config
-    stc_tim0_base_init_t channel_config = {
-        .Tim0_ClockDivision = numeric_to_clock_div(prescaler),
-        .Tim0_SyncClockSource = Tim0_Pclk1,
-        .Tim0_CounterMode = Tim0_Sync,
-        .Tim0_CmpValue = uint16_t(compare),
-    };
+    // set prescaler and compare value
+    channel_config.Tim0_ClockDivision = numeric_to_clock_div(prescaler);
+    channel_config.Tim0_CmpValue = uint16_t(compare);
+
+    // debug print auto-config values
+    CORE_DEBUG_PRINTF("auto-found cmp= %d for fBase=%d and prescaler=%d\n", int(compare), int(base_frequency), int(prescaler));
 
     // start timer channel with config
     start(channel, &channel_config);
@@ -148,11 +166,26 @@ void Timer0::start(const Timer0Channel channel, const uint32_t frequency, const 
 
 void Timer0::start(const Timer0Channel channel, const stc_tim0_base_init_t *channel_config)
 {
+    // if already started, stop first
+    if (get_channel_state(channel)->started)
+    {
+        stop(channel);
+    }
+
     // enable Timer0 peripheral clock
     PWC_Fcg2PeriphClockCmd(this->config->peripheral.clock_id, Enable);
 
+    // enable LRC clock if used
+    if (channel_config->Tim0_CounterMode == Tim0_Async && channel_config->Tim0_AsyncClockSource == Tim0_LRC)
+    {
+        CLK_LrcCmd(Enable);
+    }
+
     // initialize timer channel
     TIMER0_BaseInit(this->config->peripheral.register_base, CHANNEL_TO_DDL_CHANNEL(channel), channel_config);
+
+    // ensure old user callback is cleared first
+    get_channel_state(channel)->user_callback = NULL;
 
     // register interrupt
     if (channel == CH_A)
@@ -168,7 +201,7 @@ void Timer0::start(const Timer0Channel channel, const stc_tim0_base_init_t *chan
     TIMER0_IntCmd(this->config->peripheral.register_base, CHANNEL_TO_DDL_CHANNEL(channel), Enable);
 
     // set channel initialized flag
-    setChannelInitialized(channel, true);
+    get_channel_state(channel)->started = true;
 
     TIMER0_DEBUG_PRINTF("started channel %s with compare value %d\n",
                         TIMER0_CHANNEL_TO_STR(channel),
@@ -177,11 +210,16 @@ void Timer0::start(const Timer0Channel channel, const stc_tim0_base_init_t *chan
 
 void Timer0::stop(const Timer0Channel channel)
 {
+    if (!get_channel_state(channel)->started)
+    {
+        return;
+    }
+
     // pause timer
     pause(channel);
 
     // reset channel initialized flag early
-    setChannelInitialized(channel, false);
+    get_channel_state(channel)->started = false;
 
     // disable timer interrupt
     TIMER0_IntCmd(this->config->peripheral.register_base, CHANNEL_TO_DDL_CHANNEL(channel), Disable);
@@ -199,13 +237,19 @@ void Timer0::stop(const Timer0Channel channel)
     // de-init timer channel
     TIMER0_DeInit(this->config->peripheral.register_base, CHANNEL_TO_DDL_CHANNEL(channel));
 
+    // stop Timer0 peripheral clock if both channels are stopped
+    if (!get_channel_state(CH_A)->started && !get_channel_state(CH_B)->started)
+    {
+        PWC_Fcg2PeriphClockCmd(this->config->peripheral.clock_id, Disable);
+    }
+
     TIMER0_DEBUG_PRINTF("stopped channel %s\n", TIMER0_CHANNEL_TO_STR(channel));
 }
 
 void Timer0::pause(const Timer0Channel channel)
 {
     // if not initialized, return false
-    if (!isChannelInitialized(channel))
+    if (!get_channel_state(channel)->started)
     {
         return;
     }
@@ -217,7 +261,7 @@ void Timer0::pause(const Timer0Channel channel)
 void Timer0::resume(const Timer0Channel channel)
 {
     // if not initialized, return false
-    if (!isChannelInitialized(channel))
+    if (!get_channel_state(channel)->started)
     {
         return;
     }
@@ -229,7 +273,7 @@ void Timer0::resume(const Timer0Channel channel)
 bool Timer0::isPaused(const Timer0Channel channel)
 {
     // if not initialized, return false
-    if (!isChannelInitialized(channel))
+    if (!get_channel_state(channel)->started)
     {
         return false;
     }
@@ -247,27 +291,19 @@ bool Timer0::isPaused(const Timer0Channel channel)
 
 void Timer0::setCompareValue(const Timer0Channel channel, const uint16_t compare)
 {
-    CORE_ASSERT(isChannelInitialized(channel), "Timer0::setCompare(): channel not initialized");
+    CORE_ASSERT(get_channel_state(channel)->started, "Timer0::setCompare(): channel not initialized");
     TIMER0_WriteCmpReg(this->config->peripheral.register_base, CHANNEL_TO_DDL_CHANNEL(channel), compare);
 }
 
 uint16_t Timer0::getCount(const Timer0Channel channel)
 {
-    CORE_ASSERT(isChannelInitialized(channel), "Timer0::getCount(): channel not initialized");
+    CORE_ASSERT(get_channel_state(channel)->started, "Timer0::getCount(): channel not initialized");
     return TIMER0_GetCntReg(this->config->peripheral.register_base, CHANNEL_TO_DDL_CHANNEL(channel));
 }
 
 void Timer0::setCallback(const Timer0Channel channel, voidFuncPtr callback)
 {
-    if (channel == CH_A)
-    {
-        this->config->channel_a_interrupt.user_callback = callback;
-    }
-    else
-    {
-        this->config->channel_b_interrupt.user_callback = callback;
-    }
-
+    get_channel_state(channel)->user_callback = callback;
     TIMER0_DEBUG_PRINTF("set user callback for channel %s\n", TIMER0_CHANNEL_TO_STR(channel));
 }
 
