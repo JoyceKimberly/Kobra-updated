@@ -65,7 +65,6 @@
 //
 // USART configurations
 //
-
 usart_config_t USART1_config = {
     .peripheral = {
         .register_base = M4_USART1,

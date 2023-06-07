@@ -5,6 +5,7 @@
 /**
  * HAL only uses Timer0 Unit 2 for Temperature and Step interrupts
  */
+Timer0 timer0(&TIMER02_config);
 
 void HAL_timer_start(const timer_channel_t timer_num, const uint32_t frequency)
 {

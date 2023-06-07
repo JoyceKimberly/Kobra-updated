@@ -81,7 +81,7 @@ public:
     static xyz_pos_t default_probe_xyz_offset; // changed
     static xy_pos_t default_probe_xy_offset; // changed
 
-    #if EITHER(PREHEAT_BEFORE_PROBING, PREHEAT_BEFORE_LEVELING)
+    #if ANY(PREHEAT_BEFORE_PROBING, PREHEAT_BEFORE_LEVELING)
       static void preheat_for_probing(const celsius_t hotend_temp, const celsius_t bed_temp, const bool early=false);
     #endif
 

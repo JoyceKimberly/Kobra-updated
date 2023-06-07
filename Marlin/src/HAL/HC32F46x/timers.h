@@ -21,6 +21,7 @@
  */
 #pragma once
 #include <stdint.h>
+#include <Timer0.h>
 #include "HAL.h"
 #include "bsp_timer.h"
 #include "hc32f460_timer0.h"

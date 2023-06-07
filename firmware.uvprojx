@@ -505,11 +505,6 @@
               <FilePath>Marlin\lib\cores\ddl\library\src\hc32f460_timer4_sevt.c</FilePath>
             </File>
             <File>
-              <FileName>hc32f460_timer6.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>Marlin\lib\cores\ddl\library\src\hc32f460_timer6.c</FilePath>
-            </File>
-            <File>
               <FileName>hc32f460_timera.c</FileName>
               <FileType>1</FileType>
               <FilePath>Marlin\lib\cores\ddl\library\src\hc32f460_timera.c</FilePath>

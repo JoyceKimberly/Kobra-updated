@@ -78,13 +78,33 @@ template <class L, class R> struct IF<true, L, R> { typedef L type; };
 #define LOGICAL_AXIS_MAP(F)        MAP(F, LOGICAL_AXIS_NAMES)
 #define STR_AXES_LOGICAL           LOGICAL_AXIS_GANG("E", "X", "Y", "Z", STR_I, STR_J, STR_K, STR_U, STR_V, STR_W)
 
-#define XYZ_GANG(V...) GANG_N(PRIMARY_LINEAR_AXES, V)
-#define XYZ_CODE(V...) CODE_N(PRIMARY_LINEAR_AXES, V)
-
 #define SECONDARY_AXIS_GANG(V...) GANG_N(SECONDARY_AXES, V)
 #define SECONDARY_AXIS_CODE(V...) CODE_N(SECONDARY_AXES, V)
 #define SECONDARY_AXIS_LIST(V...) LIST_N(SECONDARY_AXES, V)
 #define SECONDARY_AXIS_ARGS(T)    SECONDARY_AXIS_LIST(T i, T j, T k, T u, T v, T w)
+
+// Just the XY or XYZ elements
+#if HAS_Z_AXIS
+  #define XYZ_COUNT 3
+  #define XY_COUNT 2
+#elif HAS_Y_AXIS
+  #define XY_COUNT 2
+#elif HAS_X_AXIS
+  #define XY_COUNT 1
+#else
+  #define XY_COUNT 0
+#endif
+#ifndef XYZ_COUNT
+  #define XYZ_COUNT XY_COUNT
+#endif
+#define XY_LIST(V...)    LIST_N(XY_COUNT, V)
+#define XY_ARRAY(V...)  ARRAY_N(XY_COUNT, V)
+#define XY_CODE(V...)    CODE_N(XY_COUNT, V)
+#define XY_GANG(V...)    GANG_N(XY_COUNT, V)
+#define XYZ_LIST(V...)   LIST_N(XYZ_COUNT, V)
+#define XYZ_ARRAY(V...) ARRAY_N(XYZ_COUNT, V)
+#define XYZ_CODE(V...)   CODE_N(XYZ_COUNT, V)
+#define XYZ_GANG(V...)   GANG_N(XYZ_COUNT, V)
 
 #if HAS_ROTATIONAL_AXES
   #define ROTATIONAL_AXIS_GANG(V...) GANG_N(ROTATIONAL_AXES, V)
@@ -110,8 +130,10 @@ template <class L, class R> struct IF<true, L, R> { typedef L type; };
 // Helpers
 #define _RECIP(N) ((N) ? 1.0f / static_cast<float>(N) : 0.0f)
 #define _ABS(N) ((N) < 0 ? -(N) : (N))
-#define _LS(N)  (N = (T)(uint32_t(N) << p))
-#define _RS(N)  (N = (T)(uint32_t(N) >> p))
+#define _LS(N)       T(uint32_t(N) << p)
+#define _RS(N)       T(uint32_t(N) >> p)
+#define _LSE(N)  N = T(uint32_t(N) << p)
+#define _RSE(N)  N = T(uint32_t(N) >> p)
 #define FI FORCE_INLINE
 
 // Define types based on largest bit width stored value required
@@ -224,11 +246,11 @@ enum AxisEnum : uint8_t {
 //
 // Loop over axes
 //
-#define LOOP_ABC(VAR) LOOP_S_LE_N(VAR, A_AXIS, C_AXIS)
-#define LOOP_NUM_AXES(VAR) LOOP_S_L_N(VAR, 0, NUM_AXES)
-#define LOOP_LOGICAL_AXES(VAR) LOOP_S_L_N(VAR, 0, LOGICAL_AXES)
-#define LOOP_DISTINCT_AXES(VAR) LOOP_S_L_N(VAR, 0, DISTINCT_AXES)
-#define LOOP_DISTINCT_E(VAR) LOOP_L_N(VAR, DISTINCT_E)
+#define LOOP_ABC(VAR) for (uint8_t VAR = A_AXIS; VAR <= C_AXIS; ++VAR)
+#define LOOP_NUM_AXES(VAR) for (uint8_t VAR = 0; VAR < NUM_AXES; ++VAR)
+#define LOOP_LOGICAL_AXES(VAR) for (uint8_t VAR = 0; VAR < LOGICAL_AXES; ++VAR)
+#define LOOP_DISTINCT_AXES(VAR) for (uint8_t VAR = 0; VAR < DISTINCT_AXES; ++VAR)
+#define LOOP_DISTINCT_E(VAR) for (uint8_t VAR = 0; VAR < DISTINCT_E; ++VAR)
 
 //
 // feedRate_t is just a humble float
@@ -253,6 +275,9 @@ typedef float celsius_float_t;
 #endif
 typedef const_float_t const_feedRate_t;
 typedef const_float_t const_celsius_float_t;
+
+// Type large enough to count leveling grid points
+typedef IF<TERN0(ABL_USES_GRID, (GRID_MAX_POINTS > 255)), uint16_t, uint8_t>::type grid_count_t;
 
 // Conversion macros
 #define MMM_TO_MMS(MM_M) feedRate_t(static_cast<float>(MM_M) / 60.0f)
@@ -345,6 +370,7 @@ void toNative(xyze_pos_t &lpos);
 
 //
 // Paired XY coordinates, counters, flags, etc.
+// Always has XY elements regardless of the number of configured axes.
 //
 template<typename T>
 struct XYval {
@@ -355,23 +381,23 @@ struct XYval {
   };
 
   // Set all to 0
-  FI void reset()                                       { x = y = 0; }
+  FI void reset()                                 { x = y = 0; }
 
   // Setters taking struct types and arrays
   #if HAS_X_AXIS
-    FI void set(const T px)                             { x = px; }
+    FI void set(const T px)                       { x = px; }
   #endif
   #if HAS_Y_AXIS
-    FI void set(const T px, const T py)                 { x = px; y = py; }
-    FI void set(const T (&arr)[XY])                     { x = arr[0]; y = arr[1]; }
+    FI void set(const T px, const T py)           { x = px; y = py; }
+    FI void set(const T (&arr)[XY])               { x = arr[0]; y = arr[1]; }
   #endif
   #if NUM_AXES > XY
-    FI void set(const T (&arr)[NUM_AXES])               { x = arr[0]; y = arr[1]; }
+    FI void set(const T (&arr)[NUM_AXES])         { x = arr[0]; y = arr[1]; }
   #endif
   #if LOGICAL_AXES > NUM_AXES
-    FI void set(const T (&arr)[LOGICAL_AXES])           { x = arr[0]; y = arr[1]; }
+    FI void set(const T (&arr)[LOGICAL_AXES])     { x = arr[0]; y = arr[1]; }
     #if DISTINCT_AXES > LOGICAL_AXES
-      FI void set(const T (&arr)[DISTINCT_AXES])        { x = arr[0]; y = arr[1]; }
+      FI void set(const T (&arr)[DISTINCT_AXES])  { x = arr[0]; y = arr[1]; }
     #endif
   #endif
 
@@ -487,6 +513,7 @@ struct XYval {
 
 //
 // Linear Axes coordinates, counters, flags, etc.
+// May have any number of axes according to configuration, including zero axes.
 //
 template<typename T>
 struct XYZval {
@@ -507,7 +534,7 @@ struct XYZval {
   FI void set(const T (&arr)[NUM_AXES])          { NUM_AXIS_CODE(x = arr[0], y = arr[1], z = arr[2], i = arr[3], j = arr[4], k = arr[5], u = arr[6], v = arr[7], w = arr[8]); }
   #if LOGICAL_AXES > NUM_AXES
     FI void set(const T (&arr)[LOGICAL_AXES])    { NUM_AXIS_CODE(x = arr[0], y = arr[1], z = arr[2], i = arr[3], j = arr[4], k = arr[5], u = arr[6], v = arr[7], w = arr[8]); }
-    FI void set(LOGICAL_AXIS_ARGS(const T))      { NUM_AXIS_CODE(a = x,      b = y,      c = z,     _i = i,     _j = j,     _k = k,     _u = u,     _v = v,     _w = w   ); }
+    FI void set(LOGICAL_AXIS_ARGS(const T))      { NUM_AXIS_CODE(a = x,  b = y,  c = z, _i = i, _j = j, _k = k, _u = u, _v = v, _w = w); }
     #if DISTINCT_AXES > LOGICAL_AXES
       FI void set(const T (&arr)[DISTINCT_AXES]) { NUM_AXIS_CODE(x = arr[0], y = arr[1], z = arr[2], i = arr[3], j = arr[4], k = arr[5], u = arr[6], v = arr[7], w = arr[8]); }
     #endif
@@ -567,24 +594,24 @@ struct XYZval {
   FI XYZval<float> reciprocal()                  const { return NUM_AXIS_ARRAY(_RECIP(x),  _RECIP(y),  _RECIP(z),  _RECIP(i),  _RECIP(j),  _RECIP(k),  _RECIP(u),  _RECIP(v),  _RECIP(w)); }
 
   // Marlin workspace shifting is done with G92 and M206
-  FI XYZval<float> asLogical()                   const { XYZval<float> o = asFloat(); toLogical(o); return o; }
-  FI XYZval<float>  asNative()                   const { XYZval<float> o = asFloat(); toNative(o);  return o; }
+  FI XYZval<float> asLogical() const { XYZval<float> o = asFloat(); toLogical(o); return o; }
+  FI XYZval<float>  asNative() const { XYZval<float> o = asFloat(); toNative(o);  return o; }
 
   // In-place cast to types having fewer fields
-  FI operator       XYval<T>&()                        { return *(XYval<T>*)this; }
-  FI operator const XYval<T>&()                  const { return *(const XYval<T>*)this; }
+  FI operator       XYval<T>&()       { return *(XYval<T>*)this; }
+  FI operator const XYval<T>&() const { return *(const XYval<T>*)this; }
 
   // Cast to a type with more fields by making a new object
   FI operator       XYZEval<T>()                 const { return NUM_AXIS_ARRAY(x, y, z, i, j, k, u, v, w); }
 
   // Accessor via an AxisEnum (or any integer) [index]
-  FI       T&   operator[](const int n)                { return pos[n]; }
-  FI const T&   operator[](const int n)          const { return pos[n]; }
+  FI       T& operator[](const int n)       { return pos[n]; }
+  FI const T& operator[](const int n) const { return pos[n]; }
 
   // Assignment operator overrides do the expected thing
-  FI XYZval<T>& operator= (const T v)                  { set(ARRAY_N_1(NUM_AXES, v)); return *this; }
-  FI XYZval<T>& operator= (const XYval<T>   &rs)       { set(rs.x, rs.y      ); return *this; }
-  FI XYZval<T>& operator= (const XYZEval<T> &rs)       { set(NUM_AXIS_ELEM(rs)); return *this; }
+  FI XYZval<T>& operator= (const T v)            { set(ARRAY_N_1(NUM_AXES, v)); return *this; }
+  FI XYZval<T>& operator= (const XYval<T>   &rs) { set(rs.x, rs.y); return *this; }
+  FI XYZval<T>& operator= (const XYZEval<T> &rs) { set(NUM_AXIS_ELEM(rs)); return *this; }
 
   // Override other operators to get intuitive behaviors
   FI XYZval<T>  operator+ (const XYval<T>   &rs) const { XYZval<T> ls = *this; NUM_AXIS_CODE(ls.x += rs.x, ls.y += rs.y,,,,,,, ); return ls; }
@@ -651,6 +678,8 @@ struct XYZval {
 
 //
 // Logical Axes coordinates, counters, etc.
+// May have any number of axes according to configuration, including zero axes.
+// When there is no extruder, essentially identical to XYZval.
 //
 template<typename T>
 struct XYZEval {
@@ -731,8 +760,8 @@ struct XYZEval {
   FI XYZEval<float> reciprocal() const { return LOGICAL_AXIS_ARRAY(_RECIP(e),  _RECIP(x),  _RECIP(y),  _RECIP(z),  _RECIP(i),  _RECIP(j),  _RECIP(k),  _RECIP(u),  _RECIP(v),  _RECIP(w)); }
 
   // Marlin workspace shifting is done with G92 and M206
-  FI XYZEval<float> asLogical()  const { XYZEval<float> o = asFloat(); toLogical(o); return o; }
-  FI XYZEval<float>  asNative()  const { XYZEval<float> o = asFloat(); toNative(o);  return o; }
+  FI XYZEval<float> asLogical() const { XYZEval<float> o = asFloat(); toLogical(o); return o; }
+  FI XYZEval<float>  asNative() const { XYZEval<float> o = asFloat(); toNative(o);  return o; }
 
   // In-place cast to types having fewer fields
   FI operator       XYval<T>&()        { return *(XYval<T>*)this; }
@@ -741,13 +770,13 @@ struct XYZEval {
   FI operator const XYZval<T>&() const { return *(const XYZval<T>*)this; }
 
   // Accessor via an AxisEnum (or any integer) [index]
-  FI       T&    operator[](const int n)                { return pos[n]; }
-  FI const T&    operator[](const int n)          const { return pos[n]; }
+  FI       T& operator[](const int n)       { return pos[n]; }
+  FI const T& operator[](const int n) const { return pos[n]; }
 
   // Assignment operator overrides do the expected thing
-  FI XYZEval<T>& operator= (const T v)                  { set(LOGICAL_AXIS_LIST_1(v)); return *this; }
-  FI XYZEval<T>& operator= (const XYval<T>   &rs)       { set(rs.x, rs.y); return *this; }
-  FI XYZEval<T>& operator= (const XYZval<T>  &rs)       { set(NUM_AXIS_ELEM(rs)); return *this; }
+  FI XYZEval<T>& operator= (const T v)           { set(LOGICAL_AXIS_LIST_1(v)); return *this; }
+  FI XYZEval<T>& operator= (const XYval<T>  &rs) { set(rs.x, rs.y); return *this; }
+  FI XYZEval<T>& operator= (const XYZval<T> &rs) { set(NUM_AXIS_ELEM(rs)); return *this; }
 
   // Override other operators to get intuitive behaviors
   FI XYZEval<T>  operator+ (const XYval<T>  &rs)  const { XYZEval<T> ls = *this; ls.x += rs.x; ls.y += rs.y; return ls; }
@@ -807,10 +836,10 @@ struct XYZEval {
   FI XYZEval<T>& operator<<=(const int &p)              { LOGICAL_AXIS_CODE(_LS(e),    _LS(x),    _LS(y),    _LS(z),    _LS(i),    _LS(j),    _LS(k),    _LS(u),    _LS(v),    _LS(w));    return *this; }
 
   // Exact comparisons. For floats a "NEAR" operation may be better.
-  FI bool        operator==(const XYZval<T>  &rs) const { return true NUM_AXIS_GANG(&& x == rs.x, && y == rs.y, && z == rs.z, && i == rs.i, && j == rs.j, && k == rs.k, && u == rs.u, && v == rs.v, && w == rs.w); }
-  FI bool        operator==(const XYZEval<T> &rs) const { return true LOGICAL_AXIS_GANG(&& e == rs.e, && x == rs.x, && y == rs.y, && z == rs.z, && i == rs.i, && j == rs.j, && k == rs.k, && u == rs.u, && v == rs.v, && w == rs.w); }
-  FI bool        operator!=(const XYZval<T>  &rs) const { return !operator==(rs); }
-  FI bool        operator!=(const XYZEval<T> &rs) const { return !operator==(rs); }
+  FI bool operator==(const XYZval<T>  &rs) const { return true NUM_AXIS_GANG(&& x == rs.x, && y == rs.y, && z == rs.z, && i == rs.i, && j == rs.j, && k == rs.k, && u == rs.u, && v == rs.v, && w == rs.w); }
+  FI bool operator==(const XYZEval<T> &rs) const { return true LOGICAL_AXIS_GANG(&& e == rs.e, && x == rs.x, && y == rs.y, && z == rs.z, && i == rs.i, && j == rs.j, && k == rs.k, && u == rs.u, && v == rs.v, && w == rs.w); }
+  FI bool operator!=(const XYZval<T>  &rs) const { return !operator==(rs); }
+  FI bool operator!=(const XYZEval<T> &rs) const { return !operator==(rs); }
 };
 
 #include <string.h> // for memset
@@ -1001,4 +1030,6 @@ public:
 #undef _ABS
 #undef _LS
 #undef _RS
+#undef _LSE
+#undef _RSE
 #undef FI
