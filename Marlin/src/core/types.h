@@ -426,8 +426,8 @@ struct XYval {
   FI XYval<float> reciprocal()                    const { return {  _RECIP(x),  _RECIP(y) }; }
 
   // Marlin workspace shifting is done with G92 and M206
-  FI XYval<float>  asLogical()                    const { XYval<float> o = asFloat(); toLogical(o); return o; }
-  FI XYval<float>   asNative()                    const { XYval<float> o = asFloat(); toNative(o);  return o; }
+  FI XYval<float> asLogical() const { XYval<float> o = asFloat(); toLogical(o); return o; }
+  FI XYval<float>  asNative() const { XYval<float> o = asFloat(); toNative(o);  return o; }
 
   // Cast to a type with more fields by making a new object
   FI operator XYZval<T>()                               { return { x, y }; }
@@ -436,13 +436,13 @@ struct XYval {
   FI operator XYZEval<T>()                        const { return { x, y }; }
 
   // Accessor via an AxisEnum (or any integer) [index]
-  FI       T&  operator[](const int n)                  { return pos[n]; }
-  FI const T&  operator[](const int n)            const { return pos[n]; }
+  FI       T&  operator[](const int n)       { return pos[n]; }
+  FI const T&  operator[](const int n) const { return pos[n]; }
 
   // Assignment operator overrides do the expected thing
-  FI XYval<T>& operator= (const T v)                    { set(v,    v   ); return *this; }
-  FI XYval<T>& operator= (const XYZval<T>  &rs)         { set(rs.x, rs.y); return *this; }
-  FI XYval<T>& operator= (const XYZEval<T> &rs)         { set(rs.x, rs.y); return *this; }
+  FI XYval<T>& operator= (const T v)              { set(v, v); return *this; }
+  FI XYval<T>& operator= (const XYZval<T>  &rs)   { set(XY_LIST(rs.x, rs.y)); return *this; }
+  FI XYval<T>& operator= (const XYZEval<T> &rs)   { set(XY_LIST(rs.x, rs.y)); return *this; }
 
   // Override other operators to get intuitive behaviors
   FI XYval<T>  operator+ (const XYval<T>   &rs)   const { XYval<T> ls = *this; ls.x += rs.x; ls.y += rs.y; return ls; }
@@ -503,12 +503,12 @@ struct XYval {
   FI XYval<T>& operator<<=(const int &p)                { _LS(x);    _LS(y);    return *this; }
 
   // Exact comparisons. For floats a "NEAR" operation may be better.
-  FI bool      operator==(const XYval<T>   &rs)   const { return true NUM_AXIS_GANG(&& x == rs.x, && y == rs.y,,,,,,, ); }
-  FI bool      operator==(const XYZval<T>  &rs)   const { return true NUM_AXIS_GANG(&& x == rs.x, && y == rs.y,,,,,,, ); }
-  FI bool      operator==(const XYZEval<T> &rs)   const { return true NUM_AXIS_GANG(&& x == rs.x, && y == rs.y,,,,,,, ); }
-  FI bool      operator!=(const XYval<T>   &rs)   const { return !operator==(rs); }
-  FI bool      operator!=(const XYZval<T>  &rs)   const { return !operator==(rs); }
-  FI bool      operator!=(const XYZEval<T> &rs)   const { return !operator==(rs); }
+  FI bool operator==(const XYval<T>   &rs) const { return x == rs.x && y == rs.y; }
+  FI bool operator==(const XYZval<T>  &rs) const { return ENABLED(HAS_X_AXIS) XY_GANG(&& x == rs.x, && y == rs.y); }
+  FI bool operator==(const XYZEval<T> &rs) const { return ENABLED(HAS_X_AXIS) XY_GANG(&& x == rs.x, && y == rs.y); }
+  FI bool operator!=(const XYval<T>   &rs) const { return !operator==(rs); }
+  FI bool operator!=(const XYZval<T>  &rs) const { return !operator==(rs); }
+  FI bool operator!=(const XYZEval<T> &rs) const { return !operator==(rs); }
 };
 
 //
@@ -529,8 +529,8 @@ struct XYZval {
   FI void reset()                                { NUM_AXIS_CODE(x = 0, y = 0, z = 0, i = 0, j = 0, k = 0, u = 0, v = 0, w = 0); }
 
   // Setters taking struct types and arrays
-  FI void set(const XYval<T> pxy)                { NUM_AXIS_CODE(x = pxy.x, y = pxy.y,,,,,,,); }
-  FI void set(const XYval<T> pxy, const T pz)    { NUM_AXIS_CODE(x = pxy.x, y = pxy.y, z = pz,,,,,,); }
+  FI void set(const XYval<T> pxy)                { XY_CODE(x = pxy.x, y = pxy.y); }
+  FI void set(const XYval<T> pxy, const T pz)    { XYZ_CODE(x = pxy.x, y = pxy.y, z = pz); }
   FI void set(const T (&arr)[NUM_AXES])          { NUM_AXIS_CODE(x = arr[0], y = arr[1], z = arr[2], i = arr[3], j = arr[4], k = arr[5], u = arr[6], v = arr[7], w = arr[8]); }
   #if LOGICAL_AXES > NUM_AXES
     FI void set(const T (&arr)[LOGICAL_AXES])    { NUM_AXIS_CODE(x = arr[0], y = arr[1], z = arr[2], i = arr[3], j = arr[4], k = arr[5], u = arr[6], v = arr[7], w = arr[8]); }
@@ -570,15 +570,15 @@ struct XYZval {
   #endif
 
   // Length reduced to one dimension
-  FI T magnitude()                               const { return (T)TERN(HAS_X_AXIS, sqrtf(NUM_AXIS_GANG(x*x, + y*y, + z*z, + i*i, + j*j, + k*k, + u*u, + v*v, + w*w)), 0); }
+  FI constexpr T magnitude()    const { return (T)TERN(HAS_X_AXIS, sqrtf(NUM_AXIS_GANG(x*x, + y*y, + z*z, + i*i, + j*j, + k*k, + u*u, + v*v, + w*w)), 0); }
   // Pointer to the data as a simple array
-  FI operator T* ()                                    { return (T*)this; }
+  FI operator T* ()                   { return pos; }
   // If any element is true then it's true
-  FI operator bool()                                   { return 0 NUM_AXIS_GANG(|| x, || y, || z, || i, || j, || k, || u, || v, || w); }
+  FI constexpr operator bool()  const { return 0 NUM_AXIS_GANG(|| x, || y, || z, || i, || j, || k, || u, || v, || w); }
   // Smallest element
-  FI T small()                                   const { return TERN(HAS_X_AXIS,_MIN(NUM_AXIS_LIST(x, y, z, i, j, k, u, v, w));,0;) }
+  FI constexpr T small()        const { return TERN(HAS_X_AXIS, _MIN(NUM_AXIS_LIST(x, y, z, i, j, k, u, v, w)), 0); }
   // Largest element
-  FI T large()                                   const { return TERN(HAS_X_AXIS,_MAX(NUM_AXIS_LIST(x, y, z, i, j, k, u, v, w));,0;) }
+  FI constexpr T large()        const { return TERN(HAS_X_AXIS, _MAX(NUM_AXIS_LIST(x, y, z, i, j, k, u, v, w)), 0); }
 
   // Explicit copy and copies with conversion
   FI XYZval<T>          copy()                   const { XYZval<T> o = *this; return o; }
