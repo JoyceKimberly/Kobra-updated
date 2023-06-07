@@ -479,22 +479,27 @@ struct XYval {
   FI XYval<T>       operator-()                         { XYval<T> o = *this; o.x = -x; o.y = -y; return o; }
 
   // Modifier operators
-  FI XYval<T>& operator+=(const XYval<T>   &rs)         { x += rs.x; y += rs.y; return *this; }
-  FI XYval<T>& operator-=(const XYval<T>   &rs)         { x -= rs.x; y -= rs.y; return *this; }
-  FI XYval<T>& operator*=(const XYval<T>   &rs)         { x *= rs.x; y *= rs.y; return *this; }
-  FI XYval<T>& operator/=(const XYval<T>   &rs)         { x /= rs.x; y /= rs.y; return *this; }
-  FI XYval<T>& operator+=(const XYZval<T>  &rs)         { NUM_AXIS_CODE(x += rs.x, y += rs.y,,,,,,, ); return *this; }
-  FI XYval<T>& operator-=(const XYZval<T>  &rs)         { NUM_AXIS_CODE(x -= rs.x, y -= rs.y,,,,,,, ); return *this; }
-  FI XYval<T>& operator*=(const XYZval<T>  &rs)         { NUM_AXIS_CODE(x *= rs.x, y *= rs.y,,,,,,, ); return *this; }
-  FI XYval<T>& operator/=(const XYZval<T>  &rs)         { NUM_AXIS_CODE(x /= rs.x, y /= rs.y,,,,,,, ); return *this; }
-  FI XYval<T>& operator+=(const XYZEval<T> &rs)         { NUM_AXIS_CODE(x += rs.x, y += rs.y,,,,,,, ); return *this; }
-  FI XYval<T>& operator-=(const XYZEval<T> &rs)         { NUM_AXIS_CODE(x -= rs.x, y -= rs.y,,,,,,, ); return *this; }
-  FI XYval<T>& operator*=(const XYZEval<T> &rs)         { NUM_AXIS_CODE(x *= rs.x, y *= rs.y,,,,,,, ); return *this; }
-  FI XYval<T>& operator/=(const XYZEval<T> &rs)         { NUM_AXIS_CODE(x /= rs.x, y /= rs.y,,,,,,, ); return *this; }
-  FI XYval<T>& operator*=(const float &p)               { x *= p;    y *= p;    return *this; }
-  FI XYval<T>& operator*=(const int &p)                 { x *= p;    y *= p;    return *this; }
-  FI XYval<T>& operator>>=(const int &p)                { _RS(x);    _RS(y);    return *this; }
-  FI XYval<T>& operator<<=(const int &p)                { _LS(x);    _LS(y);    return *this; }
+  FI XYval<T>& operator+=(const XYval<T>   &rs) { x += rs.x; y += rs.y; return *this; }
+  FI XYval<T>& operator-=(const XYval<T>   &rs) { x -= rs.x; y -= rs.y; return *this; }
+  FI XYval<T>& operator*=(const XYval<T>   &rs) { x *= rs.x; y *= rs.y; return *this; }
+  FI XYval<T>& operator/=(const XYval<T>   &rs) { x /= rs.x; y /= rs.y; return *this; }
+  FI XYval<T>& operator+=(const XYZval<T>  &rs) { XY_CODE(x += rs.x, y += rs.y); return *this; }
+  FI XYval<T>& operator-=(const XYZval<T>  &rs) { XY_CODE(x -= rs.x, y -= rs.y); return *this; }
+  FI XYval<T>& operator*=(const XYZval<T>  &rs) { XY_CODE(x *= rs.x, y *= rs.y); return *this; }
+  FI XYval<T>& operator/=(const XYZval<T>  &rs) { XY_CODE(x /= rs.x, y /= rs.y); return *this; }
+  FI XYval<T>& operator+=(const XYZEval<T> &rs) { XY_CODE(x += rs.x, y += rs.y); return *this; }
+  FI XYval<T>& operator-=(const XYZEval<T> &rs) { XY_CODE(x -= rs.x, y -= rs.y); return *this; }
+  FI XYval<T>& operator*=(const XYZEval<T> &rs) { XY_CODE(x *= rs.x, y *= rs.y); return *this; }
+  FI XYval<T>& operator/=(const XYZEval<T> &rs) { XY_CODE(x /= rs.x, y /= rs.y); return *this; }
+  FI XYval<T>& operator*=(const float &p)       { x *= p; y *= p; return *this; }
+  FI XYval<T>& operator*=(const int &p)         { x *= p; y *= p; return *this; }
+  FI XYval<T>& operator>>=(const int &p)        { _RSE(x); _RSE(y); return *this; }
+  FI XYval<T>& operator<<=(const int &p)        { _LSE(x); _LSE(y); return *this; }
+
+  // Absolute difference between two objects
+  FI constexpr XYval<T> diff(const XYZEval<T> &rs) const { return { TERN(HAS_X_AXIS, T(_ABS(x - rs.x)), x), TERN(HAS_Y_AXIS, T(_ABS(y - rs.y)), y) }; }
+  FI constexpr XYval<T> diff(const XYZval<T>  &rs) const { return { TERN(HAS_X_AXIS, T(_ABS(x - rs.x)), x), TERN(HAS_Y_AXIS, T(_ABS(y - rs.y)), y) }; }
+  FI constexpr XYval<T> diff(const XYval<T>   &rs) const { return { T(_ABS(x - rs.x)), T(_ABS(y - rs.y)) }; }
 
   // Exact comparisons. For floats a "NEAR" operation may be better.
   FI bool operator==(const XYval<T>   &rs) const { return x == rs.x && y == rs.y; }
@@ -642,6 +647,11 @@ struct XYZval {
   FI XYZval<T>  operator<<(const int &p)               { XYZval<T> ls = *this; NUM_AXIS_CODE(_LS(ls.x),    _LS(ls.y),    _LS(ls.z),    _LS(ls.i),    _LS(ls.j),    _LS(ls.k),    _LS(ls.u),    _LS(ls.v),    _LS(ls.w)   ); return ls; }
   FI const XYZval<T> operator-()                 const { XYZval<T> o = *this; NUM_AXIS_CODE(o.x = -x, o.y = -y, o.z = -z, o.i = -i, o.j = -j, o.k = -k, o.u = -u, o.v = -v, o.w = -w); return o; }
   FI XYZval<T>       operator-()                       { XYZval<T> o = *this; NUM_AXIS_CODE(o.x = -x, o.y = -y, o.z = -z, o.i = -i, o.j = -j, o.k = -k, o.u = -u, o.v = -v, o.w = -w); return o; }
+
+  // Absolute difference between two objects
+  FI constexpr XYZval<T> diff(const XYZEval<T> &rs) const { return NUM_AXIS_ARRAY(T(_ABS(x - rs.x)), T(_ABS(y - rs.y)), T(_ABS(z - rs.z)), T(_ABS(i - rs.i)), T(_ABS(j - rs.j)), T(_ABS(k - rs.k)), T(_ABS(u - rs.u)), T(_ABS(v - rs.v)), T(_ABS(w - rs.w)) ); }
+  FI constexpr XYZval<T> diff(const XYZval<T> &rs)  const { return NUM_AXIS_ARRAY(T(_ABS(x - rs.x)), T(_ABS(y - rs.y)), T(_ABS(z - rs.z)), T(_ABS(i - rs.i)), T(_ABS(j - rs.j)), T(_ABS(k - rs.k)), T(_ABS(u - rs.u)), T(_ABS(v - rs.v)), T(_ABS(w - rs.w)) ); }
+  FI constexpr XYZval<T> diff(const XYval<T>   &rs) const { return NUM_AXIS_ARRAY(T(_ABS(x - rs.x)), T(_ABS(y - rs.y)), z, i, j, k, u, v, w ); }
 
   // Modifier operators
   FI XYZval<T>& operator+=(const XYval<T>   &rs) { XY_CODE(x += rs.x, y += rs.y); return *this; }
@@ -803,6 +813,11 @@ struct XYZEval {
   FI XYZEval<T>  operator<<(const int &p)               { XYZEval<T> ls = *this; LOGICAL_AXIS_CODE(_LS(ls.e),    _LS(ls.x),    _LS(ls.y),    _LS(ls.z),    _LS(ls.i),    _LS(ls.j),    _LS(ls.k),    _LS(ls.u),    _LS(ls.v),    _LS(ls.w)   ); return ls; }
   FI const XYZEval<T> operator-()                 const { return LOGICAL_AXIS_ARRAY(-e, -x, -y, -z, -i, -j, -k, -u, -v, -w); }
   FI       XYZEval<T> operator-()                       { return LOGICAL_AXIS_ARRAY(-e, -x, -y, -z, -i, -j, -k, -u, -v, -w); }
+
+  // Absolute difference between two objects
+  FI constexpr XYZEval<T> diff(const XYZEval<T> &rs) const { return LOGICAL_AXIS_ARRAY(T(_ABS(e - rs.e)), T(_ABS(x - rs.x)), T(_ABS(y - rs.y)), T(_ABS(z - rs.z)), T(_ABS(i - rs.i)), T(_ABS(j - rs.j)), T(_ABS(k - rs.k)), T(_ABS(u - rs.u)), T(_ABS(v - rs.v)), T(_ABS(w - rs.w)) ); }
+  FI constexpr XYZEval<T> diff(const XYZval<T>  &rs) const { return LOGICAL_AXIS_ARRAY(0 , T(_ABS(x - rs.x)), T(_ABS(y - rs.y)), T(_ABS(z - rs.z)), T(_ABS(i - rs.i)), T(_ABS(j - rs.j)), T(_ABS(k - rs.k)), T(_ABS(u - rs.u)), T(_ABS(v - rs.v)), T(_ABS(w - rs.w)) ); }
+  FI constexpr XYZEval<T> diff(const XYval<T>   &rs) const { return LOGICAL_AXIS_ARRAY(0 , T(_ABS(x - rs.x)), T(_ABS(y - rs.y)), z, i, j, k, u, v, w ); }
 
   // Modifier operators
   FI XYZEval<T>& operator+=(const XYval<T>   &rs) { XY_CODE(x += rs.x, y += rs.y); return *this; }
